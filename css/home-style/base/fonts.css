@@ -1,0 +1,6 @@
+/* ============================================================
+   Fonts — Inter (Wise-inspired design system)
+   Wise Sans is proprietary; Inter serves as substitute for
+   both display (weight 900) and body (weight 400/600).
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap');

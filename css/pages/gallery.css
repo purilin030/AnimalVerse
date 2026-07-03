@@ -1,0 +1,180 @@
+/* ============================================================
+   Gallery Page Styles
+   ============================================================ */
+
+.gallery-page__header {
+  display: flex;
+  align-items: center; /* Centered layout: lifts the count badge to center-align with the title text */
+  justify-content: space-between;
+  margin-bottom: 10px; /* Symmetrical breathing space: 10px margin + 8px padding-top = 18px top gap */
+  border-bottom: 1.5px solid var(--clr-border);
+  padding-bottom: var(--space-md);
+}
+
+.gallery-page__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.gallery-page__subtitle {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.gallery-page__title {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-black);
+  color: var(--clr-text);
+  letter-spacing: -0.8px;
+  margin: 0;
+  line-height: var(--lh-tight);
+}
+
+.gallery-page__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  font-family: var(--ff-mono);
+  background: var(--clr-accent); /* Wise Lime Green */
+  color: var(--clr-primary); /* Forest dark ink */
+  border-radius: var(--radius-sm); /* Clean slightly-rounded rectangle instead of oval */
+  box-shadow: 0 2px 8px rgba(159, 232, 112, 0.25);
+  letter-spacing: 0.5px;
+  transform: translateY(-5px); /* Lift the badge up slightly to align with the text's visual center */
+  transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] .gallery-page__badge {
+  background: var(--clr-accent-hover);
+  color: var(--clr-primary);
+}
+
+/* Filters */
+.gallery-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.gallery-filters__categories {
+  display: flex;
+  gap: var(--space-lg);
+  overflow-x: auto;
+  scrollbar-width: none; /* Hide scrollbar for clean look */
+  -ms-overflow-style: none; /* IE/Edge */
+  padding-bottom: 2px;
+  border-bottom: 1.5px solid var(--clr-border);
+  width: 100%;
+}
+
+.gallery-filters__categories::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Category Tab Pill Override */
+.gallery-filters__categories .filter-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 16px 16px; /* Symmetrical breathing space: 16px padding-bottom + 2px container padding = 18px bottom gap */
+  background: transparent;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border-radius: 0; /* Reset roundness since we use underline */
+  opacity: 0.65;
+}
+
+.gallery-filters__categories .filter-pill svg {
+  transition: transform var(--transition-fast), color var(--transition-fast);
+  stroke-width: 1.8;
+  color: var(--clr-text-muted);
+}
+
+.gallery-filters__categories .filter-pill span {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* Hover & Active States */
+.gallery-filters__categories .filter-pill:hover {
+  color: var(--clr-text);
+  opacity: 1;
+}
+
+.gallery-filters__categories .filter-pill:hover svg {
+  transform: translateY(-2px);
+  color: var(--clr-text);
+}
+
+.gallery-filters__categories .filter-pill--active {
+  color: var(--clr-text) !important;
+  border-bottom: 2.5px solid var(--clr-text) !important; /* Underline indicator */
+  opacity: 1 !important;
+  background: transparent !important;
+}
+
+.gallery-filters__categories .filter-pill--active svg {
+  color: var(--clr-text) !important;
+}
+
+.gallery-filters__extras {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding-top: var(--space-xs);
+}
+
+.gallery-filters__tags {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .gallery-page__header {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .gallery-filters__extras {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sort-select {
+    width: 100%;
+  }
+}
+
+/* Masonry Grid styles (Flexbox Column structure) */
+.video-grid {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  align-items: flex-start;
+}
+
+.masonry-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}

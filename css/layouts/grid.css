@@ -1,0 +1,46 @@
+/* ============================================================
+   Grid Layouts
+   ============================================================ */
+
+/* Video grid - Flexbox Masonry layout */
+.video-grid {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  align-items: flex-start;
+}
+
+.masonry-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+/* Category grid - fixed 5 columns on desktop */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-md);
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+}

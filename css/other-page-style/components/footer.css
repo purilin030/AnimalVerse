@@ -1,0 +1,156 @@
+/* ============================================================
+   Footer — Webflow-inspired
+   White canvas footer with body-mid (#5a5a5a) text,
+   hairline top border, near-black accent links.
+   ============================================================ */
+
+.footer {
+  grid-area: footer;
+  background: #ffffff;
+  color: #5a5a5a;
+  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  border-top: 1px solid #d8d8d8;
+}
+
+.footer__inner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--ff-display);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: #080808;
+  opacity: 0.85;
+  margin-bottom: var(--space-lg);
+}
+
+.footer__logo-img {
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.footer__links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.footer__col-title {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #080808;
+  margin-bottom: var(--space-md);
+  font-family: var(--ff-body);
+}
+
+.footer__link {
+  display: block;
+  color: #5a5a5a;
+  opacity: 0.8;
+  font-size: var(--fs-sm);
+  padding: 4px 0;
+  transition: opacity var(--transition-fast);
+}
+
+.footer__link:hover {
+  opacity: 1;
+  color: #080808;
+}
+
+[data-theme="dark"] .footer__link:hover {
+  color: #ffffff;
+}
+
+/* Social */
+.footer__social {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.footer__social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d8d8d8;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: #5a5a5a;
+  opacity: 0.5;
+  cursor: default;
+  transition: opacity var(--transition-fast), border-color var(--transition-fast);
+}
+
+.footer__social-icon:hover {
+  opacity: 0.8;
+  border-color: #080808;
+  color: #080808;
+}
+
+/* Bottom */
+.footer__bottom {
+  padding-top: var(--space-lg);
+  border-top: 1px solid #d8d8d8;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: #5a5a5a;
+  opacity: 0.7;
+}
+
+.footer__bottom p {
+  margin-bottom: 4px;
+}
+
+.footer__bottom-links a {
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+
+.footer__bottom-links a:hover {
+  color: #080808;
+  opacity: 1;
+}
+
+.footer__dot {
+  margin: 0 8px;
+}
+
+.footer__fyp {
+  margin-top: var(--space-sm);
+  opacity: 0.5;
+  font-size: var(--fs-xs);
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .footer {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .footer__links {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+
+  .footer__col:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__links {
+    grid-template-columns: 1fr;
+  }
+}

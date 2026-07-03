@@ -1,0 +1,39 @@
+/* ============================================================
+   Favorites Page
+   ============================================================ */
+
+.favorites-page h1 {
+  margin-bottom: var(--space-lg);
+}
+
+/* Tabs */
+.favorites-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: var(--space-xl);
+  border-bottom: 2px solid var(--clr-border);
+}
+
+.favorites-tab {
+  padding: 10px 24px;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.favorites-tab:hover {
+  color: var(--clr-text);
+}
+
+.favorites-tab--active {
+  color: var(--clr-accent);
+  border-bottom-color: var(--clr-accent);
+}
+
+/* Empty state inherits from sections.css */

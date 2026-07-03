@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Map - AnimalVerse</title>
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/map.css">
+</head>
+<body>
+<div class="app-layout" id="app-layout">
+  <div data-include="header"></div>
+
+  <div data-include="sidebar"></div>
+  <main class="main main--full" id="main-content">
+    <div class="map-page">
+      <div class="map-page__header">
+        <h1>Animal Map</h1>
+        <p class="map-page__subtitle">Explore animal origins around the world</p>
+      </div>
+      <div class="map-wrapper">
+        <div id="animal-map"></div>
+        <div class="map-legend" id="map-legend">
+          <div class="map-legend__header">
+            <span class="map-legend__title">Legend</span>
+            <div class="map-legend__spinner" id="map-loader" title="Loading wildlife observations..."></div>
+          </div>
+          <span class="map-legend__item" data-category="mammals"><span class="map-legend__dot" style="background:var(--clr-cat-mammals)"></span>Mammals</span>
+          <span class="map-legend__item" data-category="birds"><span class="map-legend__dot" style="background:var(--clr-cat-birds)"></span>Birds</span>
+          <span class="map-legend__item" data-category="reptiles"><span class="map-legend__dot" style="background:var(--clr-cat-reptiles)"></span>Reptiles</span>
+          <span class="map-legend__item" data-category="amphibians"><span class="map-legend__dot" style="background:var(--clr-cat-amphibians)"></span>Amphibians</span>
+          <span class="map-legend__item" data-category="aquatic"><span class="map-legend__dot" style="background:var(--clr-cat-aquatic)"></span>Aquatic</span>
+          <div class="map-legend__divider"></div>
+          <div class="map-legend__toggle-wrapper">
+            <div class="map-legend__toggle-info">
+              <span class="map-legend__toggle-label">Live Observations</span>
+              <div class="map-tooltip">
+                <svg class="map-tooltip__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <div class="map-tooltip__box">
+                  <h5 class="map-tooltip__title">Live Observations (iNaturalist)</h5>
+                  <p class="map-tooltip__desc">Enable to pull real-time wildlife observations from iNaturalist based on your current map view.</p>
+                  <p class="map-tooltip__hint">※ When disabled, the map only shows the site's curated educational videos.</p>
+                </div>
+              </div>
+            </div>
+            <label class="map-switch">
+              <input type="checkbox" id="observations-toggle">
+              <span class="map-switch__slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <!-- Footer injected via data-include -->
+    <div data-include="footer"></div>
+  </div>
+
+  <!-- Chatbot + Toast injected via data-include -->
+  <div data-include="chatbot"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/include.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

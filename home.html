@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnimalVerse - Discover the Wild</title>
+  <meta name="description" content="Explore amazing animal videos from around the world. Animal videos for education and stress relief.">
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+
+  <!-- Fonts (loaded via css/base/fonts.css -> main.css) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Three.js import map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+  <style>
+    /* Home page styles are in css/pages/home.css */
+  </style>
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+
+    <!-- Header injected via data-include -->
+    <div data-include="header"></div>
+
+    <!-- Sidebar injected via data-include (includes backdrop) -->
+    <div data-include="sidebar"></div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main" id="main-content">
+      <!-- Hero Section -->
+      <section class="hero" id="hero-section">
+        <video class="hero__video" autoplay muted loop playsinline poster="assets/images/thumbnails/placeholder.jpg">
+          <source src="assets/videos/hero-bg.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero__overlay">
+          <div class="hero__content">
+            <h1 class="hero__title">
+              <span class="hero__title-line hero__title-line--main">
+                <span class="hero__title-word">Discover</span>
+                <span class="hero__title-word">the</span>
+                <span class="hero__title-word">Wild</span>
+              </span>
+              <span class="hero__title-line hero__title-line--sub">
+                <span class="hero__title-word">Everything</span>
+                <span class="hero__title-word">you</span>
+                <span class="hero__title-word">wish</span>
+                <span class="hero__title-word">at</span>
+                <span class="hero__title-word">here</span>
+              </span>
+            </h1>
+            <p class="hero__subtitle">
+              Immerse yourself in breathtaking wildlife footage from every corner of the globe.
+              <span class="hero__subtitle-accent">Nature, reimagined.</span>
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary btn--lg hero__cta" href="gallery.html">
+                Start Exploring
+              </a>
+              <a class="btn btn--ghost btn--lg hero__secondary" href="about.html">
+                Learn More <span class="hero__arrow">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero__scroll" aria-hidden="true">
+          <span class="hero__scroll-text">Scroll to explore</span>
+          <svg class="hero__scroll-arrow" width="14" height="20" viewBox="0 0 14 20" fill="none">
+            <rect x="1.5" y="1.5" width="11" height="17" rx="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="7" cy="7" r="1.5" fill="currentColor" class="hero__scroll-dot"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ===== ANIMAL KINGDOM DIVIDER ===== -->
+      <section class="section section--divider" id="divider-kingdom">
+        <p class="divider__lead">
+          <span class="divider-typing" id="typing-kingdom-lead" data-text="In our website, you can check"></span>
+        </p>
+        <h2 class="divider__title">
+          <span class="divider-typing" id="typing-kingdom" data-text="with these animals"></span>
+        </h2>
+      </section>
+
+      <!-- ===== MAGICUI-STYLE DUAL-ROW MARQUEE ===== -->
+      <div class="marquee-section-wrap">
+      <section class="marquee-section" id="marquee-section">
+
+        <!-- Viewport with left/right gradient masks -->
+        <div class="marquee-viewport" id="marqueeViewport">
+
+          <!-- Row 1 ??forward (left) -->
+          <div class="marquee-row marquee-row--forward" id="marqueeRow1">
+            <!-- original set -->
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Lion.jpg" alt="Lion" loading="lazy"></div><div class="marquee-card__body"><h4>Lion</h4><span>King of the Savanna</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Elephant.jpg" alt="Elephant" loading="lazy"></div><div class="marquee-card__body"><h4>Elephant</h4><span>Gentle Giant</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Eagle.jpg" alt="Eagle" loading="lazy"></div><div class="marquee-card__body"><h4>Eagle</h4><span>Soaring High</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Tiger.jpg" alt="Tiger" loading="lazy"></div><div class="marquee-card__body"><h4>Tiger</h4><span>Fierce &amp; Graceful</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Wolf.jpg" alt="Wolf" loading="lazy"></div><div class="marquee-card__body"><h4>Wolf</h4><span>Loyal Pack Leader</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Giraffe.jpg" alt="Giraffe" loading="lazy"></div><div class="marquee-card__body"><h4>Giraffe</h4><span>Towering Above</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Butterfly.jpg" alt="Butterfly" loading="lazy"></div><div class="marquee-card__body"><h4>Butterfly</h4><span>Delicate Beauty</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Cheetah.jpg" alt="Cheetah" loading="lazy"></div><div class="marquee-card__body"><h4>Cheetah</h4><span>Fastest on Land</span></div></div>
+            <!-- duplicate for seamless loop -->
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Lion.jpg" alt="Lion" loading="lazy"></div><div class="marquee-card__body"><h4>Lion</h4><span>King of the Savanna</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Elephant.jpg" alt="Elephant" loading="lazy"></div><div class="marquee-card__body"><h4>Elephant</h4><span>Gentle Giant</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Eagle.jpg" alt="Eagle" loading="lazy"></div><div class="marquee-card__body"><h4>Eagle</h4><span>Soaring High</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Tiger.jpg" alt="Tiger" loading="lazy"></div><div class="marquee-card__body"><h4>Tiger</h4><span>Fierce &amp; Graceful</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Wolf.jpg" alt="Wolf" loading="lazy"></div><div class="marquee-card__body"><h4>Wolf</h4><span>Loyal Pack Leader</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Giraffe.jpg" alt="Giraffe" loading="lazy"></div><div class="marquee-card__body"><h4>Giraffe</h4><span>Towering Above</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Butterfly.jpg" alt="Butterfly" loading="lazy"></div><div class="marquee-card__body"><h4>Butterfly</h4><span>Delicate Beauty</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Cheetah.jpg" alt="Cheetah" loading="lazy"></div><div class="marquee-card__body"><h4>Cheetah</h4><span>Fastest on Land</span></div></div>
+          </div>
+
+          <!-- Row 2 ??reverse (right) -->
+          <div class="marquee-row marquee-row--reverse" id="marqueeRow2">
+            <!-- original set -->
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Crocodile.jpg" alt="Crocodile" loading="lazy"></div><div class="marquee-card__body"><h4>Crocodile</h4><span>Ancient Predator</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Whale.jpg" alt="Whale" loading="lazy"></div><div class="marquee-card__body"><h4>Whale</h4><span>Ocean Titan</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Shark.jpg" alt="Shark" loading="lazy"></div><div class="marquee-card__body"><h4>Shark</h4><span>Apex of the Sea</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Otter.jpg" alt="Otter" loading="lazy"></div><div class="marquee-card__body"><h4>Otter</h4><span>Playful &amp; Clever</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Peacock.jpg" alt="Peacock" loading="lazy"></div><div class="marquee-card__body"><h4>Peacock</h4><span>Dazzling Display</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Parrot.jpg" alt="Parrot" loading="lazy"></div><div class="marquee-card__body"><h4>Parrot</h4><span>Colourful Talker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Snake.jpg" alt="Snake" loading="lazy"></div><div class="marquee-card__body"><h4>Snake</h4><span>Silent Striker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Orangutan.jpg" alt="Orangutan" loading="lazy"></div><div class="marquee-card__body"><h4>Orangutan</h4><span>Tree Philosopher</span></div></div>
+            <!-- duplicate for seamless loop -->
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Crocodile.jpg" alt="Crocodile" loading="lazy"></div><div class="marquee-card__body"><h4>Crocodile</h4><span>Ancient Predator</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Whale.jpg" alt="Whale" loading="lazy"></div><div class="marquee-card__body"><h4>Whale</h4><span>Ocean Titan</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Shark.jpg" alt="Shark" loading="lazy"></div><div class="marquee-card__body"><h4>Shark</h4><span>Apex of the Sea</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Otter.jpg" alt="Otter" loading="lazy"></div><div class="marquee-card__body"><h4>Otter</h4><span>Playful &amp; Clever</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Peacock.jpg" alt="Peacock" loading="lazy"></div><div class="marquee-card__body"><h4>Peacock</h4><span>Dazzling Display</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Parrot.jpg" alt="Parrot" loading="lazy"></div><div class="marquee-card__body"><h4>Parrot</h4><span>Colourful Talker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Snake.jpg" alt="Snake" loading="lazy"></div><div class="marquee-card__body"><h4>Snake</h4><span>Silent Striker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Orangutan.jpg" alt="Orangutan" loading="lazy"></div><div class="marquee-card__body"><h4>Orangutan</h4><span>Tree Philosopher</span></div></div>
+          </div>
+
+        </div>
+      </section>
+      </div>
+
+      <!-- ===== ANIMALS NEAR YOU DIVIDER ===== -->
+      <section class="section section--divider" id="divider-nearby">
+        <h2 class="divider__title">
+          <span class="divider-typing" id="typing-nearby" data-text="Animals Near You"></span>
+        </h2>
+      </section>
+
+      <!-- Animals Near You Section -->
+      <section class="section section--nearby" id="nearby-section">
+        <!-- Interactive 3D Globe - full width breakout -->
+        <div class="nearby-globe-wrap" id="nearby-globe-wrap">
+          <div class="nearby-globe-3d" id="globe-3d-container"></div>
+          
+          <!-- Globe Drag Hint -->
+          <div class="globe-hint" id="globe-hint">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 8L4 12L8 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 8L20 12L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Drag to rotate</span>
+          </div>
+        </div>
+
+        <div class="nearby-content" id="nearby-content">
+          <!-- Tagline -->
+          <p class="nearby-tagline">
+            Where is your location?<br>
+            <span class="nearby-tagline__highlight">View your nearby animals right now!</span>
+          </p>
+
+          <!-- Location display (shown after permission granted) -->
+          <p class="nearby-location" id="nearby-location"></p>
+
+          <!-- Permission box -->
+          <div class="nearby-permission-box" id="nearby-permission-box">
+            <div class="nearby-permission-box__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2C8.5 2 6 4.5 6 8C6 12 12 20 12 20C12 20 18 12 18 8C18 4.5 15.5 2 12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="12" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="nearby-permission-box__text">
+              <p class="nearby-permission-box__title">Enable Location</p>
+              <p class="nearby-permission-box__desc">Allow location access to discover animals from your region</p>
+            </div>
+            <button class="btn nearby-permission-box__btn" id="nearby-allow-btn">
+              Allow
+            </button>
+          </div>
+
+          <!-- Results (hidden initially) -->
+          <div class="video-grid" id="nearby-videos" style="display:none">
+            <p class="text-muted nearby-prompt" id="nearby-prompt"></p>
+          </div>
+
+          <!-- Attribution -->
+          <div class="nearby-attribution">
+            <p class="nearby-attribution__line"><i>Data sources from Wikipedia and gbif.org</i></p>
+            <p class="nearby-attribution__line"><i>Randomly display 4 results from 30 founded results</i></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== EXPLORE BY ANIMAL CLASS DIVIDER ===== -->
+      <section class="section section--divider" id="divider-categories">
+        <h2 class="divider__title">
+          <span class="divider-typing" id="typing-categories" data-text="Explore by Animal Class"></span>
+        </h2>
+      </section>
+
+      <!-- Categories Section -->
+      <section class="section section--categories" id="categories-section">
+        <div class="section__header">
+          <a class="section__view-all" href="categories.html">View All</a>
+        </div>
+        <div class="category-grid" id="category-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ===== CTA SECTION ===== -->
+      <section class="section section--cta">
+        <p class="cta-section__lead">What are you waiting for?</p>
+        <h2 class="cta-section__title">
+          Let's embark on the <span class="cta-section__accent">journey</span>!
+        </h2>
+
+        <button class="cta" onclick="window.location.href='dashboard.html'">
+          <span class="hover-underline-animation"> Start Exploring </span>
+          <svg id="arrow-horizontal" xmlns="http://www.w3.org/2000/svg" width="30" height="10" viewBox="0 0 46 16">
+            <path id="Path_10" data-name="Path 10" d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </button>
+      </section>
+    </main>
+
+    <!-- Footer injected via data-include -->
+    <div data-include="footer"></div>
+  </div>
+
+  <!-- Chatbot + Toast injected via data-include -->
+  <div data-include="chatbot"></div>
+
+  <!-- ===== SCRIPTS (load order matters) ===== -->
+  <script src="js/include.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Interactive 3D Globe -->
+  <script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+  (function() {
+    'use strict';
+
+    const container = document.getElementById('globe-3d-container');
+    if (!container) return;
+
+    // ===== Scene Setup =====
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 0.2, 3.6);
+
+    // WebGL renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    renderer.domElement.setAttribute('aria-label', 'Interactive globe showing animal habitat locations. Drag to rotate.');
+    renderer.domElement.setAttribute('role', 'application');
+    container.appendChild(renderer.domElement);
+
+    // CSS2D renderer for persistent labels
+    const labelRenderer = new CSS2DRenderer();
+    labelRenderer.setSize(container.clientWidth, container.clientHeight);
+    labelRenderer.domElement.style.position = 'absolute';
+    labelRenderer.domElement.style.top = '0';
+    labelRenderer.domElement.style.left = '0';
+    labelRenderer.domElement.style.pointerEvents = 'none';
+    labelRenderer.domElement.style.zIndex = '1';
+    container.appendChild(labelRenderer.domElement);
+
+    // ===== Controls =====
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.rotateSpeed = 0.6;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.5;
+    controls.minDistance = 2.0;
+    controls.maxDistance = 6;
+    controls.enablePan = false;
+    controls.enableZoom = true;
+    controls.target.set(0, 0, 0);
+
+    // Pause auto-rotate during drag, resume after 4s idle
+    let rotTimeout = null;
+    renderer.domElement.addEventListener('pointerdown', function() {
+      controls.autoRotate = false;
+      clearTimeout(rotTimeout);
+
+      // Hide drag hint on first interaction
+      var hint = document.getElementById('globe-hint');
+      if (hint) hint.classList.add('is-hidden');
+    });
+    renderer.domElement.addEventListener('pointerup', function() {
+      clearTimeout(rotTimeout);
+      rotTimeout = setTimeout(function() { controls.autoRotate = true; }, 4000);
+    });
+    renderer.domElement.addEventListener('pointerleave', function() {
+      clearTimeout(rotTimeout);
+      rotTimeout = setTimeout(function() { controls.autoRotate = true; }, 1500);
+    });
+
+    // ===== Lighting =====
+    const ambientLight = new THREE.AmbientLight(0x444466, 0.6);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    sunLight.position.set(5, 3, 5);
+    scene.add(sunLight);
+
+    const fillLight = new THREE.DirectionalLight(0x4488ff, 0.5);
+    fillLight.position.set(-3, -1, -4);
+    scene.add(fillLight);
+
+    // ===== Earth =====
+    const loader = new THREE.TextureLoader();
+    const EARTH_URL = 'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
+    const BUMP_URL  = 'https://unpkg.com/three-globe/example/img/earth-topology.png';
+    const WATER_URL = 'https://unpkg.com/three-globe/example/img/earth-water.png';
+
+    const earthGroup = new THREE.Group();
+    scene.add(earthGroup);
+
+    const earthGeo = new THREE.SphereGeometry(1, 64, 64);
+    var earthMat = new THREE.MeshPhongMaterial({
+      color: 0x88bbff,
+      emissive: 0x000022,
+      emissiveIntensity: 0.05,
+      specular: new THREE.Color(0x333333),
+      shininess: 5,
+    });
+    const earth = new THREE.Mesh(earthGeo, earthMat);
+    earthGroup.add(earth);
+
+    // Load textures asynchronously
+    loader.load(EARTH_URL, function(map) {
+      earthMat.map = map;
+      earthMat.color.set(0xffffff);
+      earthMat.needsUpdate = true;
+    });
+    loader.load(BUMP_URL, function(map) {
+      earthMat.bumpMap = map;
+      earthMat.bumpScale = 0.04;
+      earthMat.needsUpdate = true;
+    });
+    loader.load(WATER_URL, function(map) {
+      earthMat.specularMap = map;
+      earthMat.specular = new THREE.Color(0x555555);
+      earthMat.needsUpdate = true;
+    });
+
+    // Atmosphere glow
+    const glowGeo = new THREE.SphereGeometry(1.015, 64, 64);
+    const glowMat = new THREE.MeshPhongMaterial({
+      color: 0x4488ff,
+      transparent: true,
+      opacity: 0.12,
+      side: THREE.BackSide,
+    });
+    const atmosphere = new THREE.Mesh(glowGeo, glowMat);
+    earthGroup.add(atmosphere);
+
+    // ===== Location & Label Data =====
+    var markers = [];
+    var labelObjects = [];
+
+    function latLngToPos(lat, lng, radius) {
+      radius = radius || 1.025;
+      var phi = (90 - lat) * Math.PI / 180;
+      var theta = (lng + 180) * Math.PI / 180;
+      return new THREE.Vector3(
+        -radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.sin(theta)
+      );
+    }
+
+    // Expanded animal habitats — more regions, more species, with emoji icons
+    var locations = [
+      // 🌍 Africa
+      { lat: -1.29, lng: 36.82, region: 'East Africa', animals: 'Lion · Elephant · Giraffe · Zebra', emoji: '🦁', major: true },
+      { lat: -25.75, lng: 28.19, region: 'Southern Africa', animals: 'Rhino · Hippo · Wild Dog', emoji: '🦏', major: false },
+      { lat: 3.0,   lng: 12.0,  region: 'Central Africa', animals: 'Gorilla · Chimpanzee · Okapi', emoji: '🦍', major: false },
+      // 🌏 Asia
+      { lat: 20.0,  lng: 78.0,  region: 'India', animals: 'Bengal Tiger · Elephant · Peacock', emoji: '🐯', major: true },
+      { lat: 30.59, lng: 104.06, region: 'China', animals: 'Giant Panda · Golden Monkey', emoji: '🐼', major: true },
+      { lat: -2.0,  lng: 118.0, region: 'Southeast Asia', animals: 'Orangutan · Komodo Dragon', emoji: '🦧', major: false },
+      { lat: 46.0,  lng: 75.0,  region: 'Central Asia', animals: 'Snow Leopard · Yak', emoji: '🐆', major: false },
+      // 🦘 Australia & Oceania
+      { lat: -25.0, lng: 134.0, region: 'Australia', animals: 'Kangaroo · Koala · Platypus', emoji: '🦘', major: true },
+      { lat: -40.0, lng: 175.0, region: 'New Zealand', animals: 'Kiwi · Kakapo · Tuatara', emoji: '🐦', major: false },
+      // 🐺 Europe
+      { lat: 50.0,  lng: 10.0,  region: 'Europe', animals: 'Wolf · Brown Bear · Red Fox', emoji: '🐺', major: true },
+      { lat: 62.0,  lng: 25.0,  region: 'Scandinavia', animals: 'Moose · Reindeer · Lynx', emoji: '🦌', major: false },
+      // 🦅 North America
+      { lat: 45.0,  lng: -100.0, region: 'North America', animals: 'Bald Eagle · Grizzly · Bison', emoji: '🦅', major: true },
+      { lat: 35.0,  lng: -85.0,  region: 'Appalachia', animals: 'White-tailed Deer · Raccoon', emoji: '🦌', major: false },
+      // 🦜 Central & South America
+      { lat: 20.0,  lng: -98.0,  region: 'Central America', animals: 'Jaguar · Toucan · Quetzal', emoji: '🦜', major: true },
+      { lat: -5.0,  lng: -60.0,  region: 'Amazon', animals: 'Sloth · Anaconda · Macaw', emoji: '🐍', major: true },
+      { lat: -15.0, lng: -70.0,  region: 'Andes', animals: 'Llama · Condor · Chinchilla', emoji: '🦙', major: false },
+      { lat: -40.0, lng: -65.0,  region: 'Patagonia', animals: 'Puma · Guanaco · Fox', emoji: '🐆', major: false },
+      // 🐧 Polar
+      { lat: -75.0, lng: 120.0,  region: 'Antarctica', animals: 'Penguin · Seal · Albatross', emoji: '🐧', major: true },
+      { lat: 72.0,  lng: -40.0,  region: 'Arctic', animals: 'Polar Bear · Walrus · Arctic Fox', emoji: '🐻‍❄️', major: true },
+      // 🐋 Oceans
+      { lat: 0.0,   lng: -150.0, region: 'Pacific Ocean', animals: 'Humpback Whale · Dolphin', emoji: '🐋', major: false },
+      { lat: 35.0,  lng: -35.0,  region: 'Atlantic Ocean', animals: 'Bluefin Tuna · Manta Ray', emoji: '🐟', major: false },
+    ];
+
+    // ===== Create Markers (dots + rings + lines) =====
+    function createMarkers() {
+      var dotGeo = new THREE.SphereGeometry(0.028, 10, 10);
+      var dotMat = new THREE.MeshBasicMaterial({ color: 0xff5533 });
+
+      locations.forEach(function(loc) {
+        var pos = latLngToPos(loc.lat, loc.lng);
+
+        // Main dot
+        var dot = new THREE.Mesh(dotGeo, dotMat);
+        dot.position.copy(pos);
+        earthGroup.add(dot);
+
+        // Pulse ring
+        var ringGeo = new THREE.RingGeometry(0.025, 0.050, 20);
+        var ringMat = new THREE.MeshBasicMaterial({
+          color: 0xff8844,
+          transparent: true,
+          opacity: 0.7,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        });
+        var ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.position.copy(pos);
+        ring.lookAt(new THREE.Vector3(0, 0, 0));
+        earthGroup.add(ring);
+
+        // Connecting line (thin — from sphere center to marker)
+        var lineGeo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(0, 0, 0),
+          pos.clone().multiplyScalar(1.01),
+        ]);
+        var lineMat = new THREE.LineBasicMaterial({
+          color: 0xff8844,
+          transparent: true,
+          opacity: 0.2,
+        });
+        var line = new THREE.Line(lineGeo, lineMat);
+        earthGroup.add(line);
+
+        markers.push({
+          dot: dot,
+          ring: ring,
+          line: line,
+          pos: pos,
+          lat: loc.lat,
+          lng: loc.lng,
+          region: loc.region,
+          animals: loc.animals,
+          emoji: loc.emoji,
+          major: loc.major,
+          phase: Math.random() * Math.PI * 2,
+        });
+      });
+    }
+    createMarkers();
+
+    // ===== Create SVG Badge Markers (CSS2DRenderer) =====
+    function createLabels() {
+      // Label position radius — slightly further out than markers
+      var labelRadius = 1.14;
+
+      function getColor(region) {
+        if (region.indexOf('Africa') >= 0) return region === 'Africa' ? '#FF6B35' : region === 'Southern Africa' ? '#E85D2C' : '#D44A1E';
+        if (region === 'India') return '#E74C3C';
+        if (region === 'China') return '#C0392B';
+        if (region.indexOf('Asia') >= 0 || region === 'Central Asia') return '#A93226';
+        if (region === 'Australia') return '#2ECC71';
+        if (region === 'New Zealand') return '#27AE60';
+        if (region === 'Europe') return '#3498DB';
+        if (region === 'Scandinavia') return '#2980B9';
+        if (region === 'North America') return '#9B59B6';
+        if (region === 'Appalachia') return '#8E44AD';
+        if (region === 'Central America') return '#1ABC9C';
+        if (region === 'Amazon') return '#16A085';
+        if (region === 'Andes') return '#138D75';
+        if (region === 'Patagonia') return '#0E6655';
+        if (region === 'Antarctica') return '#00BCD4';
+        if (region === 'Arctic') return '#0097A7';
+        if (region === 'Pacific Ocean') return '#1976D2';
+        if (region === 'Atlantic Ocean') return '#1565C0';
+        return '#666';
+      }
+
+      var SVG_NS = 'http://www.w3.org/2000/svg';
+
+      locations.forEach(function(loc) {
+        var pos = latLngToPos(loc.lat, loc.lng, labelRadius);
+        var color = getColor(loc.region);
+
+        // Build SVG badge inside a div
+        var div = document.createElement('div');
+        div.className = 'marker-badge';
+
+        // Only show text label for major regions
+        if (loc.major) {
+          // Create SVG icon element
+          var svgEl = document.createElementNS(SVG_NS, 'svg');
+          svgEl.setAttribute('viewBox', '0 0 36 36');
+          svgEl.setAttribute('width', '36');
+          svgEl.setAttribute('height', '36');
+          svgEl.setAttribute('class', 'marker-badge__svg');
+
+          // Outer circle
+          var circle = document.createElementNS(SVG_NS, 'circle');
+          circle.setAttribute('cx', '18');
+          circle.setAttribute('cy', '18');
+          circle.setAttribute('r', '16');
+          circle.setAttribute('fill', color);
+          circle.setAttribute('stroke', 'rgba(255,255,255,0.35)');
+          circle.setAttribute('stroke-width', '1.5');
+          svgEl.appendChild(circle);
+
+          // Emoji text
+          var text = document.createElementNS(SVG_NS, 'text');
+          text.setAttribute('x', '18');
+          text.setAttribute('y', '23');
+          text.setAttribute('text-anchor', 'middle');
+          text.setAttribute('font-size', '16');
+          text.setAttribute('dominant-baseline', 'central');
+          text.textContent = loc.emoji;
+          svgEl.appendChild(text);
+
+          div.appendChild(svgEl);
+
+          // Region label below icon
+          var labelSpan = document.createElement('span');
+          labelSpan.className = 'marker-badge__label';
+          labelSpan.textContent = loc.region;
+          div.appendChild(labelSpan);
+        } else {
+          // Minor regions: just a small colored dot
+          var svgEl = document.createElementNS(SVG_NS, 'svg');
+          svgEl.setAttribute('viewBox', '0 0 20 20');
+          svgEl.setAttribute('width', '20');
+          svgEl.setAttribute('height', '20');
+          svgEl.setAttribute('class', 'marker-badge__svg');
+
+          var circle = document.createElementNS(SVG_NS, 'circle');
+          circle.setAttribute('cx', '10');
+          circle.setAttribute('cy', '10');
+          circle.setAttribute('r', '6');
+          circle.setAttribute('fill', color);
+          circle.setAttribute('opacity', '0.8');
+          svgEl.appendChild(circle);
+
+          div.appendChild(svgEl);
+        }
+
+        var label = new CSS2DObject(div);
+        label.position.copy(pos);
+
+        // Store reference for visibility culling
+        label.userData = { loc: loc, major: loc.major };
+        earthGroup.add(label);
+        labelObjects.push(label);
+      });
+    }
+    createLabels();
+
+    // ===== Hover tooltip =====
+    var tooltip = document.createElement('div');
+    tooltip.className = 'globe-tooltip';
+    tooltip.style.display = 'none';
+    container.appendChild(tooltip);
+
+    var raycaster = new THREE.Raycaster();
+    var pointer = new THREE.Vector2();
+    var allDotMeshes = markers.map(function(m) { return m.dot; });
+
+    renderer.domElement.addEventListener('pointermove', function(e) {
+      var rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(pointer, camera);
+      var intersects = raycaster.intersectObjects(allDotMeshes);
+
+      if (intersects.length > 0) {
+        var hit = intersects[0].object;
+        var markerData = null;
+        for (var i = 0; i < markers.length; i++) {
+          if (markers[i].dot === hit) { markerData = markers[i]; break; }
+        }
+        if (markerData) {
+          tooltip.textContent = markerData.emoji + ' ' + markerData.region + ' — ' + markerData.animals;
+          tooltip.style.display = 'block';
+          tooltip.style.left = (e.clientX - rect.left + 14) + 'px';
+          tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
+          container.style.cursor = 'pointer';
+        }
+      } else {
+        tooltip.style.display = 'none';
+        container.style.cursor = 'grab';
+      }
+    });
+
+    // ===== Public API for integration with home.js =====
+    window.__globe = {
+      rotateTo: function(lat, lng) {
+        // Smoothly rotate globe to center on given coordinates
+        var targetY = (lng / 180) * Math.PI + Math.PI;
+        var currentY = earthGroup.rotation.y;
+        var diff = targetY - currentY;
+        while (diff > Math.PI) diff -= Math.PI * 2;
+        while (diff < -Math.PI) diff += Math.PI * 2;
+        earthGroup.rotation.y += diff;
+
+        // Also adjust camera elevation based on latitude
+        var targetX = Math.sin((lat / 90) * 0.8) * 0.5;
+        gsapTo(camera.position, { y: targetX }, 1000);
+      },
+    };
+
+    // Simple tween helper
+    function gsapTo(obj, target, duration) {
+      var start = { y: obj.y };
+      var startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var ease = 1 - Math.pow(1 - progress, 3);
+        obj.y = start.y + (target.y - start.y) * ease;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // ===== Resize =====
+    function onResize() {
+      var w = container.clientWidth;
+      var h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      labelRenderer.setSize(w, h);
+    }
+    window.addEventListener('resize', onResize);
+
+    // ===== Animation Loop =====
+    var tempVec = new THREE.Vector3();
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      var time = Date.now() / 1000;
+
+      // Pulse markers
+      markers.forEach(function(m) {
+        var pulse = 0.5 + 0.5 * Math.sin(time * 2.5 + m.phase);
+        m.ring.material.opacity = 0.3 + 0.5 * pulse;
+        var s = 0.8 + 0.6 * pulse;
+        m.ring.scale.set(s, s, s);
+        m.line.material.opacity = 0.1 + 0.2 * pulse;
+      });
+
+      // Hide labels on the far side of the globe
+      // Get camera direction in world space
+      var cameraDir = new THREE.Vector3();
+      camera.getWorldPosition(tempVec);
+      var cameraPos = tempVec.clone();
+
+      labelObjects.forEach(function(label) {
+        // Get label's world position
+        var worldPos = new THREE.Vector3();
+        label.getWorldPosition(worldPos);
+
+        // Vector from Earth center to label
+        var toLabel = worldPos.clone().normalize();
+        // Vector from Earth center to camera
+        var toCamera = cameraPos.clone().normalize();
+
+        // If dot product is negative, label is on far side — hide
+        var dot = toLabel.dot(toCamera);
+        label.element.style.opacity = dot > 0.15 ? '1' : '0';
+      });
+
+      controls.update();
+      renderer.render(scene, camera);
+      labelRenderer.render(scene, camera);
+    }
+    animate();
+
+    // ===== Dark mode =====
+    window.__globe.resize = onResize;
+
+    function applyTheme() {
+      // always transparent background
+      scene.background = null;
+    }
+    applyTheme();
+    document.addEventListener('themeChanged', applyTheme);
+
+    // Signal ready
+    document.dispatchEvent(new CustomEvent('globeReady'));
+
+  })();
+  </script>
+</body>
+</html>

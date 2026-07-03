@@ -1,0 +1,124 @@
+/* ============================================================
+   About Page
+   ============================================================ */
+
+.about-hero {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-lg);
+  margin-bottom: var(--space-2xl);
+  background: var(--clr-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--clr-border);
+}
+
+.about-hero h1 {
+  font-size: var(--fs-4xl);
+  margin-bottom: var(--space-sm);
+}
+
+.about-hero__subtitle {
+  font-size: var(--fs-lg);
+  color: var(--clr-text-muted);
+}
+
+.about-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.about-section h2 {
+  font-size: var(--fs-2xl);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--clr-accent);
+  display: inline-block;
+}
+
+.about-section p {
+  font-size: var(--fs-base);
+  line-height: var(--lh-relaxed);
+  color: var(--clr-text);
+  margin-bottom: var(--space-md);
+  max-width: 720px;
+}
+
+/* Tech Stack Grid */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.tech-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  text-align: center;
+  transition: transform var(--transition-fast);
+}
+
+.tech-card:hover {
+  transform: translateY(-2px);
+}
+
+.tech-card__icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+.tech-card h3 {
+  font-family: var(--ff-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-xs);
+}
+
+.tech-card p {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+  margin-bottom: 0;
+}
+
+/* Developer Card */
+.dev-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  max-width: 500px;
+}
+
+.dev-card__avatar {
+  flex-shrink: 0;
+}
+
+.dev-card h3 {
+  font-family: var(--ff-body);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-xs);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dev-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+}

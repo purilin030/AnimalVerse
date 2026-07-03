@@ -1,0 +1,173 @@
+/* ============================================================
+   Forms
+   ============================================================ */
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  margin-bottom: var(--space-xs);
+  color: var(--clr-text);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 2px rgba(159, 232, 112, 0.15);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--clr-text-muted);
+  opacity: 0.7;
+}
+
+/* Filter pills for gallery */
+.filter-pill {
+  padding: 6px 16px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  border-color: var(--clr-accent);
+  color: var(--clr-accent);
+}
+
+.filter-pill--active {
+  background: #0e0f0c;
+  border-color: #0e0f0c;
+  color: #FFF;
+}
+
+[data-theme="dark"] .filter-pill--active {
+  background: #e8ebe6;
+  border-color: #e8ebe6;
+  color: #0e0f0c;
+}
+
+/* Sort select (Legacy placeholder, still used on some pages) */
+.sort-select {
+  padding: 6px 12px;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  cursor: pointer;
+}
+
+/* Custom Dropdown Component with Smooth Animations */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  min-width: 150px;
+  z-index: 50;
+}
+
+.custom-dropdown__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 14px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  background: var(--clr-surface);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  color: var(--clr-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.custom-dropdown__trigger:hover {
+  border-color: var(--clr-text);
+  background: var(--clr-surface-hover);
+}
+
+.custom-dropdown__arrow {
+  margin-left: 8px;
+  transition: transform var(--transition-fast);
+  color: var(--clr-text-muted);
+}
+
+/* Custom Dropdown Menu with Scale & Slide Transition */
+.custom-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 100%;
+  background: var(--clr-surface);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  padding: 4px 0;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top right;
+}
+
+/* Dropdown Open State */
+.custom-dropdown--open .custom-dropdown__menu {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.custom-dropdown--open .custom-dropdown__arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Items */
+.custom-dropdown__item {
+  padding: 8px 14px;
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.custom-dropdown__item:hover {
+  background: var(--clr-surface-hover);
+  color: var(--clr-text);
+}
+
+.custom-dropdown__item--active {
+  background: var(--clr-accent-subtle) !important;
+  color: var(--clr-primary) !important;
+  font-weight: var(--fw-semibold);
+}

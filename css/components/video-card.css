@@ -1,0 +1,202 @@
+/* ============================================================
+   Video Card - Pinterest + Wise Fusion
+   ============================================================ */
+
+.video-card {
+  position: relative;
+  background: transparent; /* Text sits on page canvas */
+  border-radius: 0;
+  overflow: visible;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+/* Thumbnail wrapper acts as the rounded card */
+.video-card__thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-xl); /* Wise premium 24px roundness */
+  overflow: hidden;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  /* Aspect ratios will be set dynamically via classes */
+}
+
+/* Hover lift on the image card only, not the text */
+.video-card:hover .video-card__thumbnail-wrapper {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.video-card__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.video-card:hover .video-card__thumbnail {
+  transform: scale(1.03);
+}
+
+/* Duration badge */
+.video-card__duration {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 4px 8px;
+  background: rgba(14, 15, 12, 0.75);
+  color: #FFF;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  border-radius: var(--radius-sm);
+  font-family: var(--ff-mono);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+/* Floating Category Tag - top-left corner */
+.video-card__category-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--radius-sm);
+  text-transform: capitalize;
+  color: var(--clr-text-inverse);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.video-card__category-tag--mammals    { background: var(--clr-cat-mammals); color: var(--clr-primary); }
+.video-card__category-tag--birds      { background: var(--clr-cat-birds); color: var(--clr-primary); }
+.video-card__category-tag--reptiles   { background: var(--clr-cat-reptiles); color: var(--clr-primary); }
+.video-card__category-tag--amphibians { background: var(--clr-cat-amphibians); color: var(--clr-primary); }
+.video-card__category-tag--aquatic    { background: var(--clr-cat-aquatic); color: #FFF; }
+
+/* Floating Favorite Button - top-right corner */
+.video-card__favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--clr-primary);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  opacity: 0; /* Hidden by default, shown on hover */
+  transform: scale(0.9);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
+  z-index: 15;
+  box-shadow: var(--shadow-sm);
+}
+
+.video-card:hover .video-card__favorite-btn,
+.video-card__favorite-btn--active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.video-card__favorite-btn:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+}
+
+.video-card__favorite-btn--active {
+  background: var(--clr-accent);
+  border-color: var(--clr-accent);
+  color: var(--clr-primary);
+}
+
+/* Body / Text below image */
+.video-card__body {
+  padding: var(--space-sm) 4px 0; /* minimal top padding, no horizontal padding */
+}
+
+.video-card__title {
+  font-family: var(--ff-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1.35;
+  color: var(--clr-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 2px;
+  transition: color var(--transition-fast);
+}
+
+.video-card:hover .video-card__title {
+  color: var(--clr-primary-light);
+}
+
+.video-card__views {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+}
+
+/* Aspect ratio helpers */
+.video-card__thumbnail-wrapper.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+.video-card__thumbnail-wrapper.aspect-portrait-tall {
+  aspect-ratio: 3 / 4;
+}
+.video-card__thumbnail-wrapper.aspect-portrait-short {
+  aspect-ratio: 4 / 5;
+}
+.video-card__thumbnail-wrapper.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Skeleton loading */
+.video-card--skeleton .video-card__thumbnail-wrapper {
+  background: var(--clr-surface-hover);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.video-card--skeleton .video-card__body {
+  height: 48px;
+  background: transparent;
+}
+
+.video-card--skeleton .video-card__title-line {
+  height: 12px;
+  background: var(--clr-border);
+  border-radius: 4px;
+  margin-bottom: 6px;
+  width: 80%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.video-card--skeleton .video-card__views-line {
+  height: 8px;
+  background: var(--clr-border);
+  border-radius: 4px;
+  width: 40%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

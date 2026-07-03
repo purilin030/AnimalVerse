@@ -1,0 +1,150 @@
+/* ============================================================
+   Category Card (Premium Image-led Design)
+   Inspired by ui-ux-pro-max high-end visual standards
+   ============================================================ */
+
+.category-card {
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Transform & Shadow for Micro-animation */
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: var(--clr-surface, #fff);
+}
+
+[data-theme="dark"] .category-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: #1e1f1b;
+}
+
+/* Hover Interaction */
+.category-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .category-card:hover {
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Image Wrapper */
+.category-card__image-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.category-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.category-card:hover .category-card__image {
+  transform: scale(1.08);
+}
+
+/* Gradient Overlay for Text Readability */
+.category-card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  z-index: 2;
+  transition: height 0.4s ease, background 0.4s ease;
+}
+
+.category-card:hover .category-card__overlay {
+  height: 70%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 50%, transparent 100%);
+}
+
+/* Content Area */
+.category-card__content {
+  position: relative;
+  z-index: 3;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Typography */
+.category-card__name {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.category-card__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  /* Slight reveal animation on hover */
+  transform: translateY(4px);
+  opacity: 0.9;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.category-card:hover .category-card__desc {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Color dot indicator (optional, kept from original but modernized) */
+.category-card::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.category-card--mammals::after    { background: var(--clr-cat-mammals, #C4A35A); }
+.category-card--birds::after      { background: var(--clr-cat-birds, #D4764A); }
+.category-card--reptiles::after   { background: var(--clr-cat-reptiles, #6B8E23); }
+.category-card--amphibians::after { background: var(--clr-cat-amphibians, #5B9BD5); }
+.category-card--aquatic::after    { background: var(--clr-cat-aquatic, #4A90D9); }
+
+@media (max-width: 767px) {
+  .category-card {
+    max-width: 180px;
+  }
+  .category-card__content {
+    padding: 18px 14px;
+  }
+  .category-card__name {
+    font-size: 18px;
+  }
+  .category-card__desc {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucky Pick - AnimalVerse</title>
+  <meta name="description" content="Can't decide? Let fate choose your next animal adventure!">
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/other-page-style/main.css">
+  <link rel="stylesheet" href="css/other-page-style/pages/random-vid.css">
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <div data-include="header"></div>
+    <div data-include="sidebar"></div>
+
+    <!-- ===== RANDOM PICK CONTENT ===== -->
+    <main class="main main--full" id="main-content">
+      <div class="random-pick" id="random-pick">
+        <!-- Ambient Light Rays -->
+        <div class="rp-sunrays" aria-hidden="true"></div>
+
+        <!-- Ambient Glowing Background Element -->
+        <div class="rp-ambient-glow" aria-hidden="true"></div>
+        
+        <div class="rp-container">
+          <!-- Asymmetric Header Area -->
+          <div class="rp-header-section">
+            <div class="rp-badge">
+              <span class="rp-badge__icon">✦</span>
+              <span class="rp-badge__label">Serendipity Engine</span>
+            </div>
+            <div class="rp-header">
+              <h1 class="rp-title">Lucky Pick<span class="rp-title__dot">.</span></h1>
+              <p class="rp-subtitle">Embrace serendipity. Let fate choose your next wild encounter.</p>
+            </div>
+            <div class="rp-actions">
+              <button class="rp-btn" id="rpBtn">
+                <span class="rp-btn__icon">✦</span>
+                <span class="rp-btn__label" id="rpBtnLabel">Initiate Shuffle</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Honeycomb Grid with Beehive Hanging Background -->
+          <div class="hex-grid-wrapper">
+            <div class="rp-beehive-bg" aria-hidden="true">
+              <svg viewBox="0 0 1000 1100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice">
+                <!-- Gradients -->
+                <defs>
+                  <linearGradient id="branchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--canopy-branch)" />
+                    <stop offset="100%" stop-color="#110d0a" />
+                  </linearGradient>
+                  <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--canopy-leaf)" />
+                    <stop offset="100%" stop-color="var(--canopy-leaves-dense)" />
+                  </linearGradient>
+                  <linearGradient id="hiveYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="var(--hive-yellow-edge)" />
+                    <stop offset="50%" stop-color="var(--hive-yellow-mid)" />
+                    <stop offset="100%" stop-color="var(--hive-yellow-edge)" />
+                  </linearGradient>
+                  <linearGradient id="hiveOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="var(--hive-orange-edge)" />
+                    <stop offset="50%" stop-color="var(--hive-orange-mid)" />
+                    <stop offset="100%" stop-color="var(--hive-orange-edge)" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Branch -->
+                <path d="M-50 60 Q 250 100 500 80 T 1050 40" stroke="url(#branchGrad)" stroke-width="24" stroke-linecap="round" />
+                <path d="M150 80 Q 300 130 400 140" stroke="url(#branchGrad)" stroke-width="10" stroke-linecap="round" />
+
+                <!-- Leaves on the branch -->
+                <path d="M-20 40 C-40 0, 40 -10, 60 30 C80 0, 140 10, 130 50 C150 30, 200 60, 180 90 C150 110, 100 90, 80 100 C40 110, -10 90, -20 40 Z" fill="url(#leafGrad)" />
+                <path d="M120 70 C100 30, 180 20, 200 60 C220 30, 280 40, 270 80 C290 60, 340 90, 320 120 C290 140, 240 120, 220 130 C180 140, 130 120, 120 70 Z" fill="url(#leafGrad)" />
+                <path d="M380 100 C360 70, 420 60, 440 90 C460 70, 500 80, 495 110 C510 100, 540 120, 530 140 C510 160, 470 150, 450 160 C420 170, 390 150, 380 100 Z" fill="url(#leafGrad)" opacity="0.85" />
+                <path d="M700 40 C680 0, 740 -10, 760 30 C780 0, 840 10, 830 50 C850 30, 900 60, 880 90 C850 110, 800 90, 780 100 C740 110, 690 90, 700 40 Z" fill="url(#leafGrad)" />
+                <path d="M850 50 C830 10, 910 0, 930 40 C950 10, 1010 20, 1000 60 C1010 40, 1060 70, 1040 100 C1010 120, 960 100, 940 110 C900 120, 850 100, 850 50 Z" fill="url(#leafGrad)" />
+
+                <!-- Hanging Vine -->
+                <path d="M500 80 L500 240" stroke="var(--canopy-vine)" stroke-width="4" stroke-linecap="round" />
+                <!-- Vine leaves -->
+                <path d="M500 120 C515 110, 525 125, 500 135 C485 125, 475 110, 500 120 Z" fill="url(#leafGrad)" />
+                <path d="M500 180 C515 170, 525 185, 500 195 C485 185, 475 170, 500 180 Z" fill="url(#leafGrad)" />
+                <path d="M500 230 C515 220, 525 235, 500 245 C485 235, 475 220, 500 230 Z" fill="url(#leafGrad)" />
+
+                <!-- Beehive layered rings -->
+                <rect x="325" y="240" width="350" height="45" rx="22.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="250" y="285" width="500" height="50" rx="25" fill="url(#hiveOrange)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="175" y="335" width="650" height="55" rx="27.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="110" y="390" width="780" height="60" rx="30" fill="url(#hiveOrange)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="60" y="450" width="880" height="65" rx="32.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="30" y="515" width="940" height="70" rx="35" fill="url(#hiveOrange)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                
+                <!-- Center Layer (Layer 7) -->
+                <rect x="20" y="585" width="960" height="75" rx="37.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                
+                <rect x="30" y="660" width="940" height="70" rx="35" fill="url(#hiveOrange)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="60" y="730" width="880" height="65" rx="32.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="110" y="795" width="780" height="60" rx="30" fill="url(#hiveOrange)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="175" y="855" width="650" height="55" rx="27.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="250" y="910" width="500" height="50" rx="25" fill="url(#hiveOrange)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+                <rect x="325" y="960" width="350" height="45" rx="22.5" fill="url(#hiveYellow)" stroke="var(--hex-border-color)" stroke-width="1.5" class="beehive-layer" />
+
+                <!-- Deep Entrance Hole -->
+                <circle cx="500" cy="622" r="50" fill="#1a120b" stroke="url(#hiveOrange)" stroke-width="4" />
+              </svg>
+            </div>
+            
+            <!-- Little Bees flying around the hive -->
+            <div class="rp-bee bee-1" aria-hidden="true">
+              <div class="bee-wings"></div>
+              <div class="bee-body"></div>
+            </div>
+            <div class="rp-bee bee-2" aria-hidden="true">
+              <div class="bee-wings"></div>
+              <div class="bee-body"></div>
+            </div>
+            <div class="rp-bee bee-3" aria-hidden="true">
+              <div class="bee-wings"></div>
+              <div class="bee-body"></div>
+            </div>
+            
+            <div class="hex-grid" id="hexGrid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Result Overlay -->
+        <div class="rp-result" id="rpResult" style="display:none">
+          <div class="rp-result__glass-panel"></div>
+          <div class="rp-result__card">
+            <button class="rp-result__close" id="rpResultClose" aria-label="Close modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="rp-result__emoji-wrapper">
+              <div class="rp-result__emoji" id="rpResultEmoji">🦁</div>
+            </div>
+            <h2 class="rp-result__name" id="rpResultName">Lion</h2>
+            <p class="rp-result__tagline" id="rpResultTagline">King of the Savanna</p>
+            <div class="rp-result__actions">
+              <a class="rp-result__watch-btn" id="rpResultWatch" href="#">
+                Explore Now
+              </a>
+              <button class="rp-result__again-btn" id="rpResultAgain">
+                Reshuffle
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Chatbot + Toast injected via data-include -->
+  <div data-include="chatbot"></div>
+
+  <script src="js/include.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/random-vid.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - AnimalVerse</title>
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/about.css">
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <!-- Header injected via data-include -->
+    <div data-include="header"></div>
+
+    <!-- Sidebar injected via data-include (includes backdrop) -->
+    <div data-include="sidebar"></div>
+
+    <main class="main" id="main-content">
+      <div class="about-page">
+        <div class="about-hero">
+          <h1>About AnimalVerse</h1>
+          <p class="about-hero__subtitle">Discover. Learn. Connect with Nature.</p>
+        </div>
+
+        <section class="about-section">
+          <h2>Our Mission</h2>
+          <p>AnimalVerse is an AI-enhanced animal video streaming platform designed to provide educational and stress-relief content for viewers of all ages. We believe that connecting people with the wonders of the animal kingdom can inspire both learning and well-being.</p>
+        </section>
+
+        <section class="about-section">
+          <h2>Project Overview</h2>
+          <p>This project is developed as a Final Year Project (FYP) for the Bachelor of Information Systems (Honours) Information Systems Engineering at Universiti Tunku Abdul Rahman (UTAR). The platform is designed to be hosted entirely on AWS cloud infrastructure, leveraging serverless technologies for scalability and cost-effectiveness.</p>
+          <p>The current phase (FYP 1) focuses on building a static frontend with HTML, CSS, and JavaScript, deployed via AWS S3 and CloudFront for global content delivery.</p>
+        </section>
+
+        <section class="about-section">
+          <h2>Technology Stack</h2>
+          <div class="tech-grid">
+            <div class="tech-card"><span class="tech-card__icon">🌐</span><h3>Frontend</h3><p>HTML, CSS, JavaScript</p></div>
+            <div class="tech-card"><span class="tech-card__icon">☁️</span><h3>Hosting</h3><p>AWS S3 &amp; CloudFront</p></div>
+            <div class="tech-card"><span class="tech-card__icon">⚡</span><h3>Backend*</h3><p>AWS Lambda &amp; API Gateway</p></div>
+            <div class="tech-card"><span class="tech-card__icon">🗄️</span><h3>Database*</h3><p>Amazon DynamoDB</p></div>
+            <div class="tech-card"><span class="tech-card__icon">🤖</span><h3>AI Chatbot*</h3><p>Amazon Lex</p></div>
+            <div class="tech-card"><span class="tech-card__icon">🧠</span><h3>Gen AI*</h3><p>Amazon Bedrock</p></div>
+          </div>
+          <p class="text-muted text-small">* Planned for FYP 2</p>
+        </section>
+
+        <section class="about-section">
+          <h2>Developer</h2>
+          <div class="dev-card">
+            <div class="dev-card__avatar">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <circle cx="32" cy="32" r="30" stroke="#C4A35A" stroke-width="2"/>
+                <circle cx="32" cy="24" r="10" fill="#C4A35A" opacity="0.3"/>
+                <path d="M12 56C12 44 20 38 32 38C44 38 52 44 52 56" stroke="#C4A35A" stroke-width="2" opacity="0.5"/>
+              </svg>
+            </div>
+            <div>
+              <h3>Wong Jiun Hong</h3>
+              <p class="text-muted">Student ID: 2401292</p>
+              <p class="text-muted">Bachelor of Information Systems (Honours) Information Systems Engineering</p>
+              <p class="text-muted">Universiti Tunku Abdul Rahman (UTAR)</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer injected via data-include -->
+    <div data-include="footer"></div>
+  </div>
+
+  <!-- Chatbot + Toast injected via data-include -->
+  <div data-include="chatbot"></div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/include.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

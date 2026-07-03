@@ -1,0 +1,776 @@
+/* ============================================================
+   Map Page Styles - Premium Wise-inspired Theme with Pulse Effects
+   ============================================================ */
+
+.map-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height));
+  position: relative;
+}
+
+.map-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  border-bottom: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+  z-index: 5;
+  position: relative;
+}
+
+/* Elegant top accent line combining Wise Lime Green and Custom Aquatic Purple */
+.map-page__header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-accent) 0%, #a855f7 100%);
+}
+
+.map-page__header h1 {
+  font-family: var(--ff-display);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-black);
+  color: var(--clr-text);
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.map-page__subtitle {
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  color: var(--clr-text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.map-wrapper {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  min-height: 400px;
+}
+
+#animal-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* ============================================================
+   Floating Legend Panel (Glassmorphism Overlay)
+   ============================================================ */
+.map-legend {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-md);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 220px;
+  box-sizing: border-box;
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+[data-theme="dark"] .map-legend {
+  background: rgba(30, 31, 27, 0.8);
+  border: 1px solid rgba(232, 235, 230, 0.08);
+  box-shadow: var(--shadow-xl);
+}
+
+.map-legend__title {
+  font-family: var(--ff-display);
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  color: var(--clr-text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.map-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--clr-text);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.map-legend__item:hover {
+  background: var(--clr-surface-hover);
+  transform: translateX(2px);
+}
+
+.map-legend__item--active {
+  background: var(--clr-accent-subtle);
+  color: var(--clr-primary-dark);
+  font-weight: var(--fw-bold);
+}
+
+[data-theme="dark"] .map-legend__item--active {
+  color: var(--clr-accent-hover);
+}
+
+.map-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Custom Animal Markers with Spreading Ripple Effect
+   ============================================================ */
+.animal-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.animal-marker__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+/* Center pin */
+.animal-marker__inner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  z-index: 2;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* CSS Ripple wave */
+.animal-marker__pulse {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+  animation: marker-pulse-anim 2s cubic-bezier(0.25, 0, 0.4, 1) infinite;
+}
+
+@keyframes marker-pulse-anim {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+.animal-marker:hover .animal-marker__inner {
+  transform: scale(1.35);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* ============================================================
+   Premium Leaflet Popup Overrides
+   ============================================================ */
+.map-page .leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+[data-theme="dark"] .map-page .leaflet-popup-content-wrapper {
+  background: rgba(30, 31, 27, 0.82) !important;
+  border: 1px solid rgba(232, 235, 230, 0.08) !important;
+  box-shadow: var(--shadow-xl) !important;
+}
+
+.map-page .leaflet-popup-tip-container {
+  z-index: 10;
+}
+
+.map-page .leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .map-page .leaflet-popup-tip {
+  background: rgba(30, 31, 27, 0.82) !important;
+  border: 1px solid rgba(232, 235, 230, 0.08) !important;
+}
+
+.map-page .leaflet-popup-content {
+  margin: 0 !important;
+  width: 270px !important;
+}
+
+.map-page .leaflet-popup-close-button {
+  top: 10px !important;
+  right: 10px !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  background: rgba(14, 15, 12, 0.4) !important;
+  border-radius: var(--radius-full) !important;
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: background var(--transition-fast), transform var(--transition-fast) !important;
+}
+
+.map-page .leaflet-popup-close-button:hover {
+  background: rgba(14, 15, 12, 0.7) !important;
+  transform: scale(1.08);
+}
+
+/* ============================================================
+   Popup Body & Inner Layout
+   ============================================================ */
+.map-popup {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-popup__img-container {
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+  position: relative;
+  background: var(--clr-border);
+}
+
+.map-popup__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.map-popup:hover .map-popup__thumb {
+  transform: scale(1.06);
+}
+
+.map-popup__body {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-popup__category-tag {
+  font-size: 9px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+/* Category specific chip aesthetics */
+.map-popup__category-tag.mammals { background: rgba(159, 232, 112, 0.15); color: #7dbf50; }
+.map-popup__category-tag.birds { background: rgba(56, 200, 255, 0.15); color: #009ecc; }
+.map-popup__category-tag.reptiles { background: rgba(46, 173, 75, 0.15); color: #219337; }
+.map-popup__category-tag.amphibians { background: rgba(197, 237, 171, 0.15); color: #9fbf84; }
+.map-popup__category-tag.aquatic { background: rgba(168, 85, 247, 0.12); color: #9333ea; }
+
+[data-theme="dark"] .map-popup__category-tag.mammals { color: var(--clr-cat-mammals); }
+[data-theme="dark"] .map-popup__category-tag.birds { color: var(--clr-cat-birds); }
+[data-theme="dark"] .map-popup__category-tag.reptiles { color: var(--clr-cat-reptiles); }
+[data-theme="dark"] .map-popup__category-tag.amphibians { color: var(--clr-cat-amphibians); }
+[data-theme="dark"] .map-popup__category-tag.aquatic { color: var(--clr-cat-aquatic); }
+
+.map-popup__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--clr-text);
+  margin: 2px 0 4px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.map-popup__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.map-popup__icon {
+  width: 14px;
+  height: 14px;
+  stroke: var(--clr-text-muted);
+  flex-shrink: 0;
+}
+
+/* Play/Watch CTA Pill Button */
+.map-popup__watch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--ff-display);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text-inverse) !important;
+  text-decoration: none;
+  background: var(--clr-primary);
+  padding: 10px var(--space-md);
+  border-radius: var(--radius-xl);
+  margin-top: var(--space-xs);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-popup__watch:hover {
+  background: var(--clr-accent);
+  color: var(--clr-text-inverse) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(14, 15, 12, 0.15);
+}
+
+[data-theme="dark"] .map-popup__watch:hover {
+  background: var(--clr-accent);
+  color: var(--clr-text-inverse) !important;
+  box-shadow: 0 4px 12px rgba(159, 232, 112, 0.25);
+}
+
+.map-popup__watch:active {
+  transform: translateY(0);
+}
+
+.map-popup__btn-icon {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+}
+
+/* ============================================================
+   Leaflet UI adjustments to match system
+   ============================================================ */
+.map-page .leaflet-bar {
+  border: 1px solid rgba(14, 15, 12, 0.08) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .map-page .leaflet-bar {
+  border: 1px solid rgba(232, 235, 230, 0.08) !important;
+}
+
+.map-page .leaflet-bar a {
+  background-color: var(--clr-surface) !important;
+  color: var(--clr-text) !important;
+  border-bottom: 1px solid var(--clr-border) !important;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.map-page .leaflet-bar a:hover {
+  background-color: var(--clr-surface-hover) !important;
+}
+
+.map-page .leaflet-bar a.leaflet-disabled {
+  background-color: var(--clr-surface-active) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* ============================================================
+   Responsive Layout overrides for Mobile Viewports
+   ============================================================ */
+@media (max-width: 767px) {
+  .map-page__header {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .map-legend {
+    position: absolute;
+    top: auto;
+    bottom: var(--space-lg);
+    left: var(--space-md);
+    right: var(--space-md);
+    width: auto;
+    max-width: none;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: var(--space-sm) var(--space-md);
+    gap: var(--space-xs);
+    border-radius: var(--radius-md);
+    /* Hide scrollbars but allow swiping */
+    scrollbar-width: none;
+  }
+
+  .map-legend::-webkit-scrollbar {
+    display: none;
+  }
+
+  .map-legend__title {
+    margin-bottom: 0;
+    margin-right: var(--space-xs);
+  }
+
+  .map-legend__item {
+    flex-shrink: 0;
+    width: auto;
+    padding: 6px 12px;
+  }
+
+  .map-legend__header {
+    width: auto;
+    margin-bottom: 0;
+    margin-right: var(--space-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+  
+  .map-legend__divider {
+    display: none;
+  }
+
+  .map-legend__toggle-wrapper {
+    width: auto;
+    padding: 0 0 0 var(--space-sm);
+    border-left: 1px solid var(--clr-border);
+    gap: var(--space-xs);
+  }
+}
+
+/* ============================================================
+   Interactive Elements inside Legend (Spinner, Divider, Switch)
+   ============================================================ */
+.map-legend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: var(--space-xs);
+}
+
+.map-legend__spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--clr-border);
+  border-top-color: var(--clr-accent);
+  border-radius: var(--radius-full);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  animation: map-spinner-spin 0.8s linear infinite;
+}
+
+.map-legend.loading .map-legend__spinner {
+  opacity: 1;
+}
+
+@keyframes map-spinner-spin {
+  to { transform: rotate(360deg); }
+}
+
+.map-legend__divider {
+  height: 1px;
+  background: var(--clr-border);
+  width: 100%;
+  margin: var(--space-xs) 0;
+}
+
+.map-legend__toggle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-xs) 0;
+}
+
+.map-legend__toggle-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Custom premium switch toggle */
+.map-switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.map-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.map-switch__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--clr-border);
+  transition: .25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
+}
+
+.map-switch__slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  transition: .25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-full);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.map-switch input:checked + .map-switch__slider {
+  background-color: var(--clr-success);
+}
+
+.map-switch input:checked + .map-switch__slider:before {
+  transform: translateX(18px);
+}
+
+/* ============================================================
+   External observations styling (iNaturalist API - Empty Ring style)
+   ============================================================ */
+.animal-marker--external .animal-marker__inner {
+  background: #ffffff !important; /* Center fill white */
+}
+
+[data-theme="dark"] .animal-marker--external .animal-marker__inner {
+  background: #1e1f1b !important; /* Center fill dark surface */
+}
+
+/* Tag style in popup for external observation */
+.map-popup__category-tag.external {
+  background: rgba(168, 85, 247, 0.12) !important;
+  color: #a855f7 !important;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+[data-theme="dark"] .map-popup__category-tag.external {
+  color: #c084fc !important;
+}
+
+/* External Link watch button hover on iNaturalist observations */
+.map-popup__watch.external-link:hover {
+  background: #74ac00 !important; /* iNaturalist green */
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(116, 172, 0, 0.3);
+}
+
+/* ============================================================
+   Tooltip Styling & Micro-animations
+   ============================================================ */
+.map-legend__toggle-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.map-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  flex-shrink: 0;
+}
+
+.map-tooltip__icon {
+  width: 14px;
+  height: 14px;
+  color: var(--clr-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.map-tooltip:hover .map-tooltip__icon {
+  color: var(--clr-accent);
+}
+
+[data-theme="dark"] .map-tooltip:hover .map-tooltip__icon {
+  color: var(--clr-accent-hover);
+}
+
+/* Tooltip Box (Floating to the left of the Legend box to avoid screen edges) */
+.map-tooltip__box {
+  position: absolute;
+  right: calc(100% + 12px);
+  bottom: 50%;
+  transform: translateY(50%) scale(0.95);
+  transform-origin: right center;
+  width: 250px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-md);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+/* Bridge the 12px gap to prevent tooltip from disappearing when moving cursor into it */
+.map-tooltip__box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 16px;
+  background: transparent;
+}
+
+[data-theme="dark"] .map-tooltip__box {
+  background: rgba(30, 31, 27, 0.92);
+  border: 1px solid rgba(232, 235, 230, 0.08);
+  box-shadow: var(--shadow-xl);
+}
+
+.map-tooltip:hover .map-tooltip__box {
+  opacity: 1;
+  transform: translateY(50%) scale(1);
+  pointer-events: auto;
+}
+
+/* Tooltip arrow point */
+.map-tooltip__box::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="dark"] .map-tooltip__box::after {
+  border-color: transparent transparent transparent rgba(30, 31, 27, 0.92);
+}
+
+.map-tooltip__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--clr-text);
+  margin: 0;
+}
+
+.map-tooltip__desc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--clr-text-muted);
+  margin: 0;
+  white-space: normal;
+}
+
+.map-tooltip__hint {
+  font-size: 10px;
+  line-height: 1.4;
+  color: #7dbf50; /* A readable accent green */
+  font-weight: var(--fw-bold);
+  margin: 0;
+  white-space: normal;
+}
+
+[data-theme="dark"] .map-tooltip__hint {
+  color: var(--clr-accent-hover);
+}
+
+/* Mobile responsive adjustments for Tooltip positioning */
+@media (max-width: 767px) {
+  .map-tooltip__box {
+    right: auto;
+    left: 50%;
+    bottom: calc(100% + 12px);
+    transform: translateX(-50%) scale(0.95);
+    transform-origin: bottom center;
+    width: 200px;
+  }
+  
+  .map-tooltip:hover .map-tooltip__box {
+    transform: translateX(-50%) scale(1);
+  }
+  
+  .map-tooltip__box::after {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+  }
+
+  [data-theme="dark"] .map-tooltip__box::after {
+    border-color: rgba(30, 31, 27, 0.92) transparent transparent transparent;
+  }
+}

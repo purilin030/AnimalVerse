@@ -1,0 +1,1082 @@
+{
+  "albatross": {
+    "category": "birds",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Antarctica"
+    }
+  },
+  "arctic-tern": {
+    "category": "birds",
+    "location": {
+      "name": "South Africa",
+      "lat": -34.06354,
+      "lng": 22.91616,
+      "region": "Antarctica"
+    }
+  },
+  "asian-elephant": {
+    "category": "mammals",
+    "location": {
+      "name": "Thailand",
+      "lat": 12.643096,
+      "lng": 99.5037,
+      "region": "Asia"
+    }
+  },
+  "badger": {
+    "category": "mammals",
+    "location": {
+      "name": "Israel",
+      "lat": 32.205517,
+      "lng": 35.345969,
+      "region": "Europe"
+    }
+  },
+  "bald-eagle": {
+    "category": "birds",
+    "location": {
+      "name": "United States of America",
+      "lat": 37.73415,
+      "lng": -97.464972,
+      "region": "North America"
+    }
+  },
+  "bear": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "beaver": {
+    "category": "mammals",
+    "location": {
+      "name": "United States of America",
+      "lat": 39.045217,
+      "lng": -76.793347,
+      "region": "North America"
+    }
+  },
+  "bison": {
+    "category": "mammals",
+    "location": {
+      "name": "United States of America",
+      "lat": 40.958085,
+      "lng": -112.214557,
+      "region": "North America"
+    }
+  },
+  "blue-whale": {
+    "category": "aquatic",
+    "location": {
+      "name": "South Georgia and the South Sandwich Islands",
+      "lat": -54.439856,
+      "lng": -36.110824,
+      "region": "Antarctica"
+    }
+  },
+  "brown-bear": {
+    "category": "mammals",
+    "location": {
+      "name": "Türkiye",
+      "lat": 38.897481,
+      "lng": 34.673838,
+      "region": "Europe"
+    }
+  },
+  "butterfly": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "capybara": {
+    "category": "mammals",
+    "location": {
+      "name": "Brazil",
+      "lat": -27.581641,
+      "lng": -48.508427,
+      "region": "South America"
+    }
+  },
+  "cat": {
+    "category": "mammals",
+    "location": {
+      "name": "Reddalsveien 212, Norway",
+      "lat": 58.338822,
+      "lng": 8.546734,
+      "region": "Ocean"
+    }
+  },
+  "cheetah": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -24.397314,
+      "lng": 31.608155,
+      "region": "Africa"
+    }
+  },
+  "chimpanzee": {
+    "category": "mammals",
+    "location": {
+      "name": "Uganda",
+      "lat": 0.47947,
+      "lng": 30.502683,
+      "region": "Africa"
+    }
+  },
+  "clownfish": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "coral": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "coyote": {
+    "category": "mammals",
+    "location": {
+      "name": "Canada",
+      "lat": 45.234874,
+      "lng": -74.415218,
+      "region": "North America"
+    }
+  },
+  "dingo": {
+    "category": "mammals",
+    "location": {
+      "name": "Israel",
+      "lat": 32.672421,
+      "lng": 35.460871,
+      "region": "Australia"
+    }
+  },
+  "dolphin": {
+    "category": "aquatic",
+    "location": {
+      "name": "United States of America",
+      "lat": 34.00401,
+      "lng": -118.80402,
+      "region": "Ocean"
+    }
+  },
+  "eagle": {
+    "category": "birds",
+    "location": {
+      "name": "Israel",
+      "lat": 32.042112,
+      "lng": 35.369009,
+      "region": "Europe"
+    }
+  },
+  "elephant": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -24.921259,
+      "lng": 31.557271,
+      "region": "Africa"
+    }
+  },
+  "elk": {
+    "category": "mammals",
+    "location": {
+      "name": "LSG 106 - Rostocker Heide und Wallbach Teilgebiet, Germany",
+      "lat": 54.217072,
+      "lng": 12.271729,
+      "region": "North America"
+    }
+  },
+  "emu": {
+    "category": "birds",
+    "location": {
+      "name": "Australia",
+      "lat": -34.754367,
+      "lng": 142.34233,
+      "region": "Australia"
+    }
+  },
+  "european-bison": {
+    "category": "mammals",
+    "location": {
+      "name": "Belarus",
+      "lat": 54.114122,
+      "lng": 26.481041,
+      "region": "Europe"
+    }
+  },
+  "flamingo": {
+    "category": "birds",
+    "location": {
+      "name": "Israel",
+      "lat": 32.700645,
+      "lng": 34.939179,
+      "region": "Africa"
+    }
+  },
+  "fox": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "giant-panda": {
+    "category": "mammals",
+    "location": {
+      "name": "China",
+      "lat": 30.913496,
+      "lng": 102.988731,
+      "region": "Asia"
+    }
+  },
+  "giraffe": {
+    "category": "mammals",
+    "location": {
+      "name": "Uganda",
+      "lat": -0.765193,
+      "lng": 30.92211,
+      "region": "Africa"
+    }
+  },
+  "gorilla": {
+    "category": "mammals",
+    "location": {
+      "name": "Congo",
+      "lat": 0.511469,
+      "lng": 14.696189,
+      "region": "Africa"
+    }
+  },
+  "great-white-shark": {
+    "category": "aquatic",
+    "location": {
+      "name": "South Africa",
+      "lat": -32.777707,
+      "lng": 28.305201,
+      "region": "Ocean"
+    }
+  },
+  "grizzly-bear": {
+    "category": "mammals",
+    "location": {
+      "name": "Türkiye",
+      "lat": 38.897481,
+      "lng": 34.673838,
+      "region": "North America"
+    }
+  },
+  "hedgehog": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "hippopotamus": {
+    "category": "mammals",
+    "location": {
+      "name": "Zambia",
+      "lat": -17.915861,
+      "lng": 25.902361,
+      "region": "Africa"
+    }
+  },
+  "horse": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "howler-monkey": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "South America"
+    }
+  },
+  "jaguar": {
+    "category": "mammals",
+    "location": {
+      "name": "Colombia",
+      "lat": 7.038086,
+      "lng": -73.606376,
+      "region": "South America"
+    }
+  },
+  "jellyfish": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "kangaroo": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Australia"
+    }
+  },
+  "kitten": {
+    "category": "mammals",
+    "location": {
+      "name": "Reddalsveien 212, Norway",
+      "lat": 58.338822,
+      "lng": 8.546734,
+      "region": "Ocean"
+    }
+  },
+  "koala": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -37.941194,
+      "lng": 147.705728,
+      "region": "Australia"
+    }
+  },
+  "kookaburra": {
+    "category": "birds",
+    "location": {
+      "name": "Australia",
+      "lat": -31.441037,
+      "lng": 152.90567,
+      "region": "Australia"
+    }
+  },
+  "krill": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Antarctica"
+    }
+  },
+  "leopard-seal": {
+    "category": "aquatic",
+    "location": {
+      "name": "Antarctica",
+      "lat": -65.108658,
+      "lng": -64.062172,
+      "region": "Antarctica"
+    }
+  },
+  "lion": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -24.907649,
+      "lng": 31.462346,
+      "region": "Africa"
+    }
+  },
+  "lioness": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -24.907649,
+      "lng": 31.462346,
+      "region": "Africa"
+    }
+  },
+  "llama": {
+    "category": "mammals",
+    "location": {
+      "name": "Chile",
+      "lat": -53.069378,
+      "lng": -69.350962,
+      "region": "South America"
+    }
+  },
+  "lynx": {
+    "category": "mammals",
+    "location": {
+      "name": "Siljuås, Norway",
+      "lat": 59.457983,
+      "lng": 9.34819,
+      "region": "Europe"
+    }
+  },
+  "macaw": {
+    "category": "birds",
+    "location": {
+      "name": "Honduras",
+      "lat": 14.8647,
+      "lng": -89.155531,
+      "region": "South America"
+    }
+  },
+  "manta-ray": {
+    "category": "aquatic",
+    "location": {
+      "name": "Saudi Arabia",
+      "lat": 22.383646,
+      "lng": 39.106472,
+      "region": "Ocean"
+    }
+  },
+  "monkey": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "moose": {
+    "category": "mammals",
+    "location": {
+      "name": "Canada",
+      "lat": 53.712662,
+      "lng": -112.80029,
+      "region": "North America"
+    }
+  },
+  "mountain-lion": {
+    "category": "mammals",
+    "location": {
+      "name": "United States of America",
+      "lat": 44.59237,
+      "lng": -121.27005,
+      "region": "North America"
+    }
+  },
+  "octopus": {
+    "category": "aquatic",
+    "location": {
+      "name": "United States of America",
+      "lat": 48.501466,
+      "lng": -122.691972,
+      "region": "Ocean"
+    }
+  },
+  "orangutan": {
+    "category": "mammals",
+    "location": {
+      "name": "Indonesia",
+      "lat": -2.846717,
+      "lng": 111.81776,
+      "region": "Asia"
+    }
+  },
+  "orca": {
+    "category": "mammals",
+    "location": {
+      "name": "Canada",
+      "lat": 48.869183,
+      "lng": -123.305816,
+      "region": "Antarctica"
+    }
+  },
+  "otter": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Europe"
+    }
+  },
+  "owl": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "panda": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "parrot": {
+    "category": "birds",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "peacock": {
+    "category": "birds",
+    "location": {
+      "name": "Belgium",
+      "lat": 50.92635,
+      "lng": 5.12519,
+      "region": "Asia"
+    }
+  },
+  "penguin": {
+    "category": "birds",
+    "location": {
+      "name": "Antarctica",
+      "lat": -69.930214,
+      "lng": -69.127709,
+      "region": "Antarctica"
+    }
+  },
+  "piranha": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "South America"
+    }
+  },
+  "platypus": {
+    "category": "aquatic",
+    "location": {
+      "name": "At 5:37 am I saw a large platypus travelling up Rocky Creek (I originally thought this was South Maroochy River but it is actually Rocky Creek that leads to Wappa Dam. There was a possible smaller Platypus feeding but cannot be sure. Poor Photo, Australia",
+      "lat": -26.579612,
+      "lng": 152.921253,
+      "region": "Australia"
+    }
+  },
+  "polar-bear": {
+    "category": "mammals",
+    "location": {
+      "name": "United States of America",
+      "lat": 71.329539,
+      "lng": -156.4248,
+      "region": "Ocean"
+    }
+  },
+  "rabbit": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "raccoon": {
+    "category": "mammals",
+    "location": {
+      "name": "Canada",
+      "lat": 49.289758,
+      "lng": -123.141054,
+      "region": "North America"
+    }
+  },
+  "red-fox": {
+    "category": "mammals",
+    "location": {
+      "name": "Parainen, Levo, 4270 (669:323), Finland",
+      "lat": 60.319882,
+      "lng": 22.222179,
+      "region": "Europe"
+    }
+  },
+  "red-panda": {
+    "category": "mammals",
+    "location": {
+      "name": "Nepal",
+      "lat": 27.016307,
+      "lng": 88.139069,
+      "region": "Asia"
+    }
+  },
+  "reindeer": {
+    "category": "mammals",
+    "location": {
+      "name": "Finland",
+      "lat": 63.14458,
+      "lng": 23.198031,
+      "region": "Europe"
+    }
+  },
+  "rhinoceros": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -28.308092,
+      "lng": 31.827602,
+      "region": "Africa"
+    }
+  },
+  "sambar-deer": {
+    "category": "mammals",
+    "location": {
+      "name": "Singapore",
+      "lat": 1.306913,
+      "lng": 103.820735,
+      "region": "Asia"
+    }
+  },
+  "sea-turtle": {
+    "category": "aquatic",
+    "location": {
+      "name": "United States of America",
+      "lat": 21.815027,
+      "lng": -159.500239,
+      "region": "Ocean"
+    }
+  },
+  "seahorse": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "seal": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Antarctica"
+    }
+  },
+  "shark": {
+    "category": "aquatic",
+    "location": {
+      "name": "South Africa",
+      "lat": -32.777707,
+      "lng": 28.305201,
+      "region": "Ocean"
+    }
+  },
+  "sloth": {
+    "category": "mammals",
+    "location": {
+      "name": "Suriname",
+      "lat": 5.791485,
+      "lng": -55.12462,
+      "region": "South America"
+    }
+  },
+  "snow-leopard": {
+    "category": "mammals",
+    "location": {
+      "name": "Kazakhstan",
+      "lat": 43.103908,
+      "lng": 76.998859,
+      "region": "Asia"
+    }
+  },
+  "snow-petrel": {
+    "category": "birds",
+    "location": {
+      "name": "Antarctica",
+      "lat": -62.581351,
+      "lng": -172.140709,
+      "region": "Antarctica"
+    }
+  },
+  "squid": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Antarctica"
+    }
+  },
+  "sun-bear": {
+    "category": "mammals",
+    "location": {
+      "name": "Indonesia",
+      "lat": -1.654573,
+      "lng": 112.371914,
+      "region": "Asia"
+    }
+  },
+  "tasmanian-devil": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -42.114953,
+      "lng": 146.299562,
+      "region": "Australia"
+    }
+  },
+  "tiger": {
+    "category": "mammals",
+    "location": {
+      "name": "India",
+      "lat": 27.075696,
+      "lng": 74.266941,
+      "region": "Asia"
+    }
+  },
+  "toucan": {
+    "category": "birds",
+    "location": {
+      "name": "Brazil",
+      "lat": -21.041362,
+      "lng": -40.823032,
+      "region": "South America"
+    }
+  },
+  "tree-frog": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "vampire-bat": {
+    "category": "mammals",
+    "location": {
+      "name": "Mexico",
+      "lat": 19.943728,
+      "lng": -90.375745,
+      "region": "South America"
+    }
+  },
+  "wallaby": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -19.258155,
+      "lng": 146.633653,
+      "region": "Australia"
+    }
+  },
+  "whale": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "wild-boar": {
+    "category": "mammals",
+    "location": {
+      "name": "Israel",
+      "lat": 33.23976,
+      "lng": 35.685826,
+      "region": "Europe"
+    }
+  },
+  "wolf": {
+    "category": "mammals",
+    "location": {
+      "name": "Israel",
+      "lat": 32.672421,
+      "lng": 35.460871,
+      "region": "Europe"
+    }
+  },
+  "wombat": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -37.01178,
+      "lng": 149.901062,
+      "region": "Australia"
+    }
+  },
+  "zebra": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -28.220069,
+      "lng": 31.948322,
+      "region": "Africa"
+    }
+  },
+  "frog": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "anaconda": {
+    "category": "reptiles",
+    "location": {
+      "name": "Guyana",
+      "lat": 6.365628,
+      "lng": -59.108274,
+      "region": "South America"
+    }
+  },
+  "chameleon": {
+    "category": "reptiles",
+    "location": {
+      "name": "Réunion",
+      "lat": -21.053297,
+      "lng": 55.306229,
+      "region": "Ocean"
+    }
+  },
+  "crocodile": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "komodo-dragon": {
+    "category": "reptiles",
+    "location": {
+      "name": "Indonesia",
+      "lat": -8.655878,
+      "lng": 119.718362,
+      "region": "Asia"
+    }
+  },
+  "turtle": {
+    "category": "reptiles",
+    "location": {
+      "name": "United States of America",
+      "lat": 21.815027,
+      "lng": -159.500239,
+      "region": "Ocean"
+    }
+  },
+  "axolotl": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "bullfrog": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "caecilian": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "glass-frog": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "hellbender": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "newt": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "poison-dart-frog": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "red-eyed-tree-frog": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "salamander": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "toad": {
+    "category": "amphibians",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "alligator": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "coral-snake": {
+    "category": "aquatic",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "galapagos-tortoise": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "gecko": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "gila-monster": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "iguana": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "king-cobra": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "leatherback-turtle": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "monitor-lizard": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "python": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "rattlesnake": {
+    "category": "reptiles",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  },
+  "tuatara": {
+    "category": "mammals",
+    "location": {
+      "name": "Unknown Location",
+      "lat": 0.0,
+      "lng": 0.0,
+      "region": "Ocean"
+    }
+  }
+}

@@ -1,0 +1,1020 @@
+/* ============================================================
+   Random Video — Premium Honeycomb Gacha Redesign
+   ============================================================ */
+
+/* Base container */
+.random-pick {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px 24px; /* Reduced padding from 40px to 20px to save vertical space */
+  position: relative;
+  min-height: calc(100vh - var(--header-height, 64px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Premium Honeycomb CSS Variables Grid System */
+  --hex-w: 86px;
+  --hex-h: 99px;
+  --hex-margin: 5px;
+  --hex-stagger: 53px; /* --hex-w/2 + --hex-margin*2 */
+  --hex-pull: -25px;
+  --hex-grid-max-w: 680px;
+  
+  /* Colors */
+  --hex-border-color: rgba(8, 8, 8, 0.06);
+  --hex-bg-color: rgba(255, 255, 255, 0.65);
+  --hex-bg-hover: rgba(255, 255, 255, 0.85);
+  --glow-color: rgba(245, 158, 11, 0.05); /* Light amber */
+  --rp-accent: #f59e0b; /* Amber/Gold */
+  --rp-accent-glow: rgba(245, 158, 11, 0.15);
+
+  /* Tree Canopy */
+  --canopy-branch: #3a2a1a;
+  --canopy-leaves-dense: #263816;
+  --canopy-leaf: #496332;
+  --canopy-vine: #543f2c;
+  --ray-color: rgba(253, 224, 71, 0.05);
+
+  /* Background Beehive Colors (Deeper, more saturated) */
+  --hive-yellow-edge: rgba(251, 191, 36, 0.18);
+  --hive-yellow-mid: rgba(254, 240, 138, 0.55);
+  --hive-orange-edge: rgba(245, 158, 11, 0.18);
+  --hive-orange-mid: rgba(253, 224, 71, 0.55);
+
+  background-color: var(--clr-bg-alt);
+  background-image: 
+    radial-gradient(circle at 50% 50%, transparent 20%, var(--clr-bg-alt) 85%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0 L60 17 L60 52 L30 69 L0 52 L0 17 Z M30 104 L60 87 L60 52 L30 69 L0 52 L0 87 Z' fill='none' stroke='%23080808' stroke-opacity='0.02' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 100% 100%, 60px 104px;
+  transition: background-color var(--transition-normal);
+}
+
+/* Dark mode theme overrides */
+[data-theme="dark"] .random-pick {
+  --hex-border-color: rgba(255, 255, 255, 0.12);
+  --hex-bg-color: rgba(255, 255, 255, 0.04);
+  --hex-bg-hover: rgba(255, 255, 255, 0.08);
+  --glow-color: rgba(234, 179, 8, 0.15); /* Gold aura */
+  --rp-accent: #eab308; /* Vivid Gold */
+  --rp-accent-glow: rgba(234, 179, 8, 0.3);
+
+  /* Tree Canopy */
+  --canopy-branch: #1a130b;
+  --canopy-leaves-dense: #121c0b;
+  --canopy-leaf: #233618;
+  --canopy-vine: #2a1f15;
+  --ray-color: rgba(147, 197, 253, 0.04);
+
+  /* Background Beehive Colors (Deeper, glowing gold) */
+  --hive-yellow-edge: rgba(234, 179, 8, 0.22);
+  --hive-yellow-mid: rgba(253, 224, 71, 0.6);
+  --hive-orange-edge: rgba(202, 138, 4, 0.22);
+  --hive-orange-mid: rgba(234, 179, 8, 0.6);
+
+  background-image: 
+    radial-gradient(circle at 50% 50%, transparent 20%, var(--clr-bg-alt) 85%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0 L60 17 L60 52 L30 69 L0 52 L0 17 Z M30 104 L60 87 L60 52 L30 69 L0 52 L0 87 Z' fill='none' stroke='%23ffffff' stroke-opacity='0.04' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* Tablet Scaling overrides */
+@media (max-width: 768px) {
+  .random-pick {
+    --hex-w: 72px;
+    --hex-h: 83px;
+    --hex-margin: 4px;
+    --hex-stagger: 44px;
+    --hex-pull: -21px;
+    --hex-grid-max-w: 560px;
+  }
+}
+
+/* Mobile Scaling overrides */
+@media (max-width: 480px) {
+  .random-pick {
+    --hex-w: 58px;
+    --hex-h: 67px;
+    --hex-margin: 3px;
+    --hex-stagger: 35px;
+    --hex-pull: -17px;
+    --hex-grid-max-w: 420px;
+    padding: 20px 16px;
+  }
+}
+
+/* ===== Ambient Background Glow ===== */
+.rp-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+  animation: glowPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-52%, -48%) scale(1.1);
+  }
+}
+
+/* ===== Asymmetric Container ===== */
+.rp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .rp-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+  }
+}
+
+/* ===== Left Header Section ===== */
+.rp-header-section {
+  flex: 0 0 auto;
+  max-width: 420px;
+  text-align: center;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .rp-header-section {
+    text-align: left;
+  }
+}
+
+/* Premium Badge */
+.rp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(245, 158, 11, 0.08); /* Amber subtle */
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 100px;
+  margin-bottom: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--rp-accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: badgePulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes badgePulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(245, 158, 11, 0);
+  }
+  100% {
+    box-shadow: 0 0 8px 2px rgba(245, 158, 11, 0.1);
+  }
+}
+
+.rp-badge__icon {
+  font-size: 10px;
+}
+
+.rp-header {
+  margin-bottom: 32px;
+}
+
+.rp-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--clr-text);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.rp-title__dot {
+  color: var(--rp-accent);
+  font-weight: 800;
+}
+
+.rp-subtitle {
+  font-size: 1.125rem;
+  color: var(--clr-text-muted);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ===== Shuffle Button ===== */
+.rp-actions {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .rp-actions {
+    justify-content: flex-start;
+  }
+}
+
+.rp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 36px;
+  background: var(--clr-primary);
+  color: var(--clr-text-inverse);
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.rp-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  background: var(--clr-primary-light);
+}
+
+[data-theme="dark"] .rp-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="dark"] .rp-btn:hover {
+  background: var(--rp-accent);
+  color: #000000;
+  border-color: var(--rp-accent);
+  box-shadow: 0 10px 25px -5px var(--rp-accent-glow);
+}
+
+.rp-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.rp-btn--shuffling {
+  pointer-events: none;
+  background: var(--clr-secondary);
+  color: var(--clr-text-inverse);
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .rp-btn--shuffling {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.rp-btn__icon {
+  font-size: 18px;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rp-btn:hover .rp-btn__icon {
+  transform: rotate(45deg);
+}
+
+.rp-btn--shuffling .rp-btn__icon {
+  animation: iconSpin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+@keyframes iconSpin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.8); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ===== Right Grid Section ===== */
+.hex-grid-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  perspective: 1000px;
+  width: 100%;
+}
+
+.hex-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  width: 100%;
+  max-width: var(--hex-grid-max-w);
+  padding-bottom: 20px;
+}
+
+/* Flex Row Staggering - Automatically offsets adjacent rows */
+.hex-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.hex-row:nth-child(n+2) {
+  margin-top: var(--hex-pull);
+}
+
+/* Hexagon Item - Double Clip-Path technique for borders */
+.hex-item {
+  width: var(--hex-w);
+  height: var(--hex-h);
+  margin: 0 var(--hex-margin); /* Horizontal margin only, vertical pull is managed by row */
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  user-select: none;
+  background: var(--hex-border-color);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  z-index: 1;
+  padding: 1.5px; /* Border thickness */
+}
+
+.hex-item-inner {
+  width: 100%;
+  height: 100%;
+  background: var(--hex-bg-color);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Empty Decorative Hexagon background cells */
+.hex-item--empty {
+  opacity: 0.15;
+  pointer-events: none;
+  background: var(--hex-border-color) !important;
+}
+
+[data-theme="dark"] .hex-item--empty {
+  opacity: 0.22;
+}
+
+.hex-item--empty .hex-item-inner {
+  background: transparent !important;
+  border: 1px solid var(--hex-border-color) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .hex-item--empty .hex-item-inner {
+  border: 1px dashed rgba(234, 179, 8, 0.12) !important; /* Blueprint golden dashed lines */
+}
+
+/* Hex Hover */
+.hex-item:hover {
+  z-index: 10;
+  transform: scale(1.15) translateY(-4px);
+  background: var(--rp-accent); /* Golden glowing border on hover */
+}
+
+.hex-item:hover .hex-item-inner {
+  background: var(--hex-bg-hover);
+}
+
+/* Hex Content */
+.hex-item__emoji {
+  font-size: 32px;
+  line-height: 1;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 4px;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hex-item__emoji {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hex-item__emoji {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+}
+
+.hex-item:hover .hex-item__emoji {
+  transform: scale(1.2) translateY(-2px);
+}
+
+.hex-item__name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--clr-text);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  .hex-item__name {
+    font-size: 8px;
+  }
+}
+
+.hex-item:hover .hex-item__name {
+  opacity: 1;
+  color: var(--clr-text);
+}
+
+/* ===== Shuffle Animations ===== */
+
+.hex-item--wave {
+  animation: hcWave 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hcWave {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.9); background: var(--rp-accent); }
+  100% { transform: scale(1); }
+}
+
+.hex-item--shuffle {
+  animation: hcShuffle 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hcShuffle {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.hex-item--glow {
+  z-index: 5;
+  transform: scale(1.1);
+  background: var(--rp-accent);
+}
+
+.hex-item--glow .hex-item-inner {
+  background: var(--rp-accent-glow);
+}
+
+.hex-item--glow .hex-item__name { 
+  color: var(--clr-text); 
+  opacity: 1;
+}
+
+.hex-item--chosen {
+  z-index: 20;
+  background: var(--rp-accent) !important;
+  animation: hcChosen 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes hcChosen {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.35); }
+  100% { transform: scale(1.25); }
+}
+
+.hex-item--chosen .hex-item-inner {
+  background: #09090b !important;
+}
+
+.hex-item--chosen .hex-item__emoji {
+  animation: chosenEmojiPulse 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes chosenEmojiPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3) rotate(8deg); }
+  100% { transform: scale(1.2) rotate(0deg); }
+}
+
+.hex-item--chosen .hex-item__name {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.hex-item--dimmed {
+  opacity: 0.15;
+  filter: grayscale(1) blur(1px);
+  pointer-events: none;
+}
+
+/* Hex Confetti Falling Keyframes */
+@keyframes confettiFall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(calc(var(--tx) * 0.15), calc(var(--ty) * 0.15)) scale(1) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.4) rotate(360deg);
+  }
+}
+
+/* ===== Result Overlay (Liquid Glass) ===== */
+.rp-result {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rp-result--visible {
+  opacity: 1 !important;
+  pointer-events: all;
+}
+
+.rp-result__glass-panel {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1;
+}
+
+.rp-result__card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 32px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4),
+              0 30px 60px -15px rgba(9, 9, 11, 0.25);
+  transform: translateY(40px) scale(0.95);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+}
+
+[data-theme="dark"] .rp-result__card {
+  background: rgba(20, 20, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05),
+              0 30px 60px -15px rgba(0, 0, 0, 0.5);
+}
+
+.rp-result--visible .rp-result__card {
+  transform: translateY(0) scale(1);
+}
+
+.rp-result__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.rp-result__close:hover {
+  background: var(--clr-surface-hover);
+  color: var(--clr-text);
+}
+
+.rp-result__emoji-wrapper {
+  width: 110px;
+  height: 110px;
+  background: linear-gradient(135deg, var(--clr-surface) 0%, var(--clr-surface-hover) 100%);
+  border: 1px solid var(--clr-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.rp-result__emoji {
+  font-size: 56px;
+  line-height: 1;
+  transform: scale(0);
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: 0.15s;
+}
+
+.rp-result--visible .rp-result__emoji {
+  transform: scale(1);
+}
+
+.rp-result__name {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--clr-text);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.rp-result__tagline {
+  font-size: 1rem;
+  color: var(--clr-text-muted);
+  margin-bottom: 32px;
+}
+
+.rp-result__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (min-width: 480px) {
+  .rp-result__actions {
+    flex-direction: row;
+  }
+}
+
+.rp-result__watch-btn,
+.rp-result__again-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.01em;
+}
+
+.rp-result__watch-btn {
+  background: var(--rp-accent);
+  color: #000000;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 8px 20px -8px var(--rp-accent-glow);
+}
+
+.rp-result__watch-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -8px rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="dark"] .rp-result__watch-btn:hover {
+  background: #ffffff;
+}
+
+.rp-result__again-btn {
+  background: transparent;
+  color: var(--clr-text);
+  border: 1px solid var(--clr-border);
+}
+
+.rp-result__again-btn:hover {
+  background: var(--clr-surface-hover);
+  color: var(--clr-text);
+  border-color: var(--clr-text-muted);
+}
+
+/* High-tech glow and scale pulse on the honeycomb grid during active drawing! */
+.hex-grid-wrapper--shuffling .hex-grid {
+  animation: gridPulseDraw 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes gridPulseDraw {
+  0% {
+    transform: scale(0.98);
+    filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.15));
+  }
+  100% {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.45));
+  }
+}
+
+/* ===== Tree Canopy & Composed Beehive Backdrop ===== */
+.rp-beehive-bg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 730px;
+  height: 803px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+[data-theme="dark"] .rp-beehive-bg {
+  opacity: 0.65;
+}
+
+.rp-beehive-bg svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* Prevents branches from getting cropped */
+}
+
+/* Sunlight / Moonlight Rays */
+.rp-sunrays {
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle at 100% 0%, var(--ray-color) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: rotate(-15deg);
+  filter: blur(25px);
+  overflow: hidden;
+}
+
+/* Beehive vector layer styling */
+.beehive-layer {
+  transition: fill var(--transition-normal), stroke var(--transition-normal);
+}
+
+/* Shuffling pulse animation on the background beehive body! */
+.hex-grid-wrapper--shuffling .rp-beehive-bg {
+  animation: bgHivePulse 1.2s ease-in-out infinite alternate;
+  opacity: 0.95 !important;
+}
+
+@keyframes bgHivePulse {
+  0% {
+    transform: translateX(-50%) scale(0.98);
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.2));
+  }
+  100% {
+    transform: translateX(-50%) scale(1.02);
+    filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.5));
+  }
+}
+
+/* Desktop Grid Alignment & Canopy Spacing */
+.hex-grid-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 175px; /* Leaves perfect room for branch and vine (240px * 0.73) */
+}
+
+/* Tablet Grid Alignment */
+@media (max-width: 768px) {
+  .rp-beehive-bg {
+    width: 612px;
+    height: 673px;
+  }
+  .hex-grid-wrapper {
+    padding-top: 146px;
+  }
+}
+
+/* Mobile Grid Alignment */
+@media (max-width: 480px) {
+  .rp-beehive-bg {
+    width: 493px;
+    height: 542px;
+  }
+  .hex-grid-wrapper {
+    padding-top: 118px;
+  }
+}
+
+/* ===== Little Bees Flight Animation ===== */
+.rp-bee {
+  position: absolute;
+  width: 16px;
+  height: 10px;
+  z-index: 5; /* Nest between background beehive shell and active honeycomb cells */
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.5s ease;
+}
+
+/* Dim bees slightly during result modal to avoid distraction */
+.rp-result--visible ~ .rp-container .rp-bee {
+  opacity: 0.2;
+}
+
+.bee-body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    #ffd700 0%, #ffd700 25%, 
+    #1c1917 25%, #1c1917 45%, 
+    #ffd700 45%, #ffd700 65%, 
+    #1c1917 65%, #1c1917 85%, 
+    #ffd700 85%, #ffd700 100%
+  );
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Stinger at the back of the body */
+.bee-body::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: 4px;
+  width: 0;
+  height: 0;
+  border-left: 3px solid #1c1917;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.bee-wings {
+  position: absolute;
+  top: -6px;
+  left: 2px;
+  width: 12px;
+  height: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bee-wings::before,
+.bee-wings::after {
+  content: '';
+  width: 4px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  transform-origin: bottom center;
+  animation: wingFlutter 0.08s linear infinite;
+  box-shadow: 0 0 1px rgba(255,255,255,0.8);
+}
+
+.bee-wings::after {
+  animation-delay: 0.04s;
+}
+
+@keyframes wingFlutter {
+  0%, 100% { transform: rotate(15deg) scaleY(1); }
+  50% { transform: rotate(-15deg) scaleY(0.4); }
+}
+
+/* Individual Flight Paths using percentages for auto-scaling responsiveness */
+.bee-1 {
+  animation: flightPath1 8s ease-in-out infinite;
+}
+
+.bee-2 {
+  animation: flightPath2 10s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.bee-3 {
+  animation: flightPath3 12s ease-in-out infinite;
+  animation-delay: 4.5s;
+}
+
+@keyframes flightPath1 {
+  0% {
+    top: 30%;
+    left: 15%;
+    transform: scale(1) rotateY(0deg) rotate(5deg);
+  }
+  25% {
+    top: 22%;
+    left: 28%;
+    transform: scale(1.1) rotateY(0deg) rotate(-10deg);
+  }
+  50% {
+    top: 35%;
+    left: 35%;
+    transform: scale(1) rotateY(180deg) rotate(15deg);
+  }
+  75% {
+    top: 40%;
+    left: 20%;
+    transform: scale(0.9) rotateY(180deg) rotate(-5deg);
+  }
+  100% {
+    top: 30%;
+    left: 15%;
+    transform: scale(1) rotateY(0deg) rotate(5deg);
+  }
+}
+
+@keyframes flightPath2 {
+  0% {
+    top: 75%;
+    left: 85%;
+    transform: scale(0.9) rotateY(180deg) rotate(-5deg);
+  }
+  30% {
+    top: 65%;
+    left: 70%;
+    transform: scale(1) rotateY(180deg) rotate(10deg);
+  }
+  60% {
+    top: 78%;
+    left: 66%;
+    transform: scale(1.1) rotateY(0deg) rotate(-15deg);
+  }
+  85% {
+    top: 85%;
+    left: 78%;
+    transform: scale(1) rotateY(0deg) rotate(5deg);
+  }
+  100% {
+    top: 75%;
+    left: 85%;
+    transform: scale(0.9) rotateY(180deg) rotate(-5deg);
+  }
+}
+
+/* Bee 3 emerges from the center hive hole and loops back in */
+@keyframes flightPath3 {
+  0% {
+    top: 78%;
+    left: 50%;
+    transform: scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    top: 76%;
+    left: 48%;
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0.85;
+  }
+  25% {
+    top: 55%;
+    left: 35%;
+    transform: scale(1.1) rotateY(0deg) rotate(-20deg);
+  }
+  50% {
+    top: 60%;
+    left: 65%;
+    transform: scale(1) rotateY(180deg) rotate(15deg);
+  }
+  75% {
+    top: 85%;
+    left: 42%;
+    transform: scale(0.9) rotateY(180deg) rotate(-10deg);
+  }
+  95% {
+    top: 79%;
+    left: 49%;
+    transform: scale(0.5) rotate(10deg);
+    opacity: 0.85;
+  }
+  100% {
+    top: 78%;
+    left: 50%;
+    transform: scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+}

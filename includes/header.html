@@ -1,0 +1,88 @@
+<!-- ===== HEADER ===== -->
+<link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+<header class="header" id="header">
+  <div class="header__inner">
+    <!-- Hamburger (mobile) -->
+    <button class="header__hamburger" id="hamburger-btn" aria-label="Toggle navigation menu">
+      <span class="header__hamburger-line"></span>
+      <span class="header__hamburger-line"></span>
+      <span class="header__hamburger-line"></span>
+    </button>
+
+    <!-- Logo -->
+    <a href="home.html" class="header__logo" aria-label="AnimalVerse Home">
+      <div class="header__logo-icon-wrap">
+        <img class="header__logo-img" src="assets/images/logos/logo-header.png" alt="AnimalVerse" width="32" height="32">
+      </div>
+      <span class="header__brand-name">
+        <span class="header__brand-cro">Animal</span><span class="header__brand-key">Verse</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <nav class="header__nav" aria-label="Main navigation">
+      <a href="home.html" class="header__nav-link">Home</a>
+      <a href="gallery.html" class="header__nav-link">Gallery</a>
+      <a href="map.html" class="header__nav-link">Animal Map</a>
+      <a href="about.html" class="header__nav-link">About</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header__actions">
+      <!-- Favorites -->
+      <a class="header__action-btn" href="favorites.html" aria-label="My Favorites">
+        <svg class="header__action-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <!-- Theme Toggle -->
+      <button class="header__action-btn" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <svg class="theme-icon theme-icon--sun header__action-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="10" y1="1" x2="10" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="10" y1="17" x2="10" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="10" x2="3" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="17" y1="10" x2="19" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="3.5" y1="3.5" x2="4.93" y2="4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="15.07" y1="15.07" x2="16.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="3.5" y1="16.5" x2="4.93" y2="15.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="15.07" y1="4.93" x2="16.5" y2="3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <svg class="theme-icon theme-icon--moon header__action-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="display:none">
+          <path d="M15 10.5C15 14 12 17 8.5 17C5 17 3 14.5 3 11C3 7.5 5.5 5 9 5C6 6.5 5 9 5 11.5C5 14 7 15.5 9.5 15.5C11.5 15.5 13.5 14 15 10.5Z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <!-- User Profile with Dropdown -->
+      <div class="header__user-wrapper">
+        <button class="header__action-btn header__user-icon" id="user-dropdown-trigger" aria-label="User menu" aria-haspopup="true" aria-expanded="false">
+          <svg class="header__action-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M3 18C3 14.5 6 12 10 12C14 12 17 14.5 17 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="user-dropdown" id="user-dropdown" role="menu">
+          <a href="dashboard.html" class="user-dropdown__item" role="menuitem">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+          <div class="user-dropdown__divider" role="separator"></div>
+          <button class="user-dropdown__item user-dropdown__item--danger" role="menuitem" id="signout-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M8 17H4C3 17 2 16 2 15V5C2 4 3 3 4 3H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M14 14L18 10L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18 10H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

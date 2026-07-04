@@ -18,7 +18,7 @@
     switch (page) {
       case 'home.html':
         App.home.init();
-        if (App.home.initScrollTyping) App.home.initScrollTyping();
+        if (App.home.initScrollReveal) App.home.initScrollReveal();
         break;
       case 'gallery.html':
         if (App.gallery) App.gallery.init();

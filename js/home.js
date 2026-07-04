@@ -217,98 +217,36 @@ App.home = (function() {
   /* ============================================================
      Scroll-triggered Typing for all section dividers
      ============================================================ */
-  function initScrollTyping() {
-    var dividers = [
-      { sectionId: 'divider-kingdom', typingIds: ['typing-kingdom-lead', 'typing-kingdom'] },
-      { sectionId: 'divider-nearby', typingIds: 'typing-nearby' },
-      { sectionId: 'divider-categories', typingIds: 'typing-categories' }
-    ];
-
-    for (var d = 0; d < dividers.length; d++) {
-      setupTypingDivider(dividers[d].sectionId, dividers[d].typingIds);
-    }
-
-    function setupTypingDivider(sectionId, typingIds) {
-      var section = document.getElementById(sectionId);
-      if (!section) return;
-
-      if (typeof typingIds === 'string') typingIds = [typingIds];
-
-      var typingEls = [];
-      var texts = [];
-      for (var t = 0; t < typingIds.length; t++) {
-        var el = document.getElementById(typingIds[t]);
-        if (!el) return;
-        typingEls.push(el);
-        texts.push(el.getAttribute('data-text') || '');
-      }
-
-      var triggered = false;
-      var speeds = [55, 35];
-
-      function startTyping() {
-        triggered = true;
-        typeNext(0);
-      }
-
-      function typeNext(idx) {
-        if (idx >= typingEls.length) {
-          setupRevisitObserver(section);
-          return;
-        }
-
-        var el = typingEls[idx];
-        var txt = texts[idx];
-        var speed = speeds[idx] || 50;
-        el.textContent = '';
-        var pos = 0;
-
-        function typeChar() {
-          if (pos < txt.length) {
-            el.textContent += txt.charAt(pos);
-            pos++;
-            setTimeout(typeChar, speed);
-          } else {
-            setTimeout(function() { typeNext(idx + 1); }, 180);
-          }
-        }
-
-        setTimeout(typeChar, 150);
-      }
-
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting && !triggered) {
-              observer.disconnect();
-              startTyping();
-            }
-          });
-        }, { threshold: 0.4 });
-
-        observer.observe(section);
-      } else {
-        setTimeout(startTyping, 500);
-      }
-    }
-
-    function setupRevisitObserver(section) {
-      if (!('IntersectionObserver' in window)) return;
-      var ro = new IntersectionObserver(function(entries) {
+  /* ============================================================
+     Scroll-triggered Reveal Animations (Text and Sections)
+     ============================================================ */
+  function initScrollReveal() {
+    // 1. Observe Section Reveal & Text Reveal (Once-off trigger)
+    var revealTargets = document.querySelectorAll('.scroll-reveal, .reveal-section');
+    if ('IntersectionObserver' in window) {
+      var revealObserver = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            section.classList.remove('divider--revisit');
-            void section.offsetWidth;
-            section.classList.add('divider--revisit');
+            entry.target.classList.add('is-active');
+            revealObserver.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.5 });
-      ro.observe(section);
+      }, { threshold: 0.15 });
+
+      for (var i = 0; i < revealTargets.length; i++) {
+        revealObserver.observe(revealTargets[i]);
+      }
+    } else {
+      // Fallback
+      for (var j = 0; j < revealTargets.length; j++) {
+        revealTargets[j].classList.add('is-active');
+      }
     }
+
   }
 
   return {
     init: init,
-    initScrollTyping: initScrollTyping
+    initScrollReveal: initScrollReveal
   };
 })();

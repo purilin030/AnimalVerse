@@ -8,6 +8,12 @@ App.gallery = (function() {
   var currentTag = null;
   var currentSort = 'newest';
 
+  // Infinite Scroll Pagination Variables
+  var allFilteredResults = [];
+  var currentPage = 1;
+  var videosPerPage = 20;
+  var isLoadingMore = false;
+
   var resizeTimeout;
 
   function init() {
@@ -32,10 +38,13 @@ App.gallery = (function() {
       sortSelect.dispatchEvent(new Event('change-sync'));
     }
 
-    // Bind events
+    // Bind filters and sorting events
     bindFilters();
 
-    // Load and render
+    // Bind scroll listener for lazy infinite scroll loading
+    window.addEventListener('scroll', handleScroll);
+
+    // Load data and run initial render
     loadAndRender();
   }
 
@@ -104,20 +113,61 @@ App.gallery = (function() {
 
   function loadAndRender() {
     App.data.loadVideos().then(function() {
-      var results = App.data.filterVideos({
+      allFilteredResults = App.data.filterVideos({
         category: currentCategory,
         tag: currentTag,
         sort: currentSort
       });
 
-      // Update count
+      // Hide loading spinner if visible
+      var loader = document.getElementById('gallery-loading');
+      if (loader) loader.classList.remove('gallery-loading--active');
+
+      // Reset page counter
+      currentPage = 1;
+
+      // Update count badge label
       var countEl = document.getElementById('results-count');
       if (countEl) {
-        countEl.textContent = results.length + ' video' + (results.length !== 1 ? 's' : '');
+        countEl.textContent = App.utils.pluralize(allFilteredResults.length, 'video');
       }
 
-      App.ui.renderVideoGrid('gallery-grid', results);
+      // Initial page slice render
+      var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
+      App.ui.renderVideoGrid('gallery-grid', visibleResults);
     });
+  }
+
+  /**
+   * Scroll listener to dynamically load and append next page content with spinner delay
+   */
+  function handleScroll() {
+    if (isLoadingMore) return;
+
+    // Check if user scrolled near bottom of page (within 400px of bottom boundary)
+    if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400) {
+      if (currentPage * videosPerPage < allFilteredResults.length) {
+        isLoadingMore = true;
+        
+        // Show loading spinner
+        var loader = document.getElementById('gallery-loading');
+        if (loader) loader.classList.add('gallery-loading--active');
+        
+        // Simulated loading timeout for smooth UX transition
+        setTimeout(function() {
+          currentPage++;
+          
+          // Render slice including next page items
+          var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
+          App.ui.renderVideoGrid('gallery-grid', visibleResults);
+
+          // Hide loading spinner
+          if (loader) loader.classList.remove('gallery-loading--active');
+
+          isLoadingMore = false;
+        }, 1200); // 1200ms artificial loading time to make the animation more noticeable
+      }
+    }
   }
 
   return {

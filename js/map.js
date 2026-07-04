@@ -135,25 +135,15 @@ App.map = (function() {
 
       var marker = L.marker([video.location.lat, video.location.lng], { icon: icon });
 
-      // Premium Popup Layout
-      var popupContent =
-        '<div class="map-popup">' +
-        '  <div class="map-popup__img-container">' +
-        '    <img class="map-popup__thumb" src="' + (video.thumbnail || 'assets/images/thumbnails/placeholder.jpg') + '" alt="' + video.title + '" onerror="this.src=\'assets/images/thumbnails/placeholder.jpg\'">' +
-        '  </div>' +
-        '  <div class="map-popup__body">' +
-        '    <span class="map-popup__category-tag ' + video.category + '">' + catName + '</span>' +
-        '    <h4 class="map-popup__title">' + App.ui.escapeHtml(video.title) + '</h4>' +
-        '    <p class="map-popup__location">' +
-        '      <svg class="map-popup__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>' +
-        '      <span>' + App.ui.escapeHtml(video.location.name) + '</span>' +
-        '    </p>' +
-        '    <a class="map-popup__watch" href="playback.html?id=' + video.id + '">' +
-        '      <span>Watch Video</span>' +
-        '      <svg class="map-popup__btn-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 23 21 12 6 1 6 23"/></svg>' +
-        '    </a>' +
-        '  </div>' +
-        '</div>';
+      var popupContent = buildPopupContent({
+        imgSrc: video.thumbnail || 'assets/images/thumbnails/placeholder.jpg',
+        title: video.title,
+        tagClass: video.category,
+        tagText: catName,
+        locationName: video.location.name,
+        linkHref: 'playback.html?id=' + video.id,
+        linkLabel: 'Watch Video'
+      });
 
       marker.bindPopup(popupContent, { 
         maxWidth: 280, 
@@ -345,26 +335,20 @@ App.map = (function() {
             var cat = App.data.getCategoryById(category);
             var catName = cat ? cat.name : category;
 
-            // Custom Popup Layout for Observation
-            var popupContent =
-              '<div class="map-popup">' +
-              '  <div class="map-popup__img-container">' +
-              '    <img class="map-popup__thumb" src="' + thumb + '" alt="' + commonName + '" onerror="this.src=\'assets/images/thumbnails/placeholder.jpg\'">' +
-              '  </div>' +
-              '  <div class="map-popup__body">' +
-              '    <span class="map-popup__category-tag external">iNaturalist · ' + catName + '</span>' +
-              '    <h4 class="map-popup__title">' + App.ui.escapeHtml(commonName) + '</h4>' +
-              '    <span style="font-size:11px; font-style:italic; color:var(--clr-text-muted); display:block; margin:-2px 0 6px 0;">' + App.ui.escapeHtml(scientificName) + '</span>' +
-              '    <p class="map-popup__location">' +
-              '      <svg class="map-popup__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>' +
-              '      <span>' + App.ui.escapeHtml(place) + '</span>' +
-              '    </p>' +
-              '    <a class="map-popup__watch external-link" href="' + obs.uri + '" target="_blank">' +
-              '      <span>View Observation</span>' +
-              '      <svg class="map-popup__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>' +
-              '    </a>' +
-              '  </div>' +
-              '</div>';
+            var popupContent = buildPopupContent({
+              imgSrc: thumb,
+              title: commonName,
+              subtitle: scientificName,
+              tagClass: 'external',
+              tagText: 'iNaturalist · ' + catName,
+              locationName: place,
+              linkHref: obs.uri,
+              linkLabel: 'View Observation',
+              linkClass: ' external-link',
+              linkTarget: ' target="_blank"',
+              linkSvgAttrs: 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"',
+              linkSvgPath: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>'
+            });
 
             marker.bindPopup(popupContent, {
               maxWidth: 280,
@@ -413,6 +397,37 @@ App.map = (function() {
     }
     externalMarkerObjects = [];
     loadedObservationIds.clear();
+  }
+
+  /**
+   * Build a Leaflet popup HTML string for map markers
+   * Shared by video markers and iNaturalist observation markers
+   */
+  function buildPopupContent(opts) {
+    var subtitleHtml = opts.subtitle
+      ? '<span style="font-size:11px; font-style:italic; color:var(--clr-text-muted); display:block; margin:-2px 0 6px 0;">' + App.ui.escapeHtml(opts.subtitle) + '</span>'
+      : '';
+
+    return '<div class="map-popup">' +
+      '  <div class="map-popup__img-container">' +
+      '    <img class="map-popup__thumb" src="' + opts.imgSrc + '" alt="' + opts.title + '" onerror="this.src=\'assets/images/thumbnails/placeholder.jpg\'">' +
+      '  </div>' +
+      '  <div class="map-popup__body">' +
+      '    <span class="map-popup__category-tag ' + opts.tagClass + '">' + App.ui.escapeHtml(opts.tagText) + '</span>' +
+      '    <h4 class="map-popup__title">' + App.ui.escapeHtml(opts.title) + '</h4>' +
+      subtitleHtml +
+      '    <p class="map-popup__location">' +
+      '      <svg class="map-popup__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>' +
+      '      <span>' + App.ui.escapeHtml(opts.locationName) + '</span>' +
+      '    </p>' +
+      '    <a class="map-popup__watch' + (opts.linkClass || '') + '" href="' + opts.linkHref + '"' + (opts.linkTarget || '') + '>' +
+      '      <span>' + opts.linkLabel + '</span>' +
+      '      <svg class="map-popup__btn-icon" ' + (opts.linkSvgAttrs || 'viewBox="0 0 24 24" fill="currentColor"') + '>' +
+              (opts.linkSvgPath || '<polygon points="6 23 21 12 6 1 6 23"/>') +
+      '      </svg>' +
+      '    </a>' +
+      '  </div>' +
+      '</div>';
   }
 
   return {

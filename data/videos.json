@@ -1,10 +1,10 @@
-{
+﻿{
   "videos": [
     {
       "id": "video-axolotl-001",
       "title": "Axolotl in its Natural Habitat",
       "description": "Observe the majestic Axolotl documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "amphibians",
       "tags": [
         "wild",
         "documentary"
@@ -28,7 +28,7 @@
       "id": "video-axolotl-002",
       "title": "Fascinating Behavior of Axolotl",
       "description": "Observe the majestic Axolotl documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "amphibians",
       "tags": [
         "wild",
         "documentary"
@@ -100,7 +100,7 @@
       "id": "video-caecilian-001",
       "title": "Caecilian in its Natural Habitat",
       "description": "Observe the majestic Caecilian documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "amphibians",
       "tags": [
         "wild",
         "documentary"
@@ -124,7 +124,7 @@
       "id": "video-caecilian-002",
       "title": "Fascinating Behavior of Caecilian",
       "description": "Observe the majestic Caecilian documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "amphibians",
       "tags": [
         "wild",
         "documentary"
@@ -244,7 +244,7 @@
       "id": "video-hellbender-001",
       "title": "Hellbender in its Natural Habitat",
       "description": "Observe the majestic Hellbender documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "amphibians",
       "tags": [
         "wild",
         "documentary"
@@ -268,7 +268,7 @@
       "id": "video-hellbender-002",
       "title": "Fascinating Behavior of Hellbender",
       "description": "Observe the majestic Hellbender documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "amphibians",
       "tags": [
         "wild",
         "documentary"
@@ -370,7 +370,7 @@
         "documentary"
       ],
       "source": "self",
-      "videoUrl": "assets/images/library/Amphibians/red-eyed-tree-frog/videos/red-eyed-tree-frog-video-2.mp4",
+      "videoUrl": "red-eyed-tree-frog-video-1.mp4",
       "posterUrl": "assets/images/library/Amphibians/red-eyed-tree-frog/photos/red-eyed-tree-frog-photo-1.jpg",
       "thumbnail": "assets/images/library/Amphibians/red-eyed-tree-frog/photos/red-eyed-tree-frog-photo-1.jpg",
       "duration": "0:36",
@@ -573,7 +573,7 @@
         "name": "South Africa",
         "lat": -34.06354,
         "lng": 22.91616,
-        "region": "Antarctica"
+        "region": "Africa"
       }
     },
     {
@@ -597,7 +597,7 @@
         "name": "South Africa",
         "lat": -34.06354,
         "lng": 22.91616,
-        "region": "Antarctica"
+        "region": "Africa"
       }
     },
     {
@@ -669,7 +669,7 @@
         "name": "Israel",
         "lat": 32.042112,
         "lng": 35.369009,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -693,7 +693,7 @@
         "name": "Israel",
         "lat": 32.042112,
         "lng": 35.369009,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -765,7 +765,7 @@
         "name": "Israel",
         "lat": 32.700645,
         "lng": 34.939179,
-        "region": "Africa"
+        "region": "Asia"
       }
     },
     {
@@ -789,7 +789,7 @@
         "name": "Israel",
         "lat": 32.700645,
         "lng": 34.939179,
-        "region": "Africa"
+        "region": "Asia"
       }
     },
     {
@@ -861,7 +861,7 @@
         "name": "Honduras",
         "lat": 14.8647,
         "lng": -89.155531,
-        "region": "South America"
+        "region": "North America"
       }
     },
     {
@@ -885,14 +885,14 @@
         "name": "Honduras",
         "lat": 14.8647,
         "lng": -89.155531,
-        "region": "South America"
+        "region": "North America"
       }
     },
     {
       "id": "video-owl-001",
       "title": "Owl in its Natural Habitat",
       "description": "Observe the majestic Owl documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "birds",
       "tags": [
         "wild",
         "documentary"
@@ -916,7 +916,7 @@
       "id": "video-owl-002",
       "title": "Fascinating Behavior of Owl",
       "description": "Observe the majestic Owl documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "birds",
       "tags": [
         "wild",
         "documentary"
@@ -1005,7 +1005,7 @@
         "name": "Belgium",
         "lat": 50.92635,
         "lng": 5.12519,
-        "region": "Asia"
+        "region": "Europe"
       }
     },
     {
@@ -1029,7 +1029,7 @@
         "name": "Belgium",
         "lat": 50.92635,
         "lng": 5.12519,
-        "region": "Asia"
+        "region": "Europe"
       }
     },
     {
@@ -1468,7 +1468,7 @@
       "id": "video-butterfly-001",
       "title": "Butterfly in its Natural Habitat",
       "description": "Observe the majestic Butterfly documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "birds",
       "tags": [
         "wild",
         "documentary"
@@ -1492,7 +1492,7 @@
       "id": "video-butterfly-002",
       "title": "Fascinating Behavior of Butterfly",
       "description": "Observe the majestic Butterfly documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "birds",
       "tags": [
         "wild",
         "documentary"
@@ -1821,7 +1821,7 @@
         "name": "Israel",
         "lat": 32.205517,
         "lng": 35.345969,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -1845,7 +1845,7 @@
         "name": "Israel",
         "lat": 32.205517,
         "lng": 35.345969,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -2058,7 +2058,7 @@
       "featured": true,
       "views": 4909,
       "location": {
-        "name": "Türkiye",
+        "name": "T羹rkiye",
         "lat": 38.897481,
         "lng": 34.673838,
         "region": "Europe"
@@ -2082,7 +2082,7 @@
       "featured": true,
       "views": 4034,
       "location": {
-        "name": "Türkiye",
+        "name": "T羹rkiye",
         "lat": 38.897481,
         "lng": 34.673838,
         "region": "Europe"
@@ -2349,7 +2349,7 @@
         "name": "Israel",
         "lat": 32.672421,
         "lng": 35.460871,
-        "region": "Australia"
+        "region": "Asia"
       }
     },
     {
@@ -2373,7 +2373,7 @@
         "name": "Israel",
         "lat": 32.672421,
         "lng": 35.460871,
-        "region": "Australia"
+        "region": "Asia"
       }
     },
     {
@@ -2493,7 +2493,7 @@
         "name": "LSG 106 - Rostocker Heide und Wallbach Teilgebiet, Germany",
         "lat": 54.217072,
         "lng": 12.271729,
-        "region": "North America"
+        "region": "Europe"
       }
     },
     {
@@ -2517,7 +2517,7 @@
         "name": "LSG 106 - Rostocker Heide und Wallbach Teilgebiet, Germany",
         "lat": 54.217072,
         "lng": 12.271729,
-        "region": "North America"
+        "region": "Europe"
       }
     },
     {
@@ -2778,10 +2778,10 @@
       "featured": false,
       "views": 2951,
       "location": {
-        "name": "Türkiye",
+        "name": "T羹rkiye",
         "lat": 38.897481,
         "lng": 34.673838,
-        "region": "North America"
+        "region": "Europe"
       }
     },
     {
@@ -2802,10 +2802,10 @@
       "featured": false,
       "views": 3676,
       "location": {
-        "name": "Türkiye",
+        "name": "T羹rkiye",
         "lat": 38.897481,
         "lng": 34.673838,
-        "region": "North America"
+        "region": "Europe"
       }
     },
     {
@@ -3402,7 +3402,7 @@
       "featured": false,
       "views": 343,
       "location": {
-        "name": "Siljuås, Norway",
+        "name": "Silju疇s, Norway",
         "lat": 59.457983,
         "lng": 9.34819,
         "region": "Europe"
@@ -3426,7 +3426,7 @@
       "featured": false,
       "views": 2841,
       "location": {
-        "name": "Siljuås, Norway",
+        "name": "Silju疇s, Norway",
         "lat": 59.457983,
         "lng": 9.34819,
         "region": "Europe"
@@ -3645,7 +3645,7 @@
         "name": "Canada",
         "lat": 48.869183,
         "lng": -123.305816,
-        "region": "Antarctica"
+        "region": "North America"
       }
     },
     {
@@ -3669,7 +3669,7 @@
         "name": "Canada",
         "lat": 48.869183,
         "lng": -123.305816,
-        "region": "Antarctica"
+        "region": "North America"
       }
     },
     {
@@ -3786,7 +3786,7 @@
       "featured": false,
       "views": 1118,
       "location": {
-        "name": "At 5:37 am I saw a large platypus travelling up Rocky Creek (I originally thought this was South Maroochy River but it is actually Rocky Creek that leads to Wappa Dam. There was a possible smaller Platypus feeding but cannot be sure. Poor Photo, Australia",
+        "name": "Australia",
         "lat": -26.579612,
         "lng": 152.921253,
         "region": "Australia"
@@ -3810,7 +3810,7 @@
       "featured": false,
       "views": 1994,
       "location": {
-        "name": "At 5:37 am I saw a large platypus travelling up Rocky Creek (I originally thought this was South Maroochy River but it is actually Rocky Creek that leads to Wappa Dam. There was a possible smaller Platypus feeding but cannot be sure. Poor Photo, Australia",
+        "name": "Australia",
         "lat": -26.579612,
         "lng": 152.921253,
         "region": "Australia"
@@ -4485,7 +4485,7 @@
         "name": "Mexico",
         "lat": 19.943728,
         "lng": -90.375745,
-        "region": "South America"
+        "region": "North America"
       }
     },
     {
@@ -4509,7 +4509,7 @@
         "name": "Mexico",
         "lat": 19.943728,
         "lng": -90.375745,
-        "region": "South America"
+        "region": "North America"
       }
     },
     {
@@ -4629,7 +4629,7 @@
         "name": "Israel",
         "lat": 33.23976,
         "lng": 35.685826,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -4653,7 +4653,7 @@
         "name": "Israel",
         "lat": 33.23976,
         "lng": 35.685826,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -4677,7 +4677,7 @@
         "name": "Israel",
         "lat": 32.672421,
         "lng": 35.460871,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -4701,7 +4701,7 @@
         "name": "Israel",
         "lat": 32.672421,
         "lng": 35.460871,
-        "region": "Europe"
+        "region": "Asia"
       }
     },
     {
@@ -4804,7 +4804,7 @@
       "id": "video-alligator-001",
       "title": "Alligator in its Natural Habitat",
       "description": "Observe the majestic Alligator documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -4890,10 +4890,10 @@
       "featured": false,
       "views": 2051,
       "location": {
-        "name": "Réunion",
+        "name": "R矇union",
         "lat": -21.053297,
         "lng": 55.306229,
-        "region": "Ocean"
+        "region": "Africa"
       }
     },
     {
@@ -4914,17 +4914,17 @@
       "featured": true,
       "views": 4888,
       "location": {
-        "name": "Réunion",
+        "name": "R矇union",
         "lat": -21.053297,
         "lng": 55.306229,
-        "region": "Ocean"
+        "region": "Africa"
       }
     },
     {
       "id": "video-coral-snake-001",
       "title": "Coral Snake in its Natural Habitat",
       "description": "Observe the majestic Coral Snake documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "aquatic",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -4948,7 +4948,7 @@
       "id": "video-coral-snake-002",
       "title": "Fascinating Behavior of Coral Snake",
       "description": "Observe the majestic Coral Snake documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "aquatic",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -5116,7 +5116,7 @@
       "id": "video-gila-monster-001",
       "title": "Gila Monster in its Natural Habitat",
       "description": "Observe the majestic Gila Monster documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -5146,7 +5146,7 @@
         "documentary"
       ],
       "source": "self",
-      "videoUrl": "assets/images/library/Reptiles/iguana/videos/iguana-video-2.mp4",
+      "videoUrl": "iguana-video-1.mp4",
       "posterUrl": "assets/images/library/Reptiles/iguana/photos/iguana-photo-1.jpg",
       "thumbnail": "assets/images/library/Reptiles/iguana/photos/iguana-photo-1.jpg",
       "duration": "0:32",
@@ -5164,7 +5164,7 @@
       "id": "video-king-cobra-001",
       "title": "King Cobra in its Natural Habitat",
       "description": "Observe the majestic King Cobra documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -5476,7 +5476,7 @@
       "id": "video-tuatara-001",
       "title": "Tuatara in its Natural Habitat",
       "description": "Observe the majestic Tuatara documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -5500,7 +5500,7 @@
       "id": "video-tuatara-002",
       "title": "Fascinating Behavior of Tuatara",
       "description": "Observe the majestic Tuatara documented in this high-definition footage. This clip showcases the unique behaviors and traits of this species in the wild.",
-      "category": "mammals",
+      "category": "reptiles",
       "tags": [
         "wild",
         "documentary"
@@ -5573,35 +5573,35 @@
     {
       "id": "mammals",
       "name": "Mammals",
-      "icon": "🦁",
+      "icon": "??",
       "description": "Warm-blooded animals with fur or hair",
       "color": "#C4A35A"
     },
     {
       "id": "birds",
       "name": "Birds",
-      "icon": "🐦",
+      "icon": "?",
       "description": "Feathered, winged vertebrates",
       "color": "#D4764A"
     },
     {
       "id": "reptiles",
       "name": "Reptiles",
-      "icon": "🦎",
+      "icon": "??",
       "description": "Scaly, cold-blooded vertebrates",
       "color": "#6B8E23"
     },
     {
       "id": "amphibians",
       "name": "Amphibians",
-      "icon": "🐸",
+      "icon": "?",
       "description": "Dual-life, moist-skinned creatures",
       "color": "#5B9BD5"
     },
     {
       "id": "aquatic",
       "name": "Aquatic",
-      "icon": "🐟",
+      "icon": "??",
       "description": "Life in water environments",
       "color": "#4A90D9"
     }

@@ -14,7 +14,7 @@ App.categories = (function() {
     var container = document.getElementById('categories-grid');
     if (!container || !categories) return;
 
-    container.innerHTML = '';
+    container.textContent = '';
     for (var i = 0; i < categories.length; i++) {
       var cat = categories[i];
 
@@ -24,11 +24,31 @@ App.categories = (function() {
       var card = document.createElement('a');
       card.href = 'gallery.html?category=' + encodeURIComponent(cat.id);
       card.className = 'category-card category-card--' + cat.id + ' category-card--large';
-      card.innerHTML =
-        '<span class="category-card__icon">' + (cat.icon || '🐾') + '</span>' +
-        '<h2 class="category-card__name">' + cat.name + '</h2>' +
-        '<p class="category-card__desc">' + (cat.description || '') + '</p>' +
-        '<span class="category-card__count">' + count + ' video' + (count !== 1 ? 's' : '') + '</span>';
+
+      // Icon
+      var icon = document.createElement('span');
+      icon.className = 'category-card__icon';
+      icon.textContent = cat.icon || '🐾';
+      card.appendChild(icon);
+
+      // Name
+      var name = document.createElement('h2');
+      name.className = 'category-card__name';
+      name.textContent = cat.name || '';
+      card.appendChild(name);
+
+      // Description
+      var desc = document.createElement('p');
+      desc.className = 'category-card__desc';
+      desc.textContent = cat.description || '';
+      card.appendChild(desc);
+
+      // Count
+      var countEl = document.createElement('span');
+      countEl.className = 'category-card__count';
+      countEl.textContent = App.utils.pluralize(count, 'video');
+      card.appendChild(countEl);
+
       container.appendChild(card);
     }
   }

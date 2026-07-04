@@ -1,6 +1,6 @@
 /* ============================================================
    Sidebar — Solid Clean Theme (White Bar)
-   ui-ux-pro-max optimized
+   Uses CSS custom properties for dark/light theme support
    ============================================================ */
 
 /* ===== Core Panel ===== */
@@ -10,9 +10,9 @@
   left: 0;
   width: var(--sidebar-width);
   height: 100vh;
-  background: #ffffff; /* Solid white bar */
-  border-right: 1px solid rgba(0, 0, 0, 0.08);
-  color: #1a1a1a;
+  background: var(--clr-sidebar);
+  border-right: 1px solid var(--clr-border);
+  color: var(--clr-sidebar-text);
   z-index: var(--z-sidebar);
   overflow-y: auto;
   overflow-x: hidden;
@@ -22,9 +22,6 @@
 }
 
 [data-theme="dark"] .sidebar {
-  background: #121212; /* Solid dark bar for dark mode */
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  color: #f3f4f6;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
 }
 
@@ -43,11 +40,9 @@
   width: 4px;
 }
 .sidebar::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--clr-sidebar-text-muted);
+  opacity: 0.3;
   border-radius: 4px;
-}
-[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
 }
 
 /* ===== Nav Wrapper ===== */
@@ -72,12 +67,9 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--clr-sidebar-text-muted);
   user-select: none;
   list-style: none;
-}
-[data-theme="dark"] .sidebar__group-label {
-  color: #9ca3af;
 }
 
 /* ===== Nav Items ===== */
@@ -91,7 +83,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 12px;
-  color: #4b5563;
+  color: var(--clr-sidebar-text-muted);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -102,30 +94,16 @@
   position: relative;
 }
 
-[data-theme="dark"] .sidebar__link {
-  color: #d1d5db;
-}
-
 .sidebar__link:hover {
-  color: #111827;
-  background: #f3f4f6;
-}
-
-[data-theme="dark"] .sidebar__link:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--clr-sidebar-text);
+  background: var(--clr-sidebar-hover);
 }
 
 /* ===== Active State ===== */
 .sidebar__item--active .sidebar__link {
-  color: #0f172a;
-  background: #f1f5f9;
+  color: var(--clr-sidebar-text);
+  background: var(--clr-sidebar-active);
   font-weight: 600;
-}
-
-[data-theme="dark"] .sidebar__item--active .sidebar__link {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
 }
 
 /* Active left indicator */
@@ -137,11 +115,12 @@
   transform: translateY(-50%);
   width: 4px;
   height: 20px;
-  background: #000000;
+  background: var(--clr-text);
   border-radius: 0 4px 4px 0;
 }
+
 [data-theme="dark"] .sidebar__item--active .sidebar__link::before {
-  background: #ffffff;
+  background: var(--clr-text-inverse);
 }
 
 /* ===== Icon Container ===== */
@@ -152,27 +131,16 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  color: #6b7280;
+  color: var(--clr-sidebar-text-muted);
   transition: color 150ms ease;
 }
 
-[data-theme="dark"] .sidebar__item-icon {
-  color: #9ca3af;
-}
-
 .sidebar__link:hover .sidebar__item-icon {
-  color: #111827;
-}
-
-[data-theme="dark"] .sidebar__link:hover .sidebar__item-icon {
-  color: #ffffff;
+  color: var(--clr-sidebar-text);
 }
 
 .sidebar__item--active .sidebar__item-icon {
-  color: #000000;
-}
-[data-theme="dark"] .sidebar__item--active .sidebar__item-icon {
-  color: #ffffff;
+  color: var(--clr-sidebar-text);
 }
 
 /* ===== Label ===== */
@@ -187,7 +155,7 @@
   margin-left: auto;
   flex-shrink: 0;
   transition: transform 200ms ease;
-  color: #9ca3af;
+  color: var(--clr-sidebar-text-muted);
 }
 
 .sidebar__item--expanded .sidebar__chevron {
@@ -213,25 +181,16 @@
   gap: 8px;
   padding: 8px 12px;
   border-radius: 6px;
-  color: #6b7280;
+  color: var(--clr-sidebar-text-muted);
   font-size: 13px;
   font-family: 'Inter', sans-serif;
   text-decoration: none;
   transition: color 150ms ease, background 150ms ease;
 }
 
-[data-theme="dark"] .sidebar__sub-link {
-  color: #9ca3af;
-}
-
 .sidebar__sub-link:hover {
-  color: #111827;
-  background: #f3f4f6;
-}
-
-[data-theme="dark"] .sidebar__sub-link:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--clr-sidebar-text);
+  background: var(--clr-sidebar-hover);
 }
 
 /* Species color dots */
@@ -242,32 +201,24 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
-.sidebar__sub-dot--mammals   { background: #F59E0B; }
-.sidebar__sub-dot--birds     { background: #3B82F6; }
-.sidebar__sub-dot--reptiles  { background: #10B981; }
-.sidebar__sub-dot--amphibians{ background: #8B5CF6; }
-.sidebar__sub-dot--aquatic   { background: #06B6D4; }
-.sidebar__sub-dot--themed    { background: #F43F5E; }
+.sidebar__sub-dot--mammals   { background: var(--clr-cat-mammals); }
+.sidebar__sub-dot--birds     { background: var(--clr-cat-birds); }
+.sidebar__sub-dot--reptiles  { background: var(--clr-cat-reptiles); }
+.sidebar__sub-dot--amphibians{ background: var(--clr-cat-amphibians); }
+.sidebar__sub-dot--aquatic   { background: var(--clr-cat-aquatic); }
+.sidebar__sub-dot--themed    { background: var(--clr-danger); }
 
 /* ===== Divider ===== */
 .sidebar__divider {
   height: 1px;
-  background: #e5e7eb;
+  background: var(--clr-divider);
   margin: 12px 12px;
-}
-
-[data-theme="dark"] .sidebar__divider {
-  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ===== Footer ===== */
 .sidebar__footer {
   padding: 16px;
-  border-top: 1px solid #e5e7eb;
-}
-
-[data-theme="dark"] .sidebar__footer {
-  border-top-color: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--clr-border);
 }
 
 /* +More Video button */
@@ -278,9 +229,9 @@
   gap: 8px;
   padding: 12px 16px;
   margin-bottom: 12px;
-  background: #000000;
+  background: var(--clr-text);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--clr-text-inverse);
   font-size: 14px;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
@@ -289,8 +240,8 @@
 }
 
 [data-theme="dark"] .sidebar__more-btn {
-  background: #ffffff;
-  color: #000000;
+  background: var(--clr-text-inverse);
+  color: var(--clr-text);
 }
 
 .sidebar__more-btn:hover {
@@ -301,7 +252,7 @@
 
 .sidebar__footer-text {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--clr-sidebar-text-muted);
   letter-spacing: 0.02em;
   display: block;
   text-align: center;
@@ -335,49 +286,44 @@
   transform: translateY(-50%);
   width: 6px;
   height: 64px;
-  background: #9ca3af;
+  background: var(--clr-sidebar-text-muted);
   border-radius: 0 6px 6px 0;
   transition: all 250ms cubic-bezier(0.32, 0, 0.15, 1);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] .sidebar-trigger::before {
-  background: #6b7280;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
 }
 
 .sidebar-trigger__chevron {
   position: relative;
   left: 2px;
-  color: #6b7280;
+  color: var(--clr-sidebar-text-muted);
   transition: all 250ms cubic-bezier(0.32, 0, 0.15, 1);
   opacity: 0.6;
-}
-
-[data-theme="dark"] .sidebar-trigger__chevron {
-  color: #9ca3af;
 }
 
 .sidebar-trigger:hover::before {
   height: 80px;
   width: 8px;
-  background: #000000;
+  background: var(--clr-text);
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="dark"] .sidebar-trigger:hover::before {
-  background: #ffffff;
+  background: var(--clr-text-inverse);
   box-shadow: 2px 0 12px rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-trigger:hover .sidebar-trigger__chevron {
-  color: #000000;
+  color: var(--clr-text);
   transform: translateX(6px);
   opacity: 1;
 }
 
 [data-theme="dark"] .sidebar-trigger:hover .sidebar-trigger__chevron {
-  color: #ffffff;
+  color: var(--clr-text-inverse);
 }
 
 .sidebar-trigger--sidebar-open {
@@ -396,7 +342,7 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--clr-overlay);
   z-index: calc(var(--z-sidebar) - 1);
   opacity: 0;
   transition: opacity 280ms ease;
@@ -417,15 +363,10 @@
   letter-spacing: 0.05em;
   padding: 2px 6px;
   border-radius: 4px;
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--clr-accent-subtle);
+  color: var(--clr-danger);
   margin-left: auto;
   flex-shrink: 0;
-}
-
-[data-theme="dark"] .sidebar__badge {
-  background: rgba(220, 38, 38, 0.15);
-  color: #ef4444;
 }
 
 /* ===== Mobile ===== */

@@ -5,54 +5,111 @@ App.ui = (function() {
   'use strict';
 
   /**
-   * Create a video card DOM element
+   * Create a video card DOM element (safe DOM methods, no innerHTML)
    */
   function createVideoCard(video) {
     if (!video) return null;
 
     var isFav = App.favorites.isFavorite(video.id);
-    // GBIF image as primary, local file as fallback
     var thumbnailSrc = video.gbifThumbnail || video.thumbnail || 'assets/images/thumbnails/placeholder.jpg';
     var localFallback = video.thumbnail || 'assets/images/thumbnails/placeholder.jpg';
     var categoryName = video.category || 'unknown';
 
-    // Procedural aspect ratio selection based on video ID hash
-    var hash = 0;
-    for (var i = 0; i < video.id.length; i++) {
-      hash = video.id.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    var r = Math.abs(hash) % 4;
-    var aspectClass = 'aspect-video'; // Default 16:9
-    if (r === 0) aspectClass = 'aspect-square';       // 1:1
-    else if (r === 1) aspectClass = 'aspect-portrait-tall';  // 3:4
-    else if (r === 2) aspectClass = 'aspect-portrait-short'; // 4:5
+    var aspect = App.utils.getVideoAspect(video.id);
+    var aspectClass = aspect.className;
 
-    // Extract animal slug for debugging
-    var debugAnimal = video.id.replace('video-', '').replace(/-\d+$/, '');
-
-    // Build card
+    // Card container
     var card = document.createElement('div');
     card.className = 'video-card';
     card.setAttribute('data-id', video.id);
 
-    card.innerHTML =
-      '<a href="playback.html?id=' + encodeURIComponent(video.id) + '" class="video-card__link">' +
-        '<div class="video-card__thumbnail-wrapper ' + aspectClass + '">' +
-          '<img class="video-card__thumbnail" src="' + thumbnailSrc + '" alt="' + escapeHtml(video.title) + '" loading="lazy" data-local="' + localFallback + '" onerror="App.ui.fallbackImg(this)">' +
-          '<span class="video-card__duration">' + (video.duration || '--:--') + '</span>' +
-          '<span class="video-card__category-tag video-card__category-tag--' + categoryName + '">' + categoryName + '</span>' +
-          '<span class="video-card__debug-tag" style="position: absolute; bottom: 12px; left: 12px; background: #FF4444; color: #FFF; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: var(--radius-sm); font-family: var(--ff-mono); text-transform: uppercase; z-index: 10; letter-spacing: 0.5px;">' + debugAnimal + '</span>' +
-        '</div>' +
-        '<div class="video-card__body">' +
-          '<h3 class="video-card__title">' + escapeHtml(video.title) + '</h3>' +
-          '<p class="video-card__views">' + (video.views || 0).toLocaleString() + ' views</p>' +
-        '</div>' +
-      '</a>' +
-      '<button class="video-card__favorite-btn' + (isFav ? ' video-card__favorite-btn--active' : '') + '" data-id="' + video.id + '" data-type="favorite" aria-label="' + (isFav ? 'Remove from' : 'Add to') + ' favorites">' +
-        '<svg width="16" height="16" viewBox="0 0 20 20" fill="' + (isFav ? '#FF4444' : 'none') + '" stroke="currentColor" stroke-width="1.5">' +
-          '<path d="M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z" stroke-linejoin="round"/>' +
-        '</svg>' +
-      '</button>';
+    // Link wrapping the thumbnail and body
+    var link = document.createElement('a');
+    link.href = 'playback.html?id=' + encodeURIComponent(video.id);
+    link.className = 'video-card__link';
+    card.appendChild(link);
+
+    // Thumbnail wrapper
+    var thumbWrap = document.createElement('div');
+    thumbWrap.className = 'video-card__thumbnail-wrapper ' + aspectClass;
+    link.appendChild(thumbWrap);
+
+    // Thumbnail image
+    var img = document.createElement('img');
+    img.className = 'video-card__thumbnail';
+    img.src = thumbnailSrc;
+    img.alt = video.title || 'Video thumbnail';
+    img.loading = 'lazy';
+    img.setAttribute('data-local', localFallback);
+    img.onerror = function() { App.ui.fallbackImg(this); };
+    thumbWrap.appendChild(img);
+
+    // Duration badge
+    var duration = document.createElement('span');
+    duration.className = 'video-card__duration';
+    duration.textContent = video.duration || '--:--';
+    thumbWrap.appendChild(duration);
+
+    // Category tag
+    var catTag = document.createElement('span');
+    catTag.className = 'video-card__category-tag video-card__category-tag--' + categoryName;
+    catTag.textContent = categoryName;
+    thumbWrap.appendChild(catTag);
+
+    // Extract animal slug name from video ID (e.g. video-polar-bear-001 -> polar-bear)
+    var animalSlug = '';
+    if (video.id && video.id.indexOf('video-') === 0) {
+      var parts = video.id.split('-');
+      if (parts.length >= 3) {
+        animalSlug = parts.slice(1, -1).join('-');
+      }
+    }
+    var animalLabelText = animalSlug ? animalSlug.replace(/-/g, ' ').toUpperCase() : '';
+    if (animalLabelText) {
+      var animalTag = document.createElement('span');
+      animalTag.className = 'video-card__animal-tag';
+      animalTag.textContent = animalLabelText;
+      thumbWrap.appendChild(animalTag);
+    }
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'video-card__body';
+    link.appendChild(body);
+
+    // Title
+    var title = document.createElement('h3');
+    title.className = 'video-card__title';
+    title.textContent = video.title || '';
+    body.appendChild(title);
+
+    // Views
+    var views = document.createElement('p');
+    views.className = 'video-card__views';
+    views.textContent = (video.views || 0).toLocaleString() + ' views';
+    body.appendChild(views);
+
+    // Favorite button
+    var favBtn = document.createElement('button');
+    favBtn.className = 'video-card__favorite-btn' + (isFav ? ' video-card__favorite-btn--active' : '');
+    favBtn.setAttribute('data-id', video.id);
+    favBtn.setAttribute('data-type', 'favorite');
+    favBtn.setAttribute('aria-label', (isFav ? 'Remove from' : 'Add to') + ' favorites');
+    card.appendChild(favBtn);
+
+    // Favorite heart SVG
+    var favSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    favSvg.setAttribute('width', '16');
+    favSvg.setAttribute('height', '16');
+    favSvg.setAttribute('viewBox', '0 0 20 20');
+    favSvg.setAttribute('fill', isFav ? '#FF4444' : 'none');
+    favSvg.setAttribute('stroke', 'currentColor');
+    favSvg.setAttribute('stroke-width', '1.5');
+    var favPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    favPath.setAttribute('d', 'M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z');
+    favPath.setAttribute('stroke-linejoin', 'round');
+    favSvg.appendChild(favPath);
+    favBtn.appendChild(favSvg);
 
     return card;
   }
@@ -134,7 +191,7 @@ App.ui = (function() {
     container.renderedVideos = videos;
 
     if (!videos || videos.length === 0) {
-      container.innerHTML = '<div class="empty-state"><p class="text-muted">No videos found.</p></div>';
+      renderEmptyState(container, { text: 'No videos found.' });
       return;
     }
 
@@ -166,32 +223,15 @@ App.ui = (function() {
       colHeights.push(0);
     }
 
-    // Aspect ratio estimated height weights
-    var ASPECT_HEIGHTS = {
-      'aspect-square': 1.0,
-      'aspect-portrait-tall': 1.33,
-      'aspect-portrait-short': 1.25,
-      'aspect-video': 0.56
-    };
-
     // Distribute cards to columns
     for (var i = 0; i < videos.length; i++) {
       var video = videos[i];
       var card = createVideoCard(video);
       if (!card) continue;
 
-      // Estimate card height
-      var hash = 0;
-      for (var charIdx = 0; charIdx < video.id.length; charIdx++) {
-        hash = video.id.charCodeAt(charIdx) + ((hash << 5) - hash);
-      }
-      var r = Math.abs(hash) % 4;
-      var aspectClass = 'aspect-video';
-      if (r === 0) aspectClass = 'aspect-square';
-      else if (r === 1) aspectClass = 'aspect-portrait-tall';
-      else if (r === 2) aspectClass = 'aspect-portrait-short';
-
-      var cardHeight = ASPECT_HEIGHTS[aspectClass] + 0.3;
+      // Estimate card height from aspect ratio
+      var aspect = App.utils.getVideoAspect(video.id);
+      var cardHeight = aspect.heightWeight + 0.3;
 
       // Find shortest column
       var minColIndex = 0;
@@ -211,7 +251,7 @@ App.ui = (function() {
   }
 
   /**
-   * Create an animal discovery card (for filling nearby section)
+   * Create an animal discovery card (safe DOM methods, no innerHTML)
    */
   function createAnimalCard(animalName, imgUrl) {
     var card = document.createElement('div');
@@ -219,11 +259,24 @@ App.ui = (function() {
 
     var src = imgUrl || 'assets/images/thumbnails/placeholder.jpg';
 
-    card.innerHTML =
-      '<div class="animal-card__img">' +
-        '<img src="' + src + '" alt="' + escapeHtml(animalName) + '" loading="lazy" onerror="this.src=\'assets/images/thumbnails/cantfindanimals.jpg\'">' +
-      '</div>' +
-      '<h4 class="animal-card__name">' + escapeHtml(animalName) + '</h4>';
+    // Image wrapper
+    var imgWrap = document.createElement('div');
+    imgWrap.className = 'animal-card__img';
+    card.appendChild(imgWrap);
+
+    // Image
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = animalName || 'Animal';
+    img.loading = 'lazy';
+    img.onerror = function() { this.src = 'assets/images/thumbnails/cantfindanimals.jpg'; };
+    imgWrap.appendChild(img);
+
+    // Name
+    var name = document.createElement('h4');
+    name.className = 'animal-card__name';
+    name.textContent = animalName || '';
+    card.appendChild(name);
 
     return card;
   }
@@ -348,12 +401,59 @@ App.ui = (function() {
     }, 200);
   });
 
+  /**
+   * Render a consistent empty state inside a container
+   * @param {HTMLElement} container - The container to fill
+   * @param {object} opts - { title, text, icon, actionLabel, actionHref }
+   */
+  function renderEmptyState(container, opts) {
+    if (!container) return;
+    container.textContent = '';
+    opts = opts || {};
+
+    var state = document.createElement('div');
+    state.className = 'empty-state';
+    container.appendChild(state);
+
+    if (opts.icon) {
+      var icon = document.createElement('div');
+      icon.className = 'empty-state__icon';
+      icon.textContent = opts.icon;
+      state.appendChild(icon);
+    }
+
+    if (opts.title) {
+      var title = document.createElement('h3');
+      title.className = 'empty-state__title';
+      title.textContent = opts.title;
+      state.appendChild(title);
+    }
+
+    if (opts.text) {
+      var text = document.createElement('p');
+      text.className = 'empty-state__text';
+      text.textContent = opts.text;
+      state.appendChild(text);
+    }
+
+    if (opts.actionLabel && opts.actionHref) {
+      var btn = document.createElement('a');
+      btn.className = 'btn btn--primary';
+      btn.href = opts.actionHref;
+      btn.textContent = opts.actionLabel;
+      state.appendChild(btn);
+    }
+
+    return state;
+  }
+
   return {
     createVideoCard: createVideoCard,
     escapeHtml: escapeHtml,
     showToast: showToast,
     attachFavoriteListeners: attachFavoriteListeners,
     renderVideoGrid: renderVideoGrid,
+    renderEmptyState: renderEmptyState,
     fallbackImg: fallbackImg,
     createAnimalCard: createAnimalCard,
     initDropdowns: initDropdowns

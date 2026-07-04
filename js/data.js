@@ -165,14 +165,8 @@ App.data = (function() {
             unique.push(merged[j]);
           }
         }
-        // Simple shuffle
-        for (var k = unique.length - 1; k > 0; k--) {
-          var r = Math.floor(Math.random() * (k + 1));
-          var tmp = unique[k];
-          unique[k] = unique[r];
-          unique[r] = tmp;
-        }
-        return unique.slice(0, 30);
+        // Shuffle and limit
+        return App.utils.shuffleArray(unique).slice(0, 30);
       })
       .catch(function() {
         // Fallback to hardcoded list on error

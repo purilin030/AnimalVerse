@@ -20,15 +20,15 @@
         <p class="text-muted">Have questions or suggestions? We'd love to hear from you!</p>
         <div class="contact-details">
           <div class="contact-detail">
-            <span class="contact-detail__icon">??</span>
+            <span class="contact-detail__icon" aria-hidden="true">📍</span>
             <div><strong>Location</strong><p class="text-muted">UTAR, Kampar, Perak, Malaysia</p></div>
           </div>
           <div class="contact-detail">
-            <span class="contact-detail__icon">???</span>
+            <span class="contact-detail__icon" aria-hidden="true">📧</span>
             <div><strong>Email</strong><p class="text-muted">jiunhong@example.com</p></div>
           </div>
           <div class="contact-detail">
-            <span class="contact-detail__icon">??</span>
+            <span class="contact-detail__icon" aria-hidden="true">🎓</span>
             <div><strong>Program</strong><p class="text-muted">BIS (Hons) Information Systems Engineering</p></div>
           </div>
         </div>
@@ -36,22 +36,22 @@
 
       <div class="contact-form-wrapper">
         <h2>Send a Message</h2>
-        <form class="contact-form" id="contact-form">
+        <form class="contact-form" id="contact-form" action="#" method="POST" novalidate>
           <div class="form-group">
             <label class="form-label" for="contact-name">Name</label>
-            <input class="form-input" type="text" id="contact-name" placeholder="Your name" required>
+            <input class="form-input" type="text" id="contact-name" placeholder="Your name" required maxlength="100">
           </div>
           <div class="form-group">
             <label class="form-label" for="contact-email">Email</label>
-            <input class="form-input" type="email" id="contact-email" placeholder="your@email.com" required>
+            <input class="form-input" type="email" id="contact-email" placeholder="your@email.com" required maxlength="254">
           </div>
           <div class="form-group">
             <label class="form-label" for="contact-subject">Subject</label>
-            <input class="form-input" type="text" id="contact-subject" placeholder="Subject">
+            <input class="form-input" type="text" id="contact-subject" placeholder="Subject" maxlength="200">
           </div>
           <div class="form-group">
             <label class="form-label" for="contact-message">Message</label>
-            <textarea class="form-textarea" id="contact-message" placeholder="Your message..." required></textarea>
+            <textarea class="form-textarea" id="contact-message" placeholder="Your message..." required maxlength="5000"></textarea>
           </div>
           <button class="btn btn--primary btn--lg" type="submit">Send Message</button>
         </form>
@@ -66,17 +66,17 @@
   <!-- Chatbot + Toast injected via data-include -->
   <div data-include="chatbot"></div>
 
-  <script src="js/include.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/favorites.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/contact.js"></script>
-  <script src="js/chatbot.js"></script>
-  <script src="js/app.js"></script>
+  <script defer src="js/include.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/router.js"></script>
+  <script defer src="js/theme.js"></script>
+  <script defer src="js/favorites.js"></script>
+  <script defer src="js/ui.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/contact.js"></script>
+  <script defer src="js/chatbot.js"></script>
+  <script defer src="js/app.js"></script>
 </body>
 </html>

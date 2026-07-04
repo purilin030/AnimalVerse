@@ -21,17 +21,17 @@
         <p class="map-page__subtitle">Explore animal origins around the world</p>
       </div>
       <div class="map-wrapper">
-        <div id="animal-map"></div>
+        <div id="animal-map" aria-label="Interactive world map showing animal observation locations"></div>
         <div class="map-legend" id="map-legend">
           <div class="map-legend__header">
             <span class="map-legend__title">Legend</span>
             <div class="map-legend__spinner" id="map-loader" title="Loading wildlife observations..."></div>
           </div>
-          <span class="map-legend__item" data-category="mammals"><span class="map-legend__dot" style="background:var(--clr-cat-mammals)"></span>Mammals</span>
-          <span class="map-legend__item" data-category="birds"><span class="map-legend__dot" style="background:var(--clr-cat-birds)"></span>Birds</span>
-          <span class="map-legend__item" data-category="reptiles"><span class="map-legend__dot" style="background:var(--clr-cat-reptiles)"></span>Reptiles</span>
-          <span class="map-legend__item" data-category="amphibians"><span class="map-legend__dot" style="background:var(--clr-cat-amphibians)"></span>Amphibians</span>
-          <span class="map-legend__item" data-category="aquatic"><span class="map-legend__dot" style="background:var(--clr-cat-aquatic)"></span>Aquatic</span>
+          <button class="map-legend__item" data-category="mammals" type="button"><span class="map-legend__dot" style="background:var(--clr-cat-mammals)"></span>Mammals</button>
+          <button class="map-legend__item" data-category="birds" type="button"><span class="map-legend__dot" style="background:var(--clr-cat-birds)"></span>Birds</button>
+          <button class="map-legend__item" data-category="reptiles" type="button"><span class="map-legend__dot" style="background:var(--clr-cat-reptiles)"></span>Reptiles</button>
+          <button class="map-legend__item" data-category="amphibians" type="button"><span class="map-legend__dot" style="background:var(--clr-cat-amphibians)"></span>Amphibians</button>
+          <button class="map-legend__item" data-category="aquatic" type="button"><span class="map-legend__dot" style="background:var(--clr-cat-aquatic)"></span>Aquatic</button>
           <div class="map-legend__divider"></div>
           <div class="map-legend__toggle-wrapper">
             <div class="map-legend__toggle-info">
@@ -62,18 +62,18 @@
   <!-- Chatbot + Toast injected via data-include -->
   <div data-include="chatbot"></div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/include.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/favorites.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/chatbot.js"></script>
-  <script src="js/app.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="js/include.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/router.js"></script>
+  <script defer src="js/theme.js"></script>
+  <script defer src="js/favorites.js"></script>
+  <script defer src="js/ui.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/map.js"></script>
+  <script defer src="js/chatbot.js"></script>
+  <script defer src="js/app.js"></script>
 </body>
 </html>

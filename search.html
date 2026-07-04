@@ -15,9 +15,9 @@
   <div data-include="sidebar"></div>
   <main class="main" id="main-content">
     <div class="search-page">
-      <h2 class="search-page__heading" id="search-query-display">Search Results</h2>
-      <p class="search-page__count" id="search-results-count"></p>
-      <div class="video-grid" id="search-results"><!-- Populated by JS --></div>
+      <h1 class="search-page__heading" id="search-query-display">Search Results</h1>
+      <p class="search-page__count" id="search-results-count" aria-live="polite"></p>
+      <div class="video-grid" id="search-results" aria-live="polite"><!-- Populated by JS --></div>
     </div>
   </main>
 
@@ -28,17 +28,17 @@
   <!-- Chatbot + Toast injected via data-include -->
   <div data-include="chatbot"></div>
 
-  <script src="js/include.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/favorites.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/search.js"></script>
-  <script src="js/chatbot.js"></script>
-  <script src="js/app.js"></script>
+  <script defer src="js/include.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/router.js"></script>
+  <script defer src="js/theme.js"></script>
+  <script defer src="js/favorites.js"></script>
+  <script defer src="js/ui.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/search.js"></script>
+  <script defer src="js/chatbot.js"></script>
+  <script defer src="js/app.js"></script>
 </body>
 </html>

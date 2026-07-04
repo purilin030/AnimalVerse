@@ -102,7 +102,7 @@
   color: var(--clr-primary);
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-full);
-  opacity: 0; /* Hidden by default, shown on hover */
+  opacity: 0.4; /* Always visible but subtle, full on hover */
   transform: scale(0.9);
   transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
   z-index: 15;
@@ -199,4 +199,23 @@
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+/* Animal tag - zero conflict, bottom-left of rounded thumbnail wrapper */
+.video-card__animal-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(239, 68, 68, 0.95); /* Eye-catching red background */
+  color: #FFF;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--ff-display), sans-serif;
+  padding: 3px 6px;
+  border-radius: var(--radius-sm); /* Increased roundness to 8px to align with card aesthetics */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }

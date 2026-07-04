@@ -55,17 +55,26 @@ App.dashboard = (function() {
     });
   }
 
-  /* ===== SVG Icon Helper ===== */
-  function getStatIcon(type) {
-    var icons = {
-      video: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 7L14 10L9 13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-      eye: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4C5 4 2 10 2 10C2 10 5 16 10 16C15 16 18 10 18 10C18 10 15 4 10 4Z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/></svg>',
-      heart: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-      grid: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>',
-      paw: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="14" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="14" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 14C12 14 14 12 14 10C14 8 12 6 10 6" stroke="currentColor" stroke-width="1.5"/></svg>',
-      calendar: '<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7H18" stroke="currentColor" stroke-width="1.5"/><path d="M6 1V4" stroke="currentColor" stroke-width="1.5"/><path d="M14 1V4" stroke="currentColor" stroke-width="1.5"/></svg>'
+  /* ===== SVG Icon Helper (safe DOM methods) ===== */
+  function createSvgIcon(type) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '18');
+    svg.setAttribute('height', '18');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('fill', 'none');
+
+    var pathAttrs = {
+      video: '<rect x="2" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 7L14 10L9 13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+      eye: '<path d="M10 4C5 4 2 10 2 10C2 10 5 16 10 16C15 16 18 10 18 10C18 10 15 4 10 4Z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>',
+      heart: '<path d="M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+      grid: '<rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>',
+      paw: '<circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="14" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="14" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 14C12 14 14 12 14 10C14 8 12 6 10 6" stroke="currentColor" stroke-width="1.5"/>',
+      calendar: '<rect x="2" y="3" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7H18" stroke="currentColor" stroke-width="1.5"/><path d="M6 1V4" stroke="currentColor" stroke-width="1.5"/><path d="M14 1V4" stroke="currentColor" stroke-width="1.5"/>'
     };
-    return icons[type] || icons.grid;
+
+    var content = pathAttrs[type] || pathAttrs.grid;
+    svg.innerHTML = content; // Safe: static SVG paths only
+    return svg;
   }
 
   /* ===== Render Stats ===== */
@@ -133,13 +142,33 @@ App.dashboard = (function() {
   function createStatCard(stat) {
     var card = document.createElement('div');
     card.className = 'stat-card';
-    card.innerHTML =
-      '<div class="stat-card__icon">' + getStatIcon(stat.icon) + '</div>' +
-      '<div class="stat-card__body">' +
-        '<div class="stat-card__value">' + stat.value + '</div>' +
-        '<div class="stat-card__label">' + stat.label + '</div>' +
-        '<div class="stat-card__trend stat-card__trend--' + stat.trendDir + '">' + stat.trend + '</div>' +
-      '</div>';
+
+    // Icon
+    var iconDiv = document.createElement('div');
+    iconDiv.className = 'stat-card__icon';
+    iconDiv.appendChild(createSvgIcon(stat.icon));
+    card.appendChild(iconDiv);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'stat-card__body';
+    card.appendChild(body);
+
+    var value = document.createElement('div');
+    value.className = 'stat-card__value';
+    value.textContent = stat.value;
+    body.appendChild(value);
+
+    var label = document.createElement('div');
+    label.className = 'stat-card__label';
+    label.textContent = stat.label;
+    body.appendChild(label);
+
+    var trend = document.createElement('div');
+    trend.className = 'stat-card__trend stat-card__trend--' + stat.trendDir;
+    trend.textContent = stat.trend;
+    body.appendChild(trend);
+
     return card;
   }
 

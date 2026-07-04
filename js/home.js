@@ -13,13 +13,23 @@ App.home = (function() {
   }
 
   /**
+   * Build the refresh button HTML (shared by creation and reset)
+   */
+  function createRefreshBtnHTML(spinner) {
+    if (spinner) {
+      return '<span class="spinner-icon"></span> <span>Switching animals...</span>';
+    }
+    return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> <span>Discover More</span>';
+  }
+
+  /**
    * Render category cards on the home page
    */
   function renderCategories(categories) {
     var container = document.getElementById('category-grid');
     if (!container || !categories) return;
 
-    container.innerHTML = '';
+    container.textContent = '';
     for (var i = 0; i < categories.length; i++) {
       var cat = categories[i];
       var card = document.createElement('a');
@@ -27,15 +37,36 @@ App.home = (function() {
       card.className = 'category-card category-card--' + cat.id;
       card.setAttribute('data-hint', cat.description || 'Explore →');
 
-      card.innerHTML =
-        '<div class="category-card__image-wrap">' +
-          '<img src="assets/images/animal-class/' + cat.name + '.jpg" alt="' + cat.name + '" class="category-card__image" loading="lazy" />' +
-          '<div class="category-card__overlay"></div>' +
-        '</div>' +
-        '<div class="category-card__content">' +
-          '<h3 class="category-card__name">' + cat.name + '</h3>' +
-          '<p class="category-card__desc">' + (cat.description || '') + '</p>' +
-        '</div>';
+      // Image wrapper
+      var imgWrap = document.createElement('div');
+      imgWrap.className = 'category-card__image-wrap';
+      card.appendChild(imgWrap);
+
+      var img = document.createElement('img');
+      img.className = 'category-card__image';
+      img.src = 'assets/images/animal-class/' + cat.name + '.jpg';
+      img.alt = cat.name || 'Category';
+      img.loading = 'lazy';
+      imgWrap.appendChild(img);
+
+      var overlay = document.createElement('div');
+      overlay.className = 'category-card__overlay';
+      imgWrap.appendChild(overlay);
+
+      // Content
+      var content = document.createElement('div');
+      content.className = 'category-card__content';
+      card.appendChild(content);
+
+      var catName = document.createElement('h3');
+      catName.className = 'category-card__name';
+      catName.textContent = cat.name || '';
+      content.appendChild(catName);
+
+      var catDesc = document.createElement('p');
+      catDesc.className = 'category-card__desc';
+      catDesc.textContent = cat.description || '';
+      content.appendChild(catDesc);
 
       container.appendChild(card);
     }
@@ -52,20 +83,23 @@ App.home = (function() {
 
     if (!allowBtn) return;
 
-    // Check if user already granted permission
+    // Shared state
+    var animalPool = [];
+    var refreshBtn = null;
+
+    // Pre-check permission
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
         if (result.state === 'granted') {
-          getUserLocation(true);
+          requestLocation();
         }
       });
     }
 
-    allowBtn.addEventListener('click', function() {
-      getUserLocation(false);
-    });
+    allowBtn.addEventListener('click', requestLocation);
 
-    function getUserLocation(alreadyGranted) {
+    /** Request user's geolocation */
+    function requestLocation() {
       if (!navigator.geolocation) {
         if (nearbyPrompt) nearbyPrompt.textContent = 'Geolocation is not supported by your browser.';
         return;
@@ -76,13 +110,11 @@ App.home = (function() {
 
       navigator.geolocation.getCurrentPosition(
         function(position) {
-          // Success
           var lat = position.coords.latitude;
           var lng = position.coords.longitude;
           showNearbyVideos(lat, lng);
         },
         function(error) {
-          // Error or denied
           if (permissionBox) {
             var desc = permissionBox.querySelector('.nearby-permission-box__desc');
             if (desc) {
@@ -98,128 +130,87 @@ App.home = (function() {
       );
     }
 
-    // Animal pool & refresh state
-    var _animalPool = [];
-    var _refreshBtn = null;
-
+    /** Load and display nearby animals for the detected region */
     function showNearbyVideos(lat, lng) {
-      // Detect region from coordinates
-      var region = guessRegion(lat, lng);
+      var region = App.utils.guessRegion(lat, lng);
 
-      // Rotate globe to the user's region
-      setTimeout(function() {
-        if (window.__globe && window.__globe.rotateTo) {
-          window.__globe.rotateTo(lat, lng);
-        }
-      }, 300);
+      // Rotate globe via custom event (decoupled from window.__globe)
+      document.dispatchEvent(new CustomEvent('globe:rotate', { detail: { lat: lat, lng: lng } }));
 
-      // Hide the permission box
+      // Hide permission box, show location name
       if (permissionBox) permissionBox.style.display = 'none';
-
-      // Show location name
       var locationEl = document.getElementById('nearby-location');
       if (locationEl) {
-        locationEl.innerHTML = 'Your location is at <strong>' + region + '</strong>';
+        locationEl.textContent = 'Your location is at ' + region;
         locationEl.style.display = 'block';
       }
 
-      // Fetch animals from Wikipedia + GBIF
       App.data.fetchRegionAnimals(region).then(function(animals) {
         if (!animals || animals.length === 0) {
           if (nearbyVideos) {
-            nearbyVideos.innerHTML = '<p class="text-muted">No animals found for this region.</p>';
+            var noAnimals = document.createElement('p');
+            noAnimals.className = 'text-muted';
+            noAnimals.textContent = 'No animals found for this region.';
+            nearbyVideos.appendChild(noAnimals);
           }
           return;
         }
 
-        _animalPool = animals;
-
-        // Show first 4
+        animalPool = animals;
         renderAnimalBatch();
 
         // Add refresh button if enough variety
-        if (!_refreshBtn && _animalPool.length > 4) {
-          _refreshBtn = document.createElement('button');
-          _refreshBtn.className = 'nearby-refresh-btn';
-          _refreshBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> <span>Discover More</span>';
-          _refreshBtn.setAttribute('aria-label', 'Show different animals');
-          _refreshBtn.addEventListener('click', function() {
-            renderAnimalBatch();
-          });
+        if (!refreshBtn && animalPool.length > 4) {
+          refreshBtn = document.createElement('button');
+          refreshBtn.className = 'nearby-refresh-btn';
+          refreshBtn.setAttribute('aria-label', 'Show different animals');
+          refreshBtn.addEventListener('click', renderAnimalBatch);
           if (nearbyVideos && nearbyVideos.parentNode) {
-            nearbyVideos.parentNode.appendChild(_refreshBtn);
+            nearbyVideos.parentNode.appendChild(refreshBtn);
           }
         }
+        if (refreshBtn) refreshBtn.innerHTML = createRefreshBtnHTML(false);
       });
     }
 
+    /** Pick and render 4 random animals from the pool */
     function renderAnimalBatch() {
-      if (!nearbyVideos || _animalPool.length === 0) return;
+      if (!nearbyVideos || animalPool.length === 0) return;
 
-      // Start loading state
-      if (_refreshBtn) {
-        _refreshBtn.disabled = true;
-        _refreshBtn.innerHTML = '<span class="spinner-icon"></span> <span>Switching animals...</span>';
+      // Loading state
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = createRefreshBtnHTML(true);
       }
 
       nearbyVideos.className = 'nearby-video-row is-loading';
       nearbyVideos.style.display = '';
 
       // Pick 4 random from pool
-      var shuffled = _animalPool.slice();
-      for (var i = shuffled.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tmp = shuffled[i];
-        shuffled[i] = shuffled[j];
-        shuffled[j] = tmp;
-      }
-      var batch = shuffled.slice(0, 4);
+      var batch = App.utils.shuffleArray(animalPool).slice(0, 4);
 
-      // Fetch GBIF images and render
-      var promises = [];
-      for (var k = 0; k < batch.length; k++) {
-        var animalName = batch[k];
-        var p = App.data.fetchAnimalImage(animalName).then(function(name) {
-          return function(imgUrl) {
-            return { name: name, imgUrl: imgUrl || '' };
-          };
-        }(animalName));
-        promises.push(p);
-      }
+      // Fetch GBIF images
+      var promises = batch.map(function(animalName) {
+        return App.data.fetchAnimalImage(animalName).then(function(imgUrl) {
+          return { name: animalName, imgUrl: imgUrl || '' };
+        });
+      });
 
       Promise.all(promises).then(function(results) {
-        nearbyVideos.innerHTML = '';
+        nearbyVideos.textContent = '';
         nearbyVideos.classList.remove('is-loading');
-        
-        for (var m = 0; m < results.length; m++) {
-          var card = App.ui.createAnimalCard(results[m].name, results[m].imgUrl);
-          if (card) nearbyVideos.appendChild(card);
-        }
 
-        // Restore button state
-        if (_refreshBtn) {
-          _refreshBtn.disabled = false;
-          _refreshBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> <span>Discover More</span>';
+        results.forEach(function(r) {
+          var card = App.ui.createAnimalCard(r.name, r.imgUrl);
+          if (card) nearbyVideos.appendChild(card);
+        });
+
+        // Restore button
+        if (refreshBtn) {
+          refreshBtn.disabled = false;
+          refreshBtn.innerHTML = createRefreshBtnHTML(false);
         }
       });
-    }
-
-    // Approximate lat/lng → region name
-    function guessRegion(lat, lng) {
-      if (lat < -55) return 'Antarctica';
-      if (lat < -10 && lng > 110) return 'Australia';
-      if (lat < -10 && lng < -30) return 'Ocean';
-      if (lat > 60) return 'Europe';
-      // Between 60°N and 10°S
-      if (lng > -25 && lng < 55) {
-        if (lat > 35) return 'Europe';
-        return lat > 0 ? 'Africa' : 'Africa';
-      }
-      if (lng >= 55 && lng < 180) return 'Asia';
-      if (lat > 20 && lng < -25) return 'North America';
-      if (lat <= 20 && lng < -25) return 'South America';
-      if (lng <= -130) return 'Ocean';
-      return 'Asia';
     }
   }
 
@@ -241,7 +232,6 @@ App.home = (function() {
       var section = document.getElementById(sectionId);
       if (!section) return;
 
-      // Normalize to array
       if (typeof typingIds === 'string') typingIds = [typingIds];
 
       var typingEls = [];
@@ -254,12 +244,10 @@ App.home = (function() {
       }
 
       var triggered = false;
-      var currentIdx = 0;
-      var speeds = [55, 35]; // slower for lead, faster for title
+      var speeds = [55, 35];
 
       function startTyping() {
         triggered = true;
-        currentIdx = 0;
         typeNext(0);
       }
 
@@ -281,7 +269,6 @@ App.home = (function() {
             pos++;
             setTimeout(typeChar, speed);
           } else {
-            // This line done — start next after a short pause
             setTimeout(function() { typeNext(idx + 1); }, 180);
           }
         }
@@ -289,7 +276,6 @@ App.home = (function() {
         setTimeout(typeChar, 150);
       }
 
-      // Use Intersection Observer to trigger once
       if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {

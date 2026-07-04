@@ -16,8 +16,7 @@
 
 /* Grid areas */
 .header  { grid-area: header; }
-.sidebar { /* fixed position, not in grid */ }
-.main    {
+.sidebar {}.main    {
   grid-area: main;
   padding: var(--space-lg);
   max-width: var(--content-max-width);

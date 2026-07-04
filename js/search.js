@@ -26,27 +26,25 @@ App.search = (function() {
     if (!container) return;
 
     if (!query) {
-      container.innerHTML =
-        '<div class="empty-state">' +
-        '  <h3 class="empty-state__title">Search for Videos</h3>' +
-        '  <p class="empty-state__text">Type a keyword in the search bar to find animal videos.</p>' +
-        '</div>';
+      App.ui.renderEmptyState(container, {
+        title: 'Search for Videos',
+        text: 'Type a keyword in the search bar to find animal videos.'
+      });
       if (countEl) countEl.textContent = '';
       return;
     }
 
     if (videos.length === 0) {
-      container.innerHTML =
-        '<div class="empty-state">' +
-        '  <h3 class="empty-state__title">No Results Found</h3>' +
-        '  <p class="empty-state__text">No videos match "' + App.ui.escapeHtml(query) + '". Try different keywords.</p>' +
-        '</div>';
+      App.ui.renderEmptyState(container, {
+        title: 'No Results Found',
+        text: 'No videos match "' + query + '". Try different keywords.'
+      });
       if (countEl) countEl.textContent = '0 results';
       return;
     }
 
     if (countEl) {
-      countEl.textContent = videos.length + ' result' + (videos.length !== 1 ? 's' : '');
+      countEl.textContent = App.utils.pluralize(videos.length, 'result');
     }
 
     App.ui.renderVideoGrid('search-results', videos);

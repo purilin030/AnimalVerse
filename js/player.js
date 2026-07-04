@@ -12,7 +12,12 @@ App.player = (function() {
     var animalName = params.animal;
 
     if (!videoId && !animalName) {
-      showError('No video selected. <a href="gallery.html">Browse videos</a>');
+      var container = document.getElementById('player-container');
+      App.ui.renderEmptyState(container, {
+        text: 'No video selected.',
+        actionLabel: 'Browse videos',
+        actionHref: 'gallery.html'
+      });
       return;
     }
 
@@ -45,30 +50,39 @@ App.player = (function() {
 
   function showError(message) {
     var container = document.getElementById('player-container');
-    if (container) {
-      container.innerHTML = '<div class="empty-state"><p class="text-muted">' + message + '</p></div>';
-    }
+    App.ui.renderEmptyState(container, { text: message });
   }
 
   function renderPlayer(video) {
     var container = document.getElementById('player-container');
     if (!container) return;
 
-    if (video.source === 'youtube') {
-      container.innerHTML =
-        '<iframe class="player-iframe" src="' + App.config.youtube.embedBase + video.videoId + App.config.youtube.params +
-        '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-    } else {
-      container.innerHTML =
-        '<video class="player-video" controls poster="' + (video.posterUrl || video.thumbnail || '') + '">' +
-        '  <source src="' + (video.videoUrl || '') + '" type="video/mp4">' +
-        '  Your browser does not support the video tag.' +
-        '</video>';
+    // Clear any placeholder content (e.g. "Loading video...")
+    container.textContent = '';
 
-      var videoEl = container.querySelector('video');
-      if (videoEl) {
-        videoEl.play().catch(function() { /* autoplay prevented */ });
-      }
+    if (video.source === 'youtube') {
+      var iframe = document.createElement('iframe');
+      iframe.className = 'player-iframe';
+      iframe.src = App.config.youtube.embedBase + (video.videoId || '') + App.config.youtube.params;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      container.appendChild(iframe);
+    } else {
+      var videoEl = document.createElement('video');
+      videoEl.className = 'player-video';
+      videoEl.controls = true;
+      videoEl.poster = video.posterUrl || video.thumbnail || '';
+      videoEl.textContent = 'Your browser does not support the video tag.';
+
+      var source = document.createElement('source');
+      source.src = video.videoUrl || '';
+      source.type = 'video/mp4';
+      videoEl.appendChild(source);
+
+      container.appendChild(videoEl);
+
+      videoEl.play().catch(function() { /* autoplay prevented */ });
     }
   }
 
@@ -83,31 +97,71 @@ App.player = (function() {
     var isFav = App.favorites.isFavorite(video.id);
     var isWL = App.favorites.isWatchLater(video.id);
 
-    container.innerHTML =
-      '<h1 class="video-info__title">' + App.ui.escapeHtml(video.title) + '</h1>' +
-      '<div class="video-info__meta">' +
-      '  <span class="video-info__category" style="color:' + catColor + '">' + App.ui.escapeHtml(catName) + '</span>' +
-      '  <span>' + (video.duration || '') + '</span>' +
-      '  <span>' + (video.views || 0).toLocaleString() + ' views</span>' +
-      (video.location ? '<span>' + App.ui.escapeHtml(video.location.name) + '</span>' : '') +
-      '</div>' +
-      '<p class="video-info__description">' + App.ui.escapeHtml(video.description) + '</p>' +
-      '<div class="video-info__actions">' +
-      '  <button class="btn btn--favorite' + (isFav ? ' is-active' : '') + '" id="fav-btn" data-id="' + video.id + '">' +
-          (isFav ? '❤️' : '🤍') + ' Favorite</button>' +
-      '  <button class="btn btn--watchlater' + (isWL ? ' is-active' : '') + '" id="wl-btn" data-id="' + video.id + '">' +
-          (isWL ? '⏰' : '⏱') + ' Watch Later</button>' +
-      '</div>';
+    // Clear container
+    container.textContent = '';
 
-    // Bind buttons
-    var favBtn = document.getElementById('fav-btn');
-    var wlBtn = document.getElementById('wl-btn');
+    // Title
+    var title = document.createElement('h1');
+    title.className = 'video-info__title';
+    title.textContent = video.title || '';
+    container.appendChild(title);
 
+    // Meta row
+    var meta = document.createElement('div');
+    meta.className = 'video-info__meta';
+    container.appendChild(meta);
+
+    var catSpan = document.createElement('span');
+    catSpan.className = 'video-info__category';
+    catSpan.style.color = catColor;
+    catSpan.textContent = catName || '';
+    meta.appendChild(catSpan);
+
+    var durationSpan = document.createElement('span');
+    durationSpan.textContent = video.duration || '';
+    meta.appendChild(durationSpan);
+
+    var viewsSpan = document.createElement('span');
+    viewsSpan.textContent = (video.views || 0).toLocaleString() + ' views';
+    meta.appendChild(viewsSpan);
+
+    if (video.location) {
+      var locSpan = document.createElement('span');
+      locSpan.textContent = video.location.name || '';
+      meta.appendChild(locSpan);
+    }
+
+    // Description
+    var desc = document.createElement('p');
+    desc.className = 'video-info__description';
+    desc.textContent = video.description || '';
+    container.appendChild(desc);
+
+    // Actions
+    var actions = document.createElement('div');
+    actions.className = 'video-info__actions';
+    container.appendChild(actions);
+
+    var favBtn = document.createElement('button');
+    favBtn.className = 'btn btn--favorite' + (isFav ? ' is-active' : '');
+    favBtn.id = 'fav-btn';
+    favBtn.setAttribute('data-id', video.id);
+    favBtn.textContent = (isFav ? '❤️' : '🤍') + ' Favorite';
+    actions.appendChild(favBtn);
+
+    var wlBtn = document.createElement('button');
+    wlBtn.className = 'btn btn--watchlater' + (isWL ? ' is-active' : '');
+    wlBtn.id = 'wl-btn';
+    wlBtn.setAttribute('data-id', video.id);
+    wlBtn.textContent = (isWL ? '⏰' : '⏱') + ' Watch Later';
+    actions.appendChild(wlBtn);
+
+    // Bind buttons (use references already created above)
     if (favBtn) {
       favBtn.addEventListener('click', function() {
         var added = App.favorites.toggleFavorite(video.id);
         this.classList.toggle('is-active', added);
-        this.innerHTML = (added ? '❤️' : '🤍') + ' Favorite';
+        this.textContent = (added ? '❤️' : '🤍') + ' Favorite';
         App.ui.showToast(added ? 'Added to favorites!' : 'Removed from favorites', added ? 'success' : 'info');
       });
     }
@@ -116,7 +170,7 @@ App.player = (function() {
       wlBtn.addEventListener('click', function() {
         var added = App.favorites.toggleWatchLater(video.id);
         this.classList.toggle('is-active', added);
-        this.innerHTML = (added ? '⏰' : '⏱') + ' Watch Later';
+        this.textContent = (added ? '⏰' : '⏱') + ' Watch Later';
         App.ui.showToast(added ? 'Added to Watch Later!' : 'Removed from Watch Later', added ? 'success' : 'info');
       });
     }
@@ -161,7 +215,10 @@ App.player = (function() {
         .slice(0, 5);
 
       if (related.length === 0) {
-        container.innerHTML = '<p class="text-muted">No related videos found.</p>';
+        var noRel = document.createElement('p');
+        noRel.className = 'text-muted';
+        noRel.textContent = 'No related videos found.';
+        container.appendChild(noRel);
         return;
       }
 

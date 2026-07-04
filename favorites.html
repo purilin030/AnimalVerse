@@ -18,12 +18,12 @@
       <h1>My Favorites</h1>
 
       <!-- Tabs -->
-      <div class="favorites-tabs" id="favorites-tabs">
-        <button class="favorites-tab favorites-tab--active" data-tab="favorites">Favorites</button>
-        <button class="favorites-tab" data-tab="watchlater">Watch Later</button>
+      <div class="favorites-tabs" id="favorites-tabs" role="tablist">
+        <button class="favorites-tab favorites-tab--active" data-tab="favorites" role="tab" aria-selected="true" aria-controls="favorites-grid">Favorites</button>
+        <button class="favorites-tab" data-tab="watchlater" role="tab" aria-selected="false" aria-controls="favorites-grid">Watch Later</button>
       </div>
 
-      <div class="video-grid" id="favorites-grid">
+      <div class="video-grid" id="favorites-grid" role="tabpanel">
         <div class="empty-state">
           <p class="text-muted">Select a tab to view your saved videos.</p>
         </div>
@@ -38,17 +38,17 @@
   <!-- Chatbot + Toast injected via data-include -->
   <div data-include="chatbot"></div>
 
-  <script src="js/include.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/favorites.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/favorites-page.js"></script>
-  <script src="js/chatbot.js"></script>
-  <script src="js/app.js"></script>
+  <script defer src="js/include.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/router.js"></script>
+  <script defer src="js/theme.js"></script>
+  <script defer src="js/favorites.js"></script>
+  <script defer src="js/ui.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/favorites-page.js"></script>
+  <script defer src="js/chatbot.js"></script>
+  <script defer src="js/app.js"></script>
 </body>
 </html>

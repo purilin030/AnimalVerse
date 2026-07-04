@@ -16,7 +16,6 @@ App.favoritesPage = (function() {
     for (var i = 0; i < tabs.length; i++) {
       tabs[i].addEventListener('click', function() {
         var tab = this.getAttribute('data-tab');
-        // Update active state
         document.querySelectorAll('.favorites-tab').forEach(function(t) {
           t.classList.remove('favorites-tab--active');
         });
@@ -48,13 +47,13 @@ App.favoritesPage = (function() {
       if (!container) return;
 
       if (videos.length === 0) {
-        container.innerHTML =
-          '<div class="empty-state">' +
-          '  <div class="empty-state__icon">' + (tab === 'favorites' ? '🤍' : '⏱') + '</div>' +
-          '  <h3 class="empty-state__title">No ' + title + ' Yet</h3>' +
-          '  <p class="empty-state__text">Browse videos and save your favorites for later!</p>' +
-          '  <a class="btn btn--primary" href="gallery.html">Browse Videos</a>' +
-          '</div>';
+        App.ui.renderEmptyState(container, {
+          icon: tab === 'favorites' ? '🤍' : '⏱',
+          title: 'No ' + title + ' Yet',
+          text: 'Browse videos and save your favorites for later!',
+          actionLabel: 'Browse Videos',
+          actionHref: 'gallery.html'
+        });
         return;
       }
 

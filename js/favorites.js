@@ -7,15 +7,38 @@ App.favorites = (function() {
   var FAV_KEY = App.config.localStorageKeys.favorites;
   var WL_KEY = App.config.localStorageKeys.watchLater;
 
+  /**
+   * Safely read from localStorage with fallback
+   */
+  function safeGet(key) {
+    try {
+      var stored = localStorage.getItem(key);
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.warn('localStorage read failed for', key, e);
+      return [];
+    }
+  }
+
+  /**
+   * Safely write to localStorage
+   */
+  function safeSet(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      console.warn('localStorage write failed for', key, e);
+    }
+  }
+
   /* ---- Favorites ---- */
 
   function getFavorites() {
-    var stored = localStorage.getItem(FAV_KEY);
-    return stored ? JSON.parse(stored) : [];
+    return safeGet(FAV_KEY);
   }
 
   function setFavorites(list) {
-    localStorage.setItem(FAV_KEY, JSON.stringify(list));
+    safeSet(FAV_KEY, list);
   }
 
   function toggleFavorite(videoId) {
@@ -37,8 +60,7 @@ App.favorites = (function() {
   /* ---- Watch Later ---- */
 
   function getWatchLater() {
-    var stored = localStorage.getItem(WL_KEY);
-    return stored ? JSON.parse(stored) : [];
+    return safeGet(WL_KEY);
   }
 
   function toggleWatchLater(videoId) {

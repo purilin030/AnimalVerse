@@ -149,65 +149,6 @@
   color: var(--clr-text);
 }
 
-/* ===== Search Bar (Placeholder/Unused but retained) ===== */
-.header__search {
-  position: relative;
-  flex: 1;
-  max-width: 480px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-}
-
-.header__search-icon {
-  position: absolute;
-  left: 14px;
-  color: var(--clr-text-muted);
-  pointer-events: none;
-  transition: color 0.2s ease;
-}
-
-.header__search:focus-within .header__search-icon {
-  color: var(--clr-accent);
-}
-
-.header__search-input {
-  width: 100%;
-  padding: 9px 36px 9px 40px;
-  border: 1px solid var(--clr-border, #E5E5E5);
-  border-radius: 10px;
-  background: var(--clr-bg-alt);
-  color: var(--clr-text);
-  font-size: var(--fs-sm);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.header__search-input::placeholder {
-  color: var(--clr-text-muted);
-  opacity: 0.6;
-}
-
-.header__search-input:focus {
-  outline: none;
-  border-color: var(--clr-accent);
-  box-shadow: 0 0 0 3px var(--clr-accent-subtle);
-  background: var(--clr-surface);
-}
-
-.header__search-btn {
-  position: absolute;
-  right: 4px;
-  padding: 6px 10px;
-  color: var(--clr-text-muted);
-  border-radius: 8px;
-  transition: color 0.2s ease, background 0.2s ease;
-}
-
-.header__search-btn:hover {
-  color: var(--clr-accent);
-  background: var(--clr-accent-subtle);
-}
-
 /* ===== Desktop Nav Links (Capsule Hover Aesthetic) ===== */
 .header__nav {
   display: flex;
@@ -244,10 +185,6 @@
   background: var(--clr-accent-subtle);
   border-color: rgba(159, 232, 112, 0.35);
   font-weight: 700;
-}
-
-.header__nav-link::after {
-  display: none; /* Removed the flat under-line indicator */
 }
 
 /* Keyboard accessibility focus outline */

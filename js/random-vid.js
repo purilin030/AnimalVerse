@@ -51,6 +51,27 @@
 
   var isShuffling = false;
   var selectedIndex = -1;
+  var shuffleAborted = false;
+
+  /** Cancellable delay helper */
+  function delay(ms) {
+    return new Promise(function(resolve) {
+      if (shuffleAborted) return resolve(null);
+      var id = setTimeout(function() {
+        if (shuffleAborted) return resolve(null);
+        resolve(true);
+      }, ms);
+      // Store timer ID for potential cancellation
+      delay._lastId = id;
+    });
+  }
+  delay._lastId = null;
+
+  /** Cancel an active shuffle (prevents state mutations after abort) */
+  function cancelShuffle() {
+    shuffleAborted = true;
+    if (delay._lastId) clearTimeout(delay._lastId);
+  }
 
   /* ---------- Shuffle State Machine ---------- */
   var TIMING = {
@@ -139,6 +160,7 @@
   }
 
   function resetAll() {
+    cancelShuffle(); // Cancel any in-flight phase promises
     clearAnimations();
     var hexes = grid.querySelectorAll('.hex-item--active');
     for (var i = 0; i < hexes.length; i++) {
@@ -147,7 +169,7 @@
     btn.classList.remove('rp-btn--shuffling');
     btnLabel.textContent = 'Initiate Shuffle';
     btnIcon.textContent = '✦';
-    
+
     var wrapper = document.querySelector('.hex-grid-wrapper');
     if (wrapper) wrapper.classList.remove('hex-grid-wrapper--shuffling');
 
@@ -197,40 +219,44 @@
   /* ---------- Phase 1: Buildup (wave) ---------- */
   function phaseBuildup() {
     return new Promise(function(resolve) {
+      if (shuffleAborted) return resolve(null);
       clearAnimations();
       var hexes = grid.querySelectorAll('.hex-item--active');
       for (var i = 0; i < hexes.length; i++) {
         (function(idx) {
-          var delay = idx * 30;
           setTimeout(function() {
+            if (shuffleAborted) return;
             hexes[idx].classList.add('hex-item--wave');
-          }, delay);
+          }, idx * 30);
         })(i);
       }
-      setTimeout(resolve, hexes.length * 30 + 400);
+      setTimeout(function() {
+        if (shuffleAborted) return resolve(null);
+        resolve(true);
+      }, hexes.length * 30 + 400);
     });
   }
 
   /* ---------- Phase 2: Shuffle flicker ---------- */
   function phaseShuffle() {
     return new Promise(function(resolve) {
-      var hexes = grid.querySelectorAll('.hex-item--active');
-      var start = Date.now();
-      var duration = TIMING.shuffle;
-      var glowInterval;
+      if (shuffleAborted) return resolve(null);
 
-      function flicker() {
+      var hexes = grid.querySelectorAll('.hex-item--active');
+      var flickerId = setInterval(function() {
+        if (shuffleAborted) { clearInterval(flickerId); return; }
         for (var i = 0; i < hexes.length; i++) {
           if (Math.random() < 0.25) {
             hexes[i].classList.add('hex-item--shuffle');
             setTimeout(function(el) {
-              el.classList.remove('hex-item--shuffle');
+              if (!shuffleAborted) el.classList.remove('hex-item--shuffle');
             }, 150, hexes[i]);
           }
         }
-      }
+      }, 100);
 
-      function randomGlow() {
+      var glowId = setInterval(function() {
+        if (shuffleAborted) { clearInterval(glowId); return; }
         var prevGlow = document.querySelectorAll('.hex-item--glow');
         for (var i = 0; i < prevGlow.length; i++) {
           prevGlow[i].classList.remove('hex-item--glow');
@@ -240,43 +266,40 @@
           var r = Math.floor(Math.random() * hexes.length);
           hexes[r].classList.add('hex-item--glow');
           setTimeout(function(el) {
-            el.classList.remove('hex-item--glow');
+            if (!shuffleAborted) el.classList.remove('hex-item--glow');
           }, 300 + Math.random() * 400, hexes[r]);
         }
-      }
+      }, 250);
 
-      var flickerId = setInterval(flicker, 100);
-      glowInterval = setInterval(randomGlow, 250);
-
-      function slowDown(progress) {
+      function slowDown() {
         clearInterval(flickerId);
-        clearInterval(glowInterval);
+        clearInterval(glowId);
+
+        if (shuffleAborted) { resolve(null); return; }
 
         var glows = document.querySelectorAll('.hex-item--glow');
         for (var i = 0; i < glows.length; i++) {
           glows[i].classList.remove('hex-item--glow');
         }
 
-        var settleDuration = TIMING.settle;
         var settleStart = Date.now();
-
         function settleStep() {
+          if (shuffleAborted) { resolve(null); return; }
           var elapsed = Date.now() - settleStart;
-          var pct = elapsed / settleDuration;
+          var pct = elapsed / TIMING.settle;
           if (pct >= 1) {
             for (var i = 0; i < hexes.length; i++) {
               hexes[i].classList.remove('hex-item--shuffle');
             }
-            resolve();
+            resolve(true);
             return;
           }
-
           var intensity = 1 - pct;
           for (var i = 0; i < hexes.length; i++) {
             if (Math.random() < 0.15 * intensity) {
               hexes[i].classList.add('hex-item--shuffle');
               setTimeout(function(el) {
-                el.classList.remove('hex-item--shuffle');
+                if (!shuffleAborted) el.classList.remove('hex-item--shuffle');
               }, 80 + pct * 200, hexes[i]);
             }
           }
@@ -285,18 +308,20 @@
         settleStep();
       }
 
-      setTimeout(function() { slowDown(1); }, duration);
+      setTimeout(function() { if (shuffleAborted) resolve(null); else slowDown(); }, TIMING.shuffle);
     });
   }
 
   /* ---------- Phase 3: Pick & Reveal ---------- */
   function phasePick() {
     return new Promise(function(resolve) {
+      if (shuffleAborted) return resolve(null);
+
       var hexes = grid.querySelectorAll('.hex-item--active');
       selectedIndex = Math.floor(Math.random() * ANIMALS.length);
       var animal = ANIMALS[selectedIndex];
 
-      // Dim all hexes (both active and empty background ones)
+      // Dim all other hexes
       var allHexes = grid.querySelectorAll('.hex-item');
       for (var i = 0; i < allHexes.length; i++) {
         if (allHexes[i] !== hexes[selectedIndex]) {
@@ -309,10 +334,11 @@
       chosen.classList.add('hex-item--chosen');
 
       setTimeout(function() {
-        spawnConfetti(chosen);
+        if (!shuffleAborted) spawnConfetti(chosen);
       }, 300);
 
       setTimeout(function() {
+        if (shuffleAborted) return resolve(null);
         resolve(animal);
       }, TIMING.reveal);
     });
@@ -345,6 +371,7 @@
   /* ---------- Main Shuffle Sequence ---------- */
   function startShuffle() {
     if (isShuffling) return;
+    shuffleAborted = false; // Reset abort flag for new shuffle
     isShuffling = true;
 
     if (result) {

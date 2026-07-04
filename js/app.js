@@ -8,6 +8,13 @@
   function initApp() {
     var page = App.router.getCurrentPage();
 
+    // Performance: set all images to async decoding
+    var imgs = document.querySelectorAll('img:not([decoding])');
+    for (var i = 0; i < imgs.length; i++) {
+      imgs[i].decoding = 'async';
+      if (!imgs[i].loading) imgs[i].loading = 'lazy';
+    }
+
     // Always initialize these (shared across all pages)
     App.theme.init();
     App.navigation.init();

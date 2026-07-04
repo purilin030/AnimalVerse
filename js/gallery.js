@@ -138,36 +138,48 @@ App.gallery = (function() {
     });
   }
 
+  var scrollTicking = false;
+
   /**
    * Scroll listener to dynamically load and append next page content with spinner delay
    */
   function handleScroll() {
-    if (isLoadingMore) return;
+    if (scrollTicking) return;
+    scrollTicking = true;
 
-    // Check if user scrolled near bottom of page (within 400px of bottom boundary)
-    if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400) {
-      if (currentPage * videosPerPage < allFilteredResults.length) {
-        isLoadingMore = true;
-        
-        // Show loading spinner
-        var loader = document.getElementById('gallery-loading');
-        if (loader) loader.classList.add('gallery-loading--active');
-        
-        // Simulated loading timeout for smooth UX transition
-        setTimeout(function() {
-          currentPage++;
-          
-          // Render slice including next page items
-          var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
-          App.ui.renderVideoGrid('gallery-grid', visibleResults);
+    requestAnimationFrame(function() {
+      if (isLoadingMore) { scrollTicking = false; return; }
 
-          // Hide loading spinner
-          if (loader) loader.classList.remove('gallery-loading--active');
+      // Check if user scrolled near bottom of page (within 400px of bottom boundary)
+      if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400) {
+        if (currentPage * videosPerPage < allFilteredResults.length) {
+          isLoadingMore = true;
 
-          isLoadingMore = false;
-        }, 1200); // 1200ms artificial loading time to make the animation more noticeable
+          // Show loading spinner
+          var loader = document.getElementById('gallery-loading');
+          if (loader) loader.classList.add('gallery-loading--active');
+
+          // Simulated loading timeout for smooth UX transition
+          setTimeout(function() {
+            currentPage++;
+
+            // Render slice including next page items
+            var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
+            App.ui.renderVideoGrid('gallery-grid', visibleResults);
+
+            // Hide loading spinner
+            if (loader) loader.classList.remove('gallery-loading--active');
+
+            isLoadingMore = false;
+            scrollTicking = false;
+          }, 1200); // 1200ms artificial loading time to make the animation more noticeable
+        } else {
+          scrollTicking = false;
+        }
+      } else {
+        scrollTicking = false;
       }
-    }
+    });
   }
 
   return {

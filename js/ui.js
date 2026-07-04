@@ -40,6 +40,7 @@ App.ui = (function() {
     img.src = thumbnailSrc;
     img.alt = video.title || 'Video thumbnail';
     img.loading = 'lazy';
+    img.decoding = 'async';
     img.setAttribute('data-local', localFallback);
     img.onerror = function() { App.ui.fallbackImg(this); };
     thumbWrap.appendChild(img);
@@ -269,6 +270,7 @@ App.ui = (function() {
     img.src = src;
     img.alt = animalName || 'Animal';
     img.loading = 'lazy';
+    img.decoding = 'async';
     img.onerror = function() { this.src = 'assets/images/thumbnails/cantfindanimals.jpg'; };
     imgWrap.appendChild(img);
 

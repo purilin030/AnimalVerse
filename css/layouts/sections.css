@@ -398,6 +398,9 @@
   aspect-ratio: 4 / 3;
   background: var(--clr-bg-alt);
   border: 1px solid var(--clr-border);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px 210px;
+  contain: layout style paint;
 }
 
 .animal-card:hover {

@@ -1,0 +1,4 @@
+# Enable WebP MIME Type for Apache
+<IfModule mime_module>
+  AddType image/webp .webp
+</IfModule>

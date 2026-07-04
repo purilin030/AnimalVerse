@@ -10,6 +10,7 @@ App.home = (function() {
     });
 
     initNearbySection();
+    initMarqueePause();
   }
 
   /**
@@ -44,9 +45,10 @@ App.home = (function() {
 
       var img = document.createElement('img');
       img.className = 'category-card__image';
-      img.src = 'assets/images/animal-class/' + cat.name + '.jpg';
+      img.src = 'assets/images/animal-class/' + cat.name + '.webp';
       img.alt = cat.name || 'Category';
       img.loading = 'lazy';
+      img.decoding = 'async';
       imgWrap.appendChild(img);
 
       var overlay = document.createElement('div');
@@ -212,6 +214,26 @@ App.home = (function() {
         }
       });
     }
+  }
+
+  /* ============================================================
+     Pause marquee animation when off-screen (saves GPU)
+     ============================================================ */
+  function initMarqueePause() {
+    var viewport = document.querySelector('.marquee-viewport');
+    if (!viewport || !('IntersectionObserver' in window)) return;
+
+    var rows = viewport.querySelectorAll('.marquee-row');
+    if (!rows.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      var visible = entries[0].isIntersecting;
+      for (var i = 0; i < rows.length; i++) {
+        rows[i].style.animationPlayState = visible ? 'running' : 'paused';
+      }
+    }, { threshold: 0.01 });
+
+    observer.observe(viewport);
   }
 
   /* ============================================================

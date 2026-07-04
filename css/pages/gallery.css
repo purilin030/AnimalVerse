@@ -169,6 +169,7 @@
   gap: var(--space-md);
   width: 100%;
   align-items: flex-start;
+  contain: layout style paint;
 }
 
 .masonry-column {
@@ -177,6 +178,7 @@
   flex-direction: column;
   gap: var(--space-md);
   min-width: 0;
+  contain: layout style paint;
 }
 
 /* Infinite Scroll Loading Spinner - Block Glassmorphic Capsule below Videos */

@@ -41,9 +41,10 @@
     <main class="main" id="main-content">
       <!-- Hero Section -->
       <section class="hero" id="hero-section">
-        <video class="hero__video" autoplay muted loop playsinline poster="assets/images/thumbnails/placeholder.jpg">
+        <video class="hero__video" autoplay muted loop playsinline preload="metadata" poster="assets/images/thumbnails/placeholder.jpg">
           <source src="assets/videos/hero-bg.mp4" type="video/mp4">
         </video>
+        <div class="hero__blur-overlay"></div>
 
         <div class="hero__overlay">
           <div class="hero__content">
@@ -65,11 +66,23 @@
               <span class="hero__subtitle-accent">Nature, reimagined.</span>
             </p>
             <div class="hero__actions">
-              <a class="btn btn--primary btn--lg hero__cta" href="gallery.html">
-                Start Exploring
+              <a class="btn btn--primary btn--lg hero__cta group" href="gallery.html">
+                <span class="btn__text">Start Exploring</span>
+                <span class="btn__icon-wrapper">
+                  <svg class="btn__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
               </a>
-              <a class="btn btn--ghost btn--lg hero__secondary" href="about.html">
-                Learn More <span class="hero__arrow">&rarr;</span>
+              <a class="btn btn--ghost btn--lg hero__secondary group" href="about.html">
+                <span class="btn__text">Learn More</span>
+                <span class="btn__icon-wrapper">
+                  <svg class="btn__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
               </a>
             </div>
           </div>
@@ -87,6 +100,9 @@
 
       <!-- ===== ANIMAL KINGDOM DIVIDER ===== -->
       <section class="section section--divider" id="divider-kingdom">
+        <div class="divider__eyebrow-wrap">
+          <span class="divider__eyebrow">Global Fauna</span>
+        </div>
         <p class="divider__lead">
           <span class="scroll-reveal" id="typing-kingdom-lead"><span class="reveal-inner">A living registry of Earth's citizens.</span></span>
         </p>
@@ -105,45 +121,45 @@
           <!-- Row 1 ??forward (left) -->
           <div class="marquee-row marquee-row--forward" id="marqueeRow1">
             <!-- original set -->
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Lion.jpg" alt="Lion" loading="lazy"></div><div class="marquee-card__body"><h4>Lion</h4><span>King of the Savanna</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Elephant.jpg" alt="Elephant" loading="lazy"></div><div class="marquee-card__body"><h4>Elephant</h4><span>Gentle Giant</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Eagle.jpg" alt="Eagle" loading="lazy"></div><div class="marquee-card__body"><h4>Eagle</h4><span>Soaring High</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Tiger.jpg" alt="Tiger" loading="lazy"></div><div class="marquee-card__body"><h4>Tiger</h4><span>Fierce &amp; Graceful</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Wolf.jpg" alt="Wolf" loading="lazy"></div><div class="marquee-card__body"><h4>Wolf</h4><span>Loyal Pack Leader</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Giraffe.jpg" alt="Giraffe" loading="lazy"></div><div class="marquee-card__body"><h4>Giraffe</h4><span>Towering Above</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Butterfly.jpg" alt="Butterfly" loading="lazy"></div><div class="marquee-card__body"><h4>Butterfly</h4><span>Delicate Beauty</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Cheetah.jpg" alt="Cheetah" loading="lazy"></div><div class="marquee-card__body"><h4>Cheetah</h4><span>Fastest on Land</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Lion.webp" alt="Lion" loading="lazy"></div><div class="marquee-card__body"><h4>Lion</h4><span>King of the Savanna</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Elephant.webp" alt="Elephant" loading="lazy"></div><div class="marquee-card__body"><h4>Elephant</h4><span>Gentle Giant</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Eagle.webp" alt="Eagle" loading="lazy"></div><div class="marquee-card__body"><h4>Eagle</h4><span>Soaring High</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Tiger.webp" alt="Tiger" loading="lazy"></div><div class="marquee-card__body"><h4>Tiger</h4><span>Fierce &amp; Graceful</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Wolf.webp" alt="Wolf" loading="lazy"></div><div class="marquee-card__body"><h4>Wolf</h4><span>Loyal Pack Leader</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Giraffe.webp" alt="Giraffe" loading="lazy"></div><div class="marquee-card__body"><h4>Giraffe</h4><span>Towering Above</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Butterfly.webp" alt="Butterfly" loading="lazy"></div><div class="marquee-card__body"><h4>Butterfly</h4><span>Delicate Beauty</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Cheetah.webp" alt="Cheetah" loading="lazy"></div><div class="marquee-card__body"><h4>Cheetah</h4><span>Fastest on Land</span></div></div>
             <!-- duplicate for seamless loop -->
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Lion.jpg" alt="Lion" loading="lazy"></div><div class="marquee-card__body"><h4>Lion</h4><span>King of the Savanna</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Elephant.jpg" alt="Elephant" loading="lazy"></div><div class="marquee-card__body"><h4>Elephant</h4><span>Gentle Giant</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Eagle.jpg" alt="Eagle" loading="lazy"></div><div class="marquee-card__body"><h4>Eagle</h4><span>Soaring High</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Tiger.jpg" alt="Tiger" loading="lazy"></div><div class="marquee-card__body"><h4>Tiger</h4><span>Fierce &amp; Graceful</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Wolf.jpg" alt="Wolf" loading="lazy"></div><div class="marquee-card__body"><h4>Wolf</h4><span>Loyal Pack Leader</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Giraffe.jpg" alt="Giraffe" loading="lazy"></div><div class="marquee-card__body"><h4>Giraffe</h4><span>Towering Above</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Butterfly.jpg" alt="Butterfly" loading="lazy"></div><div class="marquee-card__body"><h4>Butterfly</h4><span>Delicate Beauty</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Cheetah.jpg" alt="Cheetah" loading="lazy"></div><div class="marquee-card__body"><h4>Cheetah</h4><span>Fastest on Land</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Lion.webp" alt="Lion" loading="lazy"></div><div class="marquee-card__body"><h4>Lion</h4><span>King of the Savanna</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Elephant.webp" alt="Elephant" loading="lazy"></div><div class="marquee-card__body"><h4>Elephant</h4><span>Gentle Giant</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Eagle.webp" alt="Eagle" loading="lazy"></div><div class="marquee-card__body"><h4>Eagle</h4><span>Soaring High</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Tiger.webp" alt="Tiger" loading="lazy"></div><div class="marquee-card__body"><h4>Tiger</h4><span>Fierce &amp; Graceful</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Wolf.webp" alt="Wolf" loading="lazy"></div><div class="marquee-card__body"><h4>Wolf</h4><span>Loyal Pack Leader</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Giraffe.webp" alt="Giraffe" loading="lazy"></div><div class="marquee-card__body"><h4>Giraffe</h4><span>Towering Above</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Butterfly.webp" alt="Butterfly" loading="lazy"></div><div class="marquee-card__body"><h4>Butterfly</h4><span>Delicate Beauty</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Cheetah.webp" alt="Cheetah" loading="lazy"></div><div class="marquee-card__body"><h4>Cheetah</h4><span>Fastest on Land</span></div></div>
           </div>
 
           <!-- Row 2 ??reverse (right) -->
           <div class="marquee-row marquee-row--reverse" id="marqueeRow2">
             <!-- original set -->
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Crocodile.jpg" alt="Crocodile" loading="lazy"></div><div class="marquee-card__body"><h4>Crocodile</h4><span>Ancient Predator</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Whale.jpg" alt="Whale" loading="lazy"></div><div class="marquee-card__body"><h4>Whale</h4><span>Ocean Titan</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Shark.jpg" alt="Shark" loading="lazy"></div><div class="marquee-card__body"><h4>Shark</h4><span>Apex of the Sea</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Otter.jpg" alt="Otter" loading="lazy"></div><div class="marquee-card__body"><h4>Otter</h4><span>Playful &amp; Clever</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Peacock.jpg" alt="Peacock" loading="lazy"></div><div class="marquee-card__body"><h4>Peacock</h4><span>Dazzling Display</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Parrot.jpg" alt="Parrot" loading="lazy"></div><div class="marquee-card__body"><h4>Parrot</h4><span>Colourful Talker</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Snake.jpg" alt="Snake" loading="lazy"></div><div class="marquee-card__body"><h4>Snake</h4><span>Silent Striker</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Orangutan.jpg" alt="Orangutan" loading="lazy"></div><div class="marquee-card__body"><h4>Orangutan</h4><span>Tree Philosopher</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Crocodile.webp" alt="Crocodile" loading="lazy"></div><div class="marquee-card__body"><h4>Crocodile</h4><span>Ancient Predator</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Whale.webp" alt="Whale" loading="lazy"></div><div class="marquee-card__body"><h4>Whale</h4><span>Ocean Titan</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Shark.webp" alt="Shark" loading="lazy"></div><div class="marquee-card__body"><h4>Shark</h4><span>Apex of the Sea</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Otter.webp" alt="Otter" loading="lazy"></div><div class="marquee-card__body"><h4>Otter</h4><span>Playful &amp; Clever</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Peacock.webp" alt="Peacock" loading="lazy"></div><div class="marquee-card__body"><h4>Peacock</h4><span>Dazzling Display</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Parrot.webp" alt="Parrot" loading="lazy"></div><div class="marquee-card__body"><h4>Parrot</h4><span>Colourful Talker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Snake.webp" alt="Snake" loading="lazy"></div><div class="marquee-card__body"><h4>Snake</h4><span>Silent Striker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Orangutan.webp" alt="Orangutan" loading="lazy"></div><div class="marquee-card__body"><h4>Orangutan</h4><span>Tree Philosopher</span></div></div>
             <!-- duplicate for seamless loop -->
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Crocodile.jpg" alt="Crocodile" loading="lazy"></div><div class="marquee-card__body"><h4>Crocodile</h4><span>Ancient Predator</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Whale.jpg" alt="Whale" loading="lazy"></div><div class="marquee-card__body"><h4>Whale</h4><span>Ocean Titan</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Shark.jpg" alt="Shark" loading="lazy"></div><div class="marquee-card__body"><h4>Shark</h4><span>Apex of the Sea</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Otter.jpg" alt="Otter" loading="lazy"></div><div class="marquee-card__body"><h4>Otter</h4><span>Playful &amp; Clever</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Peacock.jpg" alt="Peacock" loading="lazy"></div><div class="marquee-card__body"><h4>Peacock</h4><span>Dazzling Display</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Parrot.jpg" alt="Parrot" loading="lazy"></div><div class="marquee-card__body"><h4>Parrot</h4><span>Colourful Talker</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Snake.jpg" alt="Snake" loading="lazy"></div><div class="marquee-card__body"><h4>Snake</h4><span>Silent Striker</span></div></div>
-            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Orangutan.jpg" alt="Orangutan" loading="lazy"></div><div class="marquee-card__body"><h4>Orangutan</h4><span>Tree Philosopher</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Crocodile.webp" alt="Crocodile" loading="lazy"></div><div class="marquee-card__body"><h4>Crocodile</h4><span>Ancient Predator</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Whale.webp" alt="Whale" loading="lazy"></div><div class="marquee-card__body"><h4>Whale</h4><span>Ocean Titan</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Shark.webp" alt="Shark" loading="lazy"></div><div class="marquee-card__body"><h4>Shark</h4><span>Apex of the Sea</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Otter.webp" alt="Otter" loading="lazy"></div><div class="marquee-card__body"><h4>Otter</h4><span>Playful &amp; Clever</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Peacock.webp" alt="Peacock" loading="lazy"></div><div class="marquee-card__body"><h4>Peacock</h4><span>Dazzling Display</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Parrot.webp" alt="Parrot" loading="lazy"></div><div class="marquee-card__body"><h4>Parrot</h4><span>Colourful Talker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Snake.webp" alt="Snake" loading="lazy"></div><div class="marquee-card__body"><h4>Snake</h4><span>Silent Striker</span></div></div>
+            <div class="marquee-card"><div class="marquee-card__img"><img src="assets/images/Marquee/Orangutan.webp" alt="Orangutan" loading="lazy"></div><div class="marquee-card__body"><h4>Orangutan</h4><span>Tree Philosopher</span></div></div>
           </div>
 
         </div>
@@ -152,6 +168,9 @@
 
       <!-- ===== ANIMALS NEAR YOU DIVIDER ===== -->
       <section class="section section--divider" id="divider-nearby">
+        <div class="divider__eyebrow-wrap">
+          <span class="divider__eyebrow">Localized Species</span>
+        </div>
         <h2 class="divider__title">
           <span class="scroll-reveal" id="typing-nearby"><span class="reveal-inner">Wildlife in Your Backyard</span></span>
         </h2>
@@ -216,6 +235,9 @@
 
       <!-- ===== EXPLORE BY ANIMAL CLASS DIVIDER ===== -->
       <section class="section section--divider" id="divider-categories">
+        <div class="divider__eyebrow-wrap">
+          <span class="divider__eyebrow">Taxonomy Grid</span>
+        </div>
         <h2 class="divider__title">
           <span class="scroll-reveal" id="typing-categories"><span class="reveal-inner">Explore by Animal Class</span></span>
         </h2>

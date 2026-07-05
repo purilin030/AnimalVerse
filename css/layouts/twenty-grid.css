@@ -1,0 +1,273 @@
+/* ============================================================
+   Twenty-Inspired Grid & Wrapper System
+   Adapted from HTML5 UP Twenty for AnimalVerse homepage.
+   Uses AnimalVerse color tokens — no new palette introduced.
+   ============================================================ */
+
+/* ===== Containers ===== */
+.twenty-container {
+  margin: 0 auto;
+  max-width: 100%;
+  width: 1400px;
+  box-sizing: border-box;
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+
+@media screen and (max-width: 1680px) {
+  .twenty-container { width: 1200px; }
+}
+@media screen and (max-width: 1280px) {
+  .twenty-container { width: 960px; }
+}
+@media screen and (max-width: 980px) {
+  .twenty-container { width: 95%; }
+}
+@media screen and (max-width: 840px) {
+  .twenty-container { width: 95%; }
+}
+@media screen and (max-width: 736px) {
+  .twenty-container {
+    width: 100%;
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+}
+
+/* ===== Flexbox Row Grid ===== */
+.twenty-row {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  align-items: stretch;
+  margin-top: -40px;
+  margin-left: -40px;
+}
+
+.twenty-row > * {
+  box-sizing: border-box;
+  padding: 40px 0 0 40px;
+}
+
+.twenty-row.gtr-50 {
+  margin-top: -20px;
+  margin-left: -20px;
+}
+.twenty-row.gtr-50 > * {
+  padding: 20px 0 0 20px;
+}
+
+/* Column widths */
+.twenty-row > .col-4  { width: 33.33333%; }
+.twenty-row > .col-6  { width: 50%; }
+.twenty-row > .col-8  { width: 66.66667%; }
+.twenty-row > .col-12 { width: 100%; }
+
+@media screen and (max-width: 840px) {
+  .twenty-row > .col-4,
+  .twenty-row > .col-6,
+  .twenty-row > .col-8 {
+    width: 100%;
+  }
+  .twenty-row {
+    margin-top: -24px;
+    margin-left: -24px;
+  }
+  .twenty-row > * {
+    padding: 24px 0 0 24px;
+  }
+}
+
+/* ===== Wrappers — Twenty-inspired section containers ===== */
+.twenty-wrapper {
+  position: relative;
+  padding: 5em 0;
+}
+
+/* Style 1 — No padding, transparent background */
+.twenty-wrapper.tw-style1 {
+  padding: 0;
+}
+
+/* Style 2 — Accent background (brand green, translucent) */
+.twenty-wrapper.tw-style2 {
+  background: var(--clr-accent);
+  color: #0e0f0c;
+  padding: 5em;
+  border-radius: 0;
+}
+
+/* Style 3 — White/surface card background, elevated */
+.twenty-wrapper.tw-style3 {
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  border-radius: 0;
+}
+
+[data-theme="dark"] .twenty-wrapper.tw-style3 {
+  background: var(--clr-surface);
+}
+
+/* ===== Special Header (Twenty center-title, cleaned up) ===== */
+.twenty-header-special {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 2em; /* Small padding since decorative lines/icon are removed */
+  margin-bottom: 4em;
+}
+
+.twenty-header-special h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 300;
+  color: var(--clr-text);
+  letter-spacing: 0.1em;
+  padding-left: 0.1em; /* Compensate for right-side letter-spacing */
+  text-transform: uppercase;
+  line-height: 1.75;
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
+.twenty-header-special h2 strong {
+  font-weight: 700;
+}
+
+.twenty-header-special h2 + p {
+  margin-bottom: 0;
+  padding-top: 1.25em;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  color: var(--clr-text-muted);
+  letter-spacing: 0.025em;
+  line-height: 1.75;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+}
+
+/* ===== Major Header (for wrapper sections) ===== */
+.twenty-header-major {
+  text-align: center;
+  padding-bottom: 2em;
+}
+
+.twenty-header-major h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 300;
+  color: var(--clr-text);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+.twenty-header-major h2 strong {
+  font-weight: 700;
+}
+
+/* ===== Twenty-style CTA banner ===== */
+.twenty-cta-banner {
+  position: relative;
+  overflow: hidden;
+  padding: 5em 2em;
+  text-align: center;
+  color: #fff;
+}
+
+.twenty-cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(14, 15, 12, 0.88) 0%,
+    rgba(14, 15, 12, 0.65) 50%,
+    rgba(14, 15, 12, 0.88) 100%
+  );
+  z-index: 1;
+}
+
+.twenty-cta-banner .cta-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.twenty-cta-banner .cta-inner h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 0.5em;
+}
+
+.twenty-cta-banner .cta-inner p {
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2em;
+  letter-spacing: 0.025em;
+  line-height: 1.75;
+}
+
+.twenty-cta-banner .cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* ===== Responsive wrappers ===== */
+@media screen and (max-width: 1280px) {
+  .twenty-wrapper {
+    padding: 4em 0;
+  }
+  .twenty-wrapper.tw-style2 {
+    padding: 4em 3em;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .twenty-wrapper {
+    padding: 3em 0;
+  }
+  .twenty-wrapper.tw-style2 {
+    padding: 3em 2.5em;
+  }
+  .twenty-header-special {
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .twenty-header-special::before,
+  .twenty-header-special::after {
+    width: 35%;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .twenty-wrapper.tw-style2 {
+    padding: 2.5em 1.5em;
+  }
+  .twenty-header-special {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    margin-bottom: 2em;
+  }
+  .twenty-header-special::before,
+  .twenty-header-special::after {
+    width: 30%;
+  }
+  .twenty-cta-banner {
+    padding: 3em 1.5em;
+  }
+}

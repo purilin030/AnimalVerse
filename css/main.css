@@ -27,6 +27,7 @@
 @import url('layouts/app-layout.css');
 @import url('layouts/grid.css');
 @import url('layouts/sections.css');
+@import url('layouts/twenty-grid.css');
 
 /* ===== Utilities ===== */
 @import url('utilities/spacing.css');

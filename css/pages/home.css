@@ -25,11 +25,25 @@
   border-radius: 0;
 }
 
-/* Nearby section - keep it inside the padded area */
-#nearby-section {
-  margin-left: var(--space-lg);
-  margin-right: var(--space-lg);
-  max-width: calc(var(--content-max-width) - 2 * var(--space-lg));
+/* Nearby section — centered via .section--nearby in sections.css */
+/* Globe container — dark portal gradient so 3D particles are visible */
+.nearby-globe-3d {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(6, 6, 18, 0.95) 0%,
+    rgba(6, 6, 18, 0.80) 28%,
+    rgba(6, 6, 18, 0.35) 55%,
+    transparent 75%
+  );
+}
+[data-theme="dark"] .nearby-globe-3d {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(2, 2, 8, 0.98) 0%,
+    rgba(2, 2, 8, 0.85) 28%,
+    rgba(2, 2, 8, 0.40) 55%,
+    transparent 75%
+  );
 }
 
 /* Category cards on home page */
@@ -42,11 +56,6 @@
   #main-content > .section {
     padding-left: var(--space-md);
     padding-right: var(--space-md);
-  }
-
-  #nearby-section {
-    margin-left: var(--space-md);
-    margin-right: var(--space-md);
   }
 
   .nearby-permission-box {

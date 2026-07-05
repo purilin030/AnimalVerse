@@ -39,6 +39,9 @@
   border-radius: var(--radius-lg);
   padding: var(--space-2xl) var(--space-lg);
   border: 1px solid var(--clr-border);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Globe — 3D interactive, full-width breakout */
@@ -467,6 +470,12 @@
   .nearby-globe-3d {
     width: 380px;
     height: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section--nearby {
+    padding: var(--space-xl) var(--space-md);
   }
 }
 

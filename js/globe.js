@@ -128,6 +128,72 @@ const glowMat = new THREE.MeshPhongMaterial({
 const atmosphere = new THREE.Mesh(glowGeo, glowMat);
 earthGroup.add(atmosphere);
 
+// ===== Particle Field (floating luminous dots around the earth) =====
+const PARTICLE_COUNT = 500;
+const particlePositions = new Float32Array(PARTICLE_COUNT * 3);
+const particleSizes = new Float32Array(PARTICLE_COUNT);
+const particleSpeeds = new Float32Array(PARTICLE_COUNT);
+const particleOffsets = new Float32Array(PARTICLE_COUNT);
+
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  // Distribute in a spherical shell between r=1.5 and r=3.2
+  const radius = 1.5 + Math.random() * 1.7;
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+
+  particlePositions[i * 3]     = radius * Math.sin(phi) * Math.cos(theta);
+  particlePositions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+  particlePositions[i * 3 + 2] = radius * Math.cos(phi);
+
+  particleSizes[i]   = 0.008 + Math.random() * 0.022;
+  particleSpeeds[i]  = 0.04 + Math.random() * 0.06;
+  particleOffsets[i] = Math.random() * Math.PI * 2;
+}
+
+const particleGeo = new THREE.BufferGeometry();
+particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+particleGeo.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
+
+// Soft circular glow texture
+const pCanvas = document.createElement('canvas');
+pCanvas.width = 64;
+pCanvas.height = 64;
+const pCtx = pCanvas.getContext('2d');
+const grad = pCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+grad.addColorStop(0, 'rgba(255,255,255,1)');
+grad.addColorStop(0.15, 'rgba(255,255,255,0.9)');
+grad.addColorStop(0.5, 'rgba(200,230,255,0.4)');
+grad.addColorStop(1, 'rgba(255,255,255,0)');
+pCtx.fillStyle = grad;
+pCtx.fillRect(0, 0, 64, 64);
+const particleTexture = new THREE.CanvasTexture(pCanvas);
+
+const particleMat = new THREE.PointsMaterial({
+  size: 0.035,
+  map: particleTexture,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+  transparent: true,
+  opacity: 0.55,
+  color: 0xccddff,
+  sizeAttenuation: true,
+});
+
+const particleCloud = new THREE.Points(particleGeo, particleMat);
+particleCloud.position.set(0, 0, 0);
+// Do NOT add to earthGroup — add to scene so particles don't spin with the earth
+scene.add(particleCloud);
+
+// Store for animation
+const particleSystem = {
+  cloud: particleCloud,
+  positions: particlePositions,
+  speeds: particleSpeeds,
+  offsets: particleOffsets,
+  count: PARTICLE_COUNT,
+  time: 0,
+};
+
 // ===== Location & Label Data =====
 const markers = [];
 const labelObjects = [];
@@ -426,6 +492,32 @@ function animate() {
     m.ring.scale.set(s, s, s);
     m.line.material.opacity = 0.1 + 0.2 * pulse;
   });
+
+  // Animate particle field — slow rotation + gentle drift
+  if (particleSystem) {
+    particleSystem.time += 0.004;
+    const rotY = particleSystem.time * 0.15;
+    const pos = particleSystem.cloud.geometry.attributes.position;
+    const base = particleSystem.positions;
+
+    for (let i = 0; i < particleSystem.count; i++) {
+      const i3 = i * 3;
+      const x = base[i3];
+      const y = base[i3 + 1];
+      const z = base[i3 + 2];
+
+      // Gentle vertical float
+      const float = Math.sin(time * 0.3 + particleSystem.offsets[i]) * 0.015;
+
+      // Rotate around Y axis
+      const cosA = Math.cos(rotY);
+      const sinA = Math.sin(rotY);
+      pos.array[i3]     = x * cosA + z * sinA;
+      pos.array[i3 + 1] = y + float;
+      pos.array[i3 + 2] = z * cosA - x * sinA;
+    }
+    pos.needsUpdate = true;
+  }
 
   // Hide labels on the far side of the globe
   camera.getWorldPosition(tempVec);

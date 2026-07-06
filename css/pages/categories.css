@@ -1,41 +1,306 @@
 /* ============================================================
-   Categories Page
+   Categories Page Component - Wise + Uiverse.io Card Fusion
    ============================================================ */
 
-.page-title {
-  font-size: var(--fs-3xl);
+#main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height) - 60px); /* Centers layout vertically */
+  box-sizing: border-box;
+  padding-bottom: 40px; /* Slight visual offset for optical balance */
+  position: relative;
+  z-index: 1;
+}
+
+/* Background particle canvas — sits behind everything */
+#bg-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+}
+
+.categories-header-wrap {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.categories-eyebrow {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6bb23f; /* Brand forest green */
+  background: rgba(107, 178, 63, 0.08);
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(107, 178, 63, 0.15);
   margin-bottom: var(--space-sm);
+  transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .categories-eyebrow {
+  background: rgba(159, 232, 112, 0.08);
+  border-color: rgba(159, 232, 112, 0.15);
+  color: var(--clr-accent);
+}
+
+.page-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  color: var(--clr-text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 var(--space-sm) 0;
+  text-align: center;
+}
+
+.title-accent {
+  color: #6bb23f;
+}
+
+[data-theme="dark"] .title-accent {
+  color: var(--clr-accent);
 }
 
 .page-subtitle {
-  font-size: var(--fs-base);
+  font-family: var(--ff-body);
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
   color: var(--clr-text-muted);
-  margin-bottom: var(--space-xl);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .categories-page-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--space-lg);
+  padding: var(--space-md) 0;
 }
 
-.category-card--large {
-  padding: var(--space-2xl) var(--space-lg);
+/* Card Root Container */
+.category-card {
+  position: relative;
+  height: 340px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--clr-border); /* Outer border glow container */
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  z-index: 1;
 }
 
-.category-card--large .category-card__icon {
-  font-size: 3.5rem;
-  margin-bottom: var(--space-md);
+[data-theme="dark"] .category-card {
+  background: #2a2b26;
+}
+
+/* Card Inner Frame */
+.category-card__inner {
+  position: absolute;
+  inset: 2px; /* Emulates the inner border from the inset-0.5 z-[1] */
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: calc(var(--radius-lg) - 2px);
+  background: var(--clr-surface);
+  padding: var(--space-md);
+  color: var(--clr-text);
+  box-sizing: border-box;
+  transition: background var(--transition-normal);
+}
+
+/* Media/Icon Viewport */
+.category-card__media {
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--clr-bg-alt); /* Light gray canvas background */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: background var(--transition-normal), background-image 0.5s ease;
+}
+
+[data-theme="dark"] .category-card__media {
+  background-color: #141510;
+}
+
+/* Default images (1) per category — shown when not hovered */
+.category-card--mammals .category-card__media {
+  background-image: url('../../assets/images/categories/Mammal1.webp');
+}
+.category-card--birds .category-card__media {
+  background-image: url('../../assets/images/categories/Birds1.webp');
+}
+.category-card--reptiles .category-card__media {
+  background-image: url('../../assets/images/categories/Reptiles1.webp');
+}
+.category-card--amphibians .category-card__media {
+  background-image: url('../../assets/images/categories/Amphibians1.webp');
+}
+.category-card--aquatic .category-card__media {
+  background-image: url('../../assets/images/categories/Aquatic1.webp');
+}
+
+/* Hover images (2) per category — swap on hover */
+.category-card--mammals:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Mammal2.webp');
+}
+.category-card--birds:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Birds2.webp');
+}
+.category-card--reptiles:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Reptiles2.webp');
+}
+.category-card--amphibians:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Amphibians2.webp');
+}
+.category-card--aquatic:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Aquatic2.webp');
+}
+/* Swipe effect (the diagonal swipe from Uiverse card) */
+.category-card__media::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -200%;
+  width: 200%;
+  height: 120px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: translateY(-50%) rotate(-15deg);
+  z-index: 1;
+  transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.category-card:hover .category-card__media::before {
+  left: 200%;
+}
+
+/* Info container */
+.category-card__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: var(--space-md);
+  box-sizing: border-box;
+}
+
+.category-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.category-card__name {
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--clr-text);
+  margin: 0;
+}
+
+.category-card__count {
+  font-size: 13px;
+  color: var(--clr-text-muted);
+}
+
+/* Arrow Icon */
+.category-card__arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--clr-text-muted);
+  transform: translateX(-8px);
+  opacity: 0;
+  transition: all var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-card:hover .category-card__arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--clr-accent);
+}
+
+[data-theme="light"] .category-card:hover .category-card__arrow {
+  color: #6bb23f;
+}
+
+/* Glowing Spot behind card */
+.category-card__glow {
+  position: absolute;
+  top: 100%;
+  left: -50%;
+  width: 200px;
+  height: 180px;
+  border-radius: 50%;
+  filter: blur(48px);
+  z-index: -1;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Custom glow colors matching each category */
+.category-card--mammals .category-card__glow { background: rgba(159, 232, 112, 0.45); } /* Wise green */
+.category-card--birds .category-card__glow { background: rgba(56, 200, 255, 0.45); } /* Blue */
+.category-card--reptiles .category-card__glow { background: rgba(46, 173, 75, 0.45); } /* Emerald */
+.category-card--amphibians .category-card__glow { background: rgba(197, 237, 171, 0.45); } /* Pale green */
+.category-card--aquatic .category-card__glow { background: rgba(168, 85, 247, 0.45); } /* Purple */
+
+.category-card:hover .category-card__glow {
+  top: 10%;
+  left: -10%;
+  opacity: 1;
+}
+
+/* Mobile responsive overrides */
+@media (max-width: 1100px) {
+  .categories-page-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 767px) {
   .categories-page-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+  .category-card {
+    height: 280px;
+  }
+  .category-card__icon {
+    font-size: 3.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .categories-page-grid {
     grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
   }
 }

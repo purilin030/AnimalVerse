@@ -96,6 +96,7 @@ App.player = (function() {
 
     var isFav = App.favorites.isFavorite(video.id);
     var isWL = App.favorites.isWatchLater(video.id);
+    var isLiked = App.favorites.isLiked(video.id);
 
     // Clear container
     container.textContent = '';
@@ -142,6 +143,13 @@ App.player = (function() {
     actions.className = 'video-info__actions';
     container.appendChild(actions);
 
+    var likeBtn = document.createElement('button');
+    likeBtn.className = 'btn btn--like' + (isLiked ? ' is-active' : '');
+    likeBtn.id = 'like-btn';
+    likeBtn.setAttribute('data-id', video.id);
+    likeBtn.textContent = (isLiked ? '👍 Liked' : '👍 Like');
+    actions.appendChild(likeBtn);
+
     var favBtn = document.createElement('button');
     favBtn.className = 'btn btn--favorite' + (isFav ? ' is-active' : '');
     favBtn.id = 'fav-btn';
@@ -157,6 +165,15 @@ App.player = (function() {
     actions.appendChild(wlBtn);
 
     // Bind buttons (use references already created above)
+    if (likeBtn) {
+      likeBtn.addEventListener('click', function() {
+        var added = App.favorites.toggleLike(video.id);
+        this.classList.toggle('is-active', added);
+        this.textContent = (added ? '👍 Liked' : '👍 Like');
+        App.ui.showToast(added ? 'Added to liked videos!' : 'Removed from liked videos', added ? 'success' : 'info');
+      });
+    }
+
     if (favBtn) {
       favBtn.addEventListener('click', function() {
         var added = App.favorites.toggleFavorite(video.id);

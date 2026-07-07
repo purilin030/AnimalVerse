@@ -39,6 +39,9 @@
       case 'favorites.html':
         if (App.favoritesPage) App.favoritesPage.init();
         break;
+      case 'liked_vid.html':
+        if (App.likedPage) App.likedPage.init();
+        break;
       case 'dashboard.html':
         if (App.dashboard) App.dashboard.init();
         break;

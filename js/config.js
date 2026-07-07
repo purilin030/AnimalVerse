@@ -10,6 +10,7 @@ App.config = {
   localStorageKeys: {
     favorites: 'animalverse_favorites',
     watchLater: 'animalverse_watchLater',
+    likes: 'animalverse_likes',
     sidebarCollapsed: 'animalverse_sidebarCollapsed',
     theme: 'animalverse_theme'
   },

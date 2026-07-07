@@ -6,6 +6,7 @@ App.favorites = (function() {
 
   var FAV_KEY = App.config.localStorageKeys.favorites;
   var WL_KEY = App.config.localStorageKeys.watchLater;
+  var LIKES_KEY = App.config.localStorageKeys.likes;
 
   /**
    * Safely read from localStorage with fallback
@@ -79,12 +80,39 @@ App.favorites = (function() {
     return getWatchLater().indexOf(videoId) !== -1;
   }
 
+  /* ---- Likes ---- */
+
+  function getLikes() {
+    return safeGet(LIKES_KEY);
+  }
+
+  function toggleLike(videoId) {
+    var list = getLikes();
+    var idx = list.indexOf(videoId);
+    if (idx === -1) {
+      list.push(videoId);
+      safeSet(LIKES_KEY, list);
+      return true;
+    } else {
+      list.splice(idx, 1);
+      safeSet(LIKES_KEY, list);
+      return false;
+    }
+  }
+
+  function isLiked(videoId) {
+    return getLikes().indexOf(videoId) !== -1;
+  }
+
   return {
     getFavorites: getFavorites,
     toggleFavorite: toggleFavorite,
     isFavorite: isFavorite,
     getWatchLater: getWatchLater,
     toggleWatchLater: toggleWatchLater,
-    isWatchLater: isWatchLater
+    isWatchLater: isWatchLater,
+    getLikes: getLikes,
+    toggleLike: toggleLike,
+    isLiked: isLiked
   };
 })();

@@ -1,0 +1,111 @@
+/* ============================================================
+   Liked Videos Page
+   Wise-inspired design language integration
+   ============================================================ */
+
+.liked-page {
+  padding: 0;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+/* Wise-inspired Hero Band */
+.hero-band {
+  background-color: var(--clr-bg);
+  padding: var(--space-2xl) var(--space-lg);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.hero-band__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-band__title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800; /* Wise Display Weight */
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--clr-text);
+  margin: 0;
+}
+
+.hero-band__subtitle {
+  font-family: var(--ff-body);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-normal);
+  color: var(--clr-primary-light);
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+  max-width: 600px;
+}
+
+/* Content Band holding White Cards on Sage background */
+.content-band {
+  padding: var(--space-xl) var(--space-lg) var(--space-3xl);
+  background-color: var(--clr-bg);
+}
+
+.content-band__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* card-content styles (White card on Sage canvas) */
+.liked-page .card-content {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl); /* Wise rounded.xl 24px */
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Video Grid and layout rules */
+.liked-page .video-grid {
+  margin-top: 0;
+}
+
+/* Custom Empty State styling */
+.liked-page .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3xl) var(--space-md);
+}
+
+.liked-page .empty-state__icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-md);
+}
+
+.liked-page .empty-state__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--clr-text);
+  margin-bottom: var(--space-xs);
+}
+
+.liked-page .empty-state__text {
+  font-family: var(--ff-body);
+  color: var(--clr-text-muted);
+  margin-bottom: var(--space-xl);
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .hero-band {
+    padding: var(--space-xl) var(--space-md);
+  }
+  .content-band {
+    padding: var(--space-md) var(--space-md) var(--space-2xl);
+  }
+  .liked-page .card-content {
+    padding: var(--space-md);
+  }
+}

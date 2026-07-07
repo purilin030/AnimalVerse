@@ -87,7 +87,8 @@
 
 /* Favorite toggle */
 .btn--favorite,
-.btn--watchlater {
+.btn--watchlater,
+.btn--like {
   background: transparent;
   border: 1px solid var(--clr-border);
   color: var(--clr-text-muted);
@@ -96,7 +97,8 @@
 }
 
 .btn--favorite:hover,
-.btn--watchlater:hover {
+.btn--watchlater:hover,
+.btn--like:hover {
   border-color: var(--clr-accent);
   color: var(--clr-accent);
 }
@@ -109,4 +111,9 @@
 .btn--watchlater.is-active {
   color: var(--clr-secondary);
   border-color: var(--clr-secondary);
+}
+
+.btn--like.is-active {
+  color: #2ead4b;
+  border-color: #2ead4b;
 }

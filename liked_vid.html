@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liked Videos - AnimalVerse</title>
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/liked-vid.css">
+</head>
+<body>
+<div class="app-layout" id="app-layout">
+  <!-- Header injected via data-include -->
+  <div data-include="header"></div>
+
+  <!-- Sidebar injected via data-include -->
+  <div data-include="sidebar"></div>
+  
+  <main class="main" id="main-content">
+    <div class="liked-page">
+      <!-- Wise-inspired Hero Band -->
+      <section class="hero-band">
+        <div class="hero-band__inner">
+          <h1 class="hero-band__title">Liked Videos</h1>
+          <p class="hero-band__subtitle">Your curated collection of liked wildlife and nature videos.</p>
+        </div>
+      </section>
+
+      <!-- Content Band containing the white-card grid -->
+      <section class="content-band">
+        <div class="content-band__inner card-content">
+          <div class="video-grid" id="liked-grid">
+            <div class="empty-state">
+              <p class="text-muted">Loading your liked videos...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer injected via data-include -->
+  <div data-include="footer"></div>
+</div>
+
+<!-- Chatbot + Toast injected via data-include -->
+<div data-include="chatbot"></div>
+
+<script defer src="js/include.js"></script>
+<script defer src="js/config.js"></script>
+<script defer src="js/utils.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/router.js"></script>
+<script defer src="js/theme.js"></script>
+<script defer src="js/favorites.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/navigation.js"></script>
+<script defer src="js/liked-vid.js"></script>
+<script defer src="js/chatbot.js"></script>
+<script defer src="js/app.js"></script>
+</body>
+</html>

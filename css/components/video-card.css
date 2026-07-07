@@ -31,18 +31,35 @@
 .video-card__thumbnail-wrapper {
   position: relative;
   width: 100%;
-  border-radius: var(--radius-xl); /* Wise premium 24px roundness */
+  border-radius: var(--radius-lg); /* Pinterest 16px roundness */
   overflow: hidden;
   background: var(--clr-surface);
-  border: 1px solid var(--clr-border);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  border: none; /* Borderless */
+  transition: transform var(--transition-normal);
   /* Aspect ratios will be set dynamically via classes */
 }
 
-/* Hover lift on the image card only, not the text */
+/* Hover overlay on the image card */
+.video-card__thumbnail-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background var(--transition-fast);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.video-card:hover .video-card__thumbnail-wrapper::after {
+  background: rgba(0, 0, 0, 0.15); /* Pinterest soft dark overlay */
+}
+
+/* No translate-up or card-level drop shadow to stay flat */
 .video-card:hover .video-card__thumbnail-wrapper {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  transform: none;
 }
 
 .video-card__thumbnail {
@@ -94,25 +111,26 @@
 .video-card__category-tag--amphibians { background: var(--clr-cat-amphibians); color: var(--clr-primary); }
 .video-card__category-tag--aquatic    { background: var(--clr-cat-aquatic); color: #FFF; }
 
-/* Floating Favorite Button - top-right corner */
+/* Floating Favorite Button - top-right corner - Pinterest Save Pill */
 .video-card__favorite-btn {
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 36px;
-  height: 36px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--clr-primary);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius-full);
-  opacity: 0.4; /* Always visible but subtle, full on hover */
+  padding: 0 12px;
+  background: #e60023; /* Pinterest Red */
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px; /* Pill shape */
+  opacity: 0; /* Hidden by default, appears on card hover */
   transform: scale(0.9);
   transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
   z-index: 15;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 .video-card:hover .video-card__favorite-btn,
@@ -122,14 +140,24 @@
 }
 
 .video-card__favorite-btn:hover {
-  background: #ffffff;
-  transform: scale(1.1);
+  background: #cc001f; /* Pinterest Red Pressed */
 }
 
 .video-card__favorite-btn--active {
-  background: var(--clr-accent);
-  border-color: var(--clr-accent);
-  color: var(--clr-primary);
+  background: #111111; /* Dark grey for saved state */
+  color: #ffffff;
+}
+
+.video-card__favorite-btn--active:hover {
+  background: #222222;
+}
+
+.video-card__favorite-text {
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Body / Text below image */

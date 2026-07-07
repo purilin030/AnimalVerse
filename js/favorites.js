@@ -47,9 +47,11 @@ App.favorites = (function() {
     var idx = list.indexOf(videoId);
     if (idx === -1) {
       list.push(videoId);
+      setFavorites(list);
       return true; // added
     } else {
       list.splice(idx, 1);
+      setFavorites(list);
       return false; // removed
     }
   }
@@ -69,9 +71,11 @@ App.favorites = (function() {
     var idx = list.indexOf(videoId);
     if (idx === -1) {
       list.push(videoId);
+      safeSet(WL_KEY, list);
       return true;
     } else {
       list.splice(idx, 1);
+      safeSet(WL_KEY, list);
       return false;
     }
   }

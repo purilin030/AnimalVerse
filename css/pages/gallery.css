@@ -166,7 +166,7 @@
 /* Masonry Grid styles (Flexbox Column structure) */
 .video-grid {
   display: flex;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   width: 100%;
   align-items: flex-start;
   contain: layout style paint;
@@ -176,7 +176,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   min-width: 0;
   contain: layout style paint;
 }

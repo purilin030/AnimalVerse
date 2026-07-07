@@ -100,17 +100,23 @@ App.ui = (function() {
 
     // Favorite heart SVG
     var favSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    favSvg.setAttribute('width', '16');
-    favSvg.setAttribute('height', '16');
+    favSvg.setAttribute('width', '14');
+    favSvg.setAttribute('height', '14');
     favSvg.setAttribute('viewBox', '0 0 20 20');
-    favSvg.setAttribute('fill', isFav ? '#FF4444' : 'none');
-    favSvg.setAttribute('stroke', 'currentColor');
-    favSvg.setAttribute('stroke-width', '1.5');
+    favSvg.setAttribute('fill', isFav ? '#FFFFFF' : 'none');
+    favSvg.setAttribute('stroke', '#FFFFFF');
+    favSvg.setAttribute('stroke-width', '2');
     var favPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     favPath.setAttribute('d', 'M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z');
     favPath.setAttribute('stroke-linejoin', 'round');
     favSvg.appendChild(favPath);
     favBtn.appendChild(favSvg);
+
+    // Favorite text
+    var favText = document.createElement('span');
+    favText.className = 'video-card__favorite-text';
+    favText.textContent = isFav ? 'Saved' : 'Save';
+    favBtn.appendChild(favText);
 
     return card;
   }
@@ -166,15 +172,18 @@ App.ui = (function() {
         var videoId = btn.getAttribute('data-id');
         var added = App.favorites.toggleFavorite(videoId);
 
+        var textEl = btn.querySelector('.video-card__favorite-text');
         if (added) {
           btn.classList.add('video-card__favorite-btn--active');
-          btn.querySelector('svg').setAttribute('fill', '#FF4444');
+          btn.querySelector('svg').setAttribute('fill', '#FFFFFF');
           btn.setAttribute('aria-label', 'Remove from favorites');
+          if (textEl) textEl.textContent = 'Saved';
           showToast('Added to favorites!', 'success');
         } else {
           btn.classList.remove('video-card__favorite-btn--active');
           btn.querySelector('svg').setAttribute('fill', 'none');
           btn.setAttribute('aria-label', 'Add to favorites');
+          if (textEl) textEl.textContent = 'Save';
           showToast('Removed from favorites', 'info');
         }
       });

@@ -190,6 +190,35 @@ def get_category_from_class(classname, ordername, slug):
 
     return 'mammals'  # default fallback
 
+def get_mp4_duration_str(filepath):
+    try:
+        with open(filepath, 'rb') as f:
+            data = f.read(102400)  # Read first 100KB to find mvhd
+            idx = data.find(b'mvhd')
+            if idx != -1:
+                version = data[idx + 4]
+                if version == 0:
+                    time_scale = int.from_bytes(data[idx + 16:idx + 20], 'big')
+                    duration = int.from_bytes(data[idx + 20:idx + 24], 'big')
+                else:
+                    time_scale = int.from_bytes(data[idx + 28:idx + 32], 'big')
+                    duration = int.from_bytes(data[idx + 32:idx + 40], 'big')
+                
+                if time_scale > 0 and duration > 0:
+                    seconds = duration / time_scale
+                    total_seconds = int(seconds)
+                    hours = total_seconds // 3600
+                    minutes = (total_seconds % 3600) // 60
+                    seconds = total_seconds % 60
+                    
+                    if hours > 0:
+                        return f"{hours}:{minutes:02d}:{seconds:02d}"
+                    else:
+                        return f"{minutes}:{seconds:02d}"
+    except Exception as e:
+        pass
+    return "0:10"  # fallback
+
 def query_gbif(slug):
     # Check cache first
     if slug in gbif_cache:
@@ -353,7 +382,7 @@ def rebuild():
                 "videoUrl": relative_video_url,
                 "posterUrl": poster_file,
                 "thumbnail": poster_file,
-                "duration": f"0:{(hash(video_id) % 50) + 10:02d}", # realistic short clip length
+                "duration": get_mp4_duration_str(mp4_file),
                 "dateAdded": date_added,
                 "featured": (hash(video_id) % 7 == 0), # pseudo-random feature selection
                 "views": views,

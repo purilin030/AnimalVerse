@@ -13,7 +13,7 @@
 @import url('components/header.css');
 @import url('components/sidebar.css');
 @import url('components/footer.css');
-@import url('components/video-card.css');
+@import url('components/video-card.css?v=3.0');
 @import url('components/category-card.css');
 @import url('components/hero.css');
 @import url('components/player.css');
@@ -25,7 +25,7 @@
 
 /* ===== Layouts ===== */
 @import url('layouts/app-layout.css');
-@import url('layouts/grid.css');
+@import url('layouts/grid.css?v=3.0');
 @import url('layouts/sections.css');
 @import url('layouts/twenty-grid.css');
 

@@ -19,15 +19,13 @@ App.likedPage = (function() {
       }).filter(function(v) { return v !== null; });
 
       if (videos.length === 0) {
-        // Render custom empty state in Wise theme
-        container.innerHTML = [
-          '<div class="empty-state">',
-          '  <span class="empty-state__icon" aria-hidden="true">👍</span>',
-          '  <h2 class="empty-state__title">No Liked Videos Yet</h2>',
-          '  <p class="empty-state__text text-muted">Browse our video library and like your favorite animal clips to build your collection.</p>',
-          '  <a class="btn btn--primary" href="gallery.html">Explore Gallery</a>',
-          '</div>'
-        ].join('\n');
+        App.ui.renderEmptyState(container, {
+          icon: '👍',
+          title: 'No Liked Videos Yet',
+          text: 'Browse videos and like them to build your collection!',
+          actionLabel: 'Browse Videos',
+          actionHref: 'gallery.html'
+        });
         return;
       }
 

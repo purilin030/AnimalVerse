@@ -6,7 +6,7 @@
   <title>Liked Videos - AnimalVerse</title>
   <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/pages/liked-vid.css">
+  <link rel="stylesheet" href="css/pages/favorites.css">
 </head>
 <body>
 <div class="app-layout" id="app-layout">
@@ -17,25 +17,14 @@
   <div data-include="sidebar"></div>
   
   <main class="main" id="main-content">
-    <div class="liked-page">
-      <!-- Wise-inspired Hero Band -->
-      <section class="hero-band">
-        <div class="hero-band__inner">
-          <h1 class="hero-band__title">Liked Videos</h1>
-          <p class="hero-band__subtitle">Your curated collection of liked wildlife and nature videos.</p>
-        </div>
-      </section>
+    <div class="favorites-page">
+      <h1>Liked Videos</h1>
 
-      <!-- Content Band containing the white-card grid -->
-      <section class="content-band">
-        <div class="content-band__inner card-content">
-          <div class="video-grid" id="liked-grid">
-            <div class="empty-state">
-              <p class="text-muted">Loading your liked videos...</p>
-            </div>
-          </div>
+      <div class="video-grid" id="liked-grid">
+        <div class="empty-state">
+          <p class="text-muted">Loading your liked videos...</p>
         </div>
-      </section>
+      </div>
     </div>
   </main>
 

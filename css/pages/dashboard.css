@@ -88,52 +88,32 @@
 }
 
 /* ============================================================
-   ACTION CARDS GRID
+   ACTION CARDS GRID (PHANTOM TILES STYLE)
    ============================================================ */
 .dashboard__actions {
   margin-bottom: var(--space-2xl);
 }
 
-.dash-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: var(--space-lg);
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  margin: -1.5em 0 0 -1.5em;
 }
 
-/* ============================================================
-   SINGLE CARD
-   ============================================================ */
+/* Base card / tile */
 .dash-card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  padding: var(--space-xl) var(--space-md);
-  background: var(--clr-surface);
-  border: 1px solid var(--clr-border);
+  width: calc(33.33333% - 1.5em);
+  margin: 1.5em 0 0 1.5em;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  text-decoration: none;
-  cursor: pointer;
-  aspect-ratio: 1 / 1;
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
-  opacity: 0;
   overflow: hidden;
-}
-
-.dash-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
+  opacity: 0; /* Staggered load animation */
+  cursor: pointer;
+  aspect-ratio: 1.6 / 1;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.35s ease;
 }
 
 /* Card entrance stagger via JS */
@@ -141,128 +121,165 @@
   animation: cardPop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Hover */
-.dash-card:hover {
-  transform: translateY(-6px) scale(1.04);
-  box-shadow: var(--shadow-lg);
+/* Image container inside tile */
+.dash-card > .image {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
 }
 
-.dash-card:active {
-  transform: translateY(-2px) scale(1.01);
+.dash-card > .image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* ---- Card Icon ---- */
-.dash-card__icon {
-  width: 56px;
-  height: 56px;
+/* Color Overlay on Image */
+.dash-card > .image:before {
+  pointer-events: none;
+  transition: background-color 0.5s ease, opacity 0.5s ease;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+/* White cross lines overlay */
+.dash-card > .image:after {
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cstyle%3Eline %7B stroke-width: 0.25px%3B stroke: %23ffffff%3B %7D%3C/style%3E%3Cline x1='0' y1='0' x2='100' y2='100' /%3E%3Cline x1='100' y1='0' x2='0' y2='100' /%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.25;
+  z-index: 2;
+}
+
+/* Link and content overlay */
+.dash-card > a {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.35s ease,
-    color 0.35s ease;
-  flex-shrink: 0;
-}
-
-.dash-card:hover .dash-card__icon {
-  transform: scale(1.12);
-}
-
-/* Icon color variants */
-.dash-card__icon--emerald {
-  background: rgba(159, 232, 112, 0.12);
-  color: var(--clr-accent);
-}
-.dash-card:hover .dash-card__icon--emerald {
-  background: rgba(159, 232, 112, 0.18);
-}
-
-.dash-card__icon--rose {
-  background: rgba(244, 63, 94, 0.12);
-  color: #E11D48;
-}
-.dash-card:hover .dash-card__icon--rose {
-  background: rgba(244, 63, 94, 0.18);
-}
-
-.dash-card__icon--amber {
-  background: rgba(245, 158, 11, 0.12);
-  color: #D97706;
-}
-.dash-card:hover .dash-card__icon--amber {
-  background: rgba(245, 158, 11, 0.18);
-}
-
-.dash-card__icon--sky {
-  background: rgba(14, 165, 233, 0.12);
-  color: #0284C7;
-}
-.dash-card:hover .dash-card__icon--sky {
-  background: rgba(14, 165, 233, 0.18);
-}
-
-.dash-card__icon--violet {
-  background: rgba(139, 92, 246, 0.12);
-  color: #7C3AED;
-}
-.dash-card:hover .dash-card__icon--violet {
-  background: rgba(139, 92, 246, 0.18);
-}
-
-.dash-card__icon--teal {
-  background: rgba(20, 184, 166, 0.12);
-  color: #0D9488;
-}
-.dash-card:hover .dash-card__icon--teal {
-  background: rgba(20, 184, 166, 0.18);
-}
-
-.dash-card__icon--slate {
-  background: rgba(100, 116, 139, 0.12);
-  color: #64748B;
-}
-.dash-card:hover .dash-card__icon--slate {
-  background: rgba(100, 116, 139, 0.18);
-}
-
-/* ---- Card Label ---- */
-.dash-card__label {
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  color: var(--clr-text);
-  text-align: center;
-  line-height: var(--lh-tight);
-  transition: color 0.3s ease;
-}
-
-.dash-card:hover .dash-card__label {
-  color: var(--clr-accent);
-}
-
-/* ---- Admin Card Styling ---- */
-.dash-card--admin {
-  border-style: dashed;
-  border-color: var(--clr-border);
-}
-
-.dash-card--admin .badge--admin {
   position: absolute;
-  top: var(--space-sm);
-  right: var(--space-sm);
-  font-size: 7px;
-  padding: 2px 5px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-xl);
+  color: #ffffff !important;
+  text-align: center;
+  text-decoration: none;
+  z-index: 3;
+  border-bottom: none;
+}
+
+.dash-card > a h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-family: var(--ff-display);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dash-card > a .content {
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  width: 100%;
+  max-height: 0;
+  line-height: 1.4;
+  margin-top: 0.5em;
+  opacity: 0;
+  font-size: 0.85rem;
+  overflow: hidden;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dash-card > a .content p {
   margin: 0;
 }
 
-.dash-card--admin:hover {
-  border-color: var(--clr-danger);
-  border-style: solid;
+/* Admin specific styles */
+.dash-card--admin {
+  border: 1px dashed rgba(255, 255, 255, 0.35) !important;
 }
 
-.dash-card--admin:hover .dash-card__icon--slate {
-  color: var(--clr-danger);
+.dash-card--admin .badge--admin {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 8px;
+  background: rgba(220, 38, 38, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 6px;
+  text-transform: uppercase;
+}
+
+/* Color Overlay Themes */
+.dash-card.style1 > .image:before { background-color: #f2849e; }
+.dash-card.style2 > .image:before { background-color: #7ecaf6; }
+.dash-card.style3 > .image:before { background-color: #7bd0c1; }
+.dash-card.style4 > .image:before { background-color: #c75b9b; }
+.dash-card.style5 > .image:before { background-color: #ae85ca; }
+.dash-card.style6 > .image:before { background-color: #8499e7; }
+
+/* HOVER EFFECTS */
+body:not(.is-touch) .dash-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+body:not(.is-touch) .dash-card:hover > .image {
+  transform: scale(1.08);
+}
+
+body:not(.is-touch) .dash-card:hover > .image:before {
+  background-color: #242525;
+  opacity: 0.45;
+}
+
+body:not(.is-touch) .dash-card:hover > .image:after {
+  opacity: 0;
+}
+
+body:not(.is-touch) .dash-card:hover a .content {
+  max-height: 8em;
+  opacity: 1;
+}
+
+body.is-touch .dash-card a .content {
+  max-height: 8em;
+  opacity: 1;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] .dash-card > .image:before {
+  opacity: 0.75;
+}
+[data-theme="dark"] body:not(.is-touch) .dash-card:hover > .image:before {
+  background-color: #121212;
+  opacity: 0.6;
 }
 
 /* ============================================================
@@ -376,40 +393,20 @@
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 1023px) {
-  .dash-cards {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: var(--space-md);
+@media (max-width: 980px) {
+  .tiles {
+    margin: -1em 0 0 -1em;
+  }
+
+  .dash-card {
+    width: calc(50% - 1em);
+    margin: 1em 0 0 1em;
   }
 }
 
 @media (max-width: 767px) {
   .dashboard__welcome {
     padding: var(--space-2xl) 0 var(--space-xl);
-  }
-
-  .dash-cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-sm);
-  }
-
-  .dash-card {
-    padding: var(--space-md) var(--space-sm);
-    border-radius: var(--radius-md);
-  }
-
-  .dash-card__icon {
-    width: 44px;
-    height: 44px;
-  }
-
-  .dash-card__icon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .dash-card__label {
-    font-size: var(--fs-xs);
   }
 
   .dashboard__stats-grid {
@@ -438,8 +435,14 @@
 }
 
 @media (max-width: 480px) {
-  .dash-cards {
-    grid-template-columns: repeat(2, 1fr);
+  .tiles {
+    margin: 0;
+  }
+
+  .dash-card {
+    width: 100%;
+    margin: 1em 0 0 0;
+    aspect-ratio: 2 / 1;
   }
 
   .dashboard__stats-grid {

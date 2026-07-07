@@ -8,7 +8,6 @@
   <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/pages/dashboard.css">
-  <link rel="stylesheet" href="css/circular-gallery.css">
   <style>
     body {
       overflow-x: hidden;
@@ -35,8 +34,109 @@
         </section>
 
         <!-- ===== ACTION CARDS ===== -->
-        <section class="dashboard__actions dashboard__actions--full-bleed" style="height: 500px; position: relative;">
-          <div id="circular-gallery-container" class="circular-gallery" tabindex="0" role="region" aria-label="Circular image gallery. Use left and right arrow keys to navigate."></div>
+        <section class="dashboard__actions">
+          <div class="tiles">
+            <article class="dash-card style1">
+              <span class="image">
+                <img src="assets/images/dashboard/browse_gallery.png" alt="Browse Gallery" />
+              </span>
+              <a href="gallery.html">
+                <h2>Browse Gallery</h2>
+                <div class="content">
+                  <p>Explore our extensive collection of amazing animal content and records.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style2">
+              <span class="image">
+                <img src="assets/images/dashboard/my_favorites.png" alt="My Favorites" />
+              </span>
+              <a href="favorites.html">
+                <h2>My Favorites</h2>
+                <div class="content">
+                  <p>Quick access to all your handpicked and curated favorite animals.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style3">
+              <span class="image">
+                <img src="assets/images/dashboard/watch_later.png" alt="Watch Later" />
+              </span>
+              <a href="favorites.html">
+                <h2>Watch Later</h2>
+                <div class="content">
+                  <p>Videos saved to your queue for viewing at a more convenient time.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style4">
+              <span class="image">
+                <img src="assets/images/dashboard/liked_videos.png" alt="Liked Videos" />
+              </span>
+              <a href="liked_vid.html">
+                <h2>Liked Videos</h2>
+                <div class="content">
+                  <p>See all the videos you have liked and supported across the site.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style5">
+              <span class="image">
+                <img src="assets/images/dashboard/animal_map.png" alt="Animal Map" />
+              </span>
+              <a href="map.html">
+                <h2>Animal Map</h2>
+                <div class="content">
+                  <p>Interactive maps showing geographic distributions of species globally.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style6">
+              <span class="image">
+                <img src="assets/images/dashboard/categories.png" alt="Categories" />
+              </span>
+              <a href="categories.html">
+                <h2>Categories</h2>
+                <div class="content">
+                  <p>Browse animals grouped systematically by their class and family.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style2">
+              <span class="image">
+                <img src="assets/images/dashboard/statistics.png" alt="Statistics" />
+              </span>
+              <a href="statistics.html">
+                <h2>Statistics</h2>
+                <div class="content">
+                  <p>Insightful data charts and analysis of species and user engagement.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style3">
+              <span class="image">
+                <img src="assets/images/dashboard/video_management.png" alt="Video Management" />
+              </span>
+              <a href="dashboard.html#videos" class="dash-card--admin">
+                <h2>Video Management <span class="badge--admin">Admin</span></h2>
+                <div class="content">
+                  <p>Add, edit, or remove videos from the AnimalVerse library database.</p>
+                </div>
+              </a>
+            </article>
+            <article class="dash-card style1">
+              <span class="image">
+                <img src="assets/images/dashboard/user_management.png" alt="User Management" />
+              </span>
+              <a href="dashboard.html#users" class="dash-card--admin">
+                <h2>User Management <span class="badge--admin">Admin</span></h2>
+                <div class="content">
+                  <p>Monitor user accounts, roles, access levels, and registration status.</p>
+                </div>
+              </a>
+            </article>
+
+          </div>
         </section>
 
         <!-- ===== STATS ROW ===== -->
@@ -69,37 +169,6 @@
   <script defer src="js/chatbot.js"></script>
   <script defer src="js/app.js"></script>
 
-  <script type="module">
-    import { App as CircularGalleryApp } from './js/circular-gallery.js';
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('circular-gallery-container');
-      if (container) {
-        const dashboardItems = [
-          { image: 'assets/images/dashboard/browse_gallery.png', text: 'Browse Gallery', url: 'gallery.html' },
-          { image: 'assets/images/dashboard/my_favorites.png', text: 'My Favorites', url: 'favorites.html' },
-          { image: 'assets/images/dashboard/watch_later.png', text: 'Watch Later', url: 'favorites.html' },
-          { image: 'assets/images/dashboard/liked_videos.png', text: 'Liked Videos', url: 'liked_vid.html' },
-          { image: 'assets/images/dashboard/animal_map.png', text: 'Animal Map', url: 'map.html' },
-          { image: 'assets/images/dashboard/categories.png', text: 'Categories', url: 'categories.html' },
-          { image: 'assets/images/dashboard/statistics.png', text: 'Statistics', url: 'statistics.html' },
-          { image: 'assets/images/dashboard/video_management.png', text: 'Video Management', url: 'dashboard.html#videos' },
-          { image: 'assets/images/dashboard/user_management.png', text: 'User Management', url: 'dashboard.html#users' },
-          { image: 'assets/images/dashboard/site_settings.png', text: 'Site Settings', url: 'dashboard.html#settings' },
-        ];
-
-        new CircularGalleryApp(container, {
-          items: dashboardItems,
-          bend: 3,
-          textColor: '#0e0f0c',
-          borderRadius: 0.05,
-          font: '800 40px Inter',
-          fontUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap',
-          scrollSpeed: 2,
-          scrollEase: 0.05
-        });
-      }
-    });
-  </script>
 </body>
 </html>

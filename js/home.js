@@ -43,13 +43,23 @@ App.home = (function() {
       imgWrap.className = 'category-card__image-wrap';
       card.appendChild(imgWrap);
 
+      // Default image (visible initially)
       var img = document.createElement('img');
-      img.className = 'category-card__image';
+      img.className = 'category-card__image category-card__image--default';
       img.src = 'assets/images/animal-class/' + cat.name + '.webp';
       img.alt = cat.name || 'Category';
       img.loading = 'lazy';
       img.decoding = 'async';
       imgWrap.appendChild(img);
+
+      // Hover image (hidden initially, crossfades on hover)
+      var imgHover = document.createElement('img');
+      imgHover.className = 'category-card__image category-card__image--hover';
+      imgHover.src = 'assets/images/animal-class/' + cat.name + '1.webp';
+      imgHover.alt = '';
+      imgHover.loading = 'lazy';
+      imgHover.decoding = 'async';
+      imgWrap.appendChild(imgHover);
 
       var overlay = document.createElement('div');
       overlay.className = 'category-card__overlay';

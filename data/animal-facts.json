@@ -1,0 +1,394 @@
+{
+  "species": {
+    "lion": {
+      "funFacts": [
+        "A lion's roar can be heard up to 8 km (5 miles) away — it's the loudest of all big cats and serves to communicate with other prides.",
+        "Lions are the only truly social cats, living in groups called prides that typically consist of 2-3 males and 5-10 females.",
+        "Female lions do 85-90% of the hunting, while the males primarily protect the pride's territory.",
+        "A lion's heels don't touch the ground when it walks, giving it a stealthy, almost silent approach.",
+        "Lions can run at speeds up to 80 km/h (50 mph), but only in short bursts due to their low stamina."
+      ],
+      "description": "The lion (Panthera leo) has long been celebrated as the 'King of the Beasts,' a title earned through its imposing presence, thunderous roar, and prominent mane. Native to Africa's savannas and grasslands, these magnificent big cats are the most social of all felines, living in complex family units called prides. Lions have symbolized courage, royalty, and strength across cultures for millennia — from the Lion of Judah to the lions guarding Trafalgar Square.",
+      "diet": "Carnivore — primarily large ungulates like zebras, wildebeest, and buffalo",
+      "habitat": "Savannas, grasslands, open woodlands",
+      "lifespan": "10-14 years (wild), up to 25 years (captivity)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "80 km/h (50 mph)"
+    },
+    "tiger": {
+      "funFacts": [
+        "No two tigers have the same stripe pattern — just like human fingerprints, each stripe arrangement is completely unique.",
+        "A tiger's roar can paralyze its prey momentarily, giving the tiger a critical advantage during a hunt.",
+        "Tigers are excellent swimmers and often cool off in lakes and rivers during hot days — unlike most cats, they actually enjoy water.",
+        "The Siberian tiger is the largest cat species on Earth, with males reaching up to 300 kg (660 lbs).",
+        "Tigers have eyes with round pupils (not vertical slits like domestic cats), adapted for hunting in low-light conditions."
+      ],
+      "description": "The tiger (Panthera tigris) is the largest of all big cats, instantly recognizable by its striking orange coat crossed with bold black stripes. Native to Asia's forests, grasslands, and swamps, these solitary apex predators are symbols of power and ferocity in many Asian cultures. Unlike most felines, tigers are powerful swimmers and often hunt in water. Despite their fearsome reputation, over 95% of the world's tiger population has been lost in the last century due to habitat loss and poaching.",
+      "diet": "Carnivore — deer, wild boar, buffalo, and other large prey",
+      "habitat": "Tropical forests, mangrove swamps, grasslands",
+      "lifespan": "8-10 years (wild), up to 20 years (captivity)",
+      "conservationStatus": "Endangered",
+      "topSpeed": "65 km/h (40 mph)"
+    },
+    "elephant": {
+      "funFacts": [
+        "An elephant's trunk contains over 40,000 muscles and can lift up to 300 kg (660 lbs) — yet it's delicate enough to pick up a single blade of grass.",
+        "Elephants are one of the few animals that can recognize themselves in a mirror, demonstrating self-awareness.",
+        "These gentle giants communicate across vast distances using infrasound — low-frequency rumbles that can travel through the ground for miles.",
+        "An adult elephant drinks up to 200 liters (50 gallons) of water per day — that's about a full bathtub!",
+        "Elephants have the longest gestation period of any land animal — nearly 22 months!"
+      ],
+      "description": "The elephant, Earth's largest land animal, is a creature of extraordinary intelligence, emotional depth, and social complexity. These gentle giants form tight-knit matriarchal herds led by the oldest and most experienced female. With their iconic trunks — an incredible fusion of nose and upper lip containing over 40,000 muscles — elephants can communicate across miles, express affection, and manipulate objects with astonishing precision.",
+      "diet": "Herbivore — grasses, bark, roots, leaves, and fruits (up to 150 kg daily)",
+      "habitat": "Savannas, forests, deserts, wetlands",
+      "lifespan": "60-70 years (wild)",
+      "conservationStatus": "Endangered (African), Endangered (Asian)",
+      "topSpeed": "40 km/h (25 mph)"
+    },
+    "dolphin": {
+      "funFacts": [
+        "Dolphins sleep with only half their brain at a time — the other half stays awake to remember to breathe and watch for predators.",
+        "Each dolphin has a unique signature whistle, functioning much like a human name to identify individuals within their pod.",
+        "Dolphins are one of the few species that use tools — some wrap marine sponges around their snouts to protect themselves while foraging on the seafloor.",
+        "A bottlenose dolphin can hold its breath for up to 15 minutes and dive as deep as 300 meters (1,000 feet).",
+        "Dolphins have been observed rescuing other animals (and even humans) from dangerous situations — a behavior rarely seen in the wild."
+      ],
+      "description": "The dolphin is widely celebrated as one of the ocean's most intelligent and charismatic inhabitants. These sleek, streamlined marine mammals are renowned for their playful acrobatics, complex social bonds, and remarkable problem-solving abilities. Living in tight-knit pods that can number from just a few to over a thousand, dolphins communicate through an intricate language of clicks, whistles, and body movements.",
+      "diet": "Carnivore — fish, squid, and crustaceans",
+      "habitat": "Coastal waters, open oceans, some river systems",
+      "lifespan": "40-60 years (depending on species)",
+      "conservationStatus": "Least Concern (most species)",
+      "topSpeed": "60 km/h (37 mph)"
+    },
+    "eagle": {
+      "funFacts": [
+        "An eagle's eyesight is 4-8 times sharper than a human's — they can spot a rabbit from nearly 3 km (2 miles) away.",
+        "Bald eagles aren't actually bald — their name comes from the Old English word 'balde,' meaning 'white-headed.'",
+        "Eagles can fly at altitudes up to 10,000 meters (33,000 feet) and reach diving speeds of over 300 km/h (190 mph).",
+        "A golden eagle's grip strength is up to 400 psi (pounds per square inch) — about 10 times stronger than a human hand.",
+        "Some eagle species mate for life and perform breathtaking aerial courtship displays, locking talons and tumbling through the sky."
+      ],
+      "description": "The eagle has served as a symbol of power, freedom, and vision for civilizations throughout history. These magnificent birds of prey are the undisputed lords of the sky, with extraordinary eyesight, razor-sharp talons, and wingspans that can exceed 2.5 meters (8 feet). Eagles sit at the top of the avian food chain, commanding respect from all who witness their effortless mastery of the air.",
+      "diet": "Carnivore — fish, small mammals, birds, and carrion",
+      "habitat": "Mountains, forests, cliffs, near water bodies",
+      "lifespan": "20-30 years (wild), up to 50 years (captivity)",
+      "conservationStatus": "Least Concern (most species)",
+      "topSpeed": "160-300 km/h (100-190 mph) in dive"
+    },
+    "penguin": {
+      "funFacts": [
+        "Emperor penguins can hold their breath for up to 20 minutes and dive to depths of 500 meters (1,640 feet) — deeper than any other bird.",
+        "Male emperor penguins endure the brutal Antarctic winter for months, huddling together and fasting while incubating a single egg on their feet.",
+        "Penguins have a special gland above their eyes that filters salt from seawater, allowing them to drink salt water safely.",
+        "Despite being birds, penguins cannot fly — but their flippers are perfectly adapted for 'flying' through water at speeds up to 36 km/h.",
+        "A group of penguins on land is called a 'waddle,' but in the water it's called a 'raft.'"
+      ],
+      "description": "The penguin is nature's tuxedo-clad icon of the Antarctic, perfectly adapted to life in the planet's most extreme environments. These flightless birds have evolved into masterful swimmers, their streamlined bodies and powerful flippers propelling them through icy waters with breathtaking grace. From the towering emperor penguin to the tiny blue penguin, these remarkable seabirds have captured our hearts with their upright waddles and resilient spirit.",
+      "diet": "Carnivore — fish, krill, squid, and crustaceans",
+      "habitat": "Antarctica, sub-Antarctic islands, and Southern Hemisphere coasts",
+      "lifespan": "15-20 years (wild), some live up to 30 years",
+      "conservationStatus": "Vulnerable to Least Concern (species dependent)",
+      "topSpeed": "36 km/h (22 mph) in water"
+    },
+    "giraffe": {
+      "funFacts": [
+        "A giraffe's neck contains only 7 vertebrae — the same number as a human! Each vertebra is just massively elongated, up to 25 cm (10 inches) long.",
+        "Giraffes only need 30 minutes to 2 hours of sleep per day, often taking quick power naps standing up.",
+        "Their tongues are up to 53 cm (21 inches) long and are dark blue-black in color — the melanin protects against sunburn while reaching for leaves.",
+        "A newborn giraffe calf drops 1.8 meters (6 feet) to the ground at birth and can stand up within an hour.",
+        "Giraffe spots serve as a unique identifier — no two giraffes have the same spot pattern, much like human fingerprints."
+      ],
+      "description": "The giraffe is nature's most graceful skyscraper, towering above the African savanna as the world's tallest land animal. Reaching heights of up to 5.5 meters (18 feet), these gentle giants have evolved an extraordinary suite of adaptations — from their impossibly long necks to their 53-centimeter prehensile tongues — all perfectly designed to reach the acacia leaves that other herbivores cannot touch.",
+      "diet": "Herbivore — acacia leaves, buds, fruits, and vines",
+      "habitat": "Savannas, grasslands, and open woodlands of Africa",
+      "lifespan": "25 years (wild), up to 35 years (captivity)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "60 km/h (37 mph)"
+    },
+    "octopus": {
+      "funFacts": [
+        "An octopus has three hearts — two pump blood to the gills, while the third pumps it to the rest of the body. The systemic heart actually stops beating when they swim!",
+        "Octopus blood is blue because it uses copper-based hemocyanin (instead of iron-based hemoglobin) to transport oxygen.",
+        "They have a doughnut-shaped brain that wraps around their esophagus — if they swallow something too large, they can literally 'think' about it.",
+        "Octopuses can change color and skin texture in milliseconds, thanks to specialized cells called chromatophores and papillae.",
+        "Some octopus species have been observed using coconut shells as tools and solving complex puzzles, making them among the most intelligent invertebrates on Earth."
+      ],
+      "description": "The octopus is perhaps the closest thing to an alien intelligence living right here on Earth. With eight dexterous arms, three hearts, blue copper-based blood, and the ability to change color and texture in an instant, these deep-sea marvels challenge everything we think we know about intelligence. Found in every ocean on the planet, octopuses are master escape artists, puzzle solvers, and camouflage experts.",
+      "diet": "Carnivore — crabs, lobsters, shellfish, and small fish",
+      "habitat": "Coral reefs, deep sea, ocean floors (all oceans)",
+      "lifespan": "1-5 years (most species), some deep-sea species live longer",
+      "conservationStatus": "Not Evaluated (most species)",
+      "topSpeed": "40 km/h (25 mph) via jet propulsion"
+    },
+    "shark": {
+      "funFacts": [
+        "Sharks have been swimming in Earth's oceans for over 400 million years — predating dinosaurs by 200 million years and trees by 50 million years.",
+        "A shark's skin is covered in tiny V-shaped scales called dermal denticles ('little skin teeth') that reduce drag and make them incredibly efficient swimmers.",
+        "Great white sharks can detect a single drop of blood in 100 liters (25 gallons) of water and sense the electrical fields of living creatures.",
+        "Sharks never run out of teeth — they lose and replace thousands throughout their lifetime, with some species growing a new set every two weeks.",
+        "Not all sharks are fierce predators — the whale shark, the largest fish in the ocean, is a gentle filter feeder that eats only plankton."
+      ],
+      "description": "The shark is one of evolution's most perfect designs, a predator refined over 400 million years into an unparalleled ocean hunter. From the massive but gentle whale shark (up to 18 meters long) to the infamous great white, these cartilaginous fish come in astonishing diversity. Sharks are equipped with a 'sixth sense' — electroreception — allowing them to detect the heartbeat of hidden prey.",
+      "diet": "Carnivore (most species) — fish, seals, marine mammals, plankton (some species)",
+      "habitat": "All oceans, from shallow reefs to deep sea",
+      "lifespan": "20-30 years (most), Greenland sharks can live 400+ years",
+      "conservationStatus": "Vulnerable to Critically Endangered (species dependent)",
+      "topSpeed": "56 km/h (35 mph)"
+    },
+    "wolf": {
+      "funFacts": [
+        "Wolves can cover up to 50 km (30 miles) in a single day while hunting, and their padded paws are adapted for running over different terrain types.",
+        "A wolf's howl can be heard from up to 10 km (6 miles) away and serves to assemble the pack, warn rivals, or communicate location.",
+        "Wolves have a highly organized social structure with clear hierarchies, but the 'alpha wolf' concept is outdated — most packs are simply a breeding pair and their offspring.",
+        "Wolf pups are born deaf and blind, relying entirely on their mother for the first few weeks of life.",
+        "The gray wolf was the first animal to be domesticated by humans, with genetic evidence suggesting dogs split from wolves 15,000-40,000 years ago."
+      ],
+      "description": "The wolf embodies the untamed spirit of the wilderness like no other creature. These highly intelligent, social carnivores live in tight-knit packs bound by complex social bonds and cooperative hunting strategies. Once the world's most widely distributed land mammal, wolves have been both revered and reviled throughout human history — feared as predators yet admired for their loyalty, intelligence, and wild freedom.",
+      "diet": "Carnivore — deer, elk, moose, and smaller mammals",
+      "habitat": "Forests, tundra, grasslands, mountains (Northern Hemisphere)",
+      "lifespan": "6-8 years (wild), up to 16 years (captivity)",
+      "conservationStatus": "Least Concern",
+      "topSpeed": "60 km/h (37 mph)"
+    },
+    "panda": {
+      "funFacts": [
+        "Giant pandas spend around 12 hours a day eating bamboo — up to 38 kg (84 lbs) daily — despite having a carnivore's digestive system.",
+        "A newborn panda is ridiculously small — only 100 grams (3.5 oz), about 1/900th of its mother's weight, making it one of the smallest mammal newborns relative to adult size.",
+        "Giant pandas have a special thumb-like wrist bone (a modified sesamoid bone) that helps them grip bamboo stalks with surprising dexterity.",
+        "Pandas are excellent tree climbers and cubs often sleep in trees to avoid predators.",
+        "The giant panda's distinctive black-and-white coloring likely serves as camouflage — white for snow, black for shade — as well as communication."
+      ],
+      "description": "The giant panda is China's most beloved ambassador, a living symbol of conservation success and gentle charisma. These unmistakable black-and-white bears have a deceptively simple lifestyle — spending most of their days eating bamboo, sleeping, and occasionally playing. Despite their cuddly appearance and seemingly lazy demeanor, pandas are powerful bears with strong jaws and a bite force that rivals that of a polar bear.",
+      "diet": "Herbivore (99% bamboo), occasionally small animals",
+      "habitat": "Mountain forests in central China",
+      "lifespan": "15-20 years (wild), up to 30 years (captivity)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "32 km/h (20 mph)"
+    },
+    "peacock": {
+      "funFacts": [
+        "Only the male peacock has the spectacular iridescent tail — he fans it out to attract females in a dazzling courtship display called 'train-rattling.'",
+        "The peacock's 'eyes' on its feathers are actually called ocelli and consist of microscopic crystal-like structures that reflect light differently from every angle.",
+        "Peacocks can produce infrasound calls below the range of human hearing, which may be used to communicate over long distances.",
+        "Despite their elaborate plumage, peacocks are strong fliers and roost in trees to avoid predators.",
+        "In Hindu mythology, the peacock is associated with Lakshmi (goddess of wealth) and Kartikeya (god of war), representing both beauty and bravery."
+      ],
+      "description": "The peacock is nature's most extravagant showstopper, a bird of such breathtaking beauty that it has been revered as a symbol of royalty, vanity, and immortality across cultures for thousands of years. The male Indian peafowl's iridescent train — which can reach 2 meters (6 feet) in length — is one of the most spectacular displays in the animal kingdom, covered in shimmering 'eyes' that seem to change color as the bird moves.",
+      "diet": "Omnivore — seeds, insects, fruits, small reptiles, and flower petals",
+      "habitat": "Forests, farmland, and open lowlands of India, Sri Lanka, and Southeast Asia",
+      "lifespan": "15-20 years (wild), up to 25 years (captivity)",
+      "conservationStatus": "Least Concern",
+      "topSpeed": "16 km/h (10 mph)"
+    },
+    "parrot": {
+      "funFacts": [
+        "Some parrots can live over 80 years — making them lifelong companions who often outlive their owners.",
+        "Parrots have a highly developed 'vocabulary' because their brains are structured differently from other birds, with specialized 'song nuclei' that allow them to learn and mimic complex sounds.",
+        "Unlike humans who use their vocal cords, parrots produce sound by forcing air over their syrinx — a specialized vocal organ at the base of their trachea.",
+        "Parrots are one of the few animals that can learn to dance to a beat, showing remarkable rhythm synchronization abilities.",
+        "A parrot's beak is incredibly strong — a macaw's bite force can exceed 700 psi, strong enough to crack a Brazil nut (or a finger) with ease."
+      ],
+      "description": "The parrot is the life of the jungle party — a brilliant, noisy, and endlessly entertaining bird renowned for its rainbow plumage, remarkable intelligence, and uncanny ability to mimic human speech. Found across tropical and subtropical regions worldwide, parrots are among the most intelligent birds on Earth, with cognitive abilities comparable to a 3-5 year old human child.",
+      "diet": "Herbivore — seeds, fruits, nuts, flowers, and berries",
+      "habitat": "Tropical and subtropical rainforests, savannas, and grasslands",
+      "lifespan": "20-80 years (species dependent; larger species live longer)",
+      "conservationStatus": "Endangered to Least Concern (species dependent)",
+      "topSpeed": "24-48 km/h (15-30 mph)"
+    },
+    "polar+bear": {
+      "funFacts": [
+        "A polar bear's skin is actually black, and its fur is transparent (not white) — the hollow hairs scatter and reflect visible light, making it appear white.",
+        "Polar bears are classified as marine mammals because they spend most of their life on sea ice and are excellent swimmers, capable of covering 100 km (60 miles) in a single swim.",
+        "They have an incredible sense of smell — they can detect a seal from nearly 1 km (0.6 miles) away and 1 meter under solid ice.",
+        "Polar bears are the largest land carnivores on Earth, with adult males weighing up to 700 kg (1,540 lbs).",
+        "Despite their massive size, polar bears can stand up on their hind legs — reaching over 3 meters (10 feet) tall — to get a better view across the ice."
+      ],
+      "description": "The polar bear is the undisputed monarch of the Arctic, the largest land carnivore on Earth uniquely adapted to thrive in the planet's most extreme environment. Beneath their deceptively white fur (which is actually transparent) lies black skin that absorbs heat, while a thick layer of blubber insulates against temperatures that can plunge below -50°C (-58°F).",
+      "diet": "Carnivore — primarily seals, also walrus, whale carcasses",
+      "habitat": "Arctic sea ice and coastal areas",
+      "lifespan": "25-30 years (wild)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "40 km/h (25 mph)"
+    },
+    "cheetah": {
+      "funFacts": [
+        "A cheetah can accelerate from 0 to 100 km/h (62 mph) in just 3 seconds — faster than most sports cars!",
+        "Cheetahs have semi-retractable claws that act like track spikes, providing exceptional traction during high-speed chases.",
+        "Unlike other big cats, cheetahs cannot roar — instead they purr, chirp, and make a distinctive bird-like 'chirrup' call to communicate.",
+        "A cheetah's distinctive 'tear marks' run from the inner corners of their eyes down to the outside edges of their mouth — they function like a football player's eye black, reducing sun glare.",
+        "Cheetahs' spines are incredibly flexible, acting like a coiled spring that allows them to cover up to 7 meters (22 feet) in a single stride."
+      ],
+      "description": "The cheetah is evolution's answer to the question 'how fast can a land animal possibly go?' Built like a four-legged greyhound with a flexible spine, powerful muscles, and an aerodynamically perfect frame, the cheetah is the undisputed speed champion of the terrestrial world. Reaching speeds of up to 120 km/h (75 mph), these elegant cats are the race cars of the animal kingdom.",
+      "diet": "Carnivore — small antelopes, gazelles, hares, and birds",
+      "habitat": "Savannas, grasslands, and open plains of Africa",
+      "lifespan": "10-12 years (wild), up to 17 years (captivity)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "120 km/h (75 mph)"
+    },
+    "koala": {
+      "funFacts": [
+        "Koalas sleep 18-22 hours a day because their eucalyptus diet is extremely low in nutrients and requires massive energy to digest.",
+        "Baby koalas, called 'joeys,' are born the size of a jelly bean (about 2 cm / 0.8 inches) and crawl into their mother's pouch unaided.",
+        "Koala fingerprints are so similar to human fingerprints that they have been mistaken for human prints at crime scenes!",
+        "Eucalyptus leaves are toxic to most animals — but koalas have a specialized digestive organ called a cecum (up to 2 meters long) that detoxifies the oils.",
+        "Despite being called 'koala bears,' koalas are marsupials (like kangaroos and wombats) — they carry their young in a pouch."
+      ],
+      "description": "The koala is Australia's most beloved sleepyhead, a cuddly-looking marsupial that has perfected the art of doing almost nothing. Spending up to 22 hours a day sleeping and the rest slowly munching on eucalyptus leaves, the koala lives life at its own unhurried pace. Despite its teddy-bear appearance, the koala is a specialized survivor with unique adaptations to a diet that would poison most other mammals.",
+      "diet": "Herbivore — almost exclusively eucalyptus leaves",
+      "habitat": "Eucalyptus forests along eastern and southern Australia",
+      "lifespan": "10-15 years (wild), up to 20 years (captivity)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "30 km/h (19 mph)"
+    },
+    "kangaroo": {
+      "funFacts": [
+        "Kangaroos cannot walk backward — their unique leg and tail structure makes forward movement the only option, which is why they appear on the Australian coat of arms as a symbol of progress.",
+        "A red kangaroo can cover 8 meters (26 feet) in a single bound and reach speeds of 70 km/h (43 mph).",
+        "Female kangaroos have the remarkable ability to pause their pregnancy (embryonic diapause) if conditions aren't favorable, delaying birth until food and water are plentiful.",
+        "A kangaroo's tail acts as a fifth limb — it provides balance while hopping, acts as a powerful tripod when standing, and even pushes the body forward during slow walking.",
+        "Kangaroos are the only large animals that use hopping as their primary means of locomotion, which is actually more energy-efficient at high speeds than running."
+      ],
+      "description": "The kangaroo is Australia's most iconic bouncing ambassador, a creature so uniquely adapted that it seems to have evolved on a different planet. These remarkable marsupials are the only large animals in the world that hop as their primary means of travel, and they do it with astonishing efficiency and grace. Kangaroos are living proof that nature's most creative solutions often look the strangest.",
+      "diet": "Herbivore — grasses, leaves, ferns, and shrubs",
+      "habitat": "Australian outback, grasslands, and woodlands",
+      "lifespan": "6-8 years (wild), up to 20 years (captivity)",
+      "conservationStatus": "Least Concern",
+      "topSpeed": "70 km/h (43 mph)"
+    },
+    "flamingo": {
+      "funFacts": [
+        "Flamingos are born with gray or white feathers — their iconic pink color comes from carotenoid pigments in the algae and crustaceans they eat.",
+        "A flamingo often stands on one leg — scientists aren't entirely sure why, but it may require less muscular effort than standing on two!",
+        "Flamingos feed with their heads upside down, using their specially adapted beaks to filter tiny organisms from the water like living strainers.",
+        "A group of flamingos is called a 'flamboyance' — an appropriately glamorous name for these strikingly social birds.",
+        "Flamingo parents produce a special 'crop milk' (rich in fat and protein) to feed their chicks — both males and females can produce this nutrient-rich liquid."
+      ],
+      "description": "The flamingo is the ultimate fashion statement of the bird world — a vision of elegance in vivid pink that seems almost too fabulous to be real. These strikingly social wading birds gather in some of the largest flocks in the avian world, with some colonies numbering over a million individuals. Their extraordinary color, which ranges from soft coral to hot pink, is a direct reflection of their diet and health.",
+      "diet": "Omnivore — algae, brine shrimp, small insects, and crustaceans",
+      "habitat": "Shallow saltwater lakes, lagoons, and mudflats",
+      "lifespan": "20-30 years (wild), up to 60 years (captivity)",
+      "conservationStatus": "Least Concern (most species)",
+      "topSpeed": "50-60 km/h (31-37 mph) in flight"
+    },
+    "chameleon": {
+      "funFacts": [
+        "Chameleons don't change color primarily for camouflage — they do it to communicate emotions, regulate body temperature, and signal to other chameleons.",
+        "A chameleon's tongue can be up to twice the length of its body and can shoot out and retract in less than 0.07 seconds — one of the fastest movements in the animal kingdom.",
+        "Each eye moves independently (monocular vision), giving chameleons a 360-degree field of view — but when they spot prey, both eyes lock together for binocular depth perception.",
+        "Chameleons have specialized zygodactylous feet (two toes pointing forward, two backward) that act like tongs, giving them an incredibly secure grip on branches.",
+        "The smallest chameleon species (Brookesia nana) is small enough to sit on the tip of a match head — at just 22 mm (0.87 inches) long!"
+      ],
+      "description": "The chameleon is one of nature's most mesmerizing magicians — a master of disguise with an almost supernatural ability to transform. These fascinating reptiles have perfected a suite of specialized adaptations that make them unlike any other lizard on Earth. From their independently rotating eyes to their ballistic tongues and color-shifting skin, every feature of the chameleon is a conversation starter.",
+      "diet": "Carnivore — insects, spiders, and occasionally small vertebrates",
+      "habitat": "Rainforests, savannas, deserts, and mountains (mainly Africa and Madagascar)",
+      "lifespan": "1-10 years (species dependent; most 3-5 years)",
+      "conservationStatus": "Least Concern to Vulnerable (species dependent)",
+      "topSpeed": "0.3 km/h (slow-moving)"
+    },
+    "otter": {
+      "funFacts": [
+        "Sea otters hold hands while sleeping to prevent drifting apart from the group — this adorable behavior is called 'rafting.'",
+        "Otters have the densest fur of any animal — up to a million hairs per square inch, which keeps them warm without relying on blubber.",
+        "Sea otters use rocks as tools to crack open shellfish — one of the few marine mammals known to use tools.",
+        "A group of otters is called a 'romp' (on land) or a 'raft' (in water) — both perfectly describing their playful nature.",
+        "River otters can hold their breath for up to 8 minutes and swim at speeds of 11 km/h (7 mph), twisting and turning with incredible agility."
+      ],
+      "description": "The otter is the undisputed class clown of the animal kingdom — a creature so effortlessly playful and charismatic that watching them is an instant mood booster. These sleek, semi-aquatic mammals belong to the mustelid family (alongside weasels and badgers) and have perfected the art of joyful living. Whether sliding down muddy banks or floating on their backs cracking shells with rocks, otters approach life with infectious enthusiasm.",
+      "diet": "Carnivore — fish, crustaceans, mollusks, and small aquatic animals",
+      "habitat": "Rivers, lakes, coastal waters, and wetlands worldwide",
+      "lifespan": "10-15 years (wild), up to 25 years (captivity)",
+      "conservationStatus": "Least Concern (most species)",
+      "topSpeed": "11 km/h (7 mph) in water"
+    },
+    "crocodile": {
+      "funFacts": [
+        "Crocodiles have survived for over 200 million years, making them living fossils that walked the Earth alongside dinosaurs.",
+        "A crocodile's bite force is the strongest of any animal — saltwater crocs can bite with over 3,700 psi (pounds per square inch), compared to 800 psi for a lion.",
+        "Despite their crushing bite, crocodiles have very weak jaw-opening muscles — you could hold a croc's mouth shut with your hands!",
+        "Crocodiles swallow stones (gastroliths) that stay in their stomachs to help grind food and also act as ballast for better buoyancy control.",
+        "Crocodiles cannot stick out their tongues — their tongues are attached to the roof of their mouths by a membrane."
+      ],
+      "description": "The crocodile is a living time capsule, a predator whose ancient lineage stretches back to the age of dinosaurs. These supremely adapted reptiles are among the most successful and enduring predators on Earth, combining prehistoric power with surprisingly sophisticated maternal care. With the strongest bite force in the animal kingdom and a stealth-hunting strategy perfected over millions of years, crocodiles are the ambush predators par excellence.",
+      "diet": "Carnivore — fish, birds, mammals, and reptiles (anything they can overpower)",
+      "habitat": "Rivers, lakes, wetlands, mangroves, and coastal waters in tropical regions",
+      "lifespan": "50-70 years (wild), some exceed 100 years in captivity",
+      "conservationStatus": "Vulnerable to Least Concern (species dependent)",
+      "topSpeed": "29 km/h (18 mph) in water, 17 km/h (10.5 mph) on land (short bursts)"
+    },
+    "gorilla": {
+      "funFacts": [
+        "Gorillas share 98.3% of their DNA with humans, making them one of our closest living relatives after chimpanzees.",
+        "A silverback gorilla is up to 10 times stronger than a grown man, yet they are generally gentle giants unless threatened.",
+        "Gorillas build new nests each night from leaves and branches — both on the ground and in trees — and never sleep in the same nest twice.",
+        "Gorillas have been observed using tools in the wild, such as using sticks to test water depth or as walking staffs.",
+        "Baby gorillas ride on their mothers' backs from about 4 months old until they are 2-3 years old, clinging to their fur."
+      ],
+      "description": "The gorilla is a creature of profound contradictions — possessing immense strength yet displaying remarkable gentleness, with an imposing appearance that belies a deeply emotional and intelligent nature. These magnificent great apes are the largest living primates, inhabiting the dense forests of central Africa in tight-knit family groups led by a dominant silverback male.",
+      "diet": "Herbivore — leaves, stems, fruits, bamboo shoots, and occasionally insects",
+      "habitat": "Tropical and subtropical forests of Central and East Africa",
+      "lifespan": "35-40 years (wild), up to 60 years (captivity)",
+      "conservationStatus": "Critically Endangered (mountain gorilla) to Endangered",
+      "topSpeed": "40 km/h (25 mph)"
+    },
+    "owl": {
+      "funFacts": [
+        "An owl can rotate its head up to 270 degrees in either direction — it has 14 neck vertebrae (twice as many as humans) and a specialized blood-pooling system to keep the brain supplied during twisting.",
+        "Owl feathers have special fringed edges that break up turbulence, allowing them to fly in near-total silence — some species can fly without making any detectable sound at all.",
+        "An owl's ears are asymmetrically placed on its skull (one higher, one lower), which allows it to pinpoint prey location in complete darkness using sound alone.",
+        "A group of owls is called a 'parliament' — a literary reference first popularized by C.S. Lewis in The Chronicles of Narnia.",
+        "Owl eyes are not spherical like human eyes — they are elongated tubes held in place by bony plates called sclerotic rings, which is why they cannot move their eyes and must turn their entire head."
+      ],
+      "description": "The owl is the silent ghost of the night, a master of stealth and wisdom that has captivated human imagination for millennia. With their haunting calls, mesmerizing eyes, and virtually silent flight, these enigmatic birds of prey embody the mystery and magic of the dark. From the tiny elf owl (barely 13 cm tall) to the imposing great horned owl, these nocturnal hunters represent one of evolution's most refined designs.",
+      "diet": "Carnivore — small mammals, birds, insects, fish, and reptiles",
+      "habitat": "Forests, deserts, grasslands, tundra, and urban areas (worldwide except Antarctica)",
+      "lifespan": "5-15 years (wild), up to 30-40 years (captivity)",
+      "conservationStatus": "Least Concern (most species)",
+      "topSpeed": "50-80 km/h (31-50 mph)"
+    },
+    "hippopotamus": {
+      "funFacts": [
+        "Despite their bulky appearance, hippos can outrun a human on land — reaching speeds of 30 km/h (19 mph) over short distances.",
+        "Hippos secrete a natural 'sunscreen' — a red, oily substance known as 'blood sweat' that protects their skin from sunburn and has antibacterial properties.",
+        "Hippos are semi-aquatic and can hold their breath underwater for up to 5 minutes, often walking along the riverbed rather than swimming.",
+        "A hippo's mouth can open to a 150-degree angle, revealing massive canine teeth that can grow up to 50 cm (20 inches) long.",
+        "Despite being herbivores, hippos are considered one of the most dangerous animals in Africa, responsible for more human fatalities than lions or crocodiles."
+      ],
+      "description": "The hippopotamus is one of the most formidable and surprising animals in Africa — a massive herbivore that looks like it was designed by a committee but has thrived for millions of years. Despite their rotund, gentle appearance and vegetarian diet, hippos are responsible for more human deaths in Africa than any other large animal, owing to their powerful jaws, enormous size, and fiercely territorial nature.",
+      "diet": "Herbivore — primarily grass (up to 35 kg/77 lbs per night)",
+      "habitat": "Rivers, lakes, and wetlands of sub-Saharan Africa",
+      "lifespan": "40-50 years (wild)",
+      "conservationStatus": "Vulnerable",
+      "topSpeed": "30 km/h (19 mph)"
+    },
+    "butterfly": {
+      "funFacts": [
+        "Butterflies taste with their feet! Their chemoreceptors (taste sensors) are located on their tarsi, allowing them to land on a plant and instantly taste whether it's suitable for laying eggs.",
+        "The monarch butterfly migrates up to 4,800 km (3,000 miles) from Canada to Mexico each year — a journey that takes multiple generations to complete.",
+        "Butterflies cannot fly if their body temperature drops below 28°C (82°F) — they need the sun to warm up.",
+        "A butterfly's wing scales create the vivid colors and patterns through structural coloration — microscopic structures that refract light like a prism.",
+        "Some butterfly species have evolved to mimic the appearance of other, more toxic species — a survival strategy called 'Batesian mimicry.'"
+      ],
+      "description": "The butterfly is nature's living stained glass — a delicate masterpiece of color, transformation, and resilience. These enchanting insects undergo one of the most extraordinary metamorphoses in the natural world, transforming from crawling caterpillars into winged works of art. Found on every continent except Antarctica, butterflies are not only beautiful but also vital pollinators that play a crucial role in healthy ecosystems.",
+      "diet": "Herbivore (caterpillar) — leaves; Nectarivore (adult) — flower nectar",
+      "habitat": "Gardens, meadows, forests, and virtually all terrestrial habitats",
+      "lifespan": "2 weeks to 9 months (species dependent; monarchs can live several months)",
+      "conservationStatus": "Least Concern to Endangered (species dependent)",
+      "topSpeed": "12-50 km/h (7-31 mph)"
+    },
+    "jaguar": {
+      "funFacts": [
+        "Jaguars have the most powerful bite of any big cat relative to their size — they can crush tortoise shells and crack skulls with a single bite.",
+        "Unlike most big cats, jaguars love water and are excellent swimmers — they often hunt fish, turtles, and even caimans in rivers.",
+        "A jaguar's spots are called 'rosettes' because they resemble roses — each one is a unique pattern, and many have a central dot inside.",
+        "The word 'jaguar' comes from the Tupi-Guarani word 'yaguar,' meaning 'he who kills with one leap.'",
+        "Jaguars are the largest cat species in the Americas and the third-largest in the world (after tigers and lions)."
+      ],
+      "description": "The jaguar is the apex predator of the Americas, a creature of shadow and power that has inspired awe and reverence for centuries. With the most powerful bite relative to body size of any big cat, the jaguar is a master hunter capable of taking on prey as formidable as caimans and anacondas. These solitary, elusive cats are the undisputed rulers of the Central and South American rainforests.",
+      "diet": "Carnivore — deer, capybaras, caimans, fish, and virtually any animal it can catch",
+      "habitat": "Tropical rainforests, swamps, grasslands (mainly Amazon basin and Pantanal)",
+      "lifespan": "12-15 years (wild), up to 20 years (captivity)",
+      "conservationStatus": "Near Threatened",
+      "topSpeed": "80 km/h (50 mph)"
+    }
+  }
+}

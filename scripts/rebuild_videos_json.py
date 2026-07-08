@@ -133,13 +133,13 @@ species_map = {
 # Subdirectory to Region mapping fallback
 region_fallback = {
     'Africa': ['lion', 'elephant', 'giraffe', 'cheetah', 'zebra', 'hippopotamus', 'rhinoceros', 'gorilla', 'chimpanzee', 'flamingo', 'lioness'],
-    'Asia': ['tiger', 'orangutan', 'red-panda', 'peacock', 'komodo-dragon', 'giant-panda', 'snow-leopard', 'asian-elephant', 'sun-bear', 'sambar-deer'],
-    'Europe': ['brown-bear', 'wolf', 'red-fox', 'eagle', 'wild-boar', 'european-bison', 'lynx', 'reindeer', 'badger', 'otter'],
-    'North America': ['bald-eagle', 'grizzly-bear', 'moose', 'coyote', 'bison', 'raccoon', 'beaver', 'mountain-lion', 'elk'],
-    'South America': ['jaguar', 'sloth', 'toucan', 'anaconda', 'capybara', 'llama', 'macaw', 'piranha', 'vampire-bat', 'howler-monkey'],
-    'Australia': ['kangaroo', 'koala', 'platypus', 'wombat', 'tasmanian-devil', 'dingo', 'emu', 'kookaburra', 'wallaby'],
+    'Asia': ['tiger', 'orangutan', 'red-panda', 'peacock', 'komodo-dragon', 'giant-panda', 'snow-leopard', 'asian-elephant', 'sun-bear', 'sambar-deer', 'monkey', 'butterfly'],
+    'Europe': ['brown-bear', 'wolf', 'red-fox', 'eagle', 'wild-boar', 'european-bison', 'lynx', 'reindeer', 'badger', 'otter', 'bear', 'toad', 'newt', 'salamander'],
+    'North America': ['bald-eagle', 'grizzly-bear', 'moose', 'coyote', 'bison', 'raccoon', 'beaver', 'mountain-lion', 'elk', 'caecilian', 'hellbender'],
+    'South America': ['jaguar', 'sloth', 'toucan', 'anaconda', 'capybara', 'llama', 'macaw', 'piranha', 'vampire-bat', 'howler-monkey', 'frog', 'tree-frog', 'glass-frog', 'poison-dart-frog', 'red-eyed-tree-frog'],
+    'Australia': ['kangaroo', 'koala', 'platypus', 'wombat', 'tasmanian-devil', 'dingo', 'emu', 'kookaburra', 'wallaby', 'crocodile', 'snake', 'lizard', 'gecko', 'iguana', 'chameleon', 'alligator', 'gila-monster', 'king-cobra', 'monitor-lizard', 'python', 'rattlesnake', 'tuatara'],
     'Antarctica': ['penguin', 'seal', 'blue-whale', 'orca', 'albatross', 'leopard-seal', 'krill', 'snow-petrel', 'squid', 'arctic-tern'],
-    'Ocean': ['dolphin', 'shark', 'octopus', 'sea-turtle', 'manta-ray', 'clownfish', 'jellyfish', 'seahorse', 'coral']
+    'Ocean': ['dolphin', 'shark', 'octopus', 'sea-turtle', 'manta-ray', 'clownfish', 'jellyfish', 'seahorse', 'coral', 'whale', 'turtle']
 }
 
 def get_region_from_slug(slug):
@@ -219,22 +219,45 @@ def get_mp4_duration_str(filepath):
         pass
     return "0:10"  # fallback
 
+region_coordinates = {
+    'Asia': {'lat': 34.0479, 'lng': 100.6197, 'name': 'Asian Wilderness'},
+    'Africa': {'lat': -1.2921, 'lng': 36.8219, 'name': 'African Savanna'},
+    'Europe': {'lat': 54.5260, 'lng': 15.2551, 'name': 'European Wilderness'},
+    'North America': {'lat': 37.0902, 'lng': -95.7129, 'name': 'North American Forests'},
+    'South America': {'lat': -14.2350, 'lng': -51.9253, 'name': 'Amazon Rainforest'},
+    'Australia': {'lat': -25.2744, 'lng': 133.7751, 'name': 'Australian Outback'},
+    'Antarctica': {'lat': -75.2509, 'lng': -0.0713, 'name': 'Antarctic Ice Shelf'},
+    'Ocean': {'lat': -14.5994, 'lng': -145.6739, 'name': 'Pacific Ocean'}
+}
+
+def get_fallback_location(slug):
+    reg = get_region_from_slug(slug)
+    common_name = slug.replace('-', ' ').title()
+    coords = region_coordinates.get(reg, {'lat': 0.0, 'lng': 0.0, 'name': 'Wilderness'})
+    return {
+        'name': f"{common_name} Habitat ({coords['name']})",
+        'lat': coords['lat'],
+        'lng': coords['lng'],
+        'region': reg
+    }
+
 def query_gbif(slug):
     # Check cache first
     if slug in gbif_cache:
-        return gbif_cache[slug]
+        cached = gbif_cache[slug]
+        # Force resolve if cached coordinates are zero
+        if cached.get('location', {}).get('lat') == 0.0 or cached.get('location', {}).get('lng') == 0.0:
+            cached['location'] = get_fallback_location(slug)
+            gbif_cache[slug] = cached
+            save_cache()
+        return cached
         
     common_name = slug.replace('-', ' ').title()
     sci_name = species_map.get(slug, common_name)
     
     metadata = {
         'category': 'mammals',
-        'location': {
-            'name': 'Unknown Location',
-            'lat': 0.0,
-            'lng': 0.0,
-            'region': get_region_from_slug(slug)
-        }
+        'location': get_fallback_location(slug)
     }
     
     try:
@@ -279,12 +302,13 @@ def query_gbif(slug):
                     
                 loc_name = ", ".join(loc_parts) if loc_parts else f"{common_name} Habitat"
                 
-                metadata['location'] = {
-                    'name': loc_name,
-                    'lat': lat,
-                    'lng': lng,
-                    'region': get_region_from_slug(slug)
-                }
+                if lat != 0.0 or lng != 0.0:
+                    metadata['location'] = {
+                        'name': loc_name,
+                        'lat': lat,
+                        'lng': lng,
+                        'region': get_region_from_slug(slug)
+                    }
         
         # Cache results
         gbif_cache[slug] = metadata
@@ -292,15 +316,10 @@ def query_gbif(slug):
         time.sleep(0.2) # Polite API spacing
         
     except Exception as e:
-        print(f"  ⚠ GBIF lookup failed for {slug}: {e}")
+        print(f"  [WARN] GBIF lookup failed for {slug}: {e}")
         # Build a safe default
         metadata['category'] = get_category_from_class('', '', slug)
-        metadata['location'] = {
-            'name': f"{common_name} Habitat",
-            'lat': 0.0,
-            'lng': 0.0,
-            'region': get_region_from_slug(slug)
-        }
+        metadata['location'] = get_fallback_location(slug)
         
     return metadata
 
@@ -341,14 +360,27 @@ def rebuild():
         # Query GBIF for metadata
         meta = query_gbif(slug)
         
+        # Override category based on parent folder name (which is 100% correct class mapping)
+        parent_class = folder.parent.name
+        class_to_category = {
+            'Mammals': 'mammals',
+            'Birds': 'birds',
+            'Reptiles': 'reptiles',
+            'Amphibians': 'amphibians',
+            'Fish': 'aquatic',
+            'Invertebrates': 'aquatic'
+        }
+        if parent_class in class_to_category:
+            meta['category'] = class_to_category[parent_class]
+        
         # Find matching photos
         photos = []
         if photos_dir.exists():
             photos = sorted([f for f in photos_dir.iterdir() if f.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp')])
             if not photos:
-                print(f"  ⚠ [{slug}] No matching photos in photos_dir. Files: {[f.name for f in list(photos_dir.iterdir())[:3]]}")
+                print(f"  [WARN] [{slug}] No matching photos in photos_dir. Files: {[f.name for f in list(photos_dir.iterdir())[:3]]}")
         else:
-            print(f"  ⚠ [{slug}] photos_dir does not exist: {photos_dir}")
+            print(f"  [WARN] [{slug}] photos_dir does not exist: {photos_dir}")
                 
         # Generate video entries
         for idx, mp4_file in enumerate(mp4_files):

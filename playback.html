@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
@@ -33,13 +33,49 @@
 
           <!-- Location Mini-Map -->
           <div class="location-map" id="location-map" style="display:none;">
-            <h3 class="location-map__title">Filming Location</h3>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+              <h3 class="location-map__title" style="margin: 0;">Filming Location</h3>
+              <span id="location-distance" style="font-family: 'VT323', monospace; font-size: 1.15rem; color: var(--clr-text-muted);"></span>
+            </div>
             <div class="location-map__container" id="location-map-container" aria-label="Video filming location on map"></div>
           </div>
         </div>
 
-        <!-- Related Videos -->
+        <!-- Sidebar -->
         <aside class="playback-sidebar">
+          <!-- Animal Info Panel -->
+          <div class="animal-info-wrapper">
+            <!-- Active Subject Status Box -->
+            <div class="animal-info__status-box">
+              <div class="animal-info__status-image-wrapper" id="animal-status-img-container">
+                <img id="animal-status-img" src="" alt="Active Subject" onerror="this.parentNode.style.display='none';" />
+              </div>
+              <div class="animal-info__status-text">
+                <span class="status-indicator">📡 ACTIVE SUBJECT</span>
+                <span class="status-value" id="animal-current-name">LOADING...</span>
+              </div>
+            </div>
+            <!-- Folder Tabs — sit above the card -->
+            <div class="animal-info__tab-row" id="animal-info-tabs">
+              <button class="animal-info__tab is-active" data-source="wikipedia" title="Wikipedia summary">🌐 Wiki</button>
+              <button class="animal-info__tab" data-source="wikidata" title="Species data from Wikidata">📊 Species</button>
+              <button class="animal-info__tab" data-source="inaturalist" title="Observations from iNaturalist">🌿 iNat</button>
+            </div>
+            <!-- Card body -->
+            <div class="animal-info" id="animal-info">
+              <div class="animal-info__body" id="animal-info-body">
+                <div class="animal-info__loading">
+                  <p class="text-muted">Loading animal information...</p>
+                </div>
+              </div>
+              <div class="animal-info__attribution" id="animal-info-attribution" style="display:none;">
+                <span class="animal-info__attribution-text">Source: <a id="animal-info-source-link" href="#" target="_blank" rel="noopener"></a></span>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Related Videos -->
           <h3 class="playback-sidebar__title">Related Videos</h3>
           <div class="related-videos" id="related-videos">
             <!-- Populated by JS -->
@@ -58,11 +94,13 @@
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script defer src="js/include.js"></script>
   <script defer src="js/config.js"></script>
+  <script defer src="js/species-map.js"></script>
   <script defer src="js/utils.js"></script>
   <script defer src="js/data.js"></script>
   <script defer src="js/router.js"></script>
   <script defer src="js/theme.js"></script>
   <script defer src="js/favorites.js"></script>
+  <script defer src="js/animal-info.js"></script>
   <script defer src="js/ui.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/player.js"></script>

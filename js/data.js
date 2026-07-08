@@ -7,97 +7,9 @@ App.data = (function() {
   var cache = null;
   var _gbifCache = {}; // species name → GBIF image URL
 
-  // Common animal → GBIF scientific name mapping
-  var _speciesMap = {
-    'lion': 'Panthera leo',
-    'elephant': 'Loxodonta africana',
-    'parrot': 'Psittaciformes',
-    'eagle': 'Aquila chrysaetos',
-    'penguin': 'Aptenodytes forsteri',
-    'flamingo': 'Phoenicopterus roseus',
-    'polar bear': 'Ursus maritimus',
-    'dolphin': 'Tursiops truncatus',
-    'sea turtle': 'Chelonia mydas',
-    'turtle': 'Chelonia mydas',
-    'chameleon': 'Furcifer pardalis',
-    'octopus': 'Enteroctopus dofleini',
-    'tree frog': 'Hylidae',
-    'frog': 'Anura',
-    'great white shark': 'Carcharodon carcharias',
-    'shark': 'Carcharodon carcharias',
-    'kitten': 'Felis catus',
-    'cat': 'Felis catus',
-    'bald eagle': 'Haliaeetus leucocephalus',
-    'lioness': 'Panthera leo',
-    'macaw': 'Ara macao',
-    'toucan': 'Ramphastos toco',
-    'tiger': 'Panthera tigris',
-    'red panda': 'Ailurus fulgens',
-    'peacock': 'Pavo cristatus',
-    'komodo dragon': 'Varanus komodoensis',
-    'giant panda': 'Ailuropoda melanoleuca',
-    'snow leopard': 'Panthera uncia',
-    'asian elephant': 'Elephas maximus',
-    'sun bear': 'Helarctos malayanus',
-    'giraffe': 'Giraffa camelopardalis',
-    'cheetah': 'Acinonyx jubatus',
-    'zebra': 'Equus quagga',
-    'hippopotamus': 'Hippopotamus amphibius',
-    'rhinoceros': 'Ceratotherium simum',
-    'gorilla': 'Gorilla gorilla',
-    'chimpanzee': 'Pan troglodytes',
-    'brown bear': 'Ursus arctos',
-    'red fox': 'Vulpes vulpes',
-    'wild boar': 'Sus scrofa',
-    'european bison': 'Bison bonasus',
-    'lynx': 'Lynx lynx',
-    'reindeer': 'Rangifer tarandus',
-    'badger': 'Meles meles',
-    'grizzly bear': 'Ursus arctos horribilis',
-    'moose': 'Alces alces',
-    'coyote': 'Canis latrans',
-    'bison': 'Bison bison',
-    'raccoon': 'Procyon lotor',
-    'beaver': 'Castor canadensis',
-    'mountain lion': 'Puma concolor',
-    'elk': 'Cervus canadensis',
-    'jaguar': 'Panthera onca',
-    'sloth': 'Bradypus tridactylus',
-    'anaconda': 'Eunectes murinus',
-    'capybara': 'Hydrochoerus hydrochaeris',
-    'llama': 'Lama glama',
-    'piranha': 'Serrasalmus',
-    'vampire bat': 'Desmodus rotundus',
-    'howler monkey': 'Alouatta',
-    'kangaroo': 'Macropus',
-    'koala': 'Phascolarctos cinereus',
-    'platypus': 'Ornithorhynchus anatinus',
-    'wombat': 'Vombatus ursinus',
-    'tasmanian devil': 'Sarcophilus harrisii',
-    'dingo': 'Canis lupus dingo',
-    'emu': 'Dromaius novaehollandiae',
-    'kookaburra': 'Dacelo novaeguineae',
-    'wallaby': 'Macropus agilis',
-    'seal': 'Pinnipedia',
-    'blue whale': 'Balaenoptera musculus',
-    'orca': 'Orcinus orca',
-    'albatross': 'Diomedeidae',
-    'leopard seal': 'Hydrurga leptonyx',
-    'krill': 'Euphausiacea',
-    'snow petrel': 'Pagodroma nivea',
-    'manta ray': 'Manta birostris',
-    'clownfish': 'Amphiprioninae',
-    'jellyfish': 'Scyphozoa',
-    'seahorse': 'Hippocampus',
-    'coral': 'Anthozoa',
-    'sambar deer': 'Rusa unicolor',
-    'orangutan': 'Pongo pygmaeus',
-    'wolf': 'Canis lupus',
-    'otter': 'Lutrinae',
-    'crocodile': 'Crocodylidae',
-    'squid': 'Teuthida',
-    'arctic tern': 'Sterna paradisaea'
-  };
+  // Reference the unified species map from species-map.js
+  // Previously this was a duplicate local definition; see js/species-map.js
+  var _speciesMap = App.speciesMap;
 
   // Common animals by region (for filling nearby results)
   var _regionAnimals = {
@@ -174,24 +86,6 @@ App.data = (function() {
       });
   }
 
-  /**
-   * Extract a common animal name from a video title
-   */
-  function _extractAnimalName(title) {
-    if (!title) return null;
-    var lower = title.toLowerCase();
-
-    // Match longest key first to avoid "eagle" matching before "bald eagle"
-    var keys = Object.keys(_speciesMap).sort(function(a, b) {
-      return b.length - a.length;
-    });
-    for (var i = 0; i < keys.length; i++) {
-      if (lower.indexOf(keys[i]) !== -1) {
-        return keys[i];
-      }
-    }
-    return null;
-  }
 
   /**
    * Fetch a species image from GBIF API
@@ -284,7 +178,7 @@ App.data = (function() {
 
     for (var i = 0; i < videos.length; i++) {
       (function(idx) {
-        var name = _extractAnimalName(videos[idx].title);
+        var name = App.utils.extractAnimalName(videos[idx].title);
         if (name) {
           var p = fetchGBIFThumbnail(name).then(function(imgUrl) {
             if (imgUrl && videos[idx]) {

@@ -45,6 +45,7 @@ App.player = (function() {
       renderVideoInfo(currentVideo);
       renderLocationMap(currentVideo);
       renderRelatedVideos(currentVideo);
+      renderAnimalInfo(currentVideo);
     });
   }
 
@@ -198,23 +199,71 @@ App.player = (function() {
 
     var mapSection = document.getElementById('location-map');
     var mapContainer = document.getElementById('location-map-container');
+    var distanceSpan = document.getElementById('location-distance');
     if (!mapSection || !mapContainer) return;
 
     mapSection.style.display = 'block';
 
+    // Clear previous map instance if initialized to prevent Leaflet container error
+    if (mapContainer._leaflet_id) {
+      mapContainer.innerHTML = '';
+      mapContainer._leaflet_id = null;
+    }
+
     try {
-      var map = L.map(mapContainer).setView([video.location.lat, video.location.lng], 5);
+      var animalLat = video.location.lat;
+      var animalLng = video.location.lng;
+      var map = L.map(mapContainer).setView([animalLat, animalLng], 5);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 10
       }).addTo(map);
 
-      L.marker([video.location.lat, video.location.lng])
+      // Animal location marker
+      L.marker([animalLat, animalLng])
         .addTo(map)
         .bindPopup('<b>' + App.ui.escapeHtml(video.location.name) + '</b>');
 
-      // Invalidate after a tiny delay to ensure render
+      // Browser Geolocation
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var userLat = position.coords.latitude;
+          var userLng = position.coords.longitude;
+
+          // User location marker
+          L.marker([userLat, userLng])
+            .addTo(map)
+            .bindPopup('<b>📍 You are here</b>');
+
+          // Calculate distance (Haversine formula) — via App.utils.getDistance
+          var d = App.utils.getDistance(userLat, userLng, animalLat, animalLng);
+          var formattedDistance = d < 1 
+            ? Math.round(d * 1000) + ' m' 
+            : Math.round(d).toLocaleString() + ' km';
+
+          if (distanceSpan) {
+            distanceSpan.textContent = '📏 Distance from you: ' + formattedDistance;
+          }
+
+          // Dotted line connecting user and animal
+          L.polyline([[animalLat, animalLng], [userLat, userLng]], {
+            color: '#2ead4b',
+            weight: 3,
+            dashArray: '5, 10'
+          }).addTo(map);
+
+          // Auto-adjust view to show both points
+          var bounds = L.latLngBounds([[animalLat, animalLng], [userLat, userLng]]);
+          map.fitBounds(bounds, { padding: [40, 40] });
+
+        }, function(error) {
+          console.warn('Geolocation access failed or denied:', error);
+          if (distanceSpan) distanceSpan.textContent = '';
+        });
+      }
+
+      // Invalidate map size after animation/render completes
       setTimeout(function() { map.invalidateSize(); }, 300);
     } catch(e) {
       console.warn('Map render error:', e);
@@ -251,7 +300,442 @@ App.player = (function() {
     });
   }
 
+  // ── Animal Info Panel ─────────────────────────────────────
+  var _animalInfoCache = null;
+
+  function renderAnimalInfo(video) {
+    var container = document.getElementById('animal-info-body');
+    var attribution = document.getElementById('animal-info-attribution');
+    if (!container) return;
+
+    var animalName = App.animalInfo.extractAnimalName(video.title);
+    
+    // Update Active Subject display name & local image
+    var subjectEl = document.getElementById('animal-current-name');
+    var statusImg = document.getElementById('animal-status-img');
+    var statusImgContainer = document.getElementById('animal-status-img-container');
+
+    if (subjectEl) {
+      subjectEl.textContent = animalName ? animalName.toUpperCase() : 'UNKNOWN';
+    }
+
+    if (statusImg && statusImgContainer) {
+      if (animalName) {
+        var localImgPath = video.posterUrl || video.thumbnail || '';
+        
+        // If the posterUrl is empty or doesn't belong to local library, build a dynamic fallback path
+        if (!localImgPath || localImgPath.indexOf('assets/images/library') === -1) {
+          var refUrl = video.videoUrl || '';
+          var pathMatch = refUrl.match(/assets\/images\/library\/([^\/]+)\/([^\/]+)/i);
+          if (pathMatch) {
+            var folderClass = pathMatch[1];
+            var folderAnimal = pathMatch[2];
+            localImgPath = 'assets/images/library/' + folderClass + '/' + folderAnimal + '/photos/000001.jpg';
+          } else {
+            // Fallback category mapping
+            var category = video.category ? video.category.toLowerCase() : '';
+            var className = 'Mammals';
+            if (category === 'mammals') className = 'Mammals';
+            else if (category === 'birds') className = 'Birds';
+            else if (category === 'reptiles') className = 'Reptiles';
+            else if (category === 'amphibians') className = 'Amphibians';
+            else if (category === 'aquatic') className = 'Fish';
+
+            var kebabName = animalName.toLowerCase().replace(/\s+/g, '-');
+            localImgPath = 'assets/images/library/' + className + '/' + kebabName + '/photos/000001.jpg';
+          }
+        }
+
+        statusImg.src = localImgPath;
+        statusImgContainer.style.display = 'block';
+      } else {
+        statusImgContainer.style.display = 'none';
+      }
+    }
+
+    if (!animalName) {
+      container.innerHTML =
+        '<div class="animal-info__empty">' +
+          '<div class="animal-info__empty-icon">🐾</div>' +
+          '<p class="animal-info__empty-text">No animal info available for this video.</p>' +
+        '</div>';
+      if (attribution) attribution.style.display = 'none';
+      return;
+    }
+
+    // Show loading state
+    container.innerHTML = '<div class="animal-info__loading"><p class="text-muted">📖 Loading animal info...</p></div>';
+
+    // Progressive loading feedback
+    var loadingTimer = setTimeout(function() {
+      var loadingEl = container.querySelector('.animal-info__loading');
+      if (loadingEl) {
+        loadingEl.innerHTML = '<p class="text-muted">⏳ Fetching from databases...</p>';
+      }
+    }, 3000);
+
+    // Fetch all sources
+    App.animalInfo.fetchAll(animalName).then(function(result) {
+      clearTimeout(loadingTimer);
+      _animalInfoCache = result;
+      if (!result.wikipedia && !result.wikidata && !result.inaturalist) {
+        container.innerHTML =
+          '<div class="animal-info__empty">' +
+            '<div class="animal-info__empty-icon">🔍</div>' +
+            '<p class="animal-info__empty-text">Could not find info for "' + App.ui.escapeHtml(animalName) + '".</p>' +
+            '<p class="animal-info__empty-sub">Try watching a different video.</p>' +
+          '</div>';
+        if (attribution) attribution.style.display = 'none';
+        return;
+      }
+      // Render the active tab (default: wikipedia)
+      switchTab('wikipedia');
+    });
+  }
+
+  function switchTab(source) {
+    var container = document.getElementById('animal-info-body');
+    var attribution = document.getElementById('animal-info-attribution');
+    var sourceLink = document.getElementById('animal-info-source-link');
+    if (!container || !_animalInfoCache) return;
+
+    // Update tab buttons
+    var tabs = document.querySelectorAll('.animal-info__tab');
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].classList.remove('is-active');
+    }
+    var activeTab = document.querySelector('.animal-info__tab[data-source="' + source + '"]');
+    if (activeTab) activeTab.classList.add('is-active');
+
+    var data = _animalInfoCache;
+    var html = '';
+    var showAttribution = false;
+    var sourceUrl = '';
+    var sourceName = '';
+
+    switch (source) {
+      case 'wikipedia':
+        if (data.wikipedia) {
+          var extract = data.wikipedia.extract;
+          var rawSentences = [];
+          
+          // Match sentences (words ending with sentence boundaries like . ! ? 。 ！ ？)
+          var matches = extract.match(/[^.!?。！？]+[.!?。！？]*/g);
+          if (matches) {
+            rawSentences = matches.map(function(s) {
+              return s.trim();
+            }).filter(function(s) {
+              return s.length > 5;
+            });
+          } else {
+            // Fallback to splitting by newlines
+            rawSentences = extract.split('\n').map(function(s) {
+              return s.trim();
+            }).filter(function(s) {
+              return s.length > 5;
+            });
+          }
+
+          var intros = [];
+          var bullets = [];
+          for (var j = 0; j < rawSentences.length; j++) {
+            var s = rawSentences[j];
+            var isIntro = s.slice(-1) === ':' || 
+                          s.toLowerCase().endsWith('include') || 
+                          s.toLowerCase().endsWith('includes') || 
+                          s.toLowerCase().endsWith('following');
+            
+            if (isIntro) {
+              // Only keep as intro if it has subsequent statements to introduce
+              if (j < rawSentences.length - 1) {
+                intros.push(s);
+              }
+            } else {
+              bullets.push(s);
+            }
+          }
+
+          var formatted = '';
+          for (var a = 0; a < intros.length; a++) {
+            formatted += '<p class="animal-info__wiki-intro">' + App.ui.escapeHtml(intros[a]) + '</p>';
+          }
+
+          if (bullets.length > 0) {
+            formatted += '<ul class="animal-info__wiki-bullets">';
+            var maxBullets = Math.min(bullets.length, 5); // Max 5 key facts
+            for (var b = 0; b < maxBullets; b++) {
+              formatted += '<li class="animal-info__wiki-bullet-item">' + App.ui.escapeHtml(bullets[b]) + '</li>';
+            }
+            formatted += '</ul>';
+          }
+
+          html = '<div class="animal-info__wiki-extract">' + formatted + '</div>';
+          sourceUrl = data.wikipedia.pageUrl || '';
+          sourceName = data.wikipedia.source || 'Wikipedia';
+          showAttribution = true;
+        }
+        break;
+
+      case 'wikidata':
+        if (data.wikidata) {
+          var wd = data.wikidata;
+          html = '<div class="animal-info__wikidata">';
+
+          // Description
+          if (wd.description) {
+            html += '<p class="animal-info__wikidata-desc">' + App.ui.escapeHtml(wd.description) + '</p>';
+          }
+
+          // Scientific name
+          if (wd.scientificName) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Scientific Name</span>' +
+              '<span class="animal-info__fact-value"><em>' + App.ui.escapeHtml(wd.scientificName) + '</em></span>' +
+            '</div>';
+          }
+
+          // Conservation status
+          if (wd.conservationStatus) {
+            var formattedStatus = App.animalInfo.formatConservationStatus(wd.conservationStatus);
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Conservation</span>' +
+              '<span class="animal-info__fact-value">' + (formattedStatus || App.ui.escapeHtml(wd.conservationStatus)) + '</span>' +
+            '</div>';
+          }
+
+          // Taxon rank
+          if (wd.taxonRank) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Rank</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.taxonRank) + '</span>' +
+            '</div>';
+          }
+
+          // Kingdom / Phylum
+          if (wd.kingdom) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Kingdom</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.kingdom) + '</span>' +
+            '</div>';
+          }
+          if (wd.phylum) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Phylum</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.phylum) + '</span>' +
+            '</div>';
+          }
+
+          // Lifespan
+          if (wd.lifespan) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Lifespan</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.lifespan) + '</span>' +
+            '</div>';
+          }
+
+          // Diet
+          if (wd.diet) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Diet</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.diet) + '</span>' +
+            '</div>';
+          }
+
+          html += '</div>';
+          sourceUrl = wd.pageUrl || '';
+          sourceName = wd.source || 'Wikidata';
+          showAttribution = true;
+        }
+        break;
+
+      case 'inaturalist':
+        if (data.inaturalist) {
+          var inat = data.inaturalist;
+          html = '<div class="animal-info__inat">';
+
+          // Header with common name
+          if (inat.commonName) {
+            html += '<p class="animal-info__inat-desc"><strong>' +
+              App.ui.escapeHtml(inat.commonName) + '</strong></p>';
+          }
+
+          // Wikipedia summary from iNaturalist
+          if (inat.wikipediaSummary) {
+            html += '<p class="animal-info__inat-desc">' +
+              App.ui.escapeHtml(inat.wikipediaSummary.substring(0, 300)) +
+              (inat.wikipediaSummary.length > 300 ? '...' : '') + '</p>';
+          }
+
+          // Stats grid
+          html += '<div class="animal-info__facts-grid">';
+
+          if (inat.name) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Scientific</span>' +
+              '<span class="animal-info__fact-value"><em>' + App.ui.escapeHtml(inat.name) + '</em></span>' +
+            '</div>';
+          }
+          if (inat.rank) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Rank</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(inat.rank) + '</span>' +
+            '</div>';
+          }
+          if (inat.iconicTaxon) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Group</span>' +
+              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(inat.iconicTaxon) + '</span>' +
+            '</div>';
+          }
+          if (inat.conservationStatus) {
+            var inatStatus = App.animalInfo.formatConservationStatus(inat.conservationStatus);
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Status</span>' +
+              '<span class="animal-info__fact-value">' + (inatStatus || App.ui.escapeHtml(inat.conservationStatus)) + '</span>' +
+            '</div>';
+          }
+          if (inat.observationsCount > 0) {
+            html += '<div class="animal-info__fact-row">' +
+              '<span class="animal-info__fact-label">Sightings</span>' +
+              '<span class="animal-info__fact-value">' + inat.observationsCount.toLocaleString() + '</span>' +
+            '</div>';
+          }
+
+          html += '</div>';
+
+          // Photos as fun-fact cards
+          if (inat.photos && inat.photos.length > 0) {
+            html += '<ul class="animal-info__fun-facts" style="margin-top:12px">';
+            for (var kk = 0; kk < inat.photos.length; kk++) {
+              html += '<li class="animal-info__fun-fact" style="padding:0;overflow:hidden">' +
+                '<img src="' + App.ui.escapeHtml(inat.photos[kk]) + '" ' +
+                'alt="iNaturalist photo" ' +
+                'style="width:100%;height:120px;object-fit:cover;display:block" ' +
+                'loading="lazy" decoding="async"/>' +
+                '</li>';
+            }
+            html += '</ul>';
+          }
+
+          html += '</div>';
+          sourceUrl = inat.inatUrl || '';
+          sourceName = 'iNaturalist';
+          showAttribution = true;
+        }
+        break;
+    }
+
+    // Fallback if selected source has no data
+    if (!html) {
+      html = '<div class="animal-info__empty">' +
+        '<div class="animal-info__empty-icon">📝</div>' +
+        '<p class="animal-info__empty-text">No data available for this source.</p>' +
+        '<p class="animal-info__empty-sub">Try switching to another source tab.</p>' +
+      '</div>';
+      showAttribution = false;
+    }
+
+    container.innerHTML = html;
+
+    // ── Typewriter effect on visible text ────────────────────
+    (function runTypewriter(root) {
+      // Collect leaf text nodes inside non-structural elements
+      var textNodes = [];
+      function walk(node) {
+        if (node.nodeType === 3) { // TEXT_NODE
+          if (node.textContent.trim().length > 0) textNodes.push(node);
+        } else if (node.nodeType === 1) {
+          // Skip script/style
+          var tag = node.tagName ? node.tagName.toUpperCase() : '';
+          if (tag !== 'SCRIPT' && tag !== 'STYLE') {
+            for (var c = 0; c < node.childNodes.length; c++) {
+              walk(node.childNodes[c]);
+            }
+          }
+        }
+      }
+      walk(root);
+
+      if (textNodes.length === 0) return;
+
+      // Snapshot original texts, clear them all
+      var originals = [];
+      for (var i = 0; i < textNodes.length; i++) {
+        originals.push(textNodes[i].textContent);
+        textNodes[i].textContent = '';
+      }
+
+      var nodeIdx = 0;
+      var charIdx = 0;
+      var SPEED = 12; // ms per character
+
+      // Add blinking cursor placeholder span at end of container
+      var cursorSpan = document.createElement('span');
+      cursorSpan.className = 'pixel-cursor';
+      if (textNodes.length > 0 && textNodes[0].parentNode) {
+        textNodes[0].parentNode.insertBefore(cursorSpan, textNodes[0].nextSibling);
+      }
+
+      function tick() {
+        if (nodeIdx >= textNodes.length) {
+          // Done — remove cursor
+          if (cursorSpan.parentNode) cursorSpan.parentNode.removeChild(cursorSpan);
+          return;
+        }
+        var node = textNodes[nodeIdx];
+        var full = originals[nodeIdx];
+        if (charIdx < full.length) {
+          node.textContent += full[charIdx];
+          charIdx++;
+          setTimeout(tick, SPEED);
+        } else {
+          // Move cursor after next node's parent
+          nodeIdx++;
+          charIdx = 0;
+          if (nodeIdx < textNodes.length && textNodes[nodeIdx].parentNode) {
+            var nextParent = textNodes[nodeIdx].parentNode;
+            if (cursorSpan.parentNode) cursorSpan.parentNode.removeChild(cursorSpan);
+            nextParent.insertBefore(cursorSpan, textNodes[nodeIdx].nextSibling);
+          }
+          setTimeout(tick, SPEED);
+        }
+      }
+      tick();
+    })(container);
+
+    // Update attribution
+    if (attribution && sourceLink) {
+      if (showAttribution && sourceUrl) {
+        attribution.style.display = 'block';
+        sourceLink.textContent = sourceName;
+        sourceLink.href = sourceUrl;
+      } else if (showAttribution && sourceName) {
+        attribution.style.display = 'block';
+        sourceLink.textContent = sourceName;
+        sourceLink.href = '#';
+        sourceLink.style.cursor = 'default';
+      } else {
+        attribution.style.display = 'none';
+      }
+    }
+  }
+
+  // ── Tab switching events ──────────────────────────────────
+  function initTabEvents() {
+    var tabsContainer = document.getElementById('animal-info-tabs');
+    if (!tabsContainer) return;
+    tabsContainer.addEventListener('click', function(e) {
+      var tab = e.target.closest('.animal-info__tab');
+      if (!tab || tab.classList.contains('is-active')) return;
+      var source = tab.getAttribute('data-source');
+      if (source) switchTab(source);
+    });
+  }
+
   return {
-    init: init
+    init: function() {
+      initTabEvents();  // Bind tab clicks early
+      init();
+    }
   };
 })();

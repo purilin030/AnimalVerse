@@ -85,12 +85,52 @@ App.utils = (function() {
     return 'Asia';
   }
 
+  /**
+   * Extract a common animal name from a video title.
+   * Strips common title prefixes/suffixes, then matches against App.speciesMap
+   * (longest key first to prefer "bald eagle" over "eagle").
+   * Falls back to the cleaned title string if no species map match is found.
+   *
+   * Canonical implementation — previously duplicated in data.js and animal-info.js.
+   * Both modules now delegate here. See js/species-map.js for the species map.
+   *
+   * @param  {string} title  Video title
+   * @returns {string|null}  Matched common name (lowercase), cleaned title, or null
+   */
+  function extractAnimalName(title) {
+    if (!title) return null;
+
+    // Strip common title boilerplate
+    var clean = title
+      .replace(/ in its Natural Habitat$/i, '')
+      .replace(/^Fascinating Behavior of /i, '')
+      .replace(/^Fascinating Facts About /i, '')
+      .replace(/^The /i, '')
+      .trim();
+
+    var lower = clean.toLowerCase();
+
+    // Match longest key first to avoid "eagle" shadowing "bald eagle"
+    var keys = Object.keys(App.speciesMap).sort(function(a, b) {
+      return b.length - a.length;
+    });
+    for (var i = 0; i < keys.length; i++) {
+      if (lower.indexOf(keys[i]) !== -1) {
+        return keys[i];
+      }
+    }
+
+    // Fallback: return the cleaned title so callers still get something useful
+    return clean.length > 0 ? clean : null;
+  }
+
   return {
     getDistance: getDistance,
     isNearby: isNearby,
     shuffleArray: shuffleArray,
     pluralize: pluralize,
     getVideoAspect: getVideoAspect,
-    guessRegion: guessRegion
+    guessRegion: guessRegion,
+    extractAnimalName: extractAnimalName
   };
 })();

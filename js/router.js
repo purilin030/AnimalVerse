@@ -25,15 +25,12 @@ App.router = (function() {
    */
   function getQueryParams() {
     var params = {};
-    var query = window.location.search.substring(1);
-    if (!query) return params;
-    var pairs = query.split('&');
-    for (var i = 0; i < pairs.length; i++) {
-      var parts = pairs[i].split('=');
-      var key = decodeURIComponent(parts[0]);
-      var value = parts.length > 1 ? decodeURIComponent(parts[1] || '') : '';
+    var searchParams = new URLSearchParams(window.location.search);
+
+    searchParams.forEach(function(value, key) {
       params[key] = value;
-    }
+    });
+
     return params;
   }
 

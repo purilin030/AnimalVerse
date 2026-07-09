@@ -189,7 +189,7 @@ App.randomVid = (function() {
     // Theme-aligned palette: gold, amber, white, bronze, dark grey
     var colors = ['#ffd700', '#f59e0b', '#b58900', '#444444', '#f7f7f7', '#ffffff', '#eab308'];
 
-    for (var i = 0; i < 32; i++) {
+    for (var i = 0; i < 18; i++) {
       var particle = document.createElement('div');
       particle.className = 'hex-confetti';
       var angle = Math.random() * 360;
@@ -276,7 +276,9 @@ App.randomVid = (function() {
           glows[i].classList.remove('hex-item--glow');
         }
 
+        /* ⚡ Optimized RAF settle: skip 2 of 3 frames to reduce DOM ops by ~66% */
         var settleStart = Date.now();
+        var settleSkip = 0;
         function settleStep() {
           if (shuffleAborted) { resolve(null); return; }
           var elapsed = Date.now() - settleStart;
@@ -288,14 +290,29 @@ App.randomVid = (function() {
             resolve(true);
             return;
           }
+          /* Skip frames to reduce layout thrash */
+          settleSkip++;
+          if (settleSkip % 3 !== 0) {
+            requestAnimationFrame(settleStep);
+            return;
+          }
           var intensity = 1 - pct;
+          /* Batch: collect indices, clear once instead of N setTimeout calls */
+          var toShuffle = [];
           for (var i = 0; i < hexes.length; i++) {
-            if (Math.random() < 0.15 * intensity) {
+            if (Math.random() < 0.2 * intensity) {
+              toShuffle.push(i);
               hexes[i].classList.add('hex-item--shuffle');
-              setTimeout(function(el) {
-                if (!shuffleAborted) el.classList.remove('hex-item--shuffle');
-              }, 80 + pct * 200, hexes[i]);
             }
+          }
+          if (toShuffle.length) {
+            setTimeout(function(indices) {
+              if (!shuffleAborted) {
+                for (var j = 0; j < indices.length; j++) {
+                  hexes[indices[j]].classList.remove('hex-item--shuffle');
+                }
+              }
+            }, 80 + pct * 200, toShuffle);
           }
           requestAnimationFrame(settleStep);
         }

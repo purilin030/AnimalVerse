@@ -57,6 +57,9 @@
       case 'random_vid.html':
         if (App.randomVid) App.randomVid.init();
         break;
+      case 'upload.html':
+        if (App.upload) App.upload.init();
+        break;
       // about.html is static, no JS needed
     }
   }

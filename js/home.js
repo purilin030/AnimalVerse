@@ -6,7 +6,8 @@ App.home = (function() {
 
   function init() {
     App.data.loadVideos().then(function(data) {
-      renderCategories(data.categories);
+      renderFeaturedVideos();
+      renderCommunityStats();
     });
 
     initNearbySection();
@@ -24,63 +25,68 @@ App.home = (function() {
   }
 
   /**
-   * Render category cards on the home page
+   * Render featured videos on the home page
    */
-  function renderCategories(categories) {
-    var container = document.getElementById('category-grid');
-    if (!container || !categories) return;
+  function renderFeaturedVideos() {
+    var featured = App.data.filterVideos({ featured: true });
+    // Randomize the featured videos and pick 5 to display
+    var displayVideos = App.utils.shuffleArray(featured).slice(0, 5);
+    App.ui.renderVideoGrid('featured-grid', displayVideos);
+  }
 
-    container.textContent = '';
-    for (var i = 0; i < categories.length; i++) {
-      var cat = categories[i];
-      var card = document.createElement('a');
-      card.href = 'gallery.html?category=' + encodeURIComponent(cat.id);
-      card.className = 'category-card category-card--' + cat.id;
-      card.setAttribute('data-hint', cat.description || 'Explore →');
-
-      // Image wrapper
-      var imgWrap = document.createElement('div');
-      imgWrap.className = 'category-card__image-wrap';
-      card.appendChild(imgWrap);
-
-      // Default image (visible initially)
-      var img = document.createElement('img');
-      img.className = 'category-card__image category-card__image--default';
-      img.src = 'assets/images/animal-class/' + cat.name + '.webp';
-      img.alt = cat.name || 'Category';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      imgWrap.appendChild(img);
-
-      // Hover image (hidden initially, crossfades on hover)
-      var imgHover = document.createElement('img');
-      imgHover.className = 'category-card__image category-card__image--hover';
-      imgHover.src = 'assets/images/animal-class/' + cat.name + '1.webp';
-      imgHover.alt = '';
-      imgHover.loading = 'lazy';
-      imgHover.decoding = 'async';
-      imgWrap.appendChild(imgHover);
-
-      var overlay = document.createElement('div');
-      overlay.className = 'category-card__overlay';
-      imgWrap.appendChild(overlay);
-
-      // Content
-      var content = document.createElement('div');
-      content.className = 'category-card__content';
-      card.appendChild(content);
-
-      var catName = document.createElement('h3');
-      catName.className = 'category-card__name';
-      catName.textContent = cat.name || '';
-      content.appendChild(catName);
-
-      var catDesc = document.createElement('p');
-      catDesc.className = 'category-card__desc';
-      catDesc.textContent = cat.description || '';
-      content.appendChild(catDesc);
-
-      container.appendChild(card);
+  /**
+   * Calculate and animate community impact stats
+   */
+  function renderCommunityStats() {
+    var allVideos = App.data.filterVideos({});
+    var totalVideos = allVideos.length;
+    var uniqueSpecies = {};
+    var uniqueRegions = {};
+    
+    for (var i = 0; i < allVideos.length; i++) {
+      if (allVideos[i].category) uniqueSpecies[allVideos[i].category] = true;
+      if (allVideos[i].region) uniqueRegions[allVideos[i].region] = true;
+    }
+    
+    animateNumber('stat-videos', totalVideos);
+    animateNumber('stat-species', Object.keys(uniqueSpecies).length);
+    animateNumber('stat-regions', Object.keys(uniqueRegions).length);
+  }
+  
+  /**
+   * Animate a number counting up from 0 to endValue
+   */
+  function animateNumber(id, endValue) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    
+    var duration = 2000;
+    var startTime = null;
+    
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      
+      // easeOutCubic
+      var easeOut = 1 - Math.pow(1 - progress, 3);
+      var currentVal = Math.floor(easeOut * endValue);
+      el.textContent = currentVal + (progress === 1 && endValue > 0 ? '+' : '');
+      
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    }
+    
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          window.requestAnimationFrame(step);
+          observer.disconnect();
+        }
+      }, { threshold: 0.2 });
+      observer.observe(el);
+    } else {
+      el.textContent = endValue + (endValue > 0 ? '+' : '');
     }
   }
 

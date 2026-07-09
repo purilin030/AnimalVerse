@@ -378,6 +378,10 @@ App.player = (function() {
     App.animalInfo.fetchAll(animalName).then(function(result) {
       clearTimeout(loadingTimer);
       _animalInfoCache = result;
+      
+      // Render breadcrumbs if we have taxonomy data
+      renderBreadcrumbs(result);
+
       if (!result.wikipedia && !result.wikidata && !result.inaturalist) {
         container.innerHTML =
           '<div class="animal-info__empty">' +
@@ -391,6 +395,39 @@ App.player = (function() {
       // Render the active tab (default: wikipedia)
       switchTab('wikipedia');
     });
+  }
+
+  function renderBreadcrumbs(result) {
+    var container = document.getElementById('taxonomy-breadcrumbs');
+    if (!container) return;
+    
+    // Attempt to get ancestors from iNaturalist
+    var ancestors = result && result.inaturalist && result.inaturalist.ancestors;
+    if (!ancestors || ancestors.length === 0) {
+      container.style.display = 'none';
+      return;
+    }
+    
+    var html = '<ul class="breadcrumb-list">';
+    for (var i = 0; i < ancestors.length; i++) {
+      var a = ancestors[i];
+      // Search for video/animal based on this taxonomy rank for the link
+      // For now, it just searches the gallery page with a query
+      var link = 'gallery.html?q=' + encodeURIComponent(a.name);
+      html += '<li class="breadcrumb-item">' +
+                '<span class="breadcrumb-rank">' + App.ui.escapeHtml(a.rank) + '</span>' +
+                '<a class="breadcrumb-name" href="' + link + '">' + App.ui.escapeHtml(a.name) + '</a>' +
+              '</li>';
+    }
+    // Also append the actual animal name
+    html += '<li class="breadcrumb-item">' +
+              '<span class="breadcrumb-rank">species</span>' +
+              '<span class="breadcrumb-name">' + App.ui.escapeHtml(result.animalName || '') + '</span>' +
+            '</li>';
+            
+    html += '</ul>';
+    container.innerHTML = html;
+    container.style.display = 'block';
   }
 
   // ── Animal Info HTML Builders ─────────────────────────────

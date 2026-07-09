@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Sighting - AnimalVerse</title>
+  <meta name="description" content="Share your wildlife encounters with the AnimalVerse community.">
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/upload.css">
+  
+  <!-- Leaflet CSS for the map pin functionality -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <div data-include="header"></div>
+    <div data-include="sidebar"></div>
+
+    <main class="main upload-main" id="main-content">
+      <div class="upload-container">
+        
+        <header class="upload-header">
+          <h1 class="upload-title">Share a Sighting</h1>
+          <p class="upload-subtitle">Contribute to our growing atlas of the animal kingdom. Upload your wildlife video below.</p>
+        </header>
+
+        <form class="upload-form" id="upload-form">
+          <!-- Left Column: Media -->
+          <div class="upload-col upload-col--media">
+            <div class="upload-dropzone" id="upload-dropzone">
+              <input type="file" id="video-file" accept="video/mp4,video/webm" class="upload-input-file" required>
+              <div class="upload-dropzone__content">
+                <div class="upload-dropzone__icon">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                </div>
+                <h3 class="upload-dropzone__title">Drag & drop your video</h3>
+                <p class="upload-dropzone__desc">MP4 or WebM up to 500MB</p>
+                <button type="button" class="btn btn--outline" onclick="document.getElementById('video-file').click()">Browse Files</button>
+              </div>
+              <div class="upload-preview" id="upload-preview" style="display:none;">
+                <video id="video-preview-player" controls></video>
+                <button type="button" class="btn upload-preview__remove" id="remove-video-btn">&times;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Details -->
+          <div class="upload-col upload-col--details">
+            <div class="form-group">
+              <label class="form-label" for="video-title">Title <span class="required">*</span></label>
+              <input type="text" id="video-title" class="form-input" placeholder="e.g. Majestic Lion Roaring in the Serengeti" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="video-species">Species (Animal Name) <span class="required">*</span></label>
+              <div class="autocomplete-wrapper">
+                <input type="text" id="video-species" class="form-input" placeholder="e.g. Lion" autocomplete="off" required>
+                <div class="autocomplete-dropdown" id="species-autocomplete" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="video-category">Category</label>
+              <select id="video-category" class="form-input form-select" required>
+                <option value="mammals">Mammals</option>
+                <option value="birds">Birds</option>
+                <option value="reptiles">Reptiles</option>
+                <option value="amphibians">Amphibians</option>
+                <option value="aquatic">Aquatic</option>
+                <option value="insects">Insects</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Location</label>
+              <p class="form-helper">Pin where you recorded this video.</p>
+              <div class="upload-map-container" id="upload-map"></div>
+              <input type="hidden" id="video-lat">
+              <input type="hidden" id="video-lng">
+              <input type="hidden" id="video-location-name">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="video-desc">Description</label>
+              <textarea id="video-desc" class="form-textarea" rows="4" placeholder="Tell us more about this encounter..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary btn--lg upload-submit-btn" id="upload-submit-btn">
+                <span>Publish Sighting</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="upload-success-state" id="upload-success-state" style="display:none;">
+          <div class="success-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h2>Upload Successful!</h2>
+          <p>Your video has been added to our simulated database. It will now appear in the gallery and on your profile.</p>
+          <div class="success-actions">
+            <a href="gallery.html" class="btn btn--primary">View Gallery</a>
+            <button type="button" class="btn btn--outline" id="upload-another-btn">Upload Another</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <div data-include="footer"></div>
+  </div>
+  <div data-include="chatbot"></div>
+
+  <!-- Scripts -->
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="js/include.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/species-map.js"></script>
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/router.js"></script>
+  <script defer src="js/theme.js"></script>
+  <script defer src="js/favorites.js"></script>
+  <script defer src="js/ui.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/upload.js"></script>
+  <script defer src="js/chatbot.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>

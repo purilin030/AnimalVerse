@@ -27,3 +27,48 @@
 
 ---
 *注：FYP2 才会涉及的功能（如 AWS Lambda, DynamoDB, Amazon Lex 聊天机器人, 用户登录与上传）不在本 TODO 列表中。*
+
+---
+
+## 4. 视频/照片下载进度
+
+### 补漏视频（34 个动物） — 0/34
+```bash
+# 分 10 个一批跑，每批 ~10 分钟 + 等 1h 限流重置
+python scripts/download_remaining_pexels.py --batch-size 10
+
+# 查看进度
+python scripts/download_remaining_pexels.py --status
+
+# 重置进度（重新下载）
+python scripts/download_remaining_pexels.py --reset-progress
+```
+> 包含：Fish(6) + Invertebrates(6) + Mammals(9) + Reptiles(13)
+
+### 下载照片（141 个动物，每动物 10 张） — 0/141
+```bash
+# 分 20 个一批跑，批间等 1h
+python scripts/download_pexels_pixabay_photos.py --batch-size 20
+
+# 查看进度
+python scripts/download_pexels_pixabay_photos.py --status
+
+# 重置进度
+python scripts/download_pexels_pixabay_photos.py --reset-progress
+```
+
+### 收尾（两个都完成后）
+```bash
+python scripts/rebuild_videos_json.py
+```
+
+### 建议跑法
+
+| 时段 | 操作 |
+|---|---|
+| **Day 1 上午** | 视频补漏 2 批（`--batch-size 10`，中间等 1h） |
+| **Day 1 下午** | 照片 2 批（`--batch-size 20`，每次等 1h）|
+| **Day 2~3** | 继续跑照片（~7 批 × 1h） |
+| **完成后** | `python scripts/rebuild_videos_json.py` |
+
+> 所有脚本都支持 Ctrl+C 暂停 + 断点续传。重新跑会自动跳过已完成的动物。

@@ -199,6 +199,18 @@ App.animalInfo = (function() {
         ? (taxon.conservation_status.status_name || null)
         : null;
 
+      // Extract taxonomy lineage from ancestors if available
+      var ancestors = [];
+      if (taxon.ancestors && taxon.ancestors.length > 0) {
+        for (var j = 0; j < taxon.ancestors.length; j++) {
+          var ancestor = taxon.ancestors[j];
+          // We only care about major ranks for breadcrumbs
+          if (['kingdom', 'phylum', 'class', 'order', 'family', 'genus'].indexOf(ancestor.rank) !== -1) {
+            ancestors.push({ name: ancestor.name, rank: ancestor.rank });
+          }
+        }
+      }
+
       // Build photo list (up to 3)
       var photos = [];
       if (taxon.taxon_photos && taxon.taxon_photos.length > 0) {
@@ -215,6 +227,7 @@ App.animalInfo = (function() {
         name: taxon.name,
         commonName: taxon.preferred_common_name || taxon.name,
         rank: taxon.rank,
+        ancestors: ancestors,
         observationsCount: taxon.observations_count || 0,
         iconicTaxon: iconicName,
         conservationStatus: conservationStatus,

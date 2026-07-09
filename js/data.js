@@ -169,31 +169,6 @@ App.data = (function() {
   }
 
   /**
-   * Enrich videos with GBIF thumbnails as fallback.
-   * Returns a Promise that resolves when all fetches complete.
-   */
-  function enrichThumbnails(videos) {
-    var promises = [];
-    if (!videos) return Promise.resolve();
-
-    for (var i = 0; i < videos.length; i++) {
-      (function(idx) {
-        var name = App.utils.extractAnimalName(videos[idx].title);
-        if (name) {
-          var p = fetchGBIFThumbnail(name).then(function(imgUrl) {
-            if (imgUrl && videos[idx]) {
-              videos[idx].gbifThumbnail = imgUrl;
-            }
-          });
-          promises.push(p);
-        }
-      })(i);
-    }
-
-    return Promise.all(promises);
-  }
-
-  /**
    * Fetch videos.json and cache it
    */
   function loadVideos() {

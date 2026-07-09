@@ -32,81 +32,47 @@ App.favorites = (function() {
     }
   }
 
-  /* ---- Favorites ---- */
-
-  function getFavorites() {
-    return safeGet(FAV_KEY);
-  }
-
-  function setFavorites(list) {
-    safeSet(FAV_KEY, list);
-  }
-
-  function toggleFavorite(videoId) {
-    var list = getFavorites();
+  /**
+   * Generic toggle helper — adds videoId to the list if absent, removes it if present.
+   * Returns true if added, false if removed.
+   * Used by toggleFavorite, toggleWatchLater, toggleLike.
+   */
+  function _toggleList(key, videoId) {
+    var list = safeGet(key);
     var idx = list.indexOf(videoId);
     if (idx === -1) {
       list.push(videoId);
-      setFavorites(list);
-      return true; // added
     } else {
       list.splice(idx, 1);
-      setFavorites(list);
-      return false; // removed
     }
+    safeSet(key, list);
+    return idx === -1; // true = added, false = removed
   }
 
-  function isFavorite(videoId) {
-    return getFavorites().indexOf(videoId) !== -1;
-  }
+  /* ---- Favorites ---- */
+
+  function getFavorites() { return safeGet(FAV_KEY); }
+
+  function toggleFavorite(videoId) { return _toggleList(FAV_KEY, videoId); }
+
+  function isFavorite(videoId) { return getFavorites().indexOf(videoId) !== -1; }
 
   /* ---- Watch Later ---- */
 
-  function getWatchLater() {
-    return safeGet(WL_KEY);
-  }
+  function getWatchLater() { return safeGet(WL_KEY); }
 
-  function toggleWatchLater(videoId) {
-    var list = getWatchLater();
-    var idx = list.indexOf(videoId);
-    if (idx === -1) {
-      list.push(videoId);
-      safeSet(WL_KEY, list);
-      return true;
-    } else {
-      list.splice(idx, 1);
-      safeSet(WL_KEY, list);
-      return false;
-    }
-  }
+  function toggleWatchLater(videoId) { return _toggleList(WL_KEY, videoId); }
 
-  function isWatchLater(videoId) {
-    return getWatchLater().indexOf(videoId) !== -1;
-  }
+  function isWatchLater(videoId) { return getWatchLater().indexOf(videoId) !== -1; }
 
   /* ---- Likes ---- */
 
-  function getLikes() {
-    return safeGet(LIKES_KEY);
-  }
+  function getLikes() { return safeGet(LIKES_KEY); }
 
-  function toggleLike(videoId) {
-    var list = getLikes();
-    var idx = list.indexOf(videoId);
-    if (idx === -1) {
-      list.push(videoId);
-      safeSet(LIKES_KEY, list);
-      return true;
-    } else {
-      list.splice(idx, 1);
-      safeSet(LIKES_KEY, list);
-      return false;
-    }
-  }
+  function toggleLike(videoId) { return _toggleList(LIKES_KEY, videoId); }
 
-  function isLiked(videoId) {
-    return getLikes().indexOf(videoId) !== -1;
-  }
+  function isLiked(videoId) { return getLikes().indexOf(videoId) !== -1; }
+
 
   return {
     getFavorites: getFavorites,

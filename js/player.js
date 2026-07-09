@@ -393,309 +393,234 @@ App.player = (function() {
     });
   }
 
+  // ── Animal Info HTML Builders ─────────────────────────────
+  // Each builder returns { html, sourceUrl, sourceName } or null if no data.
+
+  function buildWikipediaHTML(data) {
+    if (!data.wikipedia) return null;
+    var extract = data.wikipedia.extract;
+    var rawSentences = [];
+
+    var matches = extract.match(/[^.!?.!?]+[.!?.!?]*/g);
+    if (matches) {
+      rawSentences = matches.map(function(s) { return s.trim(); })
+                            .filter(function(s) { return s.length > 5; });
+    } else {
+      rawSentences = extract.split('\n').map(function(s) { return s.trim(); })
+                            .filter(function(s) { return s.length > 5; });
+    }
+
+    var intros = [], bullets = [];
+    for (var j = 0; j < rawSentences.length; j++) {
+      var s = rawSentences[j];
+      var isIntro = s.slice(-1) === ':' ||
+                    s.toLowerCase().endsWith('include') ||
+                    s.toLowerCase().endsWith('includes') ||
+                    s.toLowerCase().endsWith('following');
+      if (isIntro && j < rawSentences.length - 1) { intros.push(s); }
+      else { bullets.push(s); }
+    }
+
+    var formatted = '';
+    for (var a = 0; a < intros.length; a++) {
+      formatted += '<p class="animal-info__wiki-intro">' + App.ui.escapeHtml(intros[a]) + '</p>';
+    }
+    if (bullets.length > 0) {
+      formatted += '<ul class="animal-info__wiki-bullets">';
+      var maxBullets = Math.min(bullets.length, 5);
+      for (var b = 0; b < maxBullets; b++) {
+        formatted += '<li class="animal-info__wiki-bullet-item">' + App.ui.escapeHtml(bullets[b]) + '</li>';
+      }
+      formatted += '</ul>';
+    }
+
+    return {
+      html: '<div class="animal-info__wiki-extract">' + formatted + '</div>',
+      sourceUrl: data.wikipedia.pageUrl || '',
+      sourceName: data.wikipedia.source || 'Wikipedia'
+    };
+  }
+
+  function buildWikidataHTML(data) {
+    if (!data.wikidata) return null;
+    var wd = data.wikidata;
+    var html = '<div class="animal-info__wikidata">';
+
+    if (wd.description) {
+      html += '<p class="animal-info__wikidata-desc">' + App.ui.escapeHtml(wd.description) + '</p>';
+    }
+    if (wd.conservationStatus) {
+      var formattedStatus = App.animalInfo.formatConservationStatus(wd.conservationStatus);
+      html += '<div class="animal-info__fact-row">' +
+        '<span class="animal-info__fact-label">Conservation</span>' +
+        '<span class="animal-info__fact-value">' + (formattedStatus || App.ui.escapeHtml(wd.conservationStatus)) + '</span>' +
+        '</div>';
+    }
+
+    var factRows = [
+      { label: 'Scientific Name', value: wd.scientificName, em: true },
+      { label: 'Rank',            value: wd.taxonRank },
+      { label: 'Kingdom',         value: wd.kingdom },
+      { label: 'Phylum',          value: wd.phylum },
+      { label: 'Lifespan',        value: wd.lifespan },
+      { label: 'Diet',            value: wd.diet }
+    ];
+    for (var f = 0; f < factRows.length; f++) {
+      var row = factRows[f];
+      if (!row.value) continue;
+      var valHtml = row.em ? '<em>' + App.ui.escapeHtml(row.value) + '</em>' : App.ui.escapeHtml(row.value);
+      html += '<div class="animal-info__fact-row">' +
+        '<span class="animal-info__fact-label">' + row.label + '</span>' +
+        '<span class="animal-info__fact-value">' + valHtml + '</span>' +
+        '</div>';
+    }
+    html += '</div>';
+
+    return { html: html, sourceUrl: wd.pageUrl || '', sourceName: wd.source || 'Wikidata' };
+  }
+
+  function buildINaturalistHTML(data) {
+    if (!data.inaturalist) return null;
+    var inat = data.inaturalist;
+    var html = '<div class="animal-info__inat">';
+
+    if (inat.commonName) {
+      html += '<p class="animal-info__inat-desc"><strong>' + App.ui.escapeHtml(inat.commonName) + '</strong></p>';
+    }
+    if (inat.wikipediaSummary) {
+      html += '<p class="animal-info__inat-desc">' +
+        App.ui.escapeHtml(inat.wikipediaSummary.substring(0, 300)) +
+        (inat.wikipediaSummary.length > 300 ? '...' : '') + '</p>';
+    }
+
+    html += '<div class="animal-info__facts-grid">';
+    if (inat.conservationStatus) {
+      var inatStatus = App.animalInfo.formatConservationStatus(inat.conservationStatus);
+      html += '<div class="animal-info__fact-row">' +
+        '<span class="animal-info__fact-label">Status</span>' +
+        '<span class="animal-info__fact-value">' + (inatStatus || App.ui.escapeHtml(inat.conservationStatus)) + '</span>' +
+        '</div>';
+    }
+    var inatRows = [
+      { label: 'Scientific', value: inat.name,        em: true },
+      { label: 'Rank',       value: inat.rank },
+      { label: 'Group',      value: inat.iconicTaxon }
+    ];
+    for (var r = 0; r < inatRows.length; r++) {
+      var ir = inatRows[r];
+      if (!ir.value) continue;
+      var irVal = ir.em ? '<em>' + App.ui.escapeHtml(ir.value) + '</em>' : App.ui.escapeHtml(ir.value);
+      html += '<div class="animal-info__fact-row">' +
+        '<span class="animal-info__fact-label">' + ir.label + '</span>' +
+        '<span class="animal-info__fact-value">' + irVal + '</span>' +
+        '</div>';
+    }
+    if (inat.observationsCount > 0) {
+      html += '<div class="animal-info__fact-row">' +
+        '<span class="animal-info__fact-label">Sightings</span>' +
+        '<span class="animal-info__fact-value">' + inat.observationsCount.toLocaleString() + '</span>' +
+        '</div>';
+    }
+    html += '</div>';
+
+    if (inat.photos && inat.photos.length > 0) {
+      html += '<ul class="animal-info__fun-facts" style="margin-top:12px">';
+      for (var kk = 0; kk < inat.photos.length; kk++) {
+        html += '<li class="animal-info__fun-fact" style="padding:0;overflow:hidden">' +
+          '<img src="' + App.ui.escapeHtml(inat.photos[kk]) + '" ' +
+          'alt="iNaturalist photo" ' +
+          'style="width:100%;height:120px;object-fit:cover;display:block" ' +
+          'loading="lazy" decoding="async"/></li>';
+      }
+      html += '</ul>';
+    }
+    html += '</div>';
+
+    return { html: html, sourceUrl: inat.inatUrl || '', sourceName: 'iNaturalist' };
+  }
+
+  // ── switchTab: dispatcher ──────────────────────────────────────────
   function switchTab(source) {
-    var container = document.getElementById('animal-info-body');
+    var container  = document.getElementById('animal-info-body');
     var attribution = document.getElementById('animal-info-attribution');
-    var sourceLink = document.getElementById('animal-info-source-link');
+    var sourceLink  = document.getElementById('animal-info-source-link');
     if (!container || !_animalInfoCache) return;
 
-    // Update tab buttons
+    // Update tab button active states
     var tabs = document.querySelectorAll('.animal-info__tab');
-    for (var i = 0; i < tabs.length; i++) {
-      tabs[i].classList.remove('is-active');
-    }
+    for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('is-active'); }
     var activeTab = document.querySelector('.animal-info__tab[data-source="' + source + '"]');
     if (activeTab) activeTab.classList.add('is-active');
 
-    var data = _animalInfoCache;
-    var html = '';
-    var showAttribution = false;
-    var sourceUrl = '';
-    var sourceName = '';
+    // Call the right builder
+    var builders = {
+      wikipedia:   buildWikipediaHTML,
+      wikidata:    buildWikidataHTML,
+      inaturalist: buildINaturalistHTML
+    };
+    var builderFn = builders[source];
+    var built     = builderFn ? builderFn(_animalInfoCache) : null;
 
-    switch (source) {
-      case 'wikipedia':
-        if (data.wikipedia) {
-          var extract = data.wikipedia.extract;
-          var rawSentences = [];
-          
-          // Match sentences (words ending with sentence boundaries like . ! ? 。 ！ ？)
-          var matches = extract.match(/[^.!?。！？]+[.!?。！？]*/g);
-          if (matches) {
-            rawSentences = matches.map(function(s) {
-              return s.trim();
-            }).filter(function(s) {
-              return s.length > 5;
-            });
-          } else {
-            // Fallback to splitting by newlines
-            rawSentences = extract.split('\n').map(function(s) {
-              return s.trim();
-            }).filter(function(s) {
-              return s.length > 5;
-            });
-          }
+    var html           = built ? built.html       : '';
+    var showAttrib     = !!(built && (built.sourceUrl || built.sourceName));
+    var sourceUrl      = built ? built.sourceUrl  : '';
+    var sourceName     = built ? built.sourceName : '';
 
-          var intros = [];
-          var bullets = [];
-          for (var j = 0; j < rawSentences.length; j++) {
-            var s = rawSentences[j];
-            var isIntro = s.slice(-1) === ':' || 
-                          s.toLowerCase().endsWith('include') || 
-                          s.toLowerCase().endsWith('includes') || 
-                          s.toLowerCase().endsWith('following');
-            
-            if (isIntro) {
-              // Only keep as intro if it has subsequent statements to introduce
-              if (j < rawSentences.length - 1) {
-                intros.push(s);
-              }
-            } else {
-              bullets.push(s);
-            }
-          }
-
-          var formatted = '';
-          for (var a = 0; a < intros.length; a++) {
-            formatted += '<p class="animal-info__wiki-intro">' + App.ui.escapeHtml(intros[a]) + '</p>';
-          }
-
-          if (bullets.length > 0) {
-            formatted += '<ul class="animal-info__wiki-bullets">';
-            var maxBullets = Math.min(bullets.length, 5); // Max 5 key facts
-            for (var b = 0; b < maxBullets; b++) {
-              formatted += '<li class="animal-info__wiki-bullet-item">' + App.ui.escapeHtml(bullets[b]) + '</li>';
-            }
-            formatted += '</ul>';
-          }
-
-          html = '<div class="animal-info__wiki-extract">' + formatted + '</div>';
-          sourceUrl = data.wikipedia.pageUrl || '';
-          sourceName = data.wikipedia.source || 'Wikipedia';
-          showAttribution = true;
-        }
-        break;
-
-      case 'wikidata':
-        if (data.wikidata) {
-          var wd = data.wikidata;
-          html = '<div class="animal-info__wikidata">';
-
-          // Description
-          if (wd.description) {
-            html += '<p class="animal-info__wikidata-desc">' + App.ui.escapeHtml(wd.description) + '</p>';
-          }
-
-          // Scientific name
-          if (wd.scientificName) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Scientific Name</span>' +
-              '<span class="animal-info__fact-value"><em>' + App.ui.escapeHtml(wd.scientificName) + '</em></span>' +
-            '</div>';
-          }
-
-          // Conservation status
-          if (wd.conservationStatus) {
-            var formattedStatus = App.animalInfo.formatConservationStatus(wd.conservationStatus);
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Conservation</span>' +
-              '<span class="animal-info__fact-value">' + (formattedStatus || App.ui.escapeHtml(wd.conservationStatus)) + '</span>' +
-            '</div>';
-          }
-
-          // Taxon rank
-          if (wd.taxonRank) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Rank</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.taxonRank) + '</span>' +
-            '</div>';
-          }
-
-          // Kingdom / Phylum
-          if (wd.kingdom) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Kingdom</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.kingdom) + '</span>' +
-            '</div>';
-          }
-          if (wd.phylum) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Phylum</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.phylum) + '</span>' +
-            '</div>';
-          }
-
-          // Lifespan
-          if (wd.lifespan) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Lifespan</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.lifespan) + '</span>' +
-            '</div>';
-          }
-
-          // Diet
-          if (wd.diet) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Diet</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(wd.diet) + '</span>' +
-            '</div>';
-          }
-
-          html += '</div>';
-          sourceUrl = wd.pageUrl || '';
-          sourceName = wd.source || 'Wikidata';
-          showAttribution = true;
-        }
-        break;
-
-      case 'inaturalist':
-        if (data.inaturalist) {
-          var inat = data.inaturalist;
-          html = '<div class="animal-info__inat">';
-
-          // Header with common name
-          if (inat.commonName) {
-            html += '<p class="animal-info__inat-desc"><strong>' +
-              App.ui.escapeHtml(inat.commonName) + '</strong></p>';
-          }
-
-          // Wikipedia summary from iNaturalist
-          if (inat.wikipediaSummary) {
-            html += '<p class="animal-info__inat-desc">' +
-              App.ui.escapeHtml(inat.wikipediaSummary.substring(0, 300)) +
-              (inat.wikipediaSummary.length > 300 ? '...' : '') + '</p>';
-          }
-
-          // Stats grid
-          html += '<div class="animal-info__facts-grid">';
-
-          if (inat.name) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Scientific</span>' +
-              '<span class="animal-info__fact-value"><em>' + App.ui.escapeHtml(inat.name) + '</em></span>' +
-            '</div>';
-          }
-          if (inat.rank) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Rank</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(inat.rank) + '</span>' +
-            '</div>';
-          }
-          if (inat.iconicTaxon) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Group</span>' +
-              '<span class="animal-info__fact-value">' + App.ui.escapeHtml(inat.iconicTaxon) + '</span>' +
-            '</div>';
-          }
-          if (inat.conservationStatus) {
-            var inatStatus = App.animalInfo.formatConservationStatus(inat.conservationStatus);
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Status</span>' +
-              '<span class="animal-info__fact-value">' + (inatStatus || App.ui.escapeHtml(inat.conservationStatus)) + '</span>' +
-            '</div>';
-          }
-          if (inat.observationsCount > 0) {
-            html += '<div class="animal-info__fact-row">' +
-              '<span class="animal-info__fact-label">Sightings</span>' +
-              '<span class="animal-info__fact-value">' + inat.observationsCount.toLocaleString() + '</span>' +
-            '</div>';
-          }
-
-          html += '</div>';
-
-          // Photos as fun-fact cards
-          if (inat.photos && inat.photos.length > 0) {
-            html += '<ul class="animal-info__fun-facts" style="margin-top:12px">';
-            for (var kk = 0; kk < inat.photos.length; kk++) {
-              html += '<li class="animal-info__fun-fact" style="padding:0;overflow:hidden">' +
-                '<img src="' + App.ui.escapeHtml(inat.photos[kk]) + '" ' +
-                'alt="iNaturalist photo" ' +
-                'style="width:100%;height:120px;object-fit:cover;display:block" ' +
-                'loading="lazy" decoding="async"/>' +
-                '</li>';
-            }
-            html += '</ul>';
-          }
-
-          html += '</div>';
-          sourceUrl = inat.inatUrl || '';
-          sourceName = 'iNaturalist';
-          showAttribution = true;
-        }
-        break;
-    }
-
-    // Fallback if selected source has no data
     if (!html) {
       html = '<div class="animal-info__empty">' +
         '<div class="animal-info__empty-icon">📝</div>' +
         '<p class="animal-info__empty-text">No data available for this source.</p>' +
         '<p class="animal-info__empty-sub">Try switching to another source tab.</p>' +
-      '</div>';
-      showAttribution = false;
+        '</div>';
+      showAttrib = false;
     }
 
     container.innerHTML = html;
 
-    // ── Typewriter effect on visible text ────────────────────
+    // Typewriter effect on rendered text
     (function runTypewriter(root) {
-      // Collect leaf text nodes inside non-structural elements
       var textNodes = [];
       function walk(node) {
-        if (node.nodeType === 3) { // TEXT_NODE
+        if (node.nodeType === 3) {
           if (node.textContent.trim().length > 0) textNodes.push(node);
         } else if (node.nodeType === 1) {
-          // Skip script/style
           var tag = node.tagName ? node.tagName.toUpperCase() : '';
           if (tag !== 'SCRIPT' && tag !== 'STYLE') {
-            for (var c = 0; c < node.childNodes.length; c++) {
-              walk(node.childNodes[c]);
-            }
+            for (var c = 0; c < node.childNodes.length; c++) { walk(node.childNodes[c]); }
           }
         }
       }
       walk(root);
-
       if (textNodes.length === 0) return;
 
-      // Snapshot original texts, clear them all
       var originals = [];
       for (var i = 0; i < textNodes.length; i++) {
         originals.push(textNodes[i].textContent);
         textNodes[i].textContent = '';
       }
-
-      var nodeIdx = 0;
-      var charIdx = 0;
-      var SPEED = 12; // ms per character
-
-      // Add blinking cursor placeholder span at end of container
+      var nodeIdx = 0, charIdx = 0;
+      var SPEED = 12;
       var cursorSpan = document.createElement('span');
       cursorSpan.className = 'pixel-cursor';
-      if (textNodes.length > 0 && textNodes[0].parentNode) {
+      if (textNodes[0] && textNodes[0].parentNode) {
         textNodes[0].parentNode.insertBefore(cursorSpan, textNodes[0].nextSibling);
       }
-
       function tick() {
         if (nodeIdx >= textNodes.length) {
-          // Done — remove cursor
           if (cursorSpan.parentNode) cursorSpan.parentNode.removeChild(cursorSpan);
           return;
         }
         var node = textNodes[nodeIdx];
         var full = originals[nodeIdx];
         if (charIdx < full.length) {
-          node.textContent += full[charIdx];
-          charIdx++;
+          node.textContent += full[charIdx++];
           setTimeout(tick, SPEED);
         } else {
-          // Move cursor after next node's parent
-          nodeIdx++;
-          charIdx = 0;
+          nodeIdx++; charIdx = 0;
           if (nodeIdx < textNodes.length && textNodes[nodeIdx].parentNode) {
-            var nextParent = textNodes[nodeIdx].parentNode;
+            var nParent = textNodes[nodeIdx].parentNode;
             if (cursorSpan.parentNode) cursorSpan.parentNode.removeChild(cursorSpan);
-            nextParent.insertBefore(cursorSpan, textNodes[nodeIdx].nextSibling);
+            nParent.insertBefore(cursorSpan, textNodes[nodeIdx].nextSibling);
           }
           setTimeout(tick, SPEED);
         }
@@ -703,13 +628,13 @@ App.player = (function() {
       tick();
     })(container);
 
-    // Update attribution
+    // Update attribution footer
     if (attribution && sourceLink) {
-      if (showAttribution && sourceUrl) {
+      if (showAttrib && sourceUrl) {
         attribution.style.display = 'block';
         sourceLink.textContent = sourceName;
         sourceLink.href = sourceUrl;
-      } else if (showAttribution && sourceName) {
+      } else if (showAttrib && sourceName) {
         attribution.style.display = 'block';
         sourceLink.textContent = sourceName;
         sourceLink.href = '#';

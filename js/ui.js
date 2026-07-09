@@ -258,6 +258,59 @@ App.ui = (function() {
     }
 
     attachFavoriteListeners(container);
+
+    // Persist masonry state for appendToVideoGrid to reuse
+    container._masonryColumns = colElements;
+    container._masonryHeights = colHeights;
+  }
+
+  /**
+   * Append additional videos to an existing masonry grid.
+   * Reuses the column layout from the last renderVideoGrid call.
+   * Call this for infinite-scroll "load more" instead of full re-render.
+   *
+   * @param {string} containerId  ID of the grid container
+   * @param {Array}  newVideos    Only the NEW videos to append (not all videos)
+   */
+  function appendToVideoGrid(containerId, newVideos) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    if (!newVideos || newVideos.length === 0) return;
+
+    // If no existing masonry state (e.g. first load), fall back to full render
+    var colElements = container._masonryColumns;
+    var colHeights  = container._masonryHeights;
+    if (!colElements || colElements.length === 0) {
+      renderVideoGrid(containerId, newVideos);
+      return;
+    }
+
+    var numCols = colElements.length;
+
+    for (var i = 0; i < newVideos.length; i++) {
+      var video = newVideos[i];
+      var card = createVideoCard(video);
+      if (!card) continue;
+
+      var aspect = App.utils.getVideoAspect(video.id);
+      var cardHeight = aspect.heightWeight + 0.3;
+
+      // Find shortest column
+      var minColIndex = 0;
+      var minHeight = colHeights[0];
+      for (var col = 1; col < numCols; col++) {
+        if (colHeights[col] < minHeight) {
+          minHeight = colHeights[col];
+          minColIndex = col;
+        }
+      }
+
+      colElements[minColIndex].appendChild(card);
+      colHeights[minColIndex] += cardHeight;
+    }
+
+    // Attach favorite listeners only on newly appended cards
+    attachFavoriteListeners(container);
   }
 
   /**
@@ -464,6 +517,7 @@ App.ui = (function() {
     showToast: showToast,
     attachFavoriteListeners: attachFavoriteListeners,
     renderVideoGrid: renderVideoGrid,
+    appendToVideoGrid: appendToVideoGrid,
     renderEmptyState: renderEmptyState,
     fallbackImg: fallbackImg,
     createAnimalCard: createAnimalCard,

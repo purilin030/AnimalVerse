@@ -408,20 +408,28 @@ App.map = (function() {
       ? '<span style="font-size:11px; font-style:italic; color:var(--clr-text-muted); display:block; margin:-2px 0 6px 0;">' + App.ui.escapeHtml(opts.subtitle) + '</span>'
       : '';
 
+    // Escape attribute values to prevent HTML attribute injection
+    var safeImgSrc    = App.ui.escapeHtml(opts.imgSrc    || '');
+    var safeAlt       = App.ui.escapeHtml(opts.title     || '');
+    var safeTagClass  = App.ui.escapeHtml(opts.tagClass  || '');
+    var safeLinkHref  = App.ui.escapeHtml(opts.linkHref  || '#');
+    var safeLinkClass = App.ui.escapeHtml(opts.linkClass || '');
+    var safeLinkLabel = App.ui.escapeHtml(opts.linkLabel || '');
+
     return '<div class="map-popup">' +
       '  <div class="map-popup__img-container">' +
-      '    <img class="map-popup__thumb" src="' + opts.imgSrc + '" alt="' + opts.title + '" onerror="this.src=\'assets/images/thumbnails/placeholder.jpg\'">' +
+      '    <img class="map-popup__thumb" src="' + safeImgSrc + '" alt="' + safeAlt + '" onerror="this.src=\'assets/images/thumbnails/placeholder.jpg\'">' +
       '  </div>' +
       '  <div class="map-popup__body">' +
-      '    <span class="map-popup__category-tag ' + opts.tagClass + '">' + App.ui.escapeHtml(opts.tagText) + '</span>' +
+      '    <span class="map-popup__category-tag ' + safeTagClass + '">' + App.ui.escapeHtml(opts.tagText) + '</span>' +
       '    <h4 class="map-popup__title">' + App.ui.escapeHtml(opts.title) + '</h4>' +
       subtitleHtml +
       '    <p class="map-popup__location">' +
       '      <svg class="map-popup__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>' +
       '      <span>' + App.ui.escapeHtml(opts.locationName) + '</span>' +
       '    </p>' +
-      '    <a class="map-popup__watch' + (opts.linkClass || '') + '" href="' + opts.linkHref + '"' + (opts.linkTarget || '') + '>' +
-      '      <span>' + opts.linkLabel + '</span>' +
+      '    <a class="map-popup__watch' + safeLinkClass + '" href="' + safeLinkHref + '"' + (opts.linkTarget || '') + '>' +
+      '      <span>' + safeLinkLabel + '</span>' +
       '      <svg class="map-popup__btn-icon" ' + (opts.linkSvgAttrs || 'viewBox="0 0 24 24" fill="currentColor"') + '>' +
               (opts.linkSvgPath || '<polygon points="6 23 21 12 6 1 6 23"/>') +
       '      </svg>' +

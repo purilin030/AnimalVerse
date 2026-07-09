@@ -153,7 +153,13 @@ App.home = (function() {
       if (permissionBox) permissionBox.style.display = 'none';
       var locationEl = document.getElementById('nearby-location');
       if (locationEl) {
-        locationEl.innerHTML = 'Your location is at <span class="location-highlight">' + region + '</span>';
+        locationEl.textContent = '';
+        var prefix = document.createTextNode('Your location is at ');
+        var highlight = document.createElement('span');
+        highlight.className = 'location-highlight';
+        highlight.textContent = region;
+        locationEl.appendChild(prefix);
+        locationEl.appendChild(highlight);
         locationEl.style.display = 'block';
       }
 

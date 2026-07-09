@@ -54,6 +54,9 @@
       case 'contact.html':
         if (App.contact) App.contact.init();
         break;
+      case 'random_vid.html':
+        if (App.randomVid) App.randomVid.init();
+        break;
       // about.html is static, no JS needed
     }
   }

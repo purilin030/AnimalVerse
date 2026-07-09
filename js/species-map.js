@@ -56,7 +56,6 @@ App.speciesMap = {
   'wombat':           'Vombatus ursinus',
   'tasmanian devil':  'Sarcophilus harrisii',
   'capybara':         'Hydrochoerus hydrochaeris',
-  'jaguar':           'Panthera onca',
   'sloth':            'Bradypus tridactylus',
   'llama':            'Lama glama',
   'vampire bat':      'Desmodus rotundus',

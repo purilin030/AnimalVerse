@@ -221,15 +221,21 @@ App.navigation = (function() {
   /* ---- Header scroll shadow ---- */
   function setupHeaderScroll() {
     var header = document.getElementById('header');
-    if (header) {
-      window.addEventListener('scroll', function() {
+    if (!header) return;
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
         if (window.scrollY > 10) {
           header.classList.add('header--scrolled');
         } else {
           header.classList.remove('header--scrolled');
         }
+        ticking = false;
       });
-    }
+    }, { passive: true });
   }
 
   return {

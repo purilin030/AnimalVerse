@@ -14,8 +14,6 @@ App.gallery = (function() {
   var videosPerPage = 20;
   var isLoadingMore = false;
 
-  var resizeTimeout;
-
   function init() {
     // Read URL params
     var params = App.router.getQueryParams();
@@ -161,11 +159,13 @@ App.gallery = (function() {
 
           // Simulated loading timeout for smooth UX transition
           setTimeout(function() {
+            var prevEnd = currentPage * videosPerPage;  // end index of old page
             currentPage++;
+            var newEnd = currentPage * videosPerPage;
 
-            // Render slice including next page items
-            var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
-            App.ui.renderVideoGrid('gallery-grid', visibleResults);
+            // Append only the NEW cards (not all visible cards)
+            var newSlice = allFilteredResults.slice(prevEnd, newEnd);
+            App.ui.appendToVideoGrid('gallery-grid', newSlice);
 
             // Hide loading spinner
             if (loader) loader.classList.remove('gallery-loading--active');

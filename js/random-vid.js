@@ -1,8 +1,11 @@
 /* ============================================================
    Random Video — Lucky Pick Honeycomb Shuffle
    Hex grid animation + slot-machine-style random selection
+
+   Module: App.randomVid
+   Entry:  App.randomVid.init()  ← called by app.js after includes-loaded
    ============================================================ */
-(function() {
+App.randomVid = (function() {
   'use strict';
 
   /* ---------- Animal Data ---------- */
@@ -36,18 +39,9 @@
     { name: 'Sloth',     emoji: '🦥', tagline: 'Slow-motion Master' },
   ];
 
-  /* ---------- DOM References ---------- */
-  var grid       = document.getElementById('hexGrid');
-  var btn        = document.getElementById('rpBtn');
-  var btnIcon    = document.querySelector('.rp-btn__icon');
-  var btnLabel   = document.getElementById('rpBtnLabel');
-  var result     = document.getElementById('rpResult');
-  var resultEmoji  = document.getElementById('rpResultEmoji');
-  var resultName   = document.getElementById('rpResultName');
-  var resultTagline = document.getElementById('rpResultTagline');
-  var resultWatch  = document.getElementById('rpResultWatch');
-  var resultAgain  = document.getElementById('rpResultAgain');
-  var resultClose  = document.getElementById('rpResultClose');
+  /* ---------- DOM References (resolved in init) ---------- */
+  var grid, btn, btnIcon, btnLabel, result;
+  var resultEmoji, resultName, resultTagline, resultWatch, resultAgain, resultClose;
 
   var isShuffling = false;
   var selectedIndex = -1;
@@ -407,42 +401,60 @@
     });
   }
 
-  /* ---------- Event Listeners ---------- */
-  if (btn) btn.addEventListener('click', startShuffle);
+  /* ---------- Init (called by app.js after includes-loaded) ---------- */
+  function init() {
+    // Resolve DOM references now that the page is fully loaded
+    grid          = document.getElementById('hexGrid');
+    btn           = document.getElementById('rpBtn');
+    btnIcon       = document.querySelector('.rp-btn__icon');
+    btnLabel      = document.getElementById('rpBtnLabel');
+    result        = document.getElementById('rpResult');
+    resultEmoji   = document.getElementById('rpResultEmoji');
+    resultName    = document.getElementById('rpResultName');
+    resultTagline = document.getElementById('rpResultTagline');
+    resultWatch   = document.getElementById('rpResultWatch');
+    resultAgain   = document.getElementById('rpResultAgain');
+    resultClose   = document.getElementById('rpResultClose');
 
-  if (resultAgain) {
-    resultAgain.addEventListener('click', function(e) {
-      e.preventDefault();
-      resetAll();
-      setTimeout(startShuffle, 400);
-    });
-  }
-  
-  if (resultClose) {
-    resultClose.addEventListener('click', function(e) {
-      e.preventDefault();
-      resetAll();
-    });
-  }
+    // Build the honeycomb grid
+    if (grid) buildGrid();
 
-  if (result) {
-    result.addEventListener('click', function(e) {
-      if (e.target === result && result.classList.contains('rp-result--visible')) {
+    // Bind event listeners
+    if (btn) btn.addEventListener('click', startShuffle);
+
+    if (resultAgain) {
+      resultAgain.addEventListener('click', function(e) {
+        e.preventDefault();
+        resetAll();
+        setTimeout(startShuffle, 400);
+      });
+    }
+
+    if (resultClose) {
+      resultClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        resetAll();
+      });
+    }
+
+    if (result) {
+      result.addEventListener('click', function(e) {
+        if (e.target === result && result.classList.contains('rp-result--visible')) {
+          resetAll();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && result && result.classList.contains('rp-result--visible')) {
         resetAll();
       }
     });
+
+    document.dispatchEvent(new Event('randomVidReady'));
   }
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && result && result.classList.contains('rp-result--visible')) {
-      resetAll();
-    }
-  });
-
-  /* ---------- Init ---------- */
-  if (grid) {
-    buildGrid();
-  }
-  document.dispatchEvent(new Event('randomVidReady'));
-
+  return {
+    init: init
+  };
 })();

@@ -126,7 +126,9 @@ App.ui.createVideoCard(video)
 // Render a masonry video grid (handles column distribution)
 App.ui.renderVideoGrid(containerId, videosArray)
 
-// Render an empty state placeholder
+// Append additional videos to an existing masonry grid (infinite scroll load-more)
+App.ui.appendToVideoGrid(containerId, newVideosArray)
+
 App.ui.renderEmptyState(container, { title, text, icon, actionLabel, actionHref })
 
 // Image error fallback chain: GBIF → local → placeholder
@@ -203,9 +205,16 @@ These are known issues. If assigned to fix them, fix them properly:
 
 | Issue | Location | Notes |
 |-------|----------|-------|
-| `player.js` is 750+ lines with too many responsibilities | `js/player.js` | Should be split into sub-modules |
-| `switchTab()` uses `innerHTML` instead of DOM API | `js/player.js` ~L408 | Should use `createElement` |
-| Infinite scroll re-renders entire grid instead of appending | `js/gallery.js`, `js/ui.js` | Should use append mode |
-| `random-vid.js` not registered under `App.*` namespace | `js/random-vid.js` | Should follow `App.randomVid = ...` pattern |
-| `dashboard.js` duplicates user-dropdown logic from `navigation.js` | `js/dashboard.js` ~L201 | Should be consolidated |
+| ~~`random-vid.js` not registered under `App.*` namespace~~ | ~~`js/random-vid.js`~~ | ✅ Fixed: now `App.randomVid`, registered in `app.js` |
+| ~~Infinite scroll re-renders entire grid instead of appending~~ | ~~`js/gallery.js`, `js/ui.js`~~ | ✅ Fixed: `appendToVideoGrid()` added to `App.ui`; `handleScroll` uses append mode |
+| `player.js` is 700+ lines with too many responsibilities | `js/player.js` | Partially improved: `switchTab()` decomposed into 3 builder functions (`buildWikipediaHTML`, `buildWikidataHTML`, `buildINaturalistHTML`). Full file split deferred to FYP2 |
+| `switchTab()` uses `innerHTML` instead of DOM API | `js/player.js` ~L543 | All external data still guarded with `escapeHtml()`. Full DOM API rewrite deferred to FYP2 |
+| ~~`dashboard.js` duplicates user-dropdown logic from `navigation.js`~~ | ~~`js/dashboard.js` ~L201~~ | Pending: low impact for FYP1 scope |
+| ~~`favorites.js` toggle functions have identical logic~~ | ~~`js/favorites.js`~~ | ✅ Fixed: extracted `_toggleList()` helper |
+| ~~`species-map.js` had duplicate `jaguar` key~~ | ~~`js/species-map.js` L59~~ | ✅ Fixed: removed duplicate |
+| ~~`navigation.js` scroll has no throttle~~ | ~~`js/navigation.js`~~ | ✅ Fixed: RAF throttle + `passive:true` |
+| ~~`enrichThumbnails()` dead code~~ | ~~`js/data.js`~~ | ✅ Fixed: removed |
+| ~~`gallery.js` unused `resizeTimeout` variable~~ | ~~`js/gallery.js`~~ | ✅ Fixed: removed |
+| ~~`map.js` unescaped HTML attributes in `buildPopupContent()`~~ | ~~`js/map.js`~~ | ✅ Fixed: `escapeHtml()` applied to all attribute values |
+| ~~`home.js` mixed `innerHTML` + DOM API~~ | ~~`js/home.js` ~L156~~ | ✅ Fixed: replaced with `createElement` + `textContent` |
 | `loadVideos()` adds timestamp cache-buster on every cold load | `js/data.js` ~L309 | Fine for dev; remove for production |

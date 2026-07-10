@@ -8,6 +8,7 @@ App.navigation = (function() {
   var trigger = null;
   var hideTimeout = null;
   var peekTimeout = null;
+  var peekRetractTimeout = null;
   var HIDE_DELAY = 300; // ms
   var PEEK_DELAY = 800; // ms after page load before auto-peek
   var PEEK_DURATION = 2500; // ms — how long the peek stays visible
@@ -27,18 +28,31 @@ App.navigation = (function() {
     setupHeaderScroll();
   }
 
+  function clearPeekTimeouts() {
+    if (peekTimeout) {
+      clearTimeout(peekTimeout);
+      peekTimeout = null;
+    }
+    if (peekRetractTimeout) {
+      clearTimeout(peekRetractTimeout);
+      peekRetractTimeout = null;
+    }
+  }
+
   /* ---- Desktop: hover on visible handle → show sidebar ---- */
   function setupHoverTrigger() {
     if (!trigger) return;
 
     // Mouse enters trigger handle → show sidebar
     trigger.addEventListener('mouseenter', function() {
+      clearPeekTimeouts();
       clearTimeout(hideTimeout);
       showSidebar();
     });
 
     // Mouse enters sidebar → keep it open
     sidebar.addEventListener('mouseenter', function() {
+      clearPeekTimeouts();
       clearTimeout(hideTimeout);
     });
 
@@ -72,13 +86,15 @@ App.navigation = (function() {
       }
 
       // Retract after peek duration
-      setTimeout(function() {
+      peekRetractTimeout = setTimeout(function() {
         sidebar.classList.remove('sidebar--peek');
         if (trigger) {
           trigger.classList.remove('sidebar-trigger--peeking');
         }
+        peekRetractTimeout = null;
       }, PEEK_DURATION);
 
+      peekTimeout = null;
     }, PEEK_DELAY);
 
     // Mark as shown for this session
@@ -86,6 +102,7 @@ App.navigation = (function() {
   }
 
   function showSidebar() {
+    clearPeekTimeouts();
     // Remove peek class if present (user is manually opening)
     sidebar.classList.remove('sidebar--peek');
     sidebar.classList.add('sidebar--visible');

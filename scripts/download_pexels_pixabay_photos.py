@@ -344,18 +344,15 @@ def process_animal(slug, name, category):
     if deleted:
         print(f"[{name}] Deleted {deleted} existing photo(s)")
 
-    # ---- 2. Search Pexels ----
+    # ---- 2. Search Pexels (5 photos) ----
     print(f"[{name}] Searching Pexels...")
     pexels = _cached_search('pexels', name, search_pexels, 5)
+    print(f"[{name}] Pexels: {len(pexels)} found")
 
-    # ---- 3. Search Pixabay if needed ----
-    pixabay = []
-    need = 5 - len(pexels)
-    if need > 0:
-        print(f"[{name}] Pexels: {len(pexels)} found, trying Pixabay for {need} more...")
-        pixabay = _cached_search('pixabay', name, search_pixabay, need)
-    else:
-        print(f"[{name}] Pexels: {len(pexels)} found (enough)")
+    # ---- 3. Search Pixabay (5 photos, always) ----
+    print(f"[{name}] Searching Pixabay...")
+    pixabay = _cached_search('pixabay', name, search_pixabay, 5)
+    print(f"[{name}] Pixabay: {len(pixabay)} found")
 
     all_photos = (pexels + pixabay)[:10]
 
@@ -478,7 +475,7 @@ def main():
         return
 
     # ---- Filter to pending only ----
-    pending_animals = [(s, n, c) for s, n, c in animals if not _is_done(s, n, c)]
+    pending_animals = [(s, n, c) for s, n, c in animals if not _is_done(s, c)]
     if not pending_animals:
         print("All animals are already downloaded! Use --reset-progress to redo.")
         return

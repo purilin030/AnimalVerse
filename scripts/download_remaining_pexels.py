@@ -470,7 +470,7 @@ def main():
             print(f'  [{st:4}] {n:25s} ({c})')
         return
 
-    pending_list = [(s, n, c) for s, n, c in animals if not _is_done(s, n, c)]
+    pending_list = [(s, n, c) for s, n, c in animals if not _is_done(s)]
     if not pending_list:
         print("All done! Use --reset-progress to redo.")
         return

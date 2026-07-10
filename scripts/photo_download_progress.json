@@ -1,0 +1,707 @@
+{
+  "axolotl:Amphibians": {
+    "status": "done",
+    "ts": 1783647896.7665572,
+    "downloaded": 5
+  },
+  "bullfrog:Amphibians": {
+    "status": "done",
+    "ts": 1783647901.8066833,
+    "downloaded": 5
+  },
+  "caecilian:Amphibians": {
+    "status": "done",
+    "ts": 1783647907.030863,
+    "downloaded": 5
+  },
+  "frog:Amphibians": {
+    "status": "done",
+    "ts": 1783647912.4915216,
+    "downloaded": 5
+  },
+  "glass-frog:Amphibians": {
+    "status": "done",
+    "ts": 1783647917.6232786,
+    "downloaded": 5
+  },
+  "hellbender:Amphibians": {
+    "status": "done",
+    "ts": 1783647920.940756,
+    "downloaded": 5
+  },
+  "newt:Amphibians": {
+    "status": "done",
+    "ts": 1783647924.7878826,
+    "downloaded": 5
+  },
+  "poison-dart-frog:Amphibians": {
+    "status": "done",
+    "ts": 1783647929.0603662,
+    "downloaded": 5
+  },
+  "red-eyed-tree-frog:Amphibians": {
+    "status": "done",
+    "ts": 1783647932.5503368,
+    "downloaded": 5
+  },
+  "salamander:Amphibians": {
+    "status": "done",
+    "ts": 1783647935.8278563,
+    "downloaded": 5
+  },
+  "toad:Amphibians": {
+    "status": "done",
+    "ts": 1783647939.9787397,
+    "downloaded": 5
+  },
+  "tree-frog:Amphibians": {
+    "status": "done",
+    "ts": 1783647944.56271,
+    "downloaded": 5
+  },
+  "blue-whale:Aquatic": {
+    "status": "done",
+    "ts": 1783647948.8202116,
+    "downloaded": 5
+  },
+  "clownfish:Aquatic": {
+    "status": "done",
+    "ts": 1783647952.448095,
+    "downloaded": 5
+  },
+  "coral:Aquatic": {
+    "status": "done",
+    "ts": 1783647956.8578603,
+    "downloaded": 5
+  },
+  "dolphin:Aquatic": {
+    "status": "done",
+    "ts": 1783647960.3456233,
+    "downloaded": 5
+  },
+  "great-white-shark:Aquatic": {
+    "status": "done",
+    "ts": 1783647963.8576565,
+    "downloaded": 5
+  },
+  "jellyfish:Aquatic": {
+    "status": "done",
+    "ts": 1783647967.2058496,
+    "downloaded": 5
+  },
+  "krill:Aquatic": {
+    "status": "done",
+    "ts": 1783647973.5016737,
+    "downloaded": 5
+  },
+  "leopard-seal:Aquatic": {
+    "status": "done",
+    "ts": 1783647979.7693965,
+    "downloaded": 5
+  },
+  "manta-ray:Aquatic": {
+    "status": "done",
+    "ts": 1783651583.9238718,
+    "downloaded": 5
+  },
+  "octopus:Aquatic": {
+    "status": "done",
+    "ts": 1783651587.861067,
+    "downloaded": 5
+  },
+  "orca:Aquatic": {
+    "status": "done",
+    "ts": 1783651591.8878262,
+    "downloaded": 5
+  },
+  "piranha:Aquatic": {
+    "status": "done",
+    "ts": 1783651597.449408,
+    "downloaded": 5
+  },
+  "platypus:Aquatic": {
+    "status": "done",
+    "ts": 1783651604.356295,
+    "downloaded": 5
+  },
+  "sea-turtle:Aquatic": {
+    "status": "done",
+    "ts": 1783651607.884997,
+    "downloaded": 5
+  },
+  "seahorse:Aquatic": {
+    "status": "done",
+    "ts": 1783651613.2661884,
+    "downloaded": 5
+  },
+  "seal:Aquatic": {
+    "status": "done",
+    "ts": 1783651618.399343,
+    "downloaded": 5
+  },
+  "shark:Aquatic": {
+    "status": "done",
+    "ts": 1783651621.5734446,
+    "downloaded": 5
+  },
+  "squid:Aquatic": {
+    "status": "done",
+    "ts": 1783651624.7371104,
+    "downloaded": 5
+  },
+  "whale:Aquatic": {
+    "status": "done",
+    "ts": 1783651628.8890166,
+    "downloaded": 5
+  },
+  "albatross:Birds": {
+    "status": "done",
+    "ts": 1783651635.6342046,
+    "downloaded": 5
+  },
+  "arctic-tern:Birds": {
+    "status": "done",
+    "ts": 1783651639.8612525,
+    "downloaded": 5
+  },
+  "bald-eagle:Birds": {
+    "status": "done",
+    "ts": 1783651645.9303868,
+    "downloaded": 5
+  },
+  "eagle:Birds": {
+    "status": "done",
+    "ts": 1783651649.4277904,
+    "downloaded": 5
+  },
+  "emu:Birds": {
+    "status": "done",
+    "ts": 1783651654.9805422,
+    "downloaded": 5
+  },
+  "flamingo:Birds": {
+    "status": "done",
+    "ts": 1783651667.3295906,
+    "downloaded": 5
+  },
+  "howler-monkey:Birds": {
+    "status": "done",
+    "ts": 1783651673.6758099,
+    "downloaded": 5
+  },
+  "kookaburra:Birds": {
+    "status": "done",
+    "ts": 1783651680.238313,
+    "downloaded": 5
+  },
+  "macaw:Birds": {
+    "status": "done",
+    "ts": 1783651688.3342044,
+    "downloaded": 5
+  },
+  "owl:Birds": {
+    "status": "done",
+    "ts": 1783655293.2649858,
+    "downloaded": 5
+  },
+  "parrot:Birds": {
+    "status": "done",
+    "ts": 1783655297.0812798,
+    "downloaded": 5
+  },
+  "peacock:Birds": {
+    "status": "done",
+    "ts": 1783655302.8426993,
+    "downloaded": 5
+  },
+  "penguin:Birds": {
+    "status": "done",
+    "ts": 1783655308.1430113,
+    "downloaded": 5
+  },
+  "snow-petrel:Birds": {
+    "status": "done",
+    "ts": 1783655315.9349382,
+    "downloaded": 5
+  },
+  "toucan:Birds": {
+    "status": "done",
+    "ts": 1783655324.7135785,
+    "downloaded": 5
+  },
+  "clownfish:Fish": {
+    "status": "done",
+    "ts": 1783655326.3004086,
+    "downloaded": 5
+  },
+  "great-white-shark:Fish": {
+    "status": "done",
+    "ts": 1783655328.1338387,
+    "downloaded": 5
+  },
+  "manta-ray:Fish": {
+    "status": "done",
+    "ts": 1783655329.5945668,
+    "downloaded": 5
+  },
+  "piranha:Fish": {
+    "status": "done",
+    "ts": 1783655331.1048968,
+    "downloaded": 5
+  },
+  "seahorse:Fish": {
+    "status": "done",
+    "ts": 1783655332.8394551,
+    "downloaded": 5
+  },
+  "shark:Fish": {
+    "status": "done",
+    "ts": 1783655334.3407092,
+    "downloaded": 5
+  },
+  "butterfly:Invertebrates": {
+    "status": "done",
+    "ts": 1783655338.218401,
+    "downloaded": 5
+  },
+  "coral:Invertebrates": {
+    "status": "done",
+    "ts": 1783655339.6751134,
+    "downloaded": 5
+  },
+  "jellyfish:Invertebrates": {
+    "status": "done",
+    "ts": 1783655341.2638,
+    "downloaded": 5
+  },
+  "krill:Invertebrates": {
+    "status": "done",
+    "ts": 1783655343.067907,
+    "downloaded": 5
+  },
+  "octopus:Invertebrates": {
+    "status": "done",
+    "ts": 1783655345.0190647,
+    "downloaded": 5
+  },
+  "squid:Invertebrates": {
+    "status": "done",
+    "ts": 1783655346.6383324,
+    "downloaded": 5
+  },
+  "asian-elephant:Mammals": {
+    "status": "done",
+    "ts": 1783655350.4566734,
+    "downloaded": 5
+  },
+  "badger:Mammals": {
+    "status": "done",
+    "ts": 1783655356.0694854,
+    "downloaded": 5
+  },
+  "bear:Mammals": {
+    "status": "done",
+    "ts": 1783658960.6789587,
+    "downloaded": 5
+  },
+  "beaver:Mammals": {
+    "status": "done",
+    "ts": 1783658966.3516662,
+    "downloaded": 5
+  },
+  "bison:Mammals": {
+    "status": "done",
+    "ts": 1783658971.6440601,
+    "downloaded": 5
+  },
+  "blue-whale:Mammals": {
+    "status": "done",
+    "ts": 1783658973.4002643,
+    "downloaded": 5
+  },
+  "brown-bear:Mammals": {
+    "status": "done",
+    "ts": 1783658977.1337135,
+    "downloaded": 5
+  },
+  "butterfly:Mammals": {
+    "status": "done",
+    "ts": 1783658978.4908235,
+    "downloaded": 5
+  },
+  "capybara:Mammals": {
+    "status": "done",
+    "ts": 1783658983.9878602,
+    "downloaded": 5
+  },
+  "cat:Mammals": {
+    "status": "done",
+    "ts": 1783658987.7505717,
+    "downloaded": 5
+  },
+  "cheetah:Mammals": {
+    "status": "done",
+    "ts": 1783658992.5841806,
+    "downloaded": 5
+  },
+  "chimpanzee:Mammals": {
+    "status": "done",
+    "ts": 1783658998.1428945,
+    "downloaded": 5
+  },
+  "coyote:Mammals": {
+    "status": "done",
+    "ts": 1783659004.509298,
+    "downloaded": 5
+  },
+  "dingo:Mammals": {
+    "status": "done",
+    "ts": 1783659008.6383452,
+    "downloaded": 5
+  },
+  "dolphin:Mammals": {
+    "status": "done",
+    "ts": 1783659010.9779627,
+    "downloaded": 5
+  },
+  "elephant:Mammals": {
+    "status": "done",
+    "ts": 1783659014.2500072,
+    "downloaded": 5
+  },
+  "elk:Mammals": {
+    "status": "done",
+    "ts": 1783659019.4122372,
+    "downloaded": 5
+  },
+  "european-bison:Mammals": {
+    "status": "done",
+    "ts": 1783659024.995977,
+    "downloaded": 5
+  },
+  "fox:Mammals": {
+    "status": "done",
+    "ts": 1783659028.7666125,
+    "downloaded": 5
+  },
+  "giant-panda:Mammals": {
+    "status": "done",
+    "ts": 1783659033.8439515,
+    "downloaded": 5
+  },
+  "giraffe:Mammals": {
+    "status": "done",
+    "ts": 1783659037.7785134,
+    "downloaded": 5
+  },
+  "gorilla:Mammals": {
+    "status": "done",
+    "ts": 1783659041.4365578,
+    "downloaded": 5
+  },
+  "grizzly-bear:Mammals": {
+    "status": "done",
+    "ts": 1783662646.3136322,
+    "downloaded": 5
+  },
+  "hedgehog:Mammals": {
+    "status": "done",
+    "ts": 1783662650.3252726,
+    "downloaded": 5
+  },
+  "hippopotamus:Mammals": {
+    "status": "done",
+    "ts": 1783662654.1371465,
+    "downloaded": 5
+  },
+  "horse:Mammals": {
+    "status": "done",
+    "ts": 1783662659.3805325,
+    "downloaded": 5
+  },
+  "howler-monkey:Mammals": {
+    "status": "done",
+    "ts": 1783662661.2951517,
+    "downloaded": 5
+  },
+  "jaguar:Mammals": {
+    "status": "done",
+    "ts": 1783662666.802096,
+    "downloaded": 5
+  },
+  "kangaroo:Mammals": {
+    "status": "done",
+    "ts": 1783662671.3174617,
+    "downloaded": 5
+  },
+  "kitten:Mammals": {
+    "status": "done",
+    "ts": 1783662675.802953,
+    "downloaded": 5
+  },
+  "koala:Mammals": {
+    "status": "done",
+    "ts": 1783662679.9166398,
+    "downloaded": 5
+  },
+  "leopard-seal:Mammals": {
+    "status": "done",
+    "ts": 1783662683.9150312,
+    "downloaded": 5
+  },
+  "lion:Mammals": {
+    "status": "done",
+    "ts": 1783662688.352757,
+    "downloaded": 5
+  },
+  "lioness:Mammals": {
+    "status": "done",
+    "ts": 1783662692.9036233,
+    "downloaded": 5
+  },
+  "llama:Mammals": {
+    "status": "done",
+    "ts": 1783662696.5899181,
+    "downloaded": 5
+  },
+  "lynx:Mammals": {
+    "status": "done",
+    "ts": 1783662702.081039,
+    "downloaded": 5
+  },
+  "monkey:Mammals": {
+    "status": "done",
+    "ts": 1783662706.6218154,
+    "downloaded": 5
+  },
+  "moose:Mammals": {
+    "status": "done",
+    "ts": 1783662713.1560829,
+    "downloaded": 5
+  },
+  "mountain-lion:Mammals": {
+    "status": "done",
+    "ts": 1783662717.7722526,
+    "downloaded": 5
+  },
+  "orangutan:Mammals": {
+    "status": "done",
+    "ts": 1783662728.5229034,
+    "downloaded": 5
+  },
+  "orca:Mammals": {
+    "status": "done",
+    "ts": 1783662729.9176056,
+    "downloaded": 5
+  },
+  "otter:Mammals": {
+    "status": "done",
+    "ts": 1783662735.0397348,
+    "downloaded": 5
+  },
+  "panda:Mammals": {
+    "status": "done",
+    "ts": 1783666338.697963,
+    "downloaded": 5
+  },
+  "platypus:Mammals": {
+    "status": "done",
+    "ts": 1783666340.1020873,
+    "downloaded": 5
+  },
+  "polar-bear:Mammals": {
+    "status": "done",
+    "ts": 1783666344.7930076,
+    "downloaded": 5
+  },
+  "rabbit:Mammals": {
+    "status": "done",
+    "ts": 1783666348.3190367,
+    "downloaded": 5
+  },
+  "raccoon:Mammals": {
+    "status": "done",
+    "ts": 1783666355.6626427,
+    "downloaded": 5
+  },
+  "red-fox:Mammals": {
+    "status": "done",
+    "ts": 1783666358.3198512,
+    "downloaded": 5
+  },
+  "red-panda:Mammals": {
+    "status": "done",
+    "ts": 1783666368.490624,
+    "downloaded": 5
+  },
+  "reindeer:Mammals": {
+    "status": "done",
+    "ts": 1783666373.9924126,
+    "downloaded": 5
+  },
+  "rhinoceros:Mammals": {
+    "status": "done",
+    "ts": 1783666378.3094537,
+    "downloaded": 5
+  },
+  "sambar-deer:Mammals": {
+    "status": "done",
+    "ts": 1783666384.6944594,
+    "downloaded": 5
+  },
+  "seal:Mammals": {
+    "status": "done",
+    "ts": 1783666386.0411894,
+    "downloaded": 5
+  },
+  "sloth:Mammals": {
+    "status": "done",
+    "ts": 1783666391.0450792,
+    "downloaded": 5
+  },
+  "snow-leopard:Mammals": {
+    "status": "done",
+    "ts": 1783666396.2650998,
+    "downloaded": 5
+  },
+  "sun-bear:Mammals": {
+    "status": "done",
+    "ts": 1783666402.9060557,
+    "downloaded": 5
+  },
+  "tasmanian-devil:Mammals": {
+    "status": "done",
+    "ts": 1783666407.8055248,
+    "downloaded": 5
+  },
+  "tiger:Mammals": {
+    "status": "done",
+    "ts": 1783666411.2385485,
+    "downloaded": 5
+  },
+  "vampire-bat:Mammals": {
+    "status": "done",
+    "ts": 1783666416.697661,
+    "downloaded": 5
+  },
+  "wallaby:Mammals": {
+    "status": "done",
+    "ts": 1783666424.8737228,
+    "downloaded": 5
+  },
+  "whale:Mammals": {
+    "status": "done",
+    "ts": 1783666426.2700863,
+    "downloaded": 5
+  },
+  "wild-boar:Mammals": {
+    "status": "done",
+    "ts": 1783666431.8664005,
+    "downloaded": 5
+  },
+  "wolf:Mammals": {
+    "status": "done",
+    "ts": 1783670037.8019142,
+    "downloaded": 5
+  },
+  "wombat:Mammals": {
+    "status": "done",
+    "ts": 1783670047.4853663,
+    "downloaded": 5
+  },
+  "zebra:Mammals": {
+    "status": "done",
+    "ts": 1783670052.3877783,
+    "downloaded": 5
+  },
+  "alligator:Reptiles": {
+    "status": "done",
+    "ts": 1783670059.0022173,
+    "downloaded": 5
+  },
+  "anaconda:Reptiles": {
+    "status": "done",
+    "ts": 1783670069.3801827,
+    "downloaded": 5
+  },
+  "chameleon:Reptiles": {
+    "status": "done",
+    "ts": 1783670075.2319877,
+    "downloaded": 5
+  },
+  "coral-snake:Reptiles": {
+    "status": "done",
+    "ts": 1783670079.9275832,
+    "downloaded": 5
+  },
+  "crocodile:Reptiles": {
+    "status": "done",
+    "ts": 1783670084.603014,
+    "downloaded": 5
+  },
+  "galapagos-tortoise:Reptiles": {
+    "status": "done",
+    "ts": 1783670090.0946963,
+    "downloaded": 5
+  },
+  "gecko:Reptiles": {
+    "status": "done",
+    "ts": 1783670094.6390622,
+    "downloaded": 5
+  },
+  "gila-monster:Reptiles": {
+    "status": "done",
+    "ts": 1783670099.6334121,
+    "downloaded": 5
+  },
+  "iguana:Reptiles": {
+    "status": "done",
+    "ts": 1783670105.2178261,
+    "downloaded": 5
+  },
+  "king-cobra:Reptiles": {
+    "status": "done",
+    "ts": 1783670112.3290799,
+    "downloaded": 5
+  },
+  "komodo-dragon:Reptiles": {
+    "status": "done",
+    "ts": 1783670116.975252,
+    "downloaded": 5
+  },
+  "leatherback-turtle:Reptiles": {
+    "status": "done",
+    "ts": 1783670122.2396517,
+    "downloaded": 5
+  },
+  "monitor-lizard:Reptiles": {
+    "status": "done",
+    "ts": 1783670127.833964,
+    "downloaded": 5
+  },
+  "python:Reptiles": {
+    "status": "done",
+    "ts": 1783670134.1660686,
+    "downloaded": 5
+  },
+  "rattlesnake:Reptiles": {
+    "status": "done",
+    "ts": 1783670138.4450402,
+    "downloaded": 5
+  },
+  "sea-turtle:Reptiles": {
+    "status": "done",
+    "ts": 1783670140.1570048,
+    "downloaded": 5
+  },
+  "tuatara:Reptiles": {
+    "status": "done",
+    "ts": 1783670145.2058449,
+    "downloaded": 5
+  },
+  "turtle:Reptiles": {
+    "status": "done",
+    "ts": 1783673751.950755,
+    "downloaded": 5
+  }
+}

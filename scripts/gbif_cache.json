@@ -288,7 +288,7 @@
     }
   },
   "butterfly": {
-    "category": "aquatic",
+    "category": "mammals",
     "location": {
       "name": "Butterfly Habitat (Asian Wilderness)",
       "lat": 34.0479,
@@ -690,6 +690,393 @@
       "lat": -2.846717,
       "lng": 111.81776,
       "region": "Asia"
+    }
+  },
+  "orca": {
+    "category": "mammals",
+    "location": {
+      "name": "Canada",
+      "lat": 48.869183,
+      "lng": -123.305816,
+      "region": "Antarctica"
+    }
+  },
+  "platypus": {
+    "category": "mammals",
+    "location": {
+      "name": "At 5:37 am I saw a large platypus travelling up Rocky Creek (I originally thought this was South Maroochy River but it is actually Rocky Creek that leads to Wappa Dam. There was a possible smaller Platypus feeding but cannot be sure. Poor Photo, Australia",
+      "lat": -26.579612,
+      "lng": 152.921253,
+      "region": "Australia"
+    }
+  },
+  "sea-turtle": {
+    "category": "reptiles",
+    "location": {
+      "name": "United States of America",
+      "lat": 21.815027,
+      "lng": -159.500239,
+      "region": "Ocean"
+    }
+  },
+  "seal": {
+    "category": "mammals",
+    "location": {
+      "name": "Seal Habitat (Antarctic Ice Shelf)",
+      "lat": -75.2509,
+      "lng": -0.0713,
+      "region": "Antarctica"
+    }
+  },
+  "whale": {
+    "category": "mammals",
+    "location": {
+      "name": "Whale Habitat (Pacific Ocean)",
+      "lat": -14.5994,
+      "lng": -145.6739,
+      "region": "Ocean"
+    }
+  },
+  "otter": {
+    "category": "mammals",
+    "location": {
+      "name": "Otter Habitat (European Wilderness)",
+      "lat": 54.526,
+      "lng": 15.2551,
+      "region": "Europe"
+    }
+  },
+  "panda": {
+    "category": "mammals",
+    "location": {
+      "name": "Panda Habitat (Pacific Ocean)",
+      "lat": -14.5994,
+      "lng": -145.6739,
+      "region": "Ocean"
+    }
+  },
+  "polar-bear": {
+    "category": "mammals",
+    "location": {
+      "name": "United States of America",
+      "lat": 71.329539,
+      "lng": -156.4248,
+      "region": "Ocean"
+    }
+  },
+  "rabbit": {
+    "category": "mammals",
+    "location": {
+      "name": "Rabbit Habitat (Pacific Ocean)",
+      "lat": -14.5994,
+      "lng": -145.6739,
+      "region": "Ocean"
+    }
+  },
+  "raccoon": {
+    "category": "mammals",
+    "location": {
+      "name": "Canada",
+      "lat": 49.289758,
+      "lng": -123.141054,
+      "region": "North America"
+    }
+  },
+  "red-fox": {
+    "category": "mammals",
+    "location": {
+      "name": "Parainen, Levo, 4270 (669:323), Finland",
+      "lat": 60.319882,
+      "lng": 22.222179,
+      "region": "Europe"
+    }
+  },
+  "red-panda": {
+    "category": "mammals",
+    "location": {
+      "name": "Nepal",
+      "lat": 27.016307,
+      "lng": 88.139069,
+      "region": "Asia"
+    }
+  },
+  "reindeer": {
+    "category": "mammals",
+    "location": {
+      "name": "Finland",
+      "lat": 63.14458,
+      "lng": 23.198031,
+      "region": "Europe"
+    }
+  },
+  "rhinoceros": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -28.308092,
+      "lng": 31.827602,
+      "region": "Africa"
+    }
+  },
+  "sambar-deer": {
+    "category": "mammals",
+    "location": {
+      "name": "Singapore",
+      "lat": 1.306913,
+      "lng": 103.820735,
+      "region": "Asia"
+    }
+  },
+  "sloth": {
+    "category": "mammals",
+    "location": {
+      "name": "Suriname",
+      "lat": 5.791485,
+      "lng": -55.12462,
+      "region": "South America"
+    }
+  },
+  "snow-leopard": {
+    "category": "mammals",
+    "location": {
+      "name": "Kazakhstan",
+      "lat": 43.103908,
+      "lng": 76.998859,
+      "region": "Asia"
+    }
+  },
+  "sun-bear": {
+    "category": "mammals",
+    "location": {
+      "name": "Indonesia",
+      "lat": -1.654573,
+      "lng": 112.371914,
+      "region": "Asia"
+    }
+  },
+  "tasmanian-devil": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -42.114953,
+      "lng": 146.299562,
+      "region": "Australia"
+    }
+  },
+  "tiger": {
+    "category": "mammals",
+    "location": {
+      "name": "India",
+      "lat": 28.437124,
+      "lng": 80.73231,
+      "region": "Asia"
+    }
+  },
+  "vampire-bat": {
+    "category": "mammals",
+    "location": {
+      "name": "Mexico",
+      "lat": 19.943728,
+      "lng": -90.375745,
+      "region": "South America"
+    }
+  },
+  "wallaby": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -19.258155,
+      "lng": 146.633653,
+      "region": "Australia"
+    }
+  },
+  "wild-boar": {
+    "category": "mammals",
+    "location": {
+      "name": "Israel",
+      "lat": 33.23976,
+      "lng": 35.685826,
+      "region": "Europe"
+    }
+  },
+  "wolf": {
+    "category": "mammals",
+    "location": {
+      "name": "Israel",
+      "lat": 32.672421,
+      "lng": 35.460871,
+      "region": "Europe"
+    }
+  },
+  "wombat": {
+    "category": "mammals",
+    "location": {
+      "name": "Australia",
+      "lat": -37.01178,
+      "lng": 149.901062,
+      "region": "Australia"
+    }
+  },
+  "zebra": {
+    "category": "mammals",
+    "location": {
+      "name": "South Africa",
+      "lat": -28.220069,
+      "lng": 31.948322,
+      "region": "Africa"
+    }
+  },
+  "alligator": {
+    "category": "reptiles",
+    "location": {
+      "name": "Alligator Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "anaconda": {
+    "category": "reptiles",
+    "location": {
+      "name": "Guyana",
+      "lat": 6.365628,
+      "lng": -59.108274,
+      "region": "South America"
+    }
+  },
+  "chameleon": {
+    "category": "reptiles",
+    "location": {
+      "name": "Réunion",
+      "lat": -21.053297,
+      "lng": 55.306229,
+      "region": "Australia"
+    }
+  },
+  "coral-snake": {
+    "category": "reptiles",
+    "location": {
+      "name": "Coral Snake Habitat (Pacific Ocean)",
+      "lat": -14.5994,
+      "lng": -145.6739,
+      "region": "Ocean"
+    }
+  },
+  "crocodile": {
+    "category": "reptiles",
+    "location": {
+      "name": "Crocodile Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "galapagos-tortoise": {
+    "category": "reptiles",
+    "location": {
+      "name": "Galapagos Tortoise Habitat (Pacific Ocean)",
+      "lat": -14.5994,
+      "lng": -145.6739,
+      "region": "Ocean"
+    }
+  },
+  "gecko": {
+    "category": "reptiles",
+    "location": {
+      "name": "Gecko Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "gila-monster": {
+    "category": "reptiles",
+    "location": {
+      "name": "Gila Monster Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "iguana": {
+    "category": "reptiles",
+    "location": {
+      "name": "Iguana Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "king-cobra": {
+    "category": "reptiles",
+    "location": {
+      "name": "King Cobra Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "komodo-dragon": {
+    "category": "reptiles",
+    "location": {
+      "name": "Indonesia",
+      "lat": -8.655878,
+      "lng": 119.718362,
+      "region": "Asia"
+    }
+  },
+  "leatherback-turtle": {
+    "category": "reptiles",
+    "location": {
+      "name": "Leatherback Turtle Habitat (Pacific Ocean)",
+      "lat": -14.5994,
+      "lng": -145.6739,
+      "region": "Ocean"
+    }
+  },
+  "monitor-lizard": {
+    "category": "reptiles",
+    "location": {
+      "name": "Monitor Lizard Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "python": {
+    "category": "reptiles",
+    "location": {
+      "name": "Python Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "rattlesnake": {
+    "category": "reptiles",
+    "location": {
+      "name": "Rattlesnake Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "tuatara": {
+    "category": "reptiles",
+    "location": {
+      "name": "Tuatara Habitat (Australian Outback)",
+      "lat": -25.2744,
+      "lng": 133.7751,
+      "region": "Australia"
+    }
+  },
+  "turtle": {
+    "category": "reptiles",
+    "location": {
+      "name": "United States of America",
+      "lat": 21.815027,
+      "lng": -159.500239,
+      "region": "Ocean"
     }
   }
 }

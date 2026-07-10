@@ -54,11 +54,14 @@
   --clr-cat-reptiles: #2ead4b;
   --clr-cat-amphibians: #c5edab;
   --clr-cat-aquatic: #a855f7;
+  --clr-cat-fish: #26C6DA;
+  --clr-cat-invertebrates: #FF7043;
 
   /* ===== Typography ===== */
   --ff-display: 'Inter', system-ui, sans-serif;
   --ff-body: 'Inter', system-ui, sans-serif;
   --ff-mono: 'JetBrains Mono', 'SF Mono', 'SFMono-Regular', 'Consolas', monospace;
+  --ff-pixel: 'Pixelify Sans', 'DotGothic16', monospace, sans-serif;
 
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;

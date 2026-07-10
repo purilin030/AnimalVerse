@@ -620,26 +620,32 @@
   gap: var(--space-md);
 }
 
-/* Fix structural flex row alignment */
+/* Fix structural flex row alignment — retro pixel card uses separate thumb/body links */
 .related-videos .video-card {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
   width: 100%;
 }
 
-.related-videos .video-card__link {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  align-items: flex-start;
+.related-videos .video-card__thumb-link {
+  width: 140px;
+  flex-shrink: 0;
   text-decoration: none;
   color: inherit;
 }
 
-.related-videos .video-card__thumbnail-wrapper {
-  width: 140px;
-  flex-shrink: 0;
+.related-videos .video-card__body-link {
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+	  width: 120px;}
   aspect-ratio: 16 / 9;
-  border-radius: var(--radius-sm, 8px);
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -648,7 +654,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  flex-grow: 1;
 }
 
 .related-videos .video-card__title {
@@ -670,16 +675,18 @@
 
 /* Clean up visual noise for small recommendations */
 .related-videos .video-card__category-tag,
-.related-videos .video-card__favorite-btn {
+.related-videos .video-card__source-tag,
+.related-videos .video-card__animal-tag,
+.related-videos .video-card__actions {
   display: none !important;
 }
 
 .related-videos .video-card__duration {
-  bottom: 6px;
-  right: 6px;
+  bottom: 4px;
+  right: 4px;
   padding: 2px 6px;
-  font-size: 0.65rem;
-  border-radius: 4px;
+  font-size: 0.6rem;
+  border-radius: 2px;
 }
 
 /* Responsive */
@@ -688,7 +695,7 @@
     grid-template-columns: minmax(0, 1fr) 340px;
     padding-left: var(--space-lg);
   }
-  .related-videos .video-card__thumbnail-wrapper {
+	.related-videos .video-card__thumb-link {
     width: 120px;
   }
 }
@@ -720,12 +727,11 @@
     max-width: 280px;
   }
 
-  .related-videos .video-card__link {
-    flex-direction: column;
-    gap: 8px;
-  }
+	  .related-videos .video-card__thumb-link {
+	    width: 100%;
+	  }
 
-  .related-videos .video-card__thumbnail-wrapper {
+	  .related-videos .video-card__thumbnail-wrapper {
     width: 100%;
     aspect-ratio: 16 / 9;
   }

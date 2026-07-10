@@ -44,11 +44,6 @@ App.speciesMap = {
   'coyote':           'Canis latrans',
   'dingo':            'Canis lupus dingo',
   'red fox':          'Vulpes vulpes',
-  'dolphin':          'Tursiops truncatus',
-  'blue whale':       'Balaenoptera musculus',
-  'orca':             'Orcinus orca',
-  'seal':             'Pinnipedia',
-  'leopard seal':     'Hydrurga leptonyx',
   'kangaroo':         'Macropus',
   'wallaby':          'Macropus agilis',
   'koala':            'Phascolarctos cinereus',
@@ -131,13 +126,23 @@ App.speciesMap = {
   /* ── Aquatic / Marine ────────────────────────────────────── */
   'great white shark': 'Carcharodon carcharias',
   'shark':            'Carcharodon carcharias',
-  'octopus':          'Enteroctopus dofleini',
   'manta ray':        'Manta birostris',
-  'clownfish':        'Amphiprioninae',
-  'jellyfish':        'Scyphozoa',
   'seahorse':         'Hippocampus',
-  'coral':            'Anthozoa',
+  'dolphin':          'Tursiops truncatus',
+  'blue whale':       'Balaenoptera musculus',
+  'orca':             'Orcinus orca',
+  'seal':             'Pinnipedia',
+  'leopard seal':     'Hydrurga leptonyx',
   'piranha':          'Serrasalmus',
+
+  /* ── Fish ────────────────────────────────────────────────── */
+  'clownfish':        'Amphiprioninae',
+
+  /* ── Invertebrates ───────────────────────────────────────── */
+  'octopus':          'Enteroctopus dofleini',
+  'jellyfish':        'Scyphozoa',
+  'coral':            'Anthozoa',
   'squid':            'Teuthida',
-  'krill':            'Euphausiacea'
+  'krill':            'Euphausiacea',
+  'butterfly':        'Lepidoptera'
 };

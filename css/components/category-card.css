@@ -151,6 +151,8 @@
 .category-card--reptiles::after   { background: var(--clr-cat-reptiles, #6B8E23); }
 .category-card--amphibians::after { background: var(--clr-cat-amphibians, #5B9BD5); }
 .category-card--aquatic::after    { background: var(--clr-cat-aquatic, #4A90D9); }
+.category-card--fish::after       { background: var(--clr-cat-fish, #26C6DA); }
+.category-card--invertebrates::after { background: var(--clr-cat-invertebrates, #FF7043); }
 
 @media (max-width: 767px) {
   .category-card {

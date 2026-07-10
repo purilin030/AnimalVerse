@@ -1,65 +1,62 @@
 /* ============================================================
-   Video Card - Pinterest + Wise Fusion
+   Video Card — Retro Pixel Social Media Style
+   Blocky borders, solid shadows, pixel typography, checkerboard
    ============================================================ */
 
+/* ── Card Base ── */
 .video-card {
   position: relative;
-  background: transparent; /* Text sits on page canvas */
-  border-radius: 0;
+  background: #ffffff;
+  border: 3px solid #0e0f0c;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0px #9fe870;
   overflow: visible;
-  transition: transform var(--transition-fast);
-  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: default;
   display: flex;
   flex-direction: column;
   content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
+  contain-intrinsic-size: auto 360px;
 }
 
 .video-card.is-visible {
   content-visibility: visible;
 }
 
-.video-card__link {
-  display: flex;
-  flex-direction: column;
+.video-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #0e0f0c;
+}
+
+/* ── Thumb Link ── */
+.video-card__thumb-link {
+  display: block;
   text-decoration: none;
   color: inherit;
   width: 100%;
 }
 
-/* Thumbnail wrapper acts as the rounded card */
+/* ── Body Link ── */
+.video-card__body-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  flex: 1;
+}
+
+/* ── Thumbnail Wrapper ── */
 .video-card__thumbnail-wrapper {
   position: relative;
   width: 100%;
-  border-radius: var(--radius-lg); /* Pinterest 16px roundness */
   overflow: hidden;
-  background: var(--clr-surface);
-  border: none; /* Borderless */
+  background-color: #ffffff;
+  /* Retro checkerboard pattern */
+  background-image:
+    repeating-conic-gradient(#e8ebe6 0% 25%, transparent 0% 50%);
+  background-size: 16px 16px;
+  border-bottom: 2px solid #0e0f0c;
   transition: transform var(--transition-normal);
-  /* Aspect ratios will be set dynamically via classes */
-}
-
-/* Hover overlay on the image card */
-.video-card__thumbnail-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0);
-  transition: background var(--transition-fast);
-  z-index: 5;
-  pointer-events: none;
-}
-
-.video-card:hover .video-card__thumbnail-wrapper::after {
-  background: rgba(0, 0, 0, 0.15); /* Pinterest soft dark overlay */
-}
-
-/* No translate-up or card-level drop shadow to stay flat */
-.video-card:hover .video-card__thumbnail-wrapper {
-  transform: none;
 }
 
 .video-card__thumbnail {
@@ -67,108 +64,102 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform var(--transition-slow);
+  position: relative;
+  z-index: 1;
 }
 
-.video-card:hover .video-card__thumbnail {
-  transform: scale(1.03);
-}
-
-/* Duration badge */
-.video-card__duration {
+/* ── Source Tag — top-left ── */
+.video-card__source-tag {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
-  padding: 4px 8px;
-  background: rgba(14, 15, 12, 0.75);
-  color: #FFF;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
-  border-radius: var(--radius-sm);
-  font-family: var(--ff-mono);
-  backdrop-filter: blur(4px);
-  z-index: 10;
-}
-
-/* Floating Category Tag - top-left corner */
-.video-card__category-tag {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 4px 10px;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  border-radius: var(--radius-sm);
-  text-transform: capitalize;
-  color: var(--clr-text-inverse);
-  box-shadow: var(--shadow-sm);
-  z-index: 10;
-}
-
-.video-card__category-tag--mammals    { background: var(--clr-cat-mammals); color: var(--clr-primary); }
-.video-card__category-tag--birds      { background: var(--clr-cat-birds); color: var(--clr-primary); }
-.video-card__category-tag--reptiles   { background: var(--clr-cat-reptiles); color: var(--clr-primary); }
-.video-card__category-tag--amphibians { background: var(--clr-cat-amphibians); color: var(--clr-primary); }
-.video-card__category-tag--aquatic    { background: var(--clr-cat-aquatic); color: #FFF; }
-
-/* Floating Favorite Button - top-right corner - Pinterest Save Pill */
-.video-card__favorite-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 12px;
-  background: #e60023; /* Pinterest Red */
-  color: #ffffff;
-  border: none;
-  border-radius: 9999px; /* Pill shape */
-  opacity: 0; /* Hidden by default, appears on card hover */
-  transform: scale(0.9);
-  transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
-  z-index: 15;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-}
-
-.video-card:hover .video-card__favorite-btn,
-.video-card__favorite-btn--active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.video-card__favorite-btn:hover {
-  background: #cc001f; /* Pinterest Red Pressed */
-}
-
-.video-card__favorite-btn--active {
-  background: #111111; /* Dark grey for saved state */
-  color: #ffffff;
-}
-
-.video-card__favorite-btn--active:hover {
-  background: #222222;
-}
-
-.video-card__favorite-text {
-  font-size: 11px;
+  top: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  background: #ffffff;
+  color: #0e0f0c;
+  font-family: var(--ff-pixel);
+  font-size: 10px;
   font-weight: 700;
-  margin-left: 4px;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0px #0e0f0c;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  z-index: 10;
+  pointer-events: none;
 }
 
-/* Body / Text below image */
+/* ── Category Tag — top-right ── */
+.video-card__category-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 8px;
+  font-family: var(--ff-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0px #0e0f0c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.video-card__category-tag--mammals    { background: #9fe870; color: #0e0f0c; }
+.video-card__category-tag--birds      { background: #38c8ff; color: #0e0f0c; }
+.video-card__category-tag--reptiles   { background: #2ead4b; color: #ffffff; }
+.video-card__category-tag--amphibians { background: #c5edab; color: #0e0f0c; }
+.video-card__category-tag--aquatic    { background: #a855f7; color: #ffffff; }
+.video-card__category-tag--fish       { background: #26C6DA; color: #0e0f0c; }
+.video-card__category-tag--invertebrates { background: #FF7043; color: #ffffff; }
+
+/* ── Duration Badge — bottom-right ── */
+.video-card__duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 3px 8px;
+  background: #0e0f0c;
+  color: #ffffff;
+  font-family: var(--ff-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ── Animal Tag — bottom-left ── */
+.video-card__animal-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  background: #ffffff;
+  color: #0e0f0c;
+  font-family: var(--ff-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0px #0e0f0c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ── Body ── */
 .video-card__body {
-  padding: var(--space-sm) 4px 0; /* minimal top padding, no horizontal padding */
+  padding: var(--space-sm) var(--space-sm) var(--space-xs);
 }
 
 .video-card__title {
-  font-family: var(--ff-body);
+  font-family: var(--ff-pixel);
   font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
+  font-weight: 700;
   line-height: 1.35;
   color: var(--clr-text);
   display: -webkit-box;
@@ -180,15 +171,87 @@
 }
 
 .video-card:hover .video-card__title {
-  color: var(--clr-primary-light);
+  color: #163300;
 }
 
 .video-card__views {
+  font-family: var(--ff-pixel);
   font-size: var(--fs-xs);
   color: var(--clr-text-muted);
 }
 
-/* Aspect ratio helpers */
+.video-card__credit {
+  font-family: var(--ff-pixel);
+  font-size: 9px;
+  color: var(--clr-text-muted);
+  margin-top: 4px;
+  line-height: 1.3;
+  opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Actions Bar ── */
+.video-card__actions {
+  display: flex;
+  gap: 6px;
+  padding: 0 var(--space-sm) var(--space-sm);
+}
+
+/* ── Action Buttons (44×44px touch targets) ── */
+.video-card__action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: #ffffff;
+  color: #0e0f0c;
+  border: 2px solid #0e0f0c;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #0e0f0c;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.video-card__action-btn:hover {
+  background: #9fe870;
+  color: #0e0f0c;
+}
+
+.video-card__action-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #0e0f0c;
+}
+
+.video-card__action-btn:focus-visible {
+  outline: 2px solid #38c8ff;
+  outline-offset: 2px;
+}
+
+/* Favorite active state — pink when favorited */
+.video-card__action-btn[data-type="favorite"].video-card__action-btn--active {
+  background: #ff3366;
+  color: #ffffff;
+  border-color: #cc0033;
+  box-shadow: 2px 2px 0px #cc0033;
+}
+
+.video-card__action-btn[data-type="favorite"].video-card__action-btn--active:hover {
+  background: #e62e5c;
+  color: #ffffff;
+}
+
+/* Generic active state for other buttons (play, share) — subtle gray */
+.video-card__action-btn--active {
+  background: #e8ebe6;
+  color: #0e0f0c;
+}
+
+/* ── Aspect ratio helpers ── */
 .video-card__thumbnail-wrapper.aspect-square {
   aspect-ratio: 1 / 1;
 }
@@ -202,54 +265,167 @@
   aspect-ratio: 16 / 9;
 }
 
-/* Skeleton loading */
+/* ── Skeleton loading ── */
+.video-card--skeleton {
+  pointer-events: none;
+}
+
 .video-card--skeleton .video-card__thumbnail-wrapper {
-  background: var(--clr-surface-hover);
-  animation: pulse 1.5s ease-in-out infinite;
+  background-image: none;
+  background-color: #e8ebe6;
+  border-bottom: 2px solid #0e0f0c;
+  animation: pulse-pixel 1.5s ease-in-out infinite;
 }
 
 .video-card--skeleton .video-card__body {
   height: 48px;
-  background: transparent;
 }
 
 .video-card--skeleton .video-card__title-line {
   height: 12px;
-  background: var(--clr-border);
-  border-radius: 4px;
+  background: #d6d9d2;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
   margin-bottom: 6px;
   width: 80%;
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: pulse-pixel 1.5s ease-in-out infinite;
 }
 
 .video-card--skeleton .video-card__views-line {
   height: 8px;
-  background: var(--clr-border);
-  border-radius: 4px;
+  background: #d6d9d2;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
   width: 40%;
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: pulse-pixel 1.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
+@keyframes pulse-pixel {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  50% { opacity: 0.4; }
 }
 
-/* Animal tag - zero conflict, bottom-left of rounded thumbnail wrapper */
-.video-card__animal-tag {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  background: rgba(239, 68, 68, 0.95); /* Eye-catching red background */
-  color: #FFF;
-  font-size: 10px;
-  font-weight: 700;
-  font-family: var(--ff-display), sans-serif;
-  padding: 3px 6px;
-  border-radius: var(--radius-sm); /* Increased roundness to 8px to align with card aesthetics */
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  pointer-events: none;
-  z-index: 10;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+/* ── Dark Mode ── */
+[data-theme="dark"] .video-card {
+  background: #1e1f1b;
+  border-color: #e8ebe6;
+  box-shadow: 4px 4px 0px #9fe870;
+}
+
+[data-theme="dark"] .video-card:hover {
+  box-shadow: 6px 6px 0px #9fe870;
+}
+
+[data-theme="dark"] .video-card__thumbnail-wrapper {
+  background-color: #1e1f1b;
+  background-image:
+    repeating-conic-gradient(#2a2b26 0% 25%, transparent 0% 50%);
+  border-bottom-color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__source-tag {
+  background: #1e1f1b;
+  color: #e8ebe6;
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__category-tag {
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__duration {
+  background: #e8ebe6;
+  color: #0e0f0c;
+  border-color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__animal-tag {
+  background: #1e1f1b;
+  color: #e8ebe6;
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__action-btn {
+  background: #1e1f1b;
+  color: #e8ebe6;
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__action-btn:hover {
+  background: #9fe870;
+  color: #0e0f0c;
+}
+
+[data-theme="dark"] .video-card__action-btn:active {
+  box-shadow: 1px 1px 0px #e8ebe6;
+}
+
+/* Dark mode favorite active state — pink */
+[data-theme="dark"] .video-card__action-btn[data-type="favorite"].video-card__action-btn--active {
+  background: #ff3366;
+  color: #ffffff;
+  border-color: #ff6699;
+  box-shadow: 2px 2px 0px #ff6699;
+}
+
+[data-theme="dark"] .video-card__action-btn[data-type="favorite"].video-card__action-btn--active:hover {
+  background: #e62e5c;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .video-card__action-btn--active {
+  background: #2a2b26;
+  color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__title {
+  color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card:hover .video-card__title {
+  color: #c5edab;
+}
+
+[data-theme="dark"] .video-card__views {
+  color: #868685;
+}
+
+[data-theme="dark"] .video-card--skeleton .video-card__thumbnail-wrapper {
+  background-image: none;
+  background-color: #2a2b26;
+  border-bottom-color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card--skeleton .video-card__title-line,
+[data-theme="dark"] .video-card--skeleton .video-card__views-line {
+  background: #2a2b26;
+  border-color: #454745;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .video-card {
+    transition: none;
+  }
+  .video-card:hover {
+    transform: none;
+  }
+  .video-card__thumbnail-wrapper {
+    transition: none;
+  }
+  .video-card__action-btn {
+    transition: none;
+  }
+  .video-card__title {
+    transition: none;
+  }
+  .video-card--skeleton .video-card__thumbnail-wrapper,
+  .video-card--skeleton .video-card__title-line,
+  .video-card--skeleton .video-card__views-line {
+    animation: none;
+  }
 }

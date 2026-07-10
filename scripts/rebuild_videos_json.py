@@ -13,6 +13,7 @@ import urllib.request
 import urllib.parse
 import time
 import random
+import re
 from pathlib import Path
 
 # Paths
@@ -154,14 +155,31 @@ def get_category_from_class(classname, ordername, slug):
     o = (ordername or '').lower()
     s = slug.lower()
 
-    # Aquatic keywords override everything
-    aquatic_keywords = {'whale', 'dolphin', 'seal', 'shark', 'fish', 'octopus', 'squid', 'jellyfish', 'coral', 'clownfish', 'manta-ray', 'seahorse', 'krill', 'piranha', 'platypus', 'sea-turtle'}
+    # Fish keywords (use full slugs to avoid collisions like 'fish' in 'jellyfish')
+    fish_keywords = ['clownfish', 'great-white-shark', 'manta-ray', 'seahorse', 'piranha', 'shark']
+    for kw in fish_keywords:
+        if s == kw or ('-' + kw) in s:
+            return 'fish'
+
+    # Invertebrate keywords
+    invert_keywords = ['octopus', 'jellyfish', 'coral', 'krill', 'squid', 'butterfly']
+    for kw in invert_keywords:
+        if s == kw or ('-' + kw) in s:
+            return 'invertebrates'
+
+    # Aquatic keywords (true marine mammals, etc.)
+    aquatic_keywords = ['whale', 'dolphin', 'seal', 'platypus', 'sea-turtle']
     for kw in aquatic_keywords:
         if kw in s:
             return 'aquatic'
 
     # GBIF class-based classification
     if c == 'mammalia':
+        # Check if it's an aquatic mammal
+        aquatic_mammals = {'whale', 'dolphin', 'seal', 'platypus'}
+        for kw in aquatic_mammals:
+            if kw in s:
+                return 'aquatic'
         return 'mammals'
     elif c == 'aves':
         return 'birds'
@@ -169,8 +187,10 @@ def get_category_from_class(classname, ordername, slug):
         return 'reptiles'
     elif c == 'amphibia':
         return 'amphibians'
-    elif c in ('actinopterygii', 'elasmobranchii', 'cephalopoda', 'anthozoa', 'scyphozoa', 'bivalvia'):
-        return 'aquatic'
+    elif c in ('actinopterygii', 'elasmobranchii'):
+        return 'fish'
+    elif c in ('cephalopoda', 'anthozoa', 'scyphozoa', 'bivalvia'):
+        return 'invertebrates'
 
     # Slug-based fallback when GBIF data is missing or unreliable
     reptile_keywords = {'anaconda', 'chameleon', 'crocodile', 'komodo', 'lizard', 'snake', 'turtle', 'tortoise', 'gecko', 'iguana', 'python', 'boa', 'viper'}
@@ -367,8 +387,8 @@ def rebuild():
             'Birds': 'birds',
             'Reptiles': 'reptiles',
             'Amphibians': 'amphibians',
-            'Fish': 'aquatic',
-            'Invertebrates': 'aquatic'
+            'Fish': 'fish',
+            'Invertebrates': 'invertebrates'
         }
         if parent_class in class_to_category:
             meta['category'] = class_to_category[parent_class]
@@ -381,7 +401,47 @@ def rebuild():
                 print(f"  [WARN] [{slug}] No matching photos in photos_dir. Files: {[f.name for f in list(photos_dir.iterdir())[:3]]}")
         else:
             print(f"  [WARN] [{slug}] photos_dir does not exist: {photos_dir}")
-                
+
+        # Load sources.json for source/credit attribution
+        sources_json_path = photos_dir / 'sources.json'
+        sources_lookup = {}
+        if sources_json_path.exists():
+            try:
+                with open(sources_json_path, 'r', encoding='utf-8') as sf:
+                    sources_data = json.load(sf)
+                for entry in sources_data:
+                    src_name = (entry.get('source', '') or '').lower()
+                    entry_title = (entry.get('title', '') or '').lower()
+                    if src_name:
+                        key = (src_name, entry_title)
+                        if key not in sources_lookup:
+                            sources_lookup[key] = entry
+                print(f"  [OK] Loaded {len(sources_data)} source entries from sources.json")
+            except Exception as e:
+                print(f"  [WARN] Failed to load sources.json: {e}")
+
+        def get_photo_source_info(filename):
+            """Extract source and credit from photo filename using sources.json lookup."""
+            stem = filename.stem.lower()
+            base = re.sub(r'-\d+$', '', stem)
+            slug_lower = slug.lower()
+            if base.startswith(slug_lower + '-'):
+                src_key = base[len(slug_lower) + 1:]
+            else:
+                src_key = base
+            source_cap = src_key.capitalize()
+            entry = sources_lookup.get((src_key, slug_lower))
+            if not entry:
+                entry = sources_lookup.get((source_cap.lower(), slug_lower))
+            if not entry:
+                for (s, t), e in sources_lookup.items():
+                    if s == src_key or s == source_cap.lower():
+                        entry = e
+                        break
+            if entry:
+                return entry.get('source', source_cap), entry.get('credit', ''), entry.get('page_url', '')
+            return source_cap, '', ''
+
         # Generate video entries
         for idx, mp4_file in enumerate(mp4_files):
             video_id = f"video-{slug}-{idx+1:03d}"
@@ -396,27 +456,36 @@ def rebuild():
             
             # Select a random photo as the cover/poster for each video
             poster_file = "placeholder.jpg"
+            video_source = "self"
+            video_credit = ""
             if photos:
                 selected_photo = random.choice(photos)
                 poster_file = str(selected_photo.relative_to(BASE_DIR)).replace('\\', '/')
-            
+                # Look up actual source and credit from sources.json
+                src_name, credit_text, _ = get_photo_source_info(selected_photo)
+                if src_name:
+                    video_source = src_name
+                if credit_text:
+                    video_credit = credit_text
+
             # Set a random view count and a date added to make it realistic
             views = 100 + (hash(video_id) % 4900)
             date_added = f"2025-0{(hash(video_id) % 9) + 1}-{(hash(video_id) % 20) + 1:02d}"
-            
+
             video_entry = {
                 "id": video_id,
                 "title": title,
                 "description": desc,
                 "category": meta['category'],
                 "tags": ["wild", "documentary"],
-                "source": "self",
+                "source": video_source,
+                "credit": video_credit,
                 "videoUrl": relative_video_url,
                 "posterUrl": poster_file,
                 "thumbnail": poster_file,
                 "duration": get_mp4_duration_str(mp4_file),
                 "dateAdded": date_added,
-                "featured": (hash(video_id) % 7 == 0), # pseudo-random feature selection
+                "featured": (hash(video_id) % 7 == 0),
                 "views": views,
                 "location": meta['location']
             }
@@ -460,6 +529,20 @@ def rebuild():
             "icon": "🐟",
             "description": "Life in water environments",
             "color": "#4A90D9"
+        },
+        {
+            "id": "fish",
+            "name": "Fish",
+            "icon": "🐠",
+            "description": "Diverse aquatic vertebrates with gills and fins",
+            "color": "#26C6DA"
+        },
+        {
+            "id": "invertebrates",
+            "name": "Invertebrates",
+            "icon": "🐙",
+            "description": "Animals without a backbone",
+            "color": "#FF7043"
         }
     ]
     

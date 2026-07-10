@@ -206,6 +206,8 @@
 .sidebar__sub-dot--reptiles  { background: var(--clr-cat-reptiles); }
 .sidebar__sub-dot--amphibians{ background: var(--clr-cat-amphibians); }
 .sidebar__sub-dot--aquatic   { background: var(--clr-cat-aquatic); }
+.sidebar__sub-dot--fish      { background: var(--clr-cat-fish); }
+.sidebar__sub-dot--invertebrates { background: var(--clr-cat-invertebrates); }
 .sidebar__sub-dot--themed    { background: var(--clr-danger); }
 
 /* ===== Divider ===== */

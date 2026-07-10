@@ -5,7 +5,82 @@ App.ui = (function() {
   'use strict';
 
   /**
+   * Create an SVG icon element (safe DOM methods)
+   * @param {string} type - 'heart', 'play', or 'share'
+   * @param {boolean} filled - Whether the heart icon is filled (ignored for play/share)
+   * @returns {SVGElement}
+   */
+  function createSvgIcon(type, filled) {
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', '18');
+    svg.setAttribute('height', '18');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+
+    var path = document.createElementNS(svgNS, 'path');
+
+    if (type === 'heart') {
+      svg.setAttribute('fill', filled ? 'currentColor' : 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linejoin', 'round');
+      path.setAttribute('d', 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+    } else if (type === 'play') {
+      svg.setAttribute('fill', 'currentColor');
+      path.setAttribute('d', 'M8 5v14l11-7z');
+    } else if (type === 'share') {
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      path.setAttribute('d', 'M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98');
+    }
+
+    svg.appendChild(path);
+    return svg;
+  }
+
+  /**
+   * Create an action button for the card actions bar
+   * @param {string} type - 'favorite', 'play', or 'share'
+   * @param {boolean} active - Whether the button is in active state
+   * @param {string} videoId - The video ID this button acts on
+   * @returns {HTMLButtonElement}
+   */
+  function createActionBtn(type, active, videoId) {
+    var btn = document.createElement('button');
+    btn.className = 'video-card__action-btn';
+    if (active) {
+      btn.className += ' video-card__action-btn--active';
+    }
+    btn.setAttribute('data-id', videoId);
+    btn.setAttribute('data-type', type);
+    btn.type = 'button';
+
+    var labels = {
+      favorite: active ? 'Remove from favorites' : 'Add to favorites',
+      play: 'Play video',
+      share: 'Share video'
+    };
+    var icons = {
+      favorite: 'heart',
+      play: 'play',
+      share: 'share'
+    };
+
+    btn.setAttribute('aria-label', labels[type] || '');
+
+    var svg = createSvgIcon(icons[type], active);
+    btn.appendChild(svg);
+
+    return btn;
+  }
+
+  /**
    * Create a video card DOM element (safe DOM methods, no innerHTML)
+   * Retro pixel style — separate thumb/body links, actions bar as sibling
    */
   function createVideoCard(video) {
     if (!video) return null;
@@ -14,6 +89,7 @@ App.ui = (function() {
     var thumbnailSrc = video.gbifThumbnail || video.thumbnail || 'assets/images/thumbnails/placeholder.jpg';
     var localFallback = video.thumbnail || 'assets/images/thumbnails/placeholder.jpg';
     var categoryName = video.category || 'unknown';
+    var playbackUrl = 'playback.html?id=' + encodeURIComponent(video.id);
 
     var aspect = App.utils.getVideoAspect(video.id);
     var aspectClass = aspect.className;
@@ -23,16 +99,30 @@ App.ui = (function() {
     card.className = 'video-card';
     card.setAttribute('data-id', video.id);
 
-    // Link wrapping the thumbnail and body
-    var link = document.createElement('a');
-    link.href = 'playback.html?id=' + encodeURIComponent(video.id);
-    link.className = 'video-card__link';
-    card.appendChild(link);
+    // ── Thumb link (wraps only the image area) ──
+    var thumbLink = document.createElement('a');
+    thumbLink.href = playbackUrl;
+    thumbLink.className = 'video-card__thumb-link';
+    card.appendChild(thumbLink);
 
     // Thumbnail wrapper
     var thumbWrap = document.createElement('div');
     thumbWrap.className = 'video-card__thumbnail-wrapper ' + aspectClass;
-    link.appendChild(thumbWrap);
+    thumbLink.appendChild(thumbWrap);
+
+    // Source tag — top-left (e.g. YOUTUBE, PEXELS)
+    if (video.source) {
+      var sourceTag = document.createElement('span');
+      sourceTag.className = 'video-card__source-tag';
+      sourceTag.textContent = video.source.toUpperCase();
+      thumbWrap.appendChild(sourceTag);
+    }
+
+    // Category tag — top-right (relocated from top-left)
+    var catTag = document.createElement('span');
+    catTag.className = 'video-card__category-tag video-card__category-tag--' + categoryName;
+    catTag.textContent = categoryName;
+    thumbWrap.appendChild(catTag);
 
     // Thumbnail image
     var img = document.createElement('img');
@@ -45,19 +135,7 @@ App.ui = (function() {
     img.onerror = function() { App.ui.fallbackImg(this); };
     thumbWrap.appendChild(img);
 
-    // Duration badge
-    var duration = document.createElement('span');
-    duration.className = 'video-card__duration';
-    duration.textContent = video.duration || '--:--';
-    thumbWrap.appendChild(duration);
-
-    // Category tag
-    var catTag = document.createElement('span');
-    catTag.className = 'video-card__category-tag video-card__category-tag--' + categoryName;
-    catTag.textContent = categoryName;
-    thumbWrap.appendChild(catTag);
-
-    // Extract animal slug name from video ID (e.g. video-polar-bear-001 -> polar-bear)
+    // Animal tag — bottom-left
     var animalSlug = '';
     if (video.id && video.id.indexOf('video-') === 0) {
       var parts = video.id.split('-');
@@ -73,10 +151,22 @@ App.ui = (function() {
       thumbWrap.appendChild(animalTag);
     }
 
+    // Duration badge — bottom-right
+    var duration = document.createElement('span');
+    duration.className = 'video-card__duration';
+    duration.textContent = video.duration || '--:--';
+    thumbWrap.appendChild(duration);
+
+    // ── Body link (wraps only title + views) ──
+    var bodyLink = document.createElement('a');
+    bodyLink.href = playbackUrl;
+    bodyLink.className = 'video-card__body-link';
+    card.appendChild(bodyLink);
+
     // Body
     var body = document.createElement('div');
     body.className = 'video-card__body';
-    link.appendChild(body);
+    bodyLink.appendChild(body);
 
     // Title
     var title = document.createElement('h3');
@@ -90,33 +180,27 @@ App.ui = (function() {
     views.textContent = (video.views || 0).toLocaleString() + ' views';
     body.appendChild(views);
 
+    // Credit (source attribution from sources.json)
+    if (video.credit) {
+      var credit = document.createElement('p');
+      credit.className = 'video-card__credit';
+      credit.textContent = video.credit;
+      body.appendChild(credit);
+    }
+
+    // ── Actions bar (sibling of links — no nested interactive elements) ──
+    var actions = document.createElement('div');
+    actions.className = 'video-card__actions';
+    card.appendChild(actions);
+
     // Favorite button
-    var favBtn = document.createElement('button');
-    favBtn.className = 'video-card__favorite-btn' + (isFav ? ' video-card__favorite-btn--active' : '');
-    favBtn.setAttribute('data-id', video.id);
-    favBtn.setAttribute('data-type', 'favorite');
-    favBtn.setAttribute('aria-label', (isFav ? 'Remove from' : 'Add to') + ' favorites');
-    card.appendChild(favBtn);
+    actions.appendChild(createActionBtn('favorite', isFav, video.id));
 
-    // Favorite heart SVG
-    var favSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    favSvg.setAttribute('width', '14');
-    favSvg.setAttribute('height', '14');
-    favSvg.setAttribute('viewBox', '0 0 20 20');
-    favSvg.setAttribute('fill', isFav ? '#FFFFFF' : 'none');
-    favSvg.setAttribute('stroke', '#FFFFFF');
-    favSvg.setAttribute('stroke-width', '2');
-    var favPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    favPath.setAttribute('d', 'M10 17L3.5 11.5C1.5 9.5 2.5 5.5 5.5 4.5C7.5 3.5 9 5 10 6.5C11 5 12.5 3.5 14.5 4.5C17.5 5.5 18.5 9.5 16.5 11.5L10 17Z');
-    favPath.setAttribute('stroke-linejoin', 'round');
-    favSvg.appendChild(favPath);
-    favBtn.appendChild(favSvg);
+    // Play button
+    actions.appendChild(createActionBtn('play', false, video.id));
 
-    // Favorite text
-    var favText = document.createElement('span');
-    favText.className = 'video-card__favorite-text';
-    favText.textContent = isFav ? 'Saved' : 'Save';
-    favBtn.appendChild(favText);
+    // Share button
+    actions.appendChild(createActionBtn('share', false, video.id));
 
     return card;
   }
@@ -159,32 +243,66 @@ App.ui = (function() {
   }
 
   /**
-   * Attach favorite button listeners to a container
+   * Attach card action button listeners to a container (favorite, play, share)
    */
   function attachFavoriteListeners(container) {
     container = container || document;
-    var buttons = container.querySelectorAll('.video-card__favorite-btn');
+    var buttons = container.querySelectorAll('.video-card__action-btn');
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         var btn = this;
+        var type = btn.getAttribute('data-type');
         var videoId = btn.getAttribute('data-id');
-        var added = App.favorites.toggleFavorite(videoId);
+        var playbackUrl = 'playback.html?id=' + encodeURIComponent(videoId);
 
-        var textEl = btn.querySelector('.video-card__favorite-text');
-        if (added) {
-          btn.classList.add('video-card__favorite-btn--active');
-          btn.querySelector('svg').setAttribute('fill', '#FFFFFF');
-          btn.setAttribute('aria-label', 'Remove from favorites');
-          if (textEl) textEl.textContent = 'Saved';
-          showToast('Added to favorites!', 'success');
-        } else {
-          btn.classList.remove('video-card__favorite-btn--active');
-          btn.querySelector('svg').setAttribute('fill', 'none');
-          btn.setAttribute('aria-label', 'Add to favorites');
-          if (textEl) textEl.textContent = 'Save';
-          showToast('Removed from favorites', 'info');
+        if (type === 'favorite') {
+          var added = App.favorites.toggleFavorite(videoId);
+          var svg = btn.querySelector('svg');
+          if (added) {
+            btn.classList.add('video-card__action-btn--active');
+            if (svg) {
+              svg.setAttribute('fill', 'currentColor');
+              svg.setAttribute('stroke', 'currentColor');
+            }
+            btn.setAttribute('aria-label', 'Remove from favorites');
+            showToast('Added to favorites!', 'success');
+          } else {
+            btn.classList.remove('video-card__action-btn--active');
+            if (svg) {
+              svg.setAttribute('fill', 'none');
+              svg.setAttribute('stroke', 'currentColor');
+            }
+            btn.setAttribute('aria-label', 'Add to favorites');
+            showToast('Removed from favorites', 'info');
+          }
+        } else if (type === 'play') {
+          window.location.href = playbackUrl;
+        } else if (type === 'share') {
+          // Copy playback URL to clipboard
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(window.location.origin + '/' + playbackUrl).then(function() {
+              showToast('Link copied to clipboard!', 'success');
+            }).catch(function() {
+              showToast('Failed to copy link', 'error');
+            });
+          } else {
+            // Fallback for older browsers
+            var textarea = document.createElement('textarea');
+            textarea.value = window.location.origin + '/' + playbackUrl;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              showToast('Link copied to clipboard!', 'success');
+            } catch (err) {
+              showToast('Failed to copy link', 'error');
+            }
+            document.body.removeChild(textarea);
+          }
         }
       });
     }

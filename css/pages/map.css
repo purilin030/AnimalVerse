@@ -318,12 +318,16 @@
 .map-popup__category-tag.reptiles { background: rgba(46, 173, 75, 0.15); color: #219337; }
 .map-popup__category-tag.amphibians { background: rgba(197, 237, 171, 0.15); color: #9fbf84; }
 .map-popup__category-tag.aquatic { background: rgba(168, 85, 247, 0.12); color: #9333ea; }
+.map-popup__category-tag.fish { background: rgba(38, 198, 218, 0.15); color: #1a9cb0; }
+.map-popup__category-tag.invertebrates { background: rgba(255, 112, 67, 0.15); color: #d84315; }
 
 [data-theme="dark"] .map-popup__category-tag.mammals { color: var(--clr-cat-mammals); }
 [data-theme="dark"] .map-popup__category-tag.birds { color: var(--clr-cat-birds); }
 [data-theme="dark"] .map-popup__category-tag.reptiles { color: var(--clr-cat-reptiles); }
 [data-theme="dark"] .map-popup__category-tag.amphibians { color: var(--clr-cat-amphibians); }
 [data-theme="dark"] .map-popup__category-tag.aquatic { color: var(--clr-cat-aquatic); }
+[data-theme="dark"] .map-popup__category-tag.fish { color: var(--clr-cat-fish); }
+[data-theme="dark"] .map-popup__category-tag.invertebrates { color: var(--clr-cat-invertebrates); }
 
 .map-popup__title {
   font-family: var(--ff-display);

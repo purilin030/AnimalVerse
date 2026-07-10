@@ -96,8 +96,8 @@
 
   /* ===== Layout ===== */
   --header-height: 64px;
-  --sidebar-width: 260px;
-  --sidebar-width-collapsed: 60px;
+  --sidebar-width: 230px;
+  --sidebar-width-collapsed: 72px;
   --content-max-width: 1400px;
 
   /* ===== Borders & Radius ===== */

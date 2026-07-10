@@ -11,6 +11,45 @@ App.data = (function() {
   // Previously this was a duplicate local definition; see js/species-map.js
   var _speciesMap = App.speciesMap;
 
+  // Cache mapping animal slugs to local photo files under assets/images/library
+  var _localAnimalImageMap = {};
+
+  function buildLocalImageMap() {
+    if (!cache || !cache.videos) return;
+    for (var i = 0; i < cache.videos.length; i++) {
+      var v = cache.videos[i];
+      if (v.id && (v.thumbnail || v.posterUrl)) {
+        var parts = v.id.split('-');
+        if (parts.length >= 3) {
+          var slug = parts.slice(1, parts.length - 1).join('-');
+          // Store the thumbnail for this slug
+          if (!_localAnimalImageMap[slug]) {
+            _localAnimalImageMap[slug] = v.thumbnail || v.posterUrl;
+          }
+        }
+      }
+    }
+  }
+
+  function getLocalAnimalImage(commonName) {
+    if (!commonName) return null;
+    var slug = commonName.toLowerCase().trim().replace(/\s+/g, '-');
+    
+    // 1. Check exact slug match
+    if (_localAnimalImageMap[slug]) {
+      return _localAnimalImageMap[slug];
+    }
+    
+    // 2. Check parts match (e.g. "Asian Elephant" matching "elephant" or vice-versa)
+    for (var mappedSlug in _localAnimalImageMap) {
+      if (mappedSlug.indexOf(slug) !== -1 || slug.indexOf(mappedSlug) !== -1) {
+        return _localAnimalImageMap[mappedSlug];
+      }
+    }
+    
+    return null;
+  }
+
   // Common animals by region (for filling nearby results)
   var _regionAnimals = {
     'Asia': ['Tiger', 'Elephant', 'Orangutan', 'Red Panda', 'Peacock', 'Komodo Dragon', 'Giant Panda', 'Snow Leopard', 'Asian Elephant', 'Sun Bear'],
@@ -131,11 +170,17 @@ App.data = (function() {
   }
 
   /**
-   * Fetch animal image: try GBIF first, fall back to Wikipedia.
+   * Fetch animal image: try local library first, then GBIF, then Wikipedia.
    */
   function fetchAnimalImage(commonName) {
     var key = commonName ? commonName.toLowerCase().trim() : '';
     if (!key) return Promise.resolve(null);
+
+    // Step 0: Try local library lookup first
+    var localImg = getLocalAnimalImage(commonName);
+    if (localImg) {
+      return Promise.resolve(localImg);
+    }
 
     // Check cache
     if (_gbifCache[key]) {
@@ -184,6 +229,7 @@ App.data = (function() {
       })
       .then(function(data) {
         cache = data;
+        buildLocalImageMap();
         return data;
       })
       .catch(function(error) {
@@ -293,6 +339,7 @@ App.data = (function() {
     getNearbyVideos: getNearbyVideos,
     fetchGBIFThumbnail: fetchGBIFThumbnail,
     fetchAnimalImage: fetchAnimalImage,
-    fetchRegionAnimals: fetchRegionAnimals
+    fetchRegionAnimals: fetchRegionAnimals,
+    getLocalAnimalImage: getLocalAnimalImage
   };
 })();

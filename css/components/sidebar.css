@@ -6,10 +6,10 @@
 /* ===== Core Panel ===== */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: var(--header-height);
   left: 0;
   width: var(--sidebar-width);
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   background: var(--clr-sidebar);
   border-right: 1px solid var(--clr-border);
   color: var(--clr-sidebar-text);
@@ -17,19 +17,21 @@
   overflow-y: auto;
   overflow-x: hidden;
   transform: translateX(-100%);
-  transition: transform 320ms cubic-bezier(0.32, 0, 0.15, 1);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04);
+  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              width 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 300ms ease;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .sidebar {
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
 }
 
 .sidebar--visible {
   transform: translateX(0);
 }
 
-/* Auto-peek */
+/* Auto-peek (mobile fallback is off-screen, handled differently on desktop) */
 .sidebar--peek {
   transform: translateX(calc(-1 * var(--sidebar-width) + 72px));
   transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -50,7 +52,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-top: calc(var(--header-height) + 16px);
+  padding-top: 20px;
 }
 
 /* ===== Menu list ===== */
@@ -386,5 +388,360 @@
   }
   .sidebar-backdrop--visible {
     display: block;
+  }
+}
+
+/* ===== Sidebar Explorer Profile Card ===== */
+.sidebar__profile-card {
+  margin: 0 12px 16px;
+  padding: 12px;
+  background: var(--clr-surface, #ffffff);
+  border: 2px solid var(--clr-border-dark, #0e0f0c);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px var(--clr-border-dark, #0e0f0c);
+  transition: all 150ms ease;
+  display: block;
+}
+
+.sidebar__profile-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--clr-border-dark, #0e0f0c);
+}
+
+.sidebar__profile-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar__avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--clr-bg-dark, #e8ebe6);
+  border: 2px solid var(--clr-border-dark, #0e0f0c);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 1px 1px 0px var(--clr-border-dark, #0e0f0c);
+}
+
+.sidebar__avatar-svg {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.sidebar__user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: opacity 150ms ease, visibility 150ms ease;
+}
+
+.sidebar__username {
+  font-family: var(--ff-pixel);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--clr-text-dark, #0e0f0c);
+  line-height: 1.2;
+}
+
+.sidebar__badge {
+  font-family: var(--ff-pixel);
+  font-size: 10px;
+  color: var(--clr-text-dark, #0e0f0c);
+  background: var(--clr-accent, #9fe870);
+  border: 1px solid var(--clr-border-dark, #0e0f0c);
+  padding: 1px 4px;
+  margin-top: 4px;
+  border-radius: 2px;
+  width: fit-content;
+  text-transform: uppercase;
+}
+
+.sidebar__status-divider {
+  height: 2px;
+  background: var(--clr-border-dark, #0e0f0c);
+  margin: 10px 0;
+  transition: opacity 150ms ease, visibility 150ms ease;
+}
+
+.sidebar__status-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: opacity 150ms ease, visibility 150ms ease;
+}
+
+.sidebar__status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+.sidebar__status-label {
+  font-family: var(--ff-mono, monospace);
+  color: var(--clr-text-muted, #7c7c7c);
+}
+
+.sidebar__status-val {
+  font-family: var(--ff-pixel);
+  color: var(--clr-text-dark, #0e0f0c);
+  font-weight: 700;
+}
+
+.sidebar__status-val--online {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sidebar__status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--clr-accent, #9fe870);
+  border: 1px solid var(--clr-border-dark, #0e0f0c);
+  border-radius: 50%;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+/* ===== Desktop / Collapsed / Expanded ===== */
+@media (min-width: 768px) {
+  .sidebar {
+    top: 0;
+    height: 100vh;
+    padding-top: calc(var(--header-height) + 16px);
+    transform: translateX(0); /* Always visible */
+    width: var(--sidebar-width-collapsed); /* 72px */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+  }
+
+  [data-theme="dark"] .sidebar {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Expanded styles */
+  .sidebar:hover,
+  .sidebar--visible,
+  .sidebar--peek {
+    width: var(--sidebar-width); /* 230px */
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+  }
+
+  [data-theme="dark"] .sidebar:hover,
+  [data-theme="dark"] .sidebar--visible,
+  [data-theme="dark"] .sidebar--peek {
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Handle auto-peek transform override */
+  .sidebar--peek {
+    transform: translateX(0);
+  }
+
+  /* Hide labels, chevrons, footer text, and button text when collapsed */
+  .sidebar__item-label,
+  .sidebar__chevron,
+  .sidebar__footer-text,
+  .sidebar__more-btn-text {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 150ms ease, visibility 150ms ease;
+  }
+
+  /* Fade them in when expanded */
+  .sidebar:hover .sidebar__item-label,
+  .sidebar--visible .sidebar__item-label,
+  .sidebar--peek .sidebar__item-label,
+  .sidebar:hover .sidebar__chevron,
+  .sidebar--visible .sidebar__chevron,
+  .sidebar--peek .sidebar__chevron,
+  .sidebar:hover .sidebar__footer-text,
+  .sidebar--visible .sidebar__footer-text,
+  .sidebar--peek .sidebar__footer-text,
+  .sidebar:hover .sidebar__more-btn-text,
+  .sidebar--visible .sidebar__more-btn-text,
+  .sidebar--peek .sidebar__more-btn-text {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 250ms ease 100ms, visibility 250ms ease 100ms;
+  }
+
+  /* Group labels collapse height when collapsed */
+  .sidebar__group-label {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    transition: all 200ms ease;
+  }
+
+  .sidebar:hover .sidebar__group-label,
+  .sidebar--visible .sidebar__group-label,
+  .sidebar--peek .sidebar__group-label {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    padding: 24px 12px 8px;
+    margin: 0;
+  }
+
+  /* Active item left indicator is hidden when collapsed */
+  .sidebar__item--active .sidebar__link::before {
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+  .sidebar:hover .sidebar__item--active .sidebar__link::before,
+  .sidebar--visible .sidebar__item--active .sidebar__link::before,
+  .sidebar--peek .sidebar__item--active .sidebar__link::before {
+    opacity: 1;
+  }
+
+  /* Submenus collapse when sidebar is collapsed */
+  .sidebar__submenu {
+    opacity: 0;
+    max-height: 0 !important;
+    overflow: hidden;
+    transition: max-height 250ms ease, opacity 150ms ease;
+  }
+
+  /* Allow expansion only when sidebar is expanded */
+  .sidebar:hover .sidebar__submenu--expanded,
+  .sidebar--visible .sidebar__submenu--expanded,
+  .sidebar--peek .sidebar__submenu--expanded {
+    opacity: 1;
+    max-height: 280px !important;
+  }
+
+  /* Hide the old floating trigger handle completely */
+  .sidebar-trigger {
+    display: none !important;
+  }
+
+  /* Footer and Random Video button layout adjustments */
+  .sidebar__footer {
+    padding: 16px 12px;
+    transition: padding 200ms ease;
+  }
+
+  .sidebar__more-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    margin: 0 auto;
+    justify-content: center;
+    gap: 0;
+    transition: all 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .sidebar:hover .sidebar__more-btn,
+  .sidebar--visible .sidebar__more-btn,
+  .sidebar--peek .sidebar__more-btn {
+    width: 100%;
+    height: 44px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  /* --- Profile Card Collapsed/Expanded overrides --- */
+  .sidebar__profile-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 auto 16px;
+    display: flex;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+
+  .sidebar__profile-top {
+    justify-content: center;
+    width: 100%;
+    gap: 0;
+  }
+
+  .sidebar__user-info,
+  .sidebar__status-divider,
+  .sidebar__status-grid {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* When hovered/expanded on desktop, restore full styles */
+  .sidebar:hover .sidebar__profile-card,
+  .sidebar--visible .sidebar__profile-card,
+  .sidebar--peek .sidebar__profile-card {
+    background: var(--clr-surface, #ffffff);
+    border: 2px solid var(--clr-border-dark, #0e0f0c);
+    box-shadow: 2px 2px 0px var(--clr-border-dark, #0e0f0c);
+    padding: 12px;
+    margin: 0 12px 16px;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+
+  .sidebar:hover .sidebar__profile-top,
+  .sidebar--visible .sidebar__profile-top,
+  .sidebar--peek .sidebar__profile-top {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .sidebar:hover .sidebar__user-info,
+  .sidebar--visible .sidebar__user-info,
+  .sidebar--peek .sidebar__user-info {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+  }
+
+  .sidebar:hover .sidebar__status-divider,
+  .sidebar--visible .sidebar__status-divider,
+  .sidebar--peek .sidebar__status-divider {
+    opacity: 1;
+    visibility: visible;
+    height: 2px;
+    margin: 10px 0;
+  }
+
+  .sidebar:hover .sidebar__status-grid,
+  .sidebar--visible .sidebar__status-grid,
+  .sidebar--peek .sidebar__status-grid {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
   }
 }

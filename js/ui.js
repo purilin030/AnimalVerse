@@ -86,8 +86,9 @@ App.ui = (function() {
     if (!video) return null;
 
     var isFav = App.favorites.isFavorite(video.id);
-    var thumbnailSrc = video.gbifThumbnail || video.thumbnail || 'assets/images/thumbnails/placeholder.jpg';
-    var localFallback = video.thumbnail || 'assets/images/thumbnails/placeholder.jpg';
+    var defaultImg = 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp';
+    var thumbnailSrc = video.gbifThumbnail || video.thumbnail || defaultImg;
+    var localFallback = video.thumbnail || defaultImg;
     var categoryName = video.category || 'unknown';
     var playbackUrl = 'playback.html?id=' + encodeURIComponent(video.id);
 
@@ -438,7 +439,8 @@ App.ui = (function() {
     var card = document.createElement('div');
     card.className = 'animal-card';
 
-    var src = imgUrl || 'assets/images/thumbnails/placeholder.jpg';
+    var defaultImg = 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp';
+    var src = imgUrl || (App.data && App.data.getLocalAnimalImage(animalName)) || defaultImg;
 
     // Image wrapper
     var imgWrap = document.createElement('div');
@@ -451,7 +453,10 @@ App.ui = (function() {
     img.alt = animalName || 'Animal';
     img.loading = 'lazy';
     img.decoding = 'async';
-    img.onerror = function() { this.src = 'assets/images/thumbnails/cantfindanimals.jpg'; };
+    img.onerror = function() { 
+      var fallback = (App.data && App.data.getLocalAnimalImage(animalName)) || defaultImg;
+      this.src = fallback; 
+    };
     imgWrap.appendChild(img);
 
     // Name
@@ -478,7 +483,7 @@ App.ui = (function() {
     }
 
     // Last resort: placeholder
-    img.src = 'assets/images/thumbnails/cantfindanimals.jpg';
+    img.src = 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp';
   }
 
   /**

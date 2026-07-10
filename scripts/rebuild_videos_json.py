@@ -455,7 +455,7 @@ def rebuild():
             relative_video_url = str(mp4_file.relative_to(BASE_DIR)).replace('\\', '/')
             
             # Select a random photo as the cover/poster for each video
-            poster_file = "placeholder.jpg"
+            poster_file = "assets/images/library/Mammals/lion/photos/lion-pexels-1.webp"
             video_source = "self"
             video_credit = ""
             if photos:

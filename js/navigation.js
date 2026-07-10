@@ -26,6 +26,14 @@ App.navigation = (function() {
     setupCategoriesSubmenu();
     setupSearchForm();
     setupHeaderScroll();
+
+    // Restore sidebar locked state from localStorage on desktop screens
+    if (window.innerWidth > 767) {
+      var isLocked = window.localStorage.getItem('sidebar-locked') === 'true';
+      if (isLocked) {
+        showSidebar();
+      }
+    }
   }
 
   function clearPeekTimeouts() {
@@ -113,6 +121,17 @@ App.navigation = (function() {
       hamburger.classList.add('header__hamburger--open');
     }
 
+    // Toggle class on layout to shift content
+    var appLayout = document.getElementById('app-layout');
+    if (appLayout) {
+      appLayout.classList.add('app-layout--sidebar-open');
+    }
+
+    // Save locked preference on desktop
+    if (window.innerWidth > 767) {
+      window.localStorage.setItem('sidebar-locked', 'true');
+    }
+
     // Hide the trigger handle when sidebar is fully open
     if (trigger) {
       trigger.classList.remove('sidebar-trigger--peeking');
@@ -134,6 +153,17 @@ App.navigation = (function() {
     var hamburger = document.getElementById('hamburger-btn');
     if (hamburger) {
       hamburger.classList.remove('header__hamburger--open');
+    }
+
+    // Toggle class on layout to reset content
+    var appLayout = document.getElementById('app-layout');
+    if (appLayout) {
+      appLayout.classList.remove('app-layout--sidebar-open');
+    }
+
+    // Save locked preference on desktop
+    if (window.innerWidth > 767) {
+      window.localStorage.setItem('sidebar-locked', 'false');
     }
 
     // Show the trigger handle again

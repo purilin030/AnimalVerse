@@ -449,3 +449,306 @@ body.is-touch .dash-card a .content {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   RETRO PIXEL SCOPED THEME OVERRIDES (.theme-pixel)
+   ============================================================ */
+
+/* ── 1. WELCOME SECTION (RPG DIALOG STYLE) ── */
+.theme-pixel .dashboard__welcome {
+  max-width: 800px;
+  margin: var(--space-xl) auto var(--space-xl);
+  padding: 0;
+  text-align: left;
+}
+
+.theme-pixel .rpg-dialog {
+  position: relative;
+  background: var(--clr-surface);
+  border: 4px solid var(--clr-primary);
+  padding: var(--space-lg) var(--space-xl);
+  box-shadow: 4px 4px 0px var(--clr-primary);
+  outline: 2px solid var(--clr-surface);
+  outline-offset: -6px;
+}
+
+.theme-pixel .dashboard__greeting {
+  font-family: var(--ff-pixel) !important;
+  font-size: 0.95rem !important;
+  color: var(--clr-text-muted) !important;
+  opacity: 1 !important;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2xs) !important;
+  letter-spacing: 1px !important;
+  animation: none !important;
+}
+
+.theme-pixel .dashboard__username {
+  font-family: var(--ff-pixel) !important;
+  font-size: clamp(2rem, 5vw, 3rem) !important;
+  font-weight: 900 !important;
+  color: var(--clr-primary) !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  margin-bottom: var(--space-xs) !important;
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+.theme-pixel .dashboard__username::after {
+  content: " █";
+  color: var(--clr-accent);
+  animation: pixel-blink 0.8s steps(2) infinite;
+}
+
+@keyframes pixel-blink {
+  50% { opacity: 0; }
+}
+
+.theme-pixel .dashboard__question {
+  font-family: var(--ff-pixel) !important;
+  font-size: 1.1rem !important;
+  color: var(--clr-primary) !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  animation: none !important;
+}
+
+/* ── 2. CARTRIDGE ACTION CARDS (TILES) ── */
+.theme-pixel .tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin: 0;
+}
+
+.theme-pixel .dash-card {
+  width: 100%;
+  margin: 0;
+  aspect-ratio: auto; /* Remove fixed ratio */
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  overflow: visible;
+  background: var(--clr-surface) !important;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: transform 0.3s steps(4), opacity 0.3s steps(4), box-shadow 150ms ease, background-color 150ms ease !important;
+}
+
+.theme-pixel .dash-card--visible {
+  opacity: 1 !important;
+  transform: translateY(0);
+}
+
+/* Cartridge plastic themes (8-bit hardware colors) */
+.theme-pixel .dash-card.style1 { background: #ff5e7e !important; }
+.theme-pixel .dash-card.style2 { background: #3b82f6 !important; }
+.theme-pixel .dash-card.style3 { background: #10b981 !important; }
+.theme-pixel .dash-card.style4 { background: #8b5cf6 !important; }
+.theme-pixel .dash-card.style5 { background: #f59e0b !important; }
+.theme-pixel .dash-card.style6 { background: #6366f1 !important; }
+
+/* Upper ridges on cartridges */
+.theme-pixel .dash-card__header {
+  height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.theme-pixel .dash-card__stripes {
+  width: 100%;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(14, 15, 12, 0.2),
+    rgba(14, 15, 12, 0.2) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+/* Inner Sticker Label */
+.theme-pixel .dash-card__label-sticker {
+  margin: 0 8px 8px 8px;
+  background: #ffffff;
+  border: 2px solid var(--clr-primary);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  color: var(--clr-primary);
+  min-height: 150px;
+}
+
+[data-theme="dark"] .theme-pixel .dash-card__label-sticker {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.theme-pixel .dash-card__icon-wrapper {
+  color: var(--clr-primary);
+  display: flex;
+  align-items: center;
+}
+
+[data-theme="dark"] .theme-pixel .dash-card__icon-wrapper {
+  color: #f8fafc;
+}
+
+.theme-pixel .pixel-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.theme-pixel .dash-card__text h2 {
+  font-family: var(--ff-pixel) !important;
+  font-size: 1.15rem !important;
+  font-weight: var(--fw-black) !important;
+  margin: 0 0 var(--space-xs) 0 !important;
+  color: var(--clr-primary) !important;
+  letter-spacing: 0px !important;
+}
+
+[data-theme="dark"] .theme-pixel .dash-card__text h2 {
+  color: #ffffff !important;
+}
+
+.theme-pixel .dash-card__text .content {
+  font-family: var(--ff-body) !important;
+  font-size: 0.8rem !important;
+  line-height: 1.4 !important;
+  color: var(--clr-text-muted) !important;
+  opacity: 1 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+}
+
+/* Card Anchor Wrap Reset */
+.theme-pixel .dash-card a {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  color: inherit !important;
+  text-align: left;
+  z-index: 1;
+}
+
+/* Dynamic Spring Pressed Feedback */
+.theme-pixel .dash-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .dash-card:hover .dash-card__label-sticker {
+  background: var(--clr-accent-hover) !important;
+}
+
+[data-theme="dark"] .theme-pixel .dash-card:hover .dash-card__label-sticker {
+  background: #0f172a !important;
+}
+
+.theme-pixel .dash-card:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+/* Admin elements */
+.theme-pixel .dash-card--admin {
+  border: none !important;
+}
+
+.theme-pixel .badge--admin {
+  font-family: var(--ff-pixel) !important;
+  font-size: 9px !important;
+  background: #fee2e2 !important;
+  color: #ef4444 !important;
+  border: 1px solid #fca5a5 !important;
+  padding: 2px 6px !important;
+  border-radius: 0px !important;
+  margin-left: 6px !important;
+}
+
+[data-theme="dark"] .theme-pixel .badge--admin {
+  background: #7f1d1d !important;
+  color: #fca5a5 !important;
+  border-color: #991b1b !important;
+}
+
+/* ── 3. STATS SECTION PIXELATION ── */
+.theme-pixel .dashboard__stats-section {
+  border-top: 3px solid var(--clr-primary) !important;
+  padding-top: var(--space-xl);
+}
+
+.theme-pixel .stat-card {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: transform 150ms ease, box-shadow 150ms ease !important;
+}
+
+.theme-pixel.dashboard--loaded .stat-card,
+.dashboard--loaded .theme-pixel .stat-card {
+  animation: pixelCardPop 0.4s steps(4) forwards !important;
+}
+
+@keyframes pixelCardPop {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.theme-pixel .stat-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .stat-card__icon {
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+  border: 2px solid var(--clr-primary);
+  border-radius: 0px !important;
+  width: 36px;
+  height: 36px;
+}
+
+.theme-pixel .stat-card__value {
+  font-family: var(--ff-mono) !important;
+  font-size: 1.3rem !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .stat-card__label {
+  font-family: var(--ff-pixel) !important;
+  font-size: 0.75rem !important;
+  color: var(--clr-text-muted) !important;
+}
+
+.theme-pixel .stat-card__trend {
+  font-family: var(--ff-pixel) !important;
+  font-size: 9px !important;
+  font-weight: bold !important;
+}
+
+/* ── 4. RESPONSIVE FOR PIXEL ── */
+@media (max-width: 980px) {
+  .theme-pixel .tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .theme-pixel .tiles {
+    grid-template-columns: 1fr;
+  }
+}
+

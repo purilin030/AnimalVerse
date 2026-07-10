@@ -136,7 +136,7 @@ App.map = (function() {
       var marker = L.marker([video.location.lat, video.location.lng], { icon: icon });
 
       var popupContent = buildPopupContent({
-        imgSrc: video.thumbnail || 'assets/images/thumbnails/placeholder.jpg',
+        imgSrc: video.thumbnail || 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp',
         title: video.title,
         tagClass: video.category,
         tagText: catName,
@@ -296,7 +296,7 @@ App.map = (function() {
             if (loadedObservationIds.has(id)) return;
 
             // Extract picture and fallback
-            var thumb = 'assets/images/thumbnails/placeholder.jpg';
+            var thumb = 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp';
             if (obs.photos && obs.photos.length > 0) {
               thumb = obs.photos[0].url.replace('square', 'medium'); // higher resolution thumbnail
             }
@@ -418,7 +418,7 @@ App.map = (function() {
 
     return '<div class="map-popup">' +
       '  <div class="map-popup__img-container">' +
-      '    <img class="map-popup__thumb" src="' + safeImgSrc + '" alt="' + safeAlt + '" onerror="this.src=\'assets/images/thumbnails/placeholder.jpg\'">' +
+      '    <img class="map-popup__thumb" src="' + safeImgSrc + '" alt="' + safeAlt + '" onerror="this.src=\'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp\'">' +
       '  </div>' +
       '  <div class="map-popup__body">' +
       '    <span class="map-popup__category-tag ' + safeTagClass + '">' + App.ui.escapeHtml(opts.tagText) + '</span>' +

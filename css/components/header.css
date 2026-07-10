@@ -45,7 +45,7 @@
 
 /* Hamburger (mobile only) - Morphing Animation support */
 .header__hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;

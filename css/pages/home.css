@@ -1007,11 +1007,51 @@
 }
 
 /* ── Hero Section Scoped Overrides ── */
+.theme-pixel .hero__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.theme-pixel .hero__eyebrow-wrap {
+  margin-bottom: 20px;
+}
+
+.theme-pixel .hero__eyebrow {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+}
+
+.theme-pixel .hero__eyebrow-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 0px !important;
+  background-color: var(--clr-primary) !important;
+  animation: pixelBlink 1s steps(2, start) infinite !important;
+}
+
+@keyframes pixelBlink {
+  to { visibility: hidden; }
+}
+
 .theme-pixel .hero__title {
   font-family: var(--ff-pixel) !important;
   font-weight: var(--fw-black) !important;
   letter-spacing: -0.01em !important;
   text-shadow: 3px 3px 0px var(--clr-primary);
+}
+
+[data-theme="dark"] .theme-pixel .hero__title {
+  text-shadow: 3px 3px 0px #0e0f0c !important;
 }
 
 .theme-pixel .hero__title-word {
@@ -1023,6 +1063,10 @@
   font-weight: var(--fw-bold) !important;
   color: #ffffff !important;
   text-shadow: 2px 2px 0px var(--clr-primary);
+}
+
+[data-theme="dark"] .theme-pixel .hero__subtitle {
+  text-shadow: 2px 2px 0px #0e0f0c !important;
 }
 
 .theme-pixel .hero__subtitle-accent {

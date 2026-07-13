@@ -778,3 +778,338 @@
     border-color: rgba(30, 31, 27, 0.92) transparent transparent transparent;
   }
 }
+
+/* ============================================================
+   RETRO PIXEL SCOPED THEME OVERRIDES (.theme-pixel)
+   ============================================================ */
+
+/* ── Header Redesign for Map Page ── */
+.theme-pixel .map-page__header {
+  background: var(--clr-surface) !important;
+  border-bottom: 3px solid var(--clr-primary) !important;
+  padding: var(--space-md) var(--space-md) !important;
+}
+
+/* Remove gradient border line, replace with retro gaming style top thick border */
+.theme-pixel .map-page__header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-page__header h1 {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-4xl) !important;
+  color: var(--clr-primary) !important;
+  letter-spacing: -0.01em !important;
+  text-shadow: 2px 2px 0px var(--clr-accent-hover);
+}
+
+.theme-pixel .map-page__subtitle {
+  font-family: var(--ff-pixel) !important;
+  font-size: 11px !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* ── Legend Panel Redesign ── */
+.theme-pixel .map-legend {
+  background: var(--clr-surface) !important;
+  border: 3px solid var(--clr-primary) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  border-radius: 0px !important;
+}
+
+.theme-pixel .map-legend__title {
+  font-family: var(--ff-pixel) !important;
+  font-size: 12px !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Legend items -> Cartridge/Gamepad style buttons */
+.theme-pixel .map-legend__item {
+  font-family: var(--ff-pixel) !important;
+  font-size: 12px !important;
+  font-weight: var(--fw-bold) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 2px !important;
+  background: var(--clr-surface) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  transition: all 100ms ease !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-legend__item:hover {
+  background: var(--clr-accent-hover) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+/* Active buttons - physical press */
+.theme-pixel .map-legend__item--active {
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px var(--clr-primary) !important; /* Pressed down, no shadow */
+}
+
+/* Make dot in legend items a square */
+.theme-pixel .map-legend__dot {
+  border-radius: 0px !important;
+  border: 1px solid var(--clr-primary) !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+/* Divider to retro dotted style */
+.theme-pixel .map-legend__divider {
+  border-bottom: 2px dotted var(--clr-primary) !important;
+  background: transparent !important;
+  height: 0px !important;
+}
+
+.theme-pixel .map-legend__toggle-label {
+  font-family: var(--ff-pixel) !important;
+  font-size: 12px !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+}
+
+/* Custom premium switch toggle -> Retro toggle box switch */
+.theme-pixel .map-switch {
+  width: 44px !important;
+  height: 22px !important;
+  border: 2px solid var(--clr-primary) !important;
+  background: var(--clr-surface-active) !important;
+}
+
+.theme-pixel .map-switch__slider {
+  border-radius: 0px !important;
+  background-color: var(--clr-surface-active) !important;
+}
+
+.theme-pixel .map-switch__slider:before {
+  border-radius: 0px !important;
+  height: 14px !important;
+  width: 16px !important;
+  left: 2px !important;
+  bottom: 2px !important;
+  background-color: var(--clr-primary) !important;
+  box-shadow: none !important;
+}
+
+.theme-pixel .map-switch input:checked + .map-switch__slider {
+  background-color: var(--clr-accent-hover) !important;
+}
+
+.theme-pixel .map-switch input:checked + .map-switch__slider:before {
+  transform: translateX(20px) !important;
+  background-color: var(--clr-primary) !important;
+}
+
+/* ── Tooltip Box ── */
+.theme-pixel .map-tooltip__box {
+  background: var(--clr-surface) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .map-tooltip__box::after {
+  border-color: transparent transparent transparent var(--clr-primary) !important;
+}
+
+.theme-pixel .map-tooltip__title {
+  font-family: var(--ff-pixel) !important;
+  font-size: 12px !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-tooltip__desc {
+  font-family: var(--ff-body) !important;
+  font-size: 11px !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-tooltip__hint {
+  font-family: var(--ff-pixel) !important;
+  font-size: 10px !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-success) !important;
+}
+
+/* ── Leaflet Zoom Controls ── */
+.theme-pixel .leaflet-bar {
+  border: 2px solid var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  border-radius: 0px !important;
+}
+
+.theme-pixel .leaflet-bar a {
+  background-color: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+  border-bottom: 2px solid var(--clr-primary) !important;
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+}
+
+.theme-pixel .leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+.theme-pixel .leaflet-bar a:hover {
+  background-color: var(--clr-accent-hover) !important;
+}
+
+/* ── Leaflet Markers Redesign ── */
+.theme-pixel .animal-marker__inner {
+  border-radius: 0px !important;
+  border: 2px solid var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px rgba(14, 15, 12, 0.45) !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.theme-pixel .animal-marker__pulse {
+  border-radius: 0px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.theme-pixel .animal-marker:hover .animal-marker__inner {
+  transform: scale(1.2) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .animal-marker--external .animal-marker__inner {
+  background: var(--clr-surface) !important;
+}
+
+/* ── Leaflet Popup Redesign ── */
+.theme-pixel .leaflet-popup-content-wrapper {
+  background: var(--clr-surface) !important;
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .leaflet-popup-tip {
+  background: var(--clr-surface) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+.theme-pixel .map-popup__img-container {
+  border-bottom: 2px solid var(--clr-primary) !important;
+  background: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-popup__category-tag {
+  font-family: var(--ff-pixel) !important;
+  font-size: 10px !important;
+  font-weight: var(--fw-black) !important;
+  border: 1px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  padding: 2px 6px !important;
+}
+
+.theme-pixel .map-popup__category-tag.mammals { background: var(--clr-accent) !important; color: var(--clr-primary) !important; }
+.theme-pixel .map-popup__category-tag.birds { background: #38c8ff !important; color: var(--clr-primary) !important; }
+.theme-pixel .map-popup__category-tag.reptiles { background: #2ead4b !important; color: var(--clr-primary) !important; }
+.theme-pixel .map-popup__category-tag.amphibians { background: #c5edab !important; color: var(--clr-primary) !important; }
+.theme-pixel .map-popup__category-tag.aquatic { background: #a855f7 !important; color: var(--clr-surface) !important; }
+.theme-pixel .map-popup__category-tag.fish { background: #26c6da !important; color: var(--clr-primary) !important; }
+.theme-pixel .map-popup__category-tag.invertebrates { background: #ff7043 !important; color: var(--clr-primary) !important; }
+.theme-pixel .map-popup__category-tag.external { background: var(--clr-surface-active) !important; color: var(--clr-primary) !important; }
+
+.theme-pixel .map-popup__title {
+  font-family: var(--ff-pixel) !important;
+  font-size: 14px !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-popup__location {
+  font-family: var(--ff-body) !important;
+  font-size: 11px !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .map-popup__icon {
+  stroke: var(--clr-primary) !important;
+}
+
+/* Watch CTA - Spring cartridge button */
+.theme-pixel .map-popup__watch {
+  font-family: var(--ff-pixel) !important;
+  font-size: 12px !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 2px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  transition: all 100ms ease !important;
+}
+
+.theme-pixel .map-popup__watch:hover {
+  background: var(--clr-accent-hover) !important;
+  color: var(--clr-primary) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .map-popup__watch:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .map-popup__watch.external-link:hover {
+  background: #74ac00 !important;
+  color: var(--clr-surface) !important;
+}
+
+/* ── Stepper Loader Animation Override ── */
+.theme-pixel .map-legend__spinner {
+  width: 12px !important;
+  height: 12px !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-accent) !important;
+  animation: map-pixel-spinner 1s steps(4) infinite !important;
+}
+
+@keyframes map-pixel-spinner {
+  0% { transform: scale(1); background: var(--clr-accent); }
+  50% { transform: scale(0.7); background: var(--clr-primary); }
+  100% { transform: scale(1); background: var(--clr-accent); }
+}
+
+/* ── Mobile Layout Adjustments ── */
+@media (max-width: 767px) {
+  .theme-pixel .map-legend {
+    border-radius: 0px !important;
+    border-width: 2px 0 0 0 !important;
+    box-shadow: none !important;
+    border-top: 3px solid var(--clr-primary) !important;
+  }
+  
+  .theme-pixel .map-legend__toggle-wrapper {
+    border-left: 2px dotted var(--clr-primary) !important;
+  }
+  
+  .theme-pixel .map-tooltip__box {
+    bottom: calc(100% + 8px) !important;
+    box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  }
+}
+

@@ -782,18 +782,18 @@
 
 /* Shuffling pulse animation on the background beehive body! */
 .hex-grid-wrapper--shuffling .rp-beehive-bg {
-  animation: bgHivePulse 1.2s ease-in-out infinite alternate;
+  /* Animation removed so background stays static */
   opacity: 0.95 !important;
 }
 
 @keyframes bgHivePulse {
   0% {
-    transform: translateX(-50%) scale(0.98);
-    opacity: 0.75;
+    transform: translateX(-50%) scale(1);
+    opacity: 0.85;
   }
   100% {
-    transform: translateX(-50%) scale(1.02);
-    opacity: 0.95;
+    transform: translateX(-50%) scale(1);
+    opacity: 0.85;
   }
 }
 
@@ -977,4 +977,397 @@
   .rp-result--visible .rp-result__card {
     transform: none !important;
   }
+}
+
+/* ============================================================
+   RETRO PIXEL SCOPED THEME OVERRIDES (.theme-pixel)
+   ============================================================ */
+
+/* ── 1. CONTAINER & GLOBAL LAYOUT ── */
+.theme-pixel .random-pick {
+  background-color: transparent !important;
+  background-image: none !important;
+  min-height: calc(100vh - var(--header-height, 64px)) !important;
+  padding: 40px 24px !important;
+}
+
+/* Hide modern smooth gradients and blurry ambient glows */
+.theme-pixel .rp-ambient-glow,
+.theme-pixel .rp-sunrays {
+  display: none !important;
+}
+
+/* ── 2. HEADERS, LABELS, & BADGES ── */
+.theme-pixel .rp-badge {
+  font-family: var(--ff-pixel) !important;
+  background: var(--clr-accent) !important; /* Wise Green */
+  color: var(--clr-primary) !important;     /* Ink */
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  animation: none !important;
+  padding: 6px 14px !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+}
+
+.theme-pixel .rp-title {
+  font-family: var(--ff-pixel) !important;
+  font-weight: 800 !important;
+  color: var(--clr-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.02em !important;
+}
+
+.theme-pixel .rp-title__dot {
+  color: var(--clr-accent) !important; /* Wise Green Dot */
+}
+
+.theme-pixel .rp-subtitle {
+  font-family: var(--ff-body) !important;
+  color: var(--clr-primary-light) !important;
+  font-size: 1rem !important;
+}
+
+/* ── 3. CARTRIDGE ACTION BUTTONS ── */
+.theme-pixel .rp-btn {
+  font-family: var(--ff-pixel) !important;
+  background: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  text-transform: uppercase !important;
+  transition: all 150ms ease !important;
+  transform: translate(0, 0) !important;
+  padding: 14px 32px !important;
+  font-size: 1rem !important;
+}
+
+.theme-pixel .rp-btn:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-accent-hover) !important;
+}
+
+.theme-pixel .rp-btn:active,
+.theme-pixel .rp-btn--shuffling {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+}
+
+/* ── 4. RETRO PIXEL BEES ── */
+.theme-pixel .rp-bee {
+  border-radius: 0px !important;
+  animation-timing-function: steps(8) !important; /* Steps flight simulation */
+}
+
+.theme-pixel .bee-body {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  background: linear-gradient(90deg, 
+    #ffd700 0%, #ffd700 20%, 
+    #0e0f0c 20%, #0e0f0c 40%, 
+    #ffd700 40%, #ffd700 60%, 
+    #0e0f0c 60%, #0e0f0c 80%, 
+    #ffd700 80%, #ffd700 100%
+  ) !important;
+}
+
+.theme-pixel .bee-body::after {
+  border-left-color: #0e0f0c !important;
+  border-radius: 0px !important;
+}
+
+.theme-pixel .bee-wings::before,
+.theme-pixel .bee-wings::after {
+  border-radius: 0px !important;
+  background: #ffffff !important;
+  border: 1px solid #0e0f0c !important;
+  box-shadow: none !important;
+  animation-timing-function: steps(2) !important;
+}
+
+/* ── 5. VECTOR BEEHIVE BACKDROP (PIXEL OUTLINES & FLAT FILLS) ── */
+.theme-pixel .rp-beehive-bg {
+  opacity: 0.85 !important;
+}
+
+/* Solid ink borders for beehive layers */
+.theme-pixel .rp-beehive-bg svg rect.beehive-layer {
+  stroke: var(--clr-primary) !important;
+  stroke-width: 3px !important;
+  rx: 0px !important; /* Remove round corners */
+}
+
+/* Alternating retro colors for layers */
+.theme-pixel .rp-beehive-bg svg rect.beehive-layer:nth-child(even) {
+  fill: #ffd700 !important; /* Yellow */
+}
+.theme-pixel .rp-beehive-bg svg rect.beehive-layer:nth-child(odd) {
+  fill: #f59e0b !important; /* Amber Orange */
+}
+
+/* Center hole */
+.theme-pixel .rp-beehive-bg svg circle {
+  stroke: var(--clr-primary) !important;
+  stroke-width: 4px !important;
+  fill: var(--clr-primary) !important;
+}
+
+/* Main thick branch */
+.theme-pixel .rp-beehive-bg svg path[stroke-width="24"] {
+  stroke: #543f2c !important; /* Flat brown */
+  stroke-width: 28px !important;
+}
+.theme-pixel .rp-beehive-bg svg path[stroke-width="10"] {
+  stroke: #3a2a1a !important; /* Dark brown */
+  stroke-width: 12px !important;
+}
+
+/* Hanging vine */
+.theme-pixel .rp-beehive-bg svg path[stroke="var(--canopy-vine)"] {
+  stroke: #543f2c !important;
+  stroke-width: 5px !important;
+}
+
+/* Canopy Leaves (Flat green) */
+.theme-pixel .rp-beehive-bg svg path[fill="url(#leafGrad)"] {
+  fill: #496332 !important; /* Flat leaf green */
+}
+
+/* ── 6. HONEYCOMB CELLS ── */
+.theme-pixel .hex-item {
+  background: var(--clr-primary) !important; /* Bold Ink border */
+  padding: 2.5px !important; /* Thicker borders */
+  transition: transform 150ms ease, background-color 150ms ease !important;
+}
+
+.theme-pixel .hex-item-inner {
+  background: var(--clr-surface) !important;
+}
+
+/* Hover cartridges */
+.theme-pixel .hex-item:hover {
+  transform: scale(1.15) translateY(-4px) !important;
+  background: var(--clr-accent) !important; /* Green glowing border */
+}
+
+.theme-pixel .hex-item:hover .hex-item-inner {
+  background: var(--clr-surface-hover) !important;
+}
+
+.theme-pixel .hex-item__name {
+  font-family: var(--ff-pixel) !important;
+  color: var(--clr-primary) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 10px !important;
+}
+
+/* Empty placeholder cells */
+.theme-pixel .hex-item--empty {
+  opacity: 0.25 !important;
+}
+
+.theme-pixel .hex-item--empty .hex-item-inner {
+  background: transparent !important;
+  border: 2px dashed var(--clr-border) !important;
+}
+
+[data-theme="dark"].theme-pixel .hex-item--empty .hex-item-inner {
+  border: 2px dashed rgba(232, 235, 230, 0.15) !important;
+}
+
+/* Active shuffle glow (跑马灯跑中状态) */
+.theme-pixel .hex-item--glow {
+  background: var(--clr-accent) !important;
+}
+
+.theme-pixel .hex-item--glow .hex-item-inner {
+  background: var(--clr-accent-hover) !important;
+}
+
+/* Chosen result item in grid (凹陷锁定状态) */
+.theme-pixel .hex-item--chosen {
+  background: var(--clr-primary) !important;
+  transform: scale(1.2) !important;
+  box-shadow: none !important;
+}
+
+.theme-pixel .hex-item--chosen .hex-item-inner {
+  background: var(--clr-primary) !important; /* Black filled */
+}
+
+.theme-pixel .hex-item--chosen .hex-item__name {
+  color: var(--clr-accent) !important; /* Green text */
+  opacity: 1 !important;
+}
+
+.theme-pixel .hex-item--chosen .hex-item__emoji {
+  transform: scale(1.2) rotate(-5deg) !important;
+}
+
+/* Dimmed other items */
+.theme-pixel .hex-item--dimmed {
+  opacity: 0.2 !important;
+  filter: grayscale(1) !important;
+}
+
+/* ── 7. RPG TEXT BOX PRIZE MODAL ── */
+.theme-pixel .rp-result {
+  background: transparent !important;
+}
+
+/* Retro dithered dot backdrop */
+.theme-pixel .rp-result__glass-panel {
+  background-color: rgba(14, 15, 12, 0.45) !important;
+  background-image: radial-gradient(rgba(14, 15, 12, 0.6) 25%, transparent 25%) !important;
+  background-size: 4px 4px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.theme-pixel .rp-result__card {
+  background: var(--clr-surface) !important;
+  border: 4px solid var(--clr-primary) !important;
+  border-radius: 0px !important; /* Complete sharp box */
+  box-shadow: 6px 6px 0px var(--clr-primary) !important;
+  outline: 2px solid var(--clr-surface) !important;
+  outline-offset: -8px !important; /* Double border inlay */
+  padding: 48px 40px !important;
+  max-width: 440px !important;
+  transform: translateY(16px) !important;
+  transition: transform 0.3s steps(4), opacity 0.3s steps(4) !important;
+}
+
+.theme-pixel .rp-result--visible .rp-result__card {
+  transform: translateY(0) !important;
+}
+
+/* Close Button (Pixel Card style) */
+.theme-pixel .rp-result__close {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  transition: all 150ms ease !important;
+  top: 16px !important;
+  right: 16px !important;
+  transform: translate(0, 0) !important;
+}
+
+.theme-pixel .rp-result__close:hover {
+  background: var(--clr-danger) !important;
+  color: #ffffff !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .rp-result__close:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+/* Square Portrait Picture Frame */
+.theme-pixel .rp-result__emoji-wrapper {
+  width: 96px !important;
+  height: 96px !important;
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-bg) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  margin: 0 auto 24px !important;
+}
+
+.theme-pixel .rp-result__emoji {
+  font-size: 50px !important;
+  transition: transform 0.5s steps(4) !important;
+}
+
+.theme-pixel .rp-result__name {
+  font-family: var(--ff-pixel) !important;
+  color: var(--clr-primary) !important;
+  font-weight: 800 !important;
+  font-size: 2.25rem !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 6px !important;
+  text-transform: uppercase !important;
+}
+
+/* Typer cursor effect */
+.theme-pixel .rp-result__name::after {
+  content: " █" !important;
+  color: var(--clr-accent) !important;
+  animation: pixel-blink 0.8s steps(2) infinite !important;
+}
+
+.theme-pixel .rp-result__tagline {
+  font-family: var(--ff-mono) !important;
+  color: var(--clr-primary-light) !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 32px !important;
+}
+
+/* Modal Cartridge Action Buttons */
+.theme-pixel .rp-result__watch-btn,
+.theme-pixel .rp-result__again-btn {
+  font-family: var(--ff-pixel) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  transition: all 150ms ease !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  padding: 14px 28px !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.02em !important;
+  transform: translate(0, 0) !important;
+}
+
+.theme-pixel .rp-result__watch-btn {
+  background: var(--clr-accent) !important; /* Wise Green primary */
+  color: var(--clr-primary) !important;      /* Ink */
+}
+
+.theme-pixel .rp-result__watch-btn:hover {
+  background: var(--clr-accent-hover) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .rp-result__watch-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .rp-result__again-btn {
+  background: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .rp-result__again-btn:hover {
+  background: var(--clr-surface-hover) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .rp-result__again-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+/* ── 8. EFFECT PARTICLE RETRO-PIXEL OVERRIDES ── */
+.theme-pixel .hex-confetti {
+  clip-path: none !important; /* Square pixel blocks */
+  border: 1.5px solid #0e0f0c !important;
+  border-radius: 0px !important;
+}
+
+/* Caret Blinking Animation */
+@keyframes pixel-blink {
+  50% { opacity: 0; }
 }

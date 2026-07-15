@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch Later - AnimalVerse</title>
+  <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/pages/favorites.css">
+</head>
+<body class="theme-pixel">
+<div class="app-layout" id="app-layout">
+  <!-- Header injected via data-include -->
+  <div data-include="header"></div>
+
+  <!-- Sidebar injected via data-include -->
+  <div data-include="sidebar"></div>
+
+  <main class="main" id="main-content">
+    <div class="watch-later-page">
+      <h1>Watch Later</h1>
+
+      <div class="video-grid" id="watch-later-grid">
+        <div class="empty-state">
+          <p class="text-muted">Loading your watch later list...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer injected via data-include -->
+  <div data-include="footer"></div>
+</div>
+
+<!-- Chatbot + Toast injected via data-include -->
+<div data-include="chatbot"></div>
+
+<script defer src="js/include.js"></script>
+<script defer src="js/config.js"></script>
+  <script defer src="js/species-map.js"></script>
+<script defer src="js/utils.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/router.js"></script>
+<script defer src="js/theme.js"></script>
+<script defer src="js/favorites.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/navigation.js"></script>
+<script defer src="js/watch-later.js"></script>
+<script defer src="js/chatbot.js"></script>
+<script defer src="js/app.js"></script>
+</body>
+</html>

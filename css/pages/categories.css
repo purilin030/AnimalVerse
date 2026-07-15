@@ -157,7 +157,13 @@
   background-image: url('../../assets/images/categories/Amphibians1.webp');
 }
 .category-card--aquatic .category-card__media {
+  background-image: url('../../assets/images/categories/Fish1.webp');
+}
+.category-card--fish .category-card__media {
   background-image: url('../../assets/images/categories/Aquatic1.webp');
+}
+.category-card--invertebrates .category-card__media {
+  background-image: url('../../assets/images/categories/Invertebrates1.webp');
 }
 
 /* Hover images (2) per category — swap on hover */
@@ -174,7 +180,13 @@
   background-image: url('../../assets/images/categories/Amphibians2.webp');
 }
 .category-card--aquatic:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Fish2.webp');
+}
+.category-card--fish:hover .category-card__media {
   background-image: url('../../assets/images/categories/Aquatic2.webp');
+}
+.category-card--invertebrates:hover .category-card__media {
+  background-image: url('../../assets/images/categories/Invertebrates2.webp');
 }
 /* Swipe effect (the diagonal swipe from Uiverse card) */
 .category-card__media::before {
@@ -270,6 +282,8 @@
 .category-card--reptiles .category-card__glow { background: rgba(46, 173, 75, 0.45); } /* Emerald */
 .category-card--amphibians .category-card__glow { background: rgba(197, 237, 171, 0.45); } /* Pale green */
 .category-card--aquatic .category-card__glow { background: rgba(168, 85, 247, 0.45); } /* Purple */
+.category-card--fish .category-card__glow { background: rgba(38, 198, 218, 0.45); } /* Cyan */
+.category-card--invertebrates .category-card__glow { background: rgba(255, 112, 67, 0.45); } /* Orange */
 
 .category-card:hover .category-card__glow {
   top: 10%;
@@ -303,4 +317,136 @@
     max-width: 320px;
     margin: 0 auto;
   }
+}
+
+/* ============================================================
+   Retro Pixel Scoped Styles for Categories Page
+   ============================================================ */
+
+/* 1. Header & Typography overrides */
+.theme-pixel .categories-eyebrow {
+  font-family: var(--ff-pixel) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  color: var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important; /* Square corners */
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  padding: 4px 12px !important;
+  margin-bottom: var(--space-md) !important;
+}
+
+[data-theme="dark"].theme-pixel .categories-eyebrow {
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+  border-color: var(--clr-primary) !important;
+}
+
+.theme-pixel .page-title {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .title-accent {
+  color: var(--clr-accent) !important;
+}
+
+[data-theme="dark"].theme-pixel .title-accent {
+  color: var(--clr-accent) !important;
+}
+
+.theme-pixel .page-subtitle {
+  font-family: var(--ff-body) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* 2. Grid & Cards */
+.theme-pixel .categories-page-grid {
+  gap: 24px !important;
+}
+
+.theme-pixel .category-card {
+  border-radius: 0px !important; /* Cancel rounded corners */
+  border: 3px solid var(--clr-primary) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* YouTube Mode Overrides if applicable (matches project style) */
+[data-theme^="youtube"].theme-pixel .category-card {
+  box-shadow: 4px 4px 0px var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"].theme-pixel .category-card:hover {
+  box-shadow: 6px 6px 0px var(--clr-primary), 8px 8px 20px rgba(255, 0, 60, 0.14) !important;
+}
+
+.theme-pixel .category-card__inner {
+  inset: 0px !important; /* Cover the whole area */
+  border-radius: 0px !important;
+  background: var(--clr-surface) !important;
+  padding: var(--space-sm) !important; /* Cozy padding */
+  border: none !important;
+}
+
+/* Media Viewport */
+.theme-pixel .category-card__media {
+  border-radius: 0px !important;
+  border: 2px solid var(--clr-primary) !important;
+  background-color: var(--clr-bg-alt) !important;
+}
+
+/* Hover diagonal swipe in retro is not needed or we can keep it, but removing blurry/glow is crucial */
+.theme-pixel .category-card__glow {
+  display: none !important; /* Block all blurry glows */
+}
+
+/* 3. Card Typography & Icons */
+.theme-pixel .category-card__name {
+  font-family: var(--ff-pixel) !important;
+  font-size: 1.25rem !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .category-card__count {
+  font-family: var(--ff-mono) !important;
+  font-size: 12px !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* Arrow transition */
+.theme-pixel .category-card__arrow {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+  padding: 2px !important;
+  width: 24px !important;
+  height: 24px !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+  opacity: 0 !important;
+  transform: translateX(-4px) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.theme-pixel .category-card:hover .category-card__arrow {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+  background: var(--clr-accent) !important;
+}
+
+/* Active State: Spring Press feedback */
+.theme-pixel .category-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .category-card:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
 }

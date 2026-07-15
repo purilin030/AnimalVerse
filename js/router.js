@@ -10,6 +10,9 @@ App.router = (function() {
   function getCurrentPage() {
     var path = window.location.pathname;
     var page = path.split('/').pop();
+    if (page && page.indexOf('.') === -1) {
+      page += '.html';
+    }
     return page || 'home.html';
   }
 

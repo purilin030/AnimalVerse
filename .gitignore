@@ -27,3 +27,5 @@ build/
 assets/images/library/
 assets/images/Marquee - backup high quality images/
 
+# Understand-Anything
+.ua/

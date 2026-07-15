@@ -42,6 +42,9 @@
       case 'liked_vid.html':
         if (App.likedPage) App.likedPage.init();
         break;
+      case 'watch_later.html':
+        if (App.watchLaterPage) App.watchLaterPage.init();
+        break;
       case 'dashboard.html':
         if (App.dashboard) App.dashboard.init();
         break;

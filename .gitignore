@@ -29,3 +29,6 @@ assets/images/Marquee - backup high quality images/
 
 # Understand-Anything
 .ua/
+
+# API Key (local override — contains real key)
+js/config.key.js

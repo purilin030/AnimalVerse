@@ -17,6 +17,48 @@ App.data = (function() {
   // 运行时缓存：存储 API 动态获取的 YouTube 视频（供 playback 页查找）
   var _ytRuntimeCache = {};
 
+  /**
+   * 将 YouTube 视频缓存到 sessionStorage（跨页面持久化）
+   */
+  function _cacheYtToSession(id, video) {
+    try {
+      sessionStorage.setItem('ytv_' + id, JSON.stringify(video));
+    } catch (e) {
+      console.warn('[YT Cache] sessionStorage write failed for ' + id + ':', e.message);
+    }
+  }
+
+  /**
+   * 从 sessionStorage 恢复 YouTube 视频缓存
+   */
+  function _restoreYtFromSession(id) {
+    try {
+      var raw = sessionStorage.getItem('ytv_' + id);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        // 校验关键字段，防止被篡改的数据进入运行时
+        if (!parsed || !parsed.id || !parsed.source) return null;
+        _ytRuntimeCache[id] = parsed;
+        return parsed;
+      }
+    } catch (e) {
+      console.warn('[YT Cache] sessionStorage read failed for ' + id + ':', e.message);
+    }
+    return null;
+  }
+
+  /**
+   * 批量缓存 YouTube 视频到运行时 + sessionStorage
+   */
+  function _cacheYoutubeResults(videos) {
+    for (var i = 0; i < videos.length; i++) {
+      if (videos[i] && videos[i].id) {
+        _ytRuntimeCache[videos[i].id] = videos[i];
+        _cacheYtToSession(videos[i].id, videos[i]);
+      }
+    }
+  }
+
   function buildLocalImageMap() {
     if (!cache || !cache.videos) return;
     for (var i = 0; i < cache.videos.length; i++) {
@@ -320,44 +362,12 @@ App.data = (function() {
   /**
    * Get a single video by ID
    */
-  /**
-   * 将 YouTube 视频缓存到 sessionStorage（跨页面持久化）
-   */
-  function _cacheYtToSession(id, video) {
-    try {
-      sessionStorage.setItem('ytv_' + id, JSON.stringify(video));
-    } catch (e) {
-      // sessionStorage 满或不可用时静默失败
-    }
-  }
-
-  /**
-   * 从 sessionStorage 恢复 YouTube 视频缓存
-   */
-  function _restoreYtFromSession(id) {
-    try {
-      var raw = sessionStorage.getItem('ytv_' + id);
-      if (raw) {
-        var parsed = JSON.parse(raw);
-        // 恢复到运行时缓存方便后续使用
-        _ytRuntimeCache[id] = parsed;
-        return parsed;
-      }
-    } catch (e) { /* ignore */ }
-    return null;
-  }
-
   function getVideoById(id) {
-    // YouTube 视频
+    // YouTube 视频：优先内存缓存 → sessionStorage → 静态列表
     if (id && id.indexOf('yt-') === 0) {
-      // 优先检查内存缓存和 sessionStorage 持久化缓存
-      // 这样 API 动态加载的视频在 playback 页面也能找到
-      // 1. 运行时缓存
       if (_ytRuntimeCache[id]) return _ytRuntimeCache[id];
-      // 2. sessionStorage（跨页面导航）
       var fromSession = _restoreYtFromSession(id);
       if (fromSession) return fromSession;
-      // 3. 静态列表（硬编码的 15 个备用视频）
       return youtubeVideos.find(function(v) { return v.id === id; }) || null;
     }
     // 本地视频：从已加载的 cache 查找
@@ -381,31 +391,23 @@ App.data = (function() {
   }
 
   /**
-   * Filter videos by options
+   * Shared filter + sort logic for both local and YouTube video arrays.
+   * @param {Array} videos - Source video array
+   * @param {object} options - { category, tag, query, region, sort }
+   * @returns {Array} Filtered and sorted copy
    */
-  function filterVideos(options) {
-    if (!cache) return [];
+  function _filterAndSort(videos, options) {
     options = options || {};
-    var results = cache.videos.slice();
+    var results = videos.slice();
 
-    // Filter by category
     if (options.category && options.category !== 'all') {
       results = results.filter(function(v) { return v.category === options.category; });
     }
-
-    // Filter by tag
     if (options.tag) {
       results = results.filter(function(v) {
         return v.tags && v.tags.indexOf(options.tag) !== -1;
       });
     }
-
-    // Filter by featured
-    if (options.featured) {
-      results = results.filter(function(v) { return v.featured; });
-    }
-
-    // Search query
     if (options.query) {
       var q = options.query.toLowerCase();
       results = results.filter(function(v) {
@@ -414,8 +416,6 @@ App.data = (function() {
                (v.location && v.location.name && v.location.name.toLowerCase().indexOf(q) !== -1);
       });
     }
-
-    // Filter by region for nearby
     if (options.region) {
       var region = options.region.toLowerCase();
       results = results.filter(function(v) {
@@ -423,8 +423,6 @@ App.data = (function() {
                v.location.region.toLowerCase() === region;
       });
     }
-
-    // Sort
     if (options.sort === 'newest') {
       results.sort(function(a, b) { return new Date(b.dateAdded) - new Date(a.dateAdded); });
     } else if (options.sort === 'oldest') {
@@ -434,60 +432,27 @@ App.data = (function() {
     } else if (options.sort === 'popular') {
       results.sort(function(a, b) { return (b.views || 0) - (a.views || 0); });
     }
-
     return results;
   }
 
   /**
-   * Filter YouTube videos by options (mirrors filterVideos logic)
+   * Filter local videos by options
+   */
+  function filterVideos(options) {
+    if (!cache) return [];
+    var results = _filterAndSort(cache.videos, options);
+    // featured filter is local-only
+    if (options && options.featured) {
+      results = results.filter(function(v) { return v.featured; });
+    }
+    return results;
+  }
+
+  /**
+   * Filter YouTube videos by options
    */
   function filterYoutubeVideos(options) {
-    options = options || {};
-    var results = youtubeVideos.slice();
-
-    // Filter by category
-    if (options.category && options.category !== 'all') {
-      results = results.filter(function(v) { return v.category === options.category; });
-    }
-
-    // Filter by tag
-    if (options.tag) {
-      results = results.filter(function(v) {
-        return v.tags && v.tags.indexOf(options.tag) !== -1;
-      });
-    }
-
-    // Search query
-    if (options.query) {
-      var q = options.query.toLowerCase();
-      results = results.filter(function(v) {
-        return v.title.toLowerCase().indexOf(q) !== -1 ||
-               v.description.toLowerCase().indexOf(q) !== -1 ||
-               (v.location && v.location.name && v.location.name.toLowerCase().indexOf(q) !== -1);
-      });
-    }
-
-    // Filter by region
-    if (options.region) {
-      var region = options.region.toLowerCase();
-      results = results.filter(function(v) {
-        return v.location && v.location.region &&
-               v.location.region.toLowerCase() === region;
-      });
-    }
-
-    // Sort
-    if (options.sort === 'newest') {
-      results.sort(function(a, b) { return new Date(b.dateAdded) - new Date(a.dateAdded); });
-    } else if (options.sort === 'oldest') {
-      results.sort(function(a, b) { return new Date(a.dateAdded) - new Date(b.dateAdded); });
-    } else if (options.sort === 'az') {
-      results.sort(function(a, b) { return a.title.localeCompare(b.title); });
-    } else if (options.sort === 'popular') {
-      results.sort(function(a, b) { return (b.views || 0) - (a.views || 0); });
-    }
-
-    return results;
+    return _filterAndSort(youtubeVideos, options);
   }
 
   /**
@@ -537,14 +502,7 @@ App.data = (function() {
 
     // API 可用：动态搜索
     return App.youtubeApi.search(options, pageToken).then(function(result) {
-      // 将结果加入运行时缓存 + sessionStorage（供 playback 页跨页面查找）
-      var videos = result.videos || [];
-      for (var vi = 0; vi < videos.length; vi++) {
-        if (videos[vi] && videos[vi].id) {
-          _ytRuntimeCache[videos[vi].id] = videos[vi];
-          _cacheYtToSession(videos[vi].id, videos[vi]);
-        }
-      }
+      _cacheYoutubeResults(result.videos || []);
       // 如果 API 返回空且第一页，fallback 到静态
       if ((!result.videos || result.videos.length === 0) && !pageToken) {
         return {
@@ -572,14 +530,7 @@ App.data = (function() {
   function nextYoutubePage(options) {
     if (isYoutubeApiEnabled()) {
       return App.youtubeApi.nextPage(options).then(function(result) {
-        // 缓存翻页结果到内存 + sessionStorage
-        var videos = result.videos || [];
-        for (var vi = 0; vi < videos.length; vi++) {
-          if (videos[vi] && videos[vi].id) {
-            _ytRuntimeCache[videos[vi].id] = videos[vi];
-            _cacheYtToSession(videos[vi].id, videos[vi]);
-          }
-        }
+        _cacheYoutubeResults(result.videos || []);
         return result;
       });
     }

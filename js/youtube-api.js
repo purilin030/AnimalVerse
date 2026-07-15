@@ -236,25 +236,29 @@ App.youtubeApi = (function() {
       '&id=' + batchIds.join(',') +
       '&key=' + API_KEY;
 
+    // Build lookup map for O(1) access instead of O(n) inner loop
+    var videoMap = {};
+    for (var k = 0; k < allVideos.length; k++) {
+      if (allVideos[k] && allVideos[k].videoId) {
+        videoMap[allVideos[k].videoId] = allVideos[k];
+      }
+    }
+
     return fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data.items) return;
         for (var i = 0; i < data.items.length; i++) {
           var item = data.items[i];
-          var ytId = item.id;
-          // 在 allVideos 中找到匹配项并更新
-          for (var j = 0; j < allVideos.length; j++) {
-            if (allVideos[j] && allVideos[j].videoId === ytId) {
-              var duration = item.contentDetails ? item.contentDetails.duration : null;
-              if (duration) {
-                allVideos[j].duration = _parseDuration(duration);
-              }
-              var stats = item.statistics || {};
-              allVideos[j].views = parseInt(stats.viewCount, 10) || 0;
-              break;
-            }
+          var target = videoMap[item.id];
+          if (!target) continue;
+
+          var duration = item.contentDetails ? item.contentDetails.duration : null;
+          if (duration) {
+            target.duration = _parseDuration(duration);
           }
+          var stats = item.statistics || {};
+          target.views = parseInt(stats.viewCount, 10) || 0;
         }
       })
       .catch(function() {

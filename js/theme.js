@@ -8,6 +8,11 @@ App.theme = (function() {
   var YT_KEY = App.config.localStorageKeys.youtubeMode;
   var _savedTheme = null;
 
+  // Transition timing constants (ms)
+  var THEME_SWITCH_DELAY = 280;    // delay before switching theme mid-wipe
+  var MASK_FADE_START = 580;       // when mask begins fading out
+  var MASK_FADE_DURATION = 400;    // fade-out animation length
+
   /**
    * Get the current/preferred theme
    */
@@ -70,9 +75,7 @@ App.theme = (function() {
     if (!isYoutubeMode()) return;
     var restoreTheme = _savedTheme || 'light';
     _savedTheme = null;
-    localStorage.removeItem(YT_KEY);
-    document.documentElement.setAttribute('data-theme', restoreTheme);
-    localStorage.setItem(KEY, restoreTheme);
+    setTheme(restoreTheme);
     document.body.classList.remove('theme-youtube');
   }
 
@@ -120,19 +123,19 @@ App.theme = (function() {
     // Expand the mask (wipe screen)
     mask.classList.add('active');
 
-    // Change theme midway (after 280ms)
+    // Change theme midway
     setTimeout(function() {
       setTheme(nextTheme);
       if (callback) callback();
-    }, 280);
+    }, THEME_SWITCH_DELAY);
 
     // Fade out and remove mask
     setTimeout(function() {
       mask.classList.add('fade-out');
       setTimeout(function() {
         mask.remove();
-      }, 400);
-    }, 580);
+      }, MASK_FADE_DURATION);
+    }, MASK_FADE_START);
   }
 
   /**
@@ -148,7 +151,8 @@ App.theme = (function() {
 
     changeThemeWithTransition(nextTheme, function() {
       if (nowActive) {
-        _savedTheme = _isYoutubeTheme(currentTheme) ? currentTheme : 'light';
+        // Preserve the underlying light/dark preference, not a youtube variant
+        _savedTheme = _isYoutubeTheme(currentTheme) ? (_savedTheme || 'light') : currentTheme;
         localStorage.setItem(YT_KEY, 'true');
         document.body.classList.add('theme-youtube');
       } else {

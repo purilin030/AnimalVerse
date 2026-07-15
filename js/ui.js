@@ -79,39 +79,45 @@ App.ui = (function() {
   }
 
   /**
-   * Create a video card DOM element (safe DOM methods, no innerHTML)
-   * Retro pixel style — separate thumb/body links, actions bar as sibling
+   * Extract a display-friendly animal label from a video
+   * @returns {string} Uppercase label, or '' if none found
    */
-  function createVideoCard(video) {
-    if (!video) return null;
+  function _extractAnimalLabel(video) {
+    var animalSlug = '';
+    if (video.id && video.id.indexOf('video-') === 0) {
+      var parts = video.id.split('-');
+      if (parts.length >= 3) {
+        animalSlug = parts.slice(1, -1).join('-');
+      }
+    } else if (video.source === 'youtube' && video.title) {
+      var titleWords = video.title.split(' ');
+      var skipWords = ['the', 'a', 'an', 'of', 'in', 'on', 'at', 'bbc', 'nat', 'geo', 'wild', 'earth', 'planet', 'blue'];
+      var ytName = '';
+      for (var ti = 0; ti < titleWords.length && ytName.split(' ').length < 2; ti++) {
+        var word = titleWords[ti].replace(/[^a-zA-Z]/g, '');
+        if (word.length > 2 && skipWords.indexOf(word.toLowerCase()) === -1) {
+          ytName += (ytName ? ' ' : '') + word;
+        }
+      }
+      animalSlug = ytName.toLowerCase().replace(/\s+/g, '-');
+    }
+    return animalSlug ? animalSlug.replace(/-/g, ' ').toUpperCase() : '';
+  }
 
-    var isFav = App.favorites.isFavorite(video.id);
+  /**
+   * Build the thumbnail wrapper element for a video card
+   */
+  function _buildThumbnailWrapper(video) {
     var defaultImg = 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp';
     var thumbnailSrc = video.gbifThumbnail || video.thumbnail || defaultImg;
     var localFallback = video.thumbnail || defaultImg;
     var categoryName = video.category || 'unknown';
-    var playbackUrl = 'playback.html?id=' + encodeURIComponent(video.id);
-
     var aspect = App.utils.getVideoAspect(video.id);
-    var aspectClass = aspect.className;
 
-    // Card container
-    var card = document.createElement('div');
-    card.className = 'video-card';
-    card.setAttribute('data-id', video.id);
-
-    // ── Thumb link (wraps only the image area) ──
-    var thumbLink = document.createElement('a');
-    thumbLink.href = playbackUrl;
-    thumbLink.className = 'video-card__thumb-link';
-    card.appendChild(thumbLink);
-
-    // Thumbnail wrapper
     var thumbWrap = document.createElement('div');
-    thumbWrap.className = 'video-card__thumbnail-wrapper ' + aspectClass;
-    thumbLink.appendChild(thumbWrap);
+    thumbWrap.className = 'video-card__thumbnail-wrapper ' + aspect.className;
 
-    // Source tag — top-left (e.g. YOUTUBE, PEXELS)
+    // Source tag
     if (video.source) {
       var sourceTag = document.createElement('span');
       sourceTag.className = 'video-card__source-tag';
@@ -119,7 +125,7 @@ App.ui = (function() {
       thumbWrap.appendChild(sourceTag);
     }
 
-    // Category tag — top-right (relocated from top-left)
+    // Category tag
     var catTag = document.createElement('span');
     catTag.className = 'video-card__category-tag video-card__category-tag--' + categoryName;
     catTag.textContent = categoryName;
@@ -134,7 +140,6 @@ App.ui = (function() {
     img.decoding = 'async';
     img.setAttribute('data-local', localFallback);
     if (video.source === 'youtube') {
-      // YouTube 封面加载失败时显示通用占位图，不 fallback 到本地动物图
       var YT_PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent(
         '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">' +
         '<rect fill="#f0f0f0" width="320" height="180"/>' +
@@ -152,27 +157,8 @@ App.ui = (function() {
     }
     thumbWrap.appendChild(img);
 
-    // Animal tag — bottom-left
-    var animalSlug = '';
-    if (video.id && video.id.indexOf('video-') === 0) {
-      var parts = video.id.split('-');
-      if (parts.length >= 3) {
-        animalSlug = parts.slice(1, -1).join('-');
-      }
-    } else if (video.source === 'youtube' && video.title) {
-      // YouTube 视频：从标题中提取前 1-2 个单词作为动物名
-      var titleWords = video.title.split(' ');
-      var skipWords = ['the', 'a', 'an', 'of', 'in', 'on', 'at', 'bbc', 'nat', 'geo', 'wild', 'earth', 'planet', 'blue'];
-      var ytName = '';
-      for (var ti = 0; ti < titleWords.length && ytName.split(' ').length < 2; ti++) {
-        var word = titleWords[ti].replace(/[^a-zA-Z]/g, '');
-        if (word.length > 2 && skipWords.indexOf(word.toLowerCase()) === -1) {
-          ytName += (ytName ? ' ' : '') + word;
-        }
-      }
-      animalSlug = ytName.toLowerCase().replace(/\s+/g, '-');
-    }
-    var animalLabelText = animalSlug ? animalSlug.replace(/-/g, ' ').toUpperCase() : '';
+    // Animal tag
+    var animalLabelText = _extractAnimalLabel(video);
     if (animalLabelText) {
       var animalTag = document.createElement('span');
       animalTag.className = 'video-card__animal-tag';
@@ -180,36 +166,32 @@ App.ui = (function() {
       thumbWrap.appendChild(animalTag);
     }
 
-    // Duration badge — bottom-right
+    // Duration badge
     var duration = document.createElement('span');
     duration.className = 'video-card__duration';
     duration.textContent = video.duration || '--:--';
     thumbWrap.appendChild(duration);
 
-    // ── Body link (wraps only title + views) ──
-    var bodyLink = document.createElement('a');
-    bodyLink.href = playbackUrl;
-    bodyLink.className = 'video-card__body-link';
-    card.appendChild(bodyLink);
+    return thumbWrap;
+  }
 
-    // Body
+  /**
+   * Build the card body element (title, views, credit)
+   */
+  function _buildCardBody(video) {
     var body = document.createElement('div');
     body.className = 'video-card__body';
-    bodyLink.appendChild(body);
 
-    // Title
     var title = document.createElement('h3');
     title.className = 'video-card__title';
     title.textContent = video.title || '';
     body.appendChild(title);
 
-    // Views
     var views = document.createElement('p');
     views.className = 'video-card__views';
     views.textContent = (video.views || 0).toLocaleString() + ' views';
     body.appendChild(views);
 
-    // Credit (source attribution from sources.json)
     if (video.credit) {
       var credit = document.createElement('p');
       credit.className = 'video-card__credit';
@@ -217,19 +199,52 @@ App.ui = (function() {
       body.appendChild(credit);
     }
 
-    // ── Actions bar (sibling of links — no nested interactive elements) ──
+    return body;
+  }
+
+  /**
+   * Build the actions bar (favorite, play, share buttons)
+   */
+  function _buildActionsBar(video) {
+    var isFav = App.favorites.isFavorite(video.id);
     var actions = document.createElement('div');
     actions.className = 'video-card__actions';
-    card.appendChild(actions);
-
-    // Favorite button
     actions.appendChild(createActionBtn('favorite', isFav, video.id));
-
-    // Play button
     actions.appendChild(createActionBtn('play', false, video.id));
-
-    // Share button
     actions.appendChild(createActionBtn('share', false, video.id));
+    return actions;
+  }
+
+  /**
+   * Create a video card DOM element (safe DOM methods, no innerHTML)
+   * Retro pixel style — separate thumb/body links, actions bar as sibling
+   */
+  function createVideoCard(video) {
+    if (!video) return null;
+
+    var playbackUrl = 'playback.html?id=' + encodeURIComponent(video.id);
+
+    // Card container
+    var card = document.createElement('div');
+    card.className = 'video-card';
+    card.setAttribute('data-id', video.id);
+
+    // Thumb link (wraps only the image area)
+    var thumbLink = document.createElement('a');
+    thumbLink.href = playbackUrl;
+    thumbLink.className = 'video-card__thumb-link';
+    thumbLink.appendChild(_buildThumbnailWrapper(video));
+    card.appendChild(thumbLink);
+
+    // Body link (wraps title + views)
+    var bodyLink = document.createElement('a');
+    bodyLink.href = playbackUrl;
+    bodyLink.className = 'video-card__body-link';
+    bodyLink.appendChild(_buildCardBody(video));
+    card.appendChild(bodyLink);
+
+    // Actions bar (sibling of links — no nested interactive elements)
+    card.appendChild(_buildActionsBar(video));
 
     return card;
   }
@@ -272,69 +287,71 @@ App.ui = (function() {
   }
 
   /**
-   * Attach card action button listeners to a container (favorite, play, share)
+   * Attach card action button listeners via event delegation.
+   * Uses a flag to avoid binding duplicate listeners on the same container.
    */
   function attachFavoriteListeners(container) {
     container = container || document;
-    var buttons = container.querySelectorAll('.video-card__action-btn');
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var btn = this;
-        var type = btn.getAttribute('data-type');
-        var videoId = btn.getAttribute('data-id');
-        var playbackUrl = 'playback.html?id=' + encodeURIComponent(videoId);
+    // Prevent re-binding on the same container
+    if (container._actionsDelegated) return;
+    container._actionsDelegated = true;
 
-        if (type === 'favorite') {
-          var added = App.favorites.toggleFavorite(videoId);
-          var svg = btn.querySelector('svg');
-          if (added) {
-            btn.classList.add('video-card__action-btn--active');
-            if (svg) {
-              svg.setAttribute('fill', 'currentColor');
-              svg.setAttribute('stroke', 'currentColor');
-            }
-            btn.setAttribute('aria-label', 'Remove from favorites');
-            showToast('Added to favorites!', 'success');
-          } else {
-            btn.classList.remove('video-card__action-btn--active');
-            if (svg) {
-              svg.setAttribute('fill', 'none');
-              svg.setAttribute('stroke', 'currentColor');
-            }
-            btn.setAttribute('aria-label', 'Add to favorites');
-            showToast('Removed from favorites', 'info');
+    container.addEventListener('click', function(e) {
+      var btn = e.target.closest('.video-card__action-btn');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      var type = btn.getAttribute('data-type');
+      var videoId = btn.getAttribute('data-id');
+      var playbackUrl = 'playback.html?id=' + encodeURIComponent(videoId);
+
+      if (type === 'favorite') {
+        var added = App.favorites.toggleFavorite(videoId);
+        var svg = btn.querySelector('svg');
+        if (added) {
+          btn.classList.add('video-card__action-btn--active');
+          if (svg) {
+            svg.setAttribute('fill', 'currentColor');
+            svg.setAttribute('stroke', 'currentColor');
           }
-        } else if (type === 'play') {
-          window.location.href = playbackUrl;
-        } else if (type === 'share') {
-          // Copy playback URL to clipboard
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(window.location.origin + '/' + playbackUrl).then(function() {
-              showToast('Link copied to clipboard!', 'success');
-            }).catch(function() {
-              showToast('Failed to copy link', 'error');
-            });
-          } else {
-            // Fallback for older browsers
-            var textarea = document.createElement('textarea');
-            textarea.value = window.location.origin + '/' + playbackUrl;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-              document.execCommand('copy');
-              showToast('Link copied to clipboard!', 'success');
-            } catch (err) {
-              showToast('Failed to copy link', 'error');
-            }
-            document.body.removeChild(textarea);
+          btn.setAttribute('aria-label', 'Remove from favorites');
+          showToast('Added to favorites!', 'success');
+        } else {
+          btn.classList.remove('video-card__action-btn--active');
+          if (svg) {
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('stroke', 'currentColor');
           }
+          btn.setAttribute('aria-label', 'Add to favorites');
+          showToast('Removed from favorites', 'info');
         }
-      });
-    }
+      } else if (type === 'play') {
+        window.location.href = playbackUrl;
+      } else if (type === 'share') {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(window.location.origin + '/' + playbackUrl).then(function() {
+            showToast('Link copied to clipboard!', 'success');
+          }).catch(function() {
+            showToast('Failed to copy link', 'error');
+          });
+        } else {
+          var textarea = document.createElement('textarea');
+          textarea.value = window.location.origin + '/' + playbackUrl;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            document.execCommand('copy');
+            showToast('Link copied to clipboard!', 'success');
+          } catch (err) {
+            showToast('Failed to copy link', 'error');
+          }
+          document.body.removeChild(textarea);
+        }
+      }
+    });
   }
 
   /**
@@ -352,7 +369,7 @@ App.ui = (function() {
       return;
     }
 
-    container.innerHTML = '';
+    container.textContent = '';
 
     // Determine number of columns based on window width
     var width = window.innerWidth;

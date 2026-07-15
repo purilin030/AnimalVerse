@@ -14,13 +14,16 @@ App.gallery = (function() {
   var videosPerPage = 20;
   var isLoadingMore = false;
 
-  // YouTube mode references
+  // Artificial delay (ms) for local pagination spinner animation
+  var LOAD_MORE_DELAY_MS = 1200;
+
+  // YouTube mode state
   var _ytToggleBtn = null;
   var _ytModeActive = false;
   var _ytNextPageToken = null;    // API page token
-  var _ytHasMore = false;         // whether has more
-  var _ytLoading = false;         // 甇??蝸 API
-  var _ytFromApi = false;         // 敶?雿輻 API 璅∪?
+  var _ytHasMore = false;         // whether more pages exist
+  var _ytLoading = false;         // currently fetching from API
+  var _ytFromApi = false;         // whether current session uses live API
 
   function init() {
     // Read URL params
@@ -57,7 +60,7 @@ App.gallery = (function() {
     loadAndRender();
   }
 
-  // ?? YouTube Mode Toggle ????????????????????????????????????
+  // ── YouTube Mode Toggle ─────────────────────────────────────
 
   /**
    * Create and append the YouTube mode floating toggle button
@@ -138,7 +141,6 @@ App.gallery = (function() {
     }
   }
 
-
   function bindFilters() {
     // Category pills
     var pills = document.querySelectorAll('#category-filters .filter-pill');
@@ -202,102 +204,95 @@ App.gallery = (function() {
     }
   }
 
+  // ── Load & Render (dispatches to YouTube or Library mode) ──
 
   function loadAndRender(onComplete) {
-    var isYt = App.theme.isYoutubeMode();
-
-    if (isYt) {
-      // YouTube mode: use dynamic API search or static fallback
-      _ytLoading = true;
-      _ytFromApi = App.data.isYoutubeApiEnabled();
-      App.data.resetYoutubePagination(currentCategory, currentTag);
-
-      // Show loading
-      var loader = document.getElementById('gallery-loading');
-      if (loader) loader.classList.add('gallery-loading--active');
-
-      App.data.searchYoutubeVideos({
-        category: currentCategory,
-        tag: currentTag,
-        sort: currentSort,
-        maxResults: videosPerPage
-      }, null).then(function(result) {
-        _ytLoading = false;
-        _ytNextPageToken = result.nextPageToken;
-        _ytHasMore = result.hasMore;
-
-        allFilteredResults = result.videos || [];
-
-        // Hide loading spinner
-        if (loader) loader.classList.remove('gallery-loading--active');
-
-        // Reset page counter for local pagination
-        currentPage = 1;
-
-        // Update count badge
-        var countEl = document.getElementById('results-count');
-        if (countEl) {
-          var total = result._fromFallback ? allFilteredResults.length : (result.totalResults || allFilteredResults.length);
-          countEl.textContent = App.utils.pluralize(total, 'video') + (_ytHasMore ? '+' : '');
-        }
-
-        // Render grid
-        App.ui.renderVideoGrid('gallery-grid', allFilteredResults);
-
-        // Execute callback after grid is rendered
-        if (typeof onComplete === 'function') onComplete();
-      }).catch(function() {
-        _ytLoading = false;
-        if (loader) loader.classList.remove('gallery-loading--active');
-
-        // Fallback: show empty state
-        var grid = document.getElementById('gallery-grid');
-        if (grid) {
-          App.ui.renderEmptyState(grid, { text: 'Failed to load YouTube videos.', icon: '?' });
-        }
-        allFilteredResults = [];
-
-        // Execute callback even on failure so the screen reveals
-        if (typeof onComplete === 'function') onComplete();
-      });
-
+    if (App.theme.isYoutubeMode()) {
+      _loadYoutubeMode(onComplete);
     } else {
-      // Normal mode: load from videos.json
-      App.data.loadVideos().then(function() {
-        allFilteredResults = App.data.filterVideos({
-          category: currentCategory,
-          tag: currentTag,
-          sort: currentSort
-        });
-
-        // Hide loading spinner if visible
-        var loader = document.getElementById('gallery-loading');
-        if (loader) loader.classList.remove('gallery-loading--active');
-
-        // Reset page counter
-        currentPage = 1;
-
-        // Update count badge label
-        var countEl = document.getElementById('results-count');
-        if (countEl) {
-          countEl.textContent = App.utils.pluralize(allFilteredResults.length, 'video');
-        }
-        // Render grid
-        var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
-        App.ui.renderVideoGrid('gallery-grid', visibleResults);
-
-        // Execute callback after grid is rendered
-        if (typeof onComplete === 'function') onComplete();
-      });
+      _loadLibraryMode(onComplete);
     }
   }
+
+  /**
+   * YouTube mode: search via API or static fallback, render full result set
+   */
+  function _loadYoutubeMode(onComplete) {
+    _ytLoading = true;
+    _ytFromApi = App.data.isYoutubeApiEnabled();
+    App.data.resetYoutubePagination(currentCategory, currentTag);
+
+    var loader = document.getElementById('gallery-loading');
+    if (loader) loader.classList.add('gallery-loading--active');
+
+    App.data.searchYoutubeVideos({
+      category: currentCategory,
+      tag: currentTag,
+      sort: currentSort,
+      maxResults: videosPerPage
+    }, null).then(function(result) {
+      _ytLoading = false;
+      _ytNextPageToken = result.nextPageToken;
+      _ytHasMore = result.hasMore;
+      allFilteredResults = result.videos || [];
+
+      if (loader) loader.classList.remove('gallery-loading--active');
+      currentPage = 1;
+
+      var countEl = document.getElementById('results-count');
+      if (countEl) {
+        var total = result._fromFallback ? allFilteredResults.length : (result.totalResults || allFilteredResults.length);
+        countEl.textContent = App.utils.pluralize(total, 'video') + (_ytHasMore ? '+' : '');
+      }
+
+      App.ui.renderVideoGrid('gallery-grid', allFilteredResults);
+      if (typeof onComplete === 'function') onComplete();
+    }).catch(function() {
+      _ytLoading = false;
+      if (loader) loader.classList.remove('gallery-loading--active');
+
+      var grid = document.getElementById('gallery-grid');
+      if (grid) {
+        App.ui.renderEmptyState(grid, { text: 'Failed to load YouTube videos.', icon: '?' });
+      }
+      allFilteredResults = [];
+      if (typeof onComplete === 'function') onComplete();
+    });
+  }
+
+  /**
+   * Library mode: load from videos.json, paginate locally
+   */
+  function _loadLibraryMode(onComplete) {
+    App.data.loadVideos().then(function() {
+      allFilteredResults = App.data.filterVideos({
+        category: currentCategory,
+        tag: currentTag,
+        sort: currentSort
+      });
+
+      var loader = document.getElementById('gallery-loading');
+      if (loader) loader.classList.remove('gallery-loading--active');
+
+      currentPage = 1;
+
+      var countEl = document.getElementById('results-count');
+      if (countEl) {
+        countEl.textContent = App.utils.pluralize(allFilteredResults.length, 'video');
+      }
+
+      var visibleResults = allFilteredResults.slice(0, currentPage * videosPerPage);
+      App.ui.renderVideoGrid('gallery-grid', visibleResults);
+      if (typeof onComplete === 'function') onComplete();
+    });
+  }
+
+  // ── Infinite Scroll ───────────────────────────────────────
 
   var scrollTicking = false;
 
   /**
-   * Scroll listener to dynamically load and append next page content
-   * - ?桅芋撘? 隞?allFilteredResults ?砍?△
-   * - YouTube API 璅∪?: 靚 YouTube Data API 蝧駁△
+   * Scroll listener — dispatches to YouTube API pagination or local pagination
    */
   function handleScroll() {
     if (scrollTicking) return;
@@ -306,91 +301,92 @@ App.gallery = (function() {
     requestAnimationFrame(function() {
       if (isLoadingMore || _ytLoading) { scrollTicking = false; return; }
 
-      // Check if user scrolled near bottom of page (within 400px of bottom boundary)
-      if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400) {
+      var nearBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400;
+      if (!nearBottom) { scrollTicking = false; return; }
 
-        // ?? YouTube API 蝧駁△璅∪? ??????????????????????????
-        if (App.theme.isYoutubeMode() && _ytFromApi && _ytHasMore) {
-          _ytLoading = true;
-          isLoadingMore = true;
+      // YouTube API dynamic pagination
+      if (App.theme.isYoutubeMode() && _ytFromApi && _ytHasMore) {
+        _loadNextYoutubeApiPage();
+        return;
+      }
 
-          var loader = document.getElementById('gallery-loading');
-          if (loader) loader.classList.add('gallery-loading--active');
-
-          App.data.nextYoutubePage({
-            category: currentCategory,
-            tag: currentTag,
-            sort: currentSort,
-            maxResults: videosPerPage
-          }).then(function(result) {
-            var newVideos = result.videos || [];
-
-            // ?湔?△?嗆?            _ytNextPageToken = result.nextPageToken;
-            _ytHasMore = result.hasMore;
-
-            // Append to allFilteredResults
-            allFilteredResults = allFilteredResults.concat(newVideos);
-
-            // Append to grid if there are new videos
-            if (newVideos.length > 0) {
-              App.ui.appendToVideoGrid('gallery-grid', newVideos);
-            }
-
-            // Update count
-            var countEl = document.getElementById('results-count');
-            if (countEl) {
-              countEl.textContent = App.utils.pluralize(allFilteredResults.length, 'video') + (_ytHasMore ? '+' : '');
-            }
-
-            if (loader) loader.classList.remove('gallery-loading--active');
-            _ytLoading = false;
-            isLoadingMore = false;
-            scrollTicking = false;
-          }).catch(function() {
-            if (loader) loader.classList.remove('gallery-loading--active');
-            _ytLoading = false;
-            isLoadingMore = false;
-            scrollTicking = false;
-          });
-          return;
-        }
-
-        // ?? ?砍?△璅∪?嚗?芋撘?+ YouTube ??fallback嚗???
-        if (currentPage * videosPerPage < allFilteredResults.length) {
-          isLoadingMore = true;
-
-          // Show loading spinner
-          var loader = document.getElementById('gallery-loading');
-          if (loader) loader.classList.add('gallery-loading--active');
-
-          // Simulated loading timeout for smooth UX transition
-          setTimeout(function() {
-            var prevEnd = currentPage * videosPerPage;  // end index of old page
-            currentPage++;
-            var newEnd = currentPage * videosPerPage;
-
-            // Append only the NEW cards (not all visible cards)
-            var newSlice = allFilteredResults.slice(prevEnd, newEnd);
-            App.ui.appendToVideoGrid('gallery-grid', newSlice);
-
-            // Hide loading spinner
-            if (loader) loader.classList.remove('gallery-loading--active');
-
-            isLoadingMore = false;
-            scrollTicking = false;
-          }, 1200); // 1200ms artificial loading time to make the animation more noticeable
-        } else {
-          scrollTicking = false;
-        }
+      // Local pagination (Library mode + YouTube static fallback)
+      if (currentPage * videosPerPage < allFilteredResults.length) {
+        _loadNextLocalPage();
       } else {
         scrollTicking = false;
       }
     });
   }
 
+  /**
+   * Fetch next page from YouTube Data API and append to grid
+   */
+  function _loadNextYoutubeApiPage() {
+    _ytLoading = true;
+    isLoadingMore = true;
+
+    var loader = document.getElementById('gallery-loading');
+    if (loader) loader.classList.add('gallery-loading--active');
+
+    App.data.nextYoutubePage({
+      category: currentCategory,
+      tag: currentTag,
+      sort: currentSort,
+      maxResults: videosPerPage
+    }).then(function(result) {
+      var newVideos = result.videos || [];
+      _ytNextPageToken = result.nextPageToken;
+      _ytHasMore = result.hasMore;
+
+      allFilteredResults = allFilteredResults.concat(newVideos);
+
+      if (newVideos.length > 0) {
+        App.ui.appendToVideoGrid('gallery-grid', newVideos);
+      }
+
+      var countEl = document.getElementById('results-count');
+      if (countEl) {
+        countEl.textContent = App.utils.pluralize(allFilteredResults.length, 'video') + (_ytHasMore ? '+' : '');
+      }
+
+      if (loader) loader.classList.remove('gallery-loading--active');
+      _ytLoading = false;
+      isLoadingMore = false;
+      scrollTicking = false;
+    }).catch(function() {
+      if (loader) loader.classList.remove('gallery-loading--active');
+      _ytLoading = false;
+      isLoadingMore = false;
+      scrollTicking = false;
+    });
+  }
+
+  /**
+   * Append next local page slice with a brief spinner delay
+   */
+  function _loadNextLocalPage() {
+    isLoadingMore = true;
+
+    var loader = document.getElementById('gallery-loading');
+    if (loader) loader.classList.add('gallery-loading--active');
+
+    setTimeout(function() {
+      var prevEnd = currentPage * videosPerPage;
+      currentPage++;
+      var newEnd = currentPage * videosPerPage;
+
+      var newSlice = allFilteredResults.slice(prevEnd, newEnd);
+      App.ui.appendToVideoGrid('gallery-grid', newSlice);
+
+      if (loader) loader.classList.remove('gallery-loading--active');
+
+      isLoadingMore = false;
+      scrollTicking = false;
+    }, LOAD_MORE_DELAY_MS);
+  }
+
   return {
     init: init
   };
 })();
-
-

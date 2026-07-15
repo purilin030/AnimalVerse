@@ -160,7 +160,7 @@ App.utils = (function() {
       }
     }
 
-    // ── 5. 无匹配：返回第一个有意义的单词 ──────────────────
+    // ── 6. 无匹配：返回第一个有意义的单词 ──────────────────
     var words = clean.split(' ').filter(function(w) { return w.length > 2; });
     return words.length > 0 ? words[0] : null;
   }

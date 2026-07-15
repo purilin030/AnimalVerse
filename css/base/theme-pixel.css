@@ -249,3 +249,394 @@ body.theme-pixel::before {
   transform: translate(-1px, -1px) !important;
   box-shadow: 3px 3px 0px var(--clr-primary) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   YouTube Mode Toggle Button
+   ═══════════════════════════════════════════════════════════ */
+.youtube-toggle-btn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 12px 6px;
+  min-height: 100px;
+  font-family: var(--ff-pixel);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid var(--clr-primary);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: var(--clr-surface);
+  color: var(--clr-primary);
+  box-shadow: -2px 2px 0px var(--clr-primary);
+  transition: all var(--transition-fast);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.youtube-toggle-btn:hover {
+  transform: translateY(-50%) translateX(-2px);
+  box-shadow: -3px 3px 0px var(--clr-primary);
+  background: var(--clr-accent-subtle);
+}
+
+.youtube-toggle-btn:active {
+  transform: translateY(-50%) translateX(2px);
+  box-shadow: -1px 1px 0px var(--clr-primary);
+}
+
+.youtube-toggle-btn:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   YouTube Theme Overrides (background filter, specific components)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Subtle cherry-tinted background overlay + clean 24px pixel grid overlay for Option C */
+[data-theme^="youtube"] body.theme-pixel::before {
+  background-image:
+    url('../../assets/images/bg/sr2e7019e2372aws3.png'),
+    linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px) !important;
+  background-size: cover, 24px 24px, 24px 24px !important;
+  background-position: center, 0 0, 0 0 !important;
+  background-repeat: no-repeat, repeat, repeat !important;
+  filter: hue-rotate(320deg) saturate(1.3) brightness(1.0) !important;
+  opacity: 0.12 !important; /* Display both landscape texture and fine pixel grid */
+}
+
+/* Toast colors in YouTube mode */
+[data-theme^="youtube"] .toast--success {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+}
+
+[data-theme^="youtube"] .toast--info {
+  background: var(--clr-info) !important;
+  color: #ffffff !important;
+}
+
+[data-theme^="youtube"] .toast--error {
+  background: var(--clr-danger) !important;
+  color: #ffffff !important;
+}
+
+/* Filter pills — red active state (general fallback) */
+[data-theme^="youtube"] .filter-pill--active {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"] .filter-pill:hover {
+  border-color: var(--clr-accent) !important;
+}
+
+/* Badge */
+[data-theme^="youtube"] .badge {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+}
+
+/* Sort select custom dropdown in YouTube red */
+[data-theme^="youtube"] .custom-dropdown__item--active {
+  background: var(--clr-accent-subtle) !important;
+  color: var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"] .custom-dropdown__trigger {
+  border-color: var(--clr-primary) !important;
+}
+
+/* Video cards in YouTube mode — Hybrid Shadow (Hard ink offset shadow + soft cherry ambient glow) */
+[data-theme^="youtube"] .video-card {
+  background: var(--clr-surface) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 4px 4px 0px var(--clr-accent) !important;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+[data-theme^="youtube"] .video-card:hover {
+  border-color: var(--clr-primary) !important; /* Keep classic retro black outline */
+  box-shadow: 6px 6px 0px var(--clr-primary), 8px 8px 20px rgba(255, 0, 60, 0.14) !important; /* Hybrid shadow! */
+  transform: translate(-2px, -2px) !important;
+}
+
+[data-theme^="youtube"] .video-card__thumbnail-wrapper {
+  background-color: var(--clr-surface) !important;
+  background-image: repeating-conic-gradient(var(--clr-bg) 0% 25%, transparent 0% 50%) !important;
+  border-bottom-color: var(--clr-primary) !important;
+  position: relative;
+}
+
+/* Watched progress bar simulation on video card thumbnails (Detail injection!) */
+[data-theme^="youtube"] .video-card__thumbnail-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: var(--clr-accent);
+  border-top: 1.5px solid var(--clr-primary);
+  z-index: 5;
+  transition: width 0.3s ease;
+  width: 65%; /* Default progress */
+}
+
+/* Simulating random watch percentages per card index for realism */
+[data-theme^="youtube"] .video-grid > *:nth-child(2n) .video-card__thumbnail-wrapper::after,
+[data-theme^="youtube"] .masonry-column > *:nth-child(2n) .video-card__thumbnail-wrapper::after {
+  width: 45%;
+}
+[data-theme^="youtube"] .video-grid > *:nth-child(3n) .video-card__thumbnail-wrapper::after,
+[data-theme^="youtube"] .masonry-column > *:nth-child(3n) .video-card__thumbnail-wrapper::after {
+  width: 80%;
+}
+[data-theme^="youtube"] .video-grid > *:nth-child(4n) .video-card__thumbnail-wrapper::after,
+[data-theme^="youtube"] .masonry-column > *:nth-child(4n) .video-card__thumbnail-wrapper::after {
+  width: 15%;
+}
+[data-theme^="youtube"] .video-grid > *:nth-child(5n) .video-card__thumbnail-wrapper::after,
+[data-theme^="youtube"] .masonry-column > *:nth-child(5n) .video-card__thumbnail-wrapper::after {
+  width: 95%;
+}
+
+[data-theme^="youtube"] .video-card__source-tag {
+  background: var(--clr-surface) !important;
+  color: var(--clr-text) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+[data-theme^="youtube"] .video-card__action-btn--active svg {
+  color: var(--clr-accent) !important;
+}
+
+/* YouTube source tag special styling */
+[data-theme^="youtube"] .video-card__source-tag[data-source="youtube"] {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+}
+
+/* Player page components */
+[data-theme^="youtube"] .player-iframe {
+  border: 2px solid var(--clr-border) !important;
+}
+
+[data-theme^="youtube"] #related-videos .video-card:hover {
+  border-color: var(--clr-primary) !important;
+  box-shadow: 4px 4px 0px var(--clr-accent) !important;
+}
+
+/* Animal info tabs */
+[data-theme^="youtube"] .animal-info__tab.is-active {
+  border-bottom-color: var(--clr-accent) !important;
+  color: var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"] .animal-info__tab:hover {
+  color: var(--clr-accent) !important;
+}
+
+/* Leaflet map attribution in YouTube mode */
+[data-theme^="youtube"] .leaflet-control-attribution a {
+  color: var(--clr-info) !important;
+}
+
+/* Pixel theme header/footer/sidebar borders */
+[data-theme^="youtube"] .theme-pixel .footer {
+  border-top-color: var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"] .theme-pixel .header {
+  border-bottom-color: var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"] .theme-pixel .sidebar {
+  border-right-color: var(--clr-accent) !important;
+}
+
+/* Category card overrides in youtube mode to use the warm cherry Orchard palette */
+[data-theme^="youtube"] .video-card__category-tag--mammals { background: var(--clr-cat-mammals) !important; color: var(--clr-text-inverse) !important; }
+[data-theme^="youtube"] .video-card__category-tag--birds { background: var(--clr-cat-birds) !important; color: var(--clr-text-inverse) !important; }
+[data-theme^="youtube"] .video-card__category-tag--reptiles { background: var(--clr-cat-reptiles) !important; color: var(--clr-text-inverse) !important; }
+[data-theme^="youtube"] .video-card__category-tag--amphibians { background: var(--clr-cat-amphibians) !important; color: var(--clr-text-inverse) !important; }
+[data-theme^="youtube"] .video-card__category-tag--aquatic { background: var(--clr-cat-aquatic) !important; color: var(--clr-text-inverse) !important; }
+[data-theme^="youtube"] .video-card__category-tag--fish { background: var(--clr-cat-fish) !important; color: var(--clr-text-inverse) !important; }
+[data-theme^="youtube"] .video-card__category-tag--invertebrates { background: var(--clr-cat-invertebrates) !important; color: var(--clr-text-inverse) !important; }
+
+[data-theme^="youtube"] .video-card__category-tag {
+  border-color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+[data-theme^="youtube"] .video-card__duration {
+  background: var(--clr-primary) !important;
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-primary) !important;
+}
+
+[data-theme^="youtube"] .video-card__animal-tag {
+  background: var(--clr-surface) !important;
+  color: var(--clr-text) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+/* YouTube Mode Pixel Override - Category Filter Pills styled as 3D glossy cartridges with ink outlines */
+[data-theme^="youtube"] .theme-pixel .gallery-filters__categories .filter-pill {
+  background: var(--clr-surface) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-top-color: var(--clr-border) !important; /* Flat top border by default */
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  color: var(--clr-text) !important;
+  opacity: 1 !important;
+  padding: 8px 16px !important;
+  margin-bottom: 6px !important;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, background 0.3s ease !important;
+}
+[data-theme^="youtube"] .theme-pixel .gallery-filters__categories .filter-pill svg {
+  color: var(--clr-text) !important;
+}
+[data-theme^="youtube"] .theme-pixel .gallery-filters__categories .filter-pill:hover {
+  background: var(--clr-accent-subtle) !important;
+  border-top-color: #ff8fa3 !important; /* Shiny coral pink highlight on hover */
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+[data-theme^="youtube"] .theme-pixel .gallery-filters__categories .filter-pill--active {
+  background: linear-gradient(180deg, #ff003c 0%, #c9184a 100%) !important; /* Shiny glossy gradient */
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-primary) !important;
+  border-top-color: #ff5e8e !important; /* Shiny 3D edge highlight */
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+  transform: translate(1px, 1px) !important;
+}
+[data-theme^="youtube"] .theme-pixel .gallery-filters__categories .filter-pill--active svg {
+  color: var(--clr-text-inverse) !important;
+}
+
+/* Search results badge */
+[data-theme^="youtube"] .theme-pixel .gallery-page__badge {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+/* Tag chips active state */
+[data-theme^="youtube"] .theme-pixel .tag-chip--active {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+/* Custom Dropdown item active state */
+[data-theme^="youtube"] .theme-pixel .custom-dropdown__item--active {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+}
+
+/* Favorite button active state override for YouTube Mode - Keep ink border & flat offset shadow */
+[data-theme^="youtube"] .video-card__action-btn[data-type="favorite"].video-card__action-btn--active {
+  background: var(--clr-accent) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+  transform: translate(1px, 1px) !important;
+}
+[data-theme^="youtube"] .video-card__action-btn[data-type="favorite"].video-card__action-btn--active svg {
+  color: var(--clr-text-inverse) !important;
+}
+
+/* Chatbot button active/hover state override in YouTube Mode - Keep ink border */
+[data-theme^="youtube"] .theme-pixel .chatbot-btn,
+[data-theme^="youtube"] .theme-pixel.chatbot-btn {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-primary) !important;
+}
+
+/* Sidebar active link LED Notch indicator (Detail injection!) */
+[data-theme^="youtube"] .theme-pixel .sidebar__item--active .sidebar__link {
+  position: relative;
+  background: var(--clr-accent-subtle) !important;
+  color: var(--clr-accent) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+[data-theme^="youtube"] .theme-pixel .sidebar__item--active .sidebar__link::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 12px;
+  background: var(--clr-accent);
+  border: 2px solid var(--clr-primary);
+  box-shadow: 1px 1px 0px var(--clr-primary);
+}
+
+[data-theme^="youtube"] .video-card__action-btn {
+  background: var(--clr-surface) !important;
+  color: var(--clr-text) !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease !important;
+}
+
+[data-theme^="youtube"] .video-card__action-btn:hover {
+  background: var(--clr-accent) !important;
+  color: var(--clr-text-inverse) !important;
+  border-color: var(--clr-primary) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+}
+
+[data-theme^="youtube"] .video-card__action-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+[data-theme^="youtube"] .video-card__action-btn--active {
+  background: var(--clr-bg) !important;
+  color: var(--clr-text) !important;
+}
+
+/* Spotlight transition mask overlay using clip-path circle wipe */
+.theme-transition-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  pointer-events: none;
+  background: var(--clr-primary); /* Wipes Ink Black in Option C */
+  clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+  transition: clip-path 0.58s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: clip-path;
+}
+
+.theme-transition-mask.active {
+  clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+}
+
+.theme-transition-mask.fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease, clip-path 0.4s ease;
+}

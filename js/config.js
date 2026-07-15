@@ -12,11 +12,16 @@ App.config = {
     watchLater: 'animalverse_watchLater',
     likes: 'animalverse_likes',
     sidebarCollapsed: 'animalverse_sidebarCollapsed',
-    theme: 'animalverse_theme'
+    theme: 'animalverse_theme',
+    youtubeMode: 'animalverse_youtube_mode'
   },
   youtube: {
     embedBase: 'https://www.youtube.com/embed/',
-    params: '?autoplay=1&rel=0&modestbranding=1'
+    params: '?autoplay=1&rel=0&modestbranding=1',
+    // YouTube Data API v3 key — 留空则使用静态备用视频列表
+    // 申请地址: https://console.cloud.google.com/apis/library/youtube.googleapis.com
+    // 免费额度: 每天 10,000 配额 (每次搜索消耗 100)
+    apiKey: 'AIzaSyCEY2BAF85-K4j1g9P080N-um1vQYZKTuc'
   },
   regions: {
     'Africa': ['africa', 'savannah', 'serengeti', 'kenya', 'tanzania', 'south africa', 'madagascar'],

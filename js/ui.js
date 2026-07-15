@@ -133,7 +133,23 @@ App.ui = (function() {
     img.loading = 'lazy';
     img.decoding = 'async';
     img.setAttribute('data-local', localFallback);
-    img.onerror = function() { App.ui.fallbackImg(this); };
+    if (video.source === 'youtube') {
+      // YouTube 封面加载失败时显示通用占位图，不 fallback 到本地动物图
+      var YT_PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">' +
+        '<rect fill="#f0f0f0" width="320" height="180"/>' +
+        '<text x="160" y="90" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="14" fill="#999">YouTube</text>' +
+        '<text x="160" y="110" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="11" fill="#bbb">Video unavailable</text>' +
+        '</svg>'
+      );
+      img.onerror = function() {
+        if (this.src.indexOf('data:image/svg') === -1) {
+          this.src = YT_PLACEHOLDER;
+        }
+      };
+    } else {
+      img.onerror = function() { App.ui.fallbackImg(this); };
+    }
     thumbWrap.appendChild(img);
 
     // Animal tag — bottom-left
@@ -143,6 +159,18 @@ App.ui = (function() {
       if (parts.length >= 3) {
         animalSlug = parts.slice(1, -1).join('-');
       }
+    } else if (video.source === 'youtube' && video.title) {
+      // YouTube 视频：从标题中提取前 1-2 个单词作为动物名
+      var titleWords = video.title.split(' ');
+      var skipWords = ['the', 'a', 'an', 'of', 'in', 'on', 'at', 'bbc', 'nat', 'geo', 'wild', 'earth', 'planet', 'blue'];
+      var ytName = '';
+      for (var ti = 0; ti < titleWords.length && ytName.split(' ').length < 2; ti++) {
+        var word = titleWords[ti].replace(/[^a-zA-Z]/g, '');
+        if (word.length > 2 && skipWords.indexOf(word.toLowerCase()) === -1) {
+          ytName += (ytName ? ' ' : '') + word;
+        }
+      }
+      animalSlug = ytName.toLowerCase().replace(/\s+/g, '-');
     }
     var animalLabelText = animalSlug ? animalSlug.replace(/-/g, ' ').toUpperCase() : '';
     if (animalLabelText) {

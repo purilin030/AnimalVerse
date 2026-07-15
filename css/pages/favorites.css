@@ -37,3 +37,105 @@
 }
 
 /* Empty state inherits from sections.css */
+
+/* ============================================================
+   Retro Pixel Scoped Theme Overrides (.theme-pixel)
+   ============================================================ */
+
+.theme-pixel .favorites-page h1 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-bottom: var(--space-xl) !important;
+}
+
+/* Retro Blocky Tabs */
+.theme-pixel .favorites-tabs {
+  border-bottom: 3px solid var(--clr-primary) !important;
+  gap: 6px !important;
+  margin-bottom: var(--space-xl) !important;
+}
+
+.theme-pixel .favorites-tab {
+  border: 3px solid var(--clr-primary) !important;
+  border-bottom: none !important;
+  border-radius: 0px !important;
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-base) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-text-muted) !important;
+  background: var(--clr-bg) !important;
+  padding: 10px 24px !important;
+  margin-bottom: -3px !important;
+  cursor: pointer;
+  transition: all 150ms ease !important;
+}
+
+.theme-pixel .favorites-tab:hover {
+  background: var(--clr-accent-hover) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .favorites-tab--active {
+  background: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+  border-bottom: 3px solid var(--clr-surface) !important;
+  font-weight: var(--fw-black) !important;
+  z-index: 5 !important;
+}
+
+/* Pixelized Empty State / Dialog Box */
+.theme-pixel .empty-state {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: 40px var(--space-lg) !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.theme-pixel .empty-state h2 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .empty-state p {
+  font-family: var(--ff-body) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* Pixelized Buttons */
+.theme-pixel .btn {
+  font-family: var(--ff-pixel) !important;
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast) !important;
+}
+
+.theme-pixel .btn--primary {
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .btn--primary:hover {
+  background: var(--clr-accent-hover) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .btn--primary:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+/* YouTube Theme Mode Overrides */
+[data-theme^="youtube"] .theme-pixel .favorites-tab--active {
+  color: var(--clr-accent) !important;
+}
+

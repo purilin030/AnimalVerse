@@ -100,28 +100,69 @@ App.utils = (function() {
   function extractAnimalName(title) {
     if (!title) return null;
 
-    // Strip common title boilerplate
+    // ── 1. 清理标题 ──────────────────────────────────────────
+    // YouTube 标题常有 "Wild Horses | BBC Earth" 或 "Lion, Tiger, Horse - Compilation"
     var clean = title
-      .replace(/ in its Natural Habitat$/i, '')
-      .replace(/^Fascinating Behavior of /i, '')
-      .replace(/^Fascinating Facts About /i, '')
-      .replace(/^The /i, '')
+      // 移除频道/系列后缀: " | BBC Earth", " - Nat Geo Wild"
+      .replace(/\s*[|–—-]\s*(?:bbc\s*(?:earth|studios|one)?|nat\s*geo(?:graphic)?\s*(?:wild)?|blue\s*planet|national\s*geographic\s*(?:wild)?|documentary|wildlife|animals?\s*(?:documentary|wild)?|4k|nature\s*(?:documentary)?).*$/i, '')
+      // 移除括号内容
+      .replace(/\([^)]*\)/g, '')
+      .replace(/\[[^\]]*\]/g, '')
+      // 移除通用后缀
+      .replace(/\bfull\s+(?:episode|documentary|movie|film)\b.*$/i, '')
+      .replace(/\bin\s+its\s+natural\s+habitat\b.*$/i, '')
+      .replace(/^(?:fascinating\s+(?:behavior|facts)\s+(?:of|about)\s+|the\s+)/i, '')
+      // 去除 emoji
+      .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
+      // 只保留字母、空格、逗号、撇号
+      .replace(/[^a-zA-Z\s,']/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim();
 
     var lower = clean.toLowerCase();
+    if (!lower) return null;
 
-    // Match longest key first to avoid "eagle" shadowing "bald eagle"
+    // ── 2. speciesMap 的 key 列表（按字符数降序） ────────────
+    // 长 key 先匹配确保 "bald eagle" 优先于 "eagle"
     var keys = Object.keys(App.speciesMap).sort(function(a, b) {
       return b.length - a.length;
     });
+
+    // ── 3. 工具：词边界匹配（阻止 "stallion" 匹配到 "lion"） ──
+    // 使用 \b 词边界防止子字符串假阳性
+    // 同时处理复数形式（"lions" → 匹配 "lion"）
+    function hasWord(text, word) {
+      // 转义正则特殊字符（speciesMap 的 key 都是字母+空格，但留个安全边界）
+      var escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // \b 前后保证是独立单词；s? 允许匹配 "lions" / "horses" 等复数
+      return new RegExp('\\b' + escaped + 's?\\b', 'i').test(text);
+    }
+
+    // ── 4. 优先按逗号分段匹配 ───────────────────────────────
+    // YouTube 标题常有 "Lions, Tigers, Bears, Oh My!" 列举形式
+    // 分词段后分别匹配，返回第一个有结果的段
+    var segments = lower.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
+    if (segments.length > 1) {
+      for (var si = 0; si < segments.length; si++) {
+        for (var ki = 0; ki < keys.length; ki++) {
+          if (hasWord(segments[si], keys[ki])) {
+            return keys[ki];
+          }
+        }
+      }
+    }
+
+    // ── 5. 传统全文匹配（改用词边界） ─────────────────────
+    // 对于简短标题（"Horses of the Wild"）仍然按最长动物名匹配
     for (var i = 0; i < keys.length; i++) {
-      if (lower.indexOf(keys[i]) !== -1) {
+      if (hasWord(lower, keys[i])) {
         return keys[i];
       }
     }
 
-    // Fallback: return the cleaned title so callers still get something useful
-    return clean.length > 0 ? clean : null;
+    // ── 5. 无匹配：返回第一个有意义的单词 ──────────────────
+    var words = clean.split(' ').filter(function(w) { return w.length > 2; });
+    return words.length > 0 ? words[0] : null;
   }
 
   return {

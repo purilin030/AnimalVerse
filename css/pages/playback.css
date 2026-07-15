@@ -642,8 +642,8 @@
   text-decoration: none;
   color: inherit;
 }
-
-	  width: 120px;}
+.related-videos .video-card__thumbnail-wrapper {
+  width: 120px;
   aspect-ratio: 16 / 9;
   border-radius: 4px;
   overflow: hidden;
@@ -761,4 +761,344 @@
   .location-map {
     margin: 0 var(--space-md) var(--space-md);
   }
+}
+
+/* ============================================================
+   Retro Pixel Page Custom Overrides
+   ============================================================ */
+
+/* Page container & layout scoping */
+.theme-pixel .playback-page {
+  font-family: var(--ff-body) !important;
+}
+
+/* 1. Video Player Container & Screen Styling */
+.theme-pixel .player-wrapper {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background-color: #000 !important;
+}
+
+/* 2. Loading animation using retro style guide standard */
+.theme-pixel .player-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-pixel) !important;
+}
+
+.theme-pixel .player-loading::before {
+  content: "" !important;
+  display: block !important;
+  width: 20px !important;
+  height: 20px !important;
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important; /* Pure square */
+  background: var(--clr-accent) !important;
+  animation: pixel-box-loader 1s steps(4) infinite !important;
+  margin-bottom: var(--space-sm) !important;
+}
+
+/* 3. Video Info Section Design Upgrade */
+.theme-pixel .video-info {
+  border-bottom: 2px solid var(--clr-primary) !important;
+  padding: var(--space-lg) 0 !important;
+}
+
+.theme-pixel .video-info__title {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-3xl) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  margin-bottom: var(--space-sm) !important;
+}
+
+.theme-pixel .video-info__meta {
+  font-family: var(--ff-mono) !important;
+  font-size: var(--fs-sm) !important;
+  color: var(--clr-primary-light) !important;
+  gap: var(--space-md) !important;
+  margin-bottom: var(--space-md) !important;
+}
+
+.theme-pixel .video-info__category {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-black) !important;
+  border: 1px solid var(--clr-primary) !important;
+  padding: 2px 6px !important;
+  background: var(--clr-accent-subtle) !important;
+  border-radius: 2px !important;
+}
+
+.theme-pixel .video-info__description {
+  font-family: var(--ff-body) !important;
+  font-size: var(--fs-base) !important;
+  color: var(--clr-primary) !important;
+  line-height: var(--lh-relaxed) !important;
+}
+
+/* 4. Action Buttons Styled as Spring Cartridges */
+.theme-pixel .video-info__actions {
+  display: flex !important;
+  gap: var(--space-sm) !important;
+  flex-wrap: wrap !important;
+}
+
+.theme-pixel .video-info__actions .btn {
+  font-family: var(--ff-pixel) !important;
+  background: var(--clr-surface) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  transition: all 150ms ease !important;
+  cursor: pointer !important;
+  padding: 6px 16px !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: var(--space-xs) !important;
+  outline: none !important;
+}
+
+.theme-pixel .video-info__actions .btn:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-accent-hover) !important;
+}
+
+.theme-pixel .video-info__actions .btn:active,
+.theme-pixel .video-info__actions .btn.is-active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+}
+
+/* 5. Filming Location & Mini-Map */
+.theme-pixel .location-map {
+  margin-top: var(--space-lg) !important;
+}
+
+.theme-pixel .location-map__title {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-lg) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel #location-distance {
+  font-family: var(--ff-mono) !important;
+  font-size: var(--fs-sm) !important;
+  color: var(--clr-primary-light) !important;
+  font-weight: var(--fw-bold) !important;
+}
+
+.theme-pixel .location-map__container {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+}
+
+/* 6. Active Subject Panel */
+.theme-pixel .animal-info__status-box {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: 12px !important;
+}
+
+.theme-pixel .animal-info__status-image-wrapper {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+}
+
+.theme-pixel .animal-info__status-box .status-indicator {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-xs) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+.theme-pixel .animal-info__status-box .status-value {
+  font-family: var(--ff-pixel) !important;
+  font-size: 1.6rem !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-success) !important;
+}
+
+[data-theme="dark"].theme-pixel .animal-info__status-box .status-value {
+  color: var(--clr-accent) !important;
+}
+
+/* 7. Tabs & Panel Info */
+.theme-pixel .animal-info__tab-row {
+  margin-bottom: -3px !important; /* Overlap the 3px card border */
+  gap: 4px !important;
+}
+
+.theme-pixel .animal-info__tab {
+  border: 3px solid var(--clr-primary) !important;
+  border-bottom: none !important;
+  border-radius: 0px !important;
+  font-family: var(--ff-pixel) !important;
+  background: var(--clr-bg) !important;
+  color: var(--clr-primary-light) !important;
+  font-weight: var(--fw-bold) !important;
+  padding: 6px 14px !important;
+  transition: all 150ms ease !important;
+}
+
+.theme-pixel .animal-info__tab:hover {
+  background: var(--clr-accent-hover) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .animal-info__tab.is-active {
+  background: var(--clr-surface) !important;
+  color: var(--clr-primary) !important;
+  border-bottom: 3px solid var(--clr-surface) !important;
+  font-weight: var(--fw-black) !important;
+  z-index: 5 !important;
+}
+
+.theme-pixel .animal-info {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+}
+
+.theme-pixel .taxonomy-breadcrumbs {
+  border-bottom: 2px solid var(--clr-primary) !important;
+  padding: 10px 16px !important;
+}
+
+.theme-pixel .breadcrumb-item {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-sm) !important;
+}
+
+.theme-pixel .breadcrumb-name {
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .breadcrumb-name:hover {
+  color: var(--clr-success) !important;
+  text-decoration: underline !important;
+}
+
+.theme-pixel .breadcrumb-item:last-child .breadcrumb-name {
+  color: var(--clr-success) !important;
+}
+
+.theme-pixel .animal-info__fact-label {
+  color: var(--clr-success) !important;
+}
+
+.theme-pixel .animal-info__fun-fact {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+}
+
+.theme-pixel .animal-info__fun-fact::before {
+  font-family: var(--ff-pixel) !important;
+  background: var(--clr-accent) !important;
+  border-top: 2px solid var(--clr-primary) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .animal-info__attribution {
+  border-top: 2px solid var(--clr-primary) !important;
+  font-family: var(--ff-pixel) !important;
+}
+
+/* 8. Related Videos Title & Cards */
+.theme-pixel .playback-sidebar__title {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-lg) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  border-bottom: 2px solid var(--clr-primary) !important;
+}
+
+/* Related Video Cards Styled as Pixel Bento Items */
+.theme-pixel .related-videos .video-card {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: 8px !important;
+  transition: all 150ms ease !important;
+  gap: 12px !important;
+}
+
+.theme-pixel .related-videos .video-card:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-accent-hover) !important;
+}
+
+.theme-pixel .related-videos .video-card__thumbnail-wrapper {
+  border: 2.5px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  width: 120px !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.theme-pixel .related-videos .video-card__title {
+  font-family: var(--ff-body) !important;
+  font-weight: var(--fw-bold) !important;
+  font-size: var(--fs-sm) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .related-videos .video-card__views {
+  font-family: var(--ff-mono) !important;
+  font-size: var(--fs-xs) !important;
+  color: var(--clr-primary-light) !important;
+}
+
+.theme-pixel .related-videos .video-card__duration {
+  font-family: var(--ff-mono) !important;
+  border-radius: 0px !important;
+  border: 1px solid var(--clr-primary) !important;
+  background: var(--clr-primary) !important;
+  color: var(--clr-surface) !important;
+  font-weight: var(--fw-bold) !important;
+}
+
+/* Dark mode and Youtube overrides for buttons and colors */
+[data-theme="dark"].theme-pixel .video-info__category {
+  background: rgba(159, 232, 112, 0.1) !important;
+}
+
+[data-theme^="youtube"].theme-pixel .video-info__actions .btn:active,
+[data-theme^="youtube"].theme-pixel .video-info__actions .btn.is-active {
+  background: #ff003c !important;
+  color: #fff !important;
+}
+
+[data-theme^="youtube"].theme-pixel .video-info__actions .btn:hover {
+  background: #ff8fa3 !important;
+}
+
+[data-theme^="youtube"].theme-pixel .related-videos .video-card {
+  box-shadow: 3px 3px 0px var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"].theme-pixel .related-videos .video-card:hover {
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-accent-subtle) !important;
+}
+
+[data-theme^="youtube"].theme-pixel .related-videos .video-card__thumbnail-wrapper::after {
+  background: var(--clr-accent) !important;
 }

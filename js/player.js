@@ -41,6 +41,13 @@ App.player = (function() {
         return;
       }
 
+      // Check video source and sync YouTube Mode theme
+      if (currentVideo.source === 'youtube') {
+        App.theme.enableYoutubeMode();
+      } else {
+        App.theme.disableYoutubeMode();
+      }
+
       renderPlayer(currentVideo);
       renderVideoInfo(currentVideo);
       renderLocationMap(currentVideo);
@@ -275,8 +282,8 @@ App.player = (function() {
     var container = document.getElementById('related-videos');
     if (!container) return;
 
-    App.data.loadVideos().then(function() {
-      var related = App.data.filterVideos({ category: currentVideo.category })
+    function renderRelated(related) {
+      related = related
         .filter(function(v) { return v.id !== currentVideo.id; })
         .slice(0, 5);
 
@@ -297,6 +304,19 @@ App.player = (function() {
       }
 
       App.ui.attachFavoriteListeners(container);
+    }
+
+    // YouTube mode: use static youtube data (no network request)
+    if (App.data.isYoutubeVideo(currentVideo.id)) {
+      var related = App.data.filterYoutubeVideos({ category: currentVideo.category });
+      renderRelated(related);
+      return;
+    }
+
+    // Normal mode: load from videos.json
+    App.data.loadVideos().then(function() {
+      var related = App.data.filterVideos({ category: currentVideo.category });
+      renderRelated(related);
     });
   }
 

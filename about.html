@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
@@ -25,13 +25,51 @@
 
         <section class="about-section">
           <h2>Our Mission</h2>
-          <p>AnimalVerse is an AI-enhanced animal video streaming platform designed to provide educational and stress-relief content for viewers of all ages. We believe that connecting people with the wonders of the animal kingdom can inspire both learning and well-being.</p>
+          <p>AnimalVerse is an AI-enhanced animal video streaming platform designed to bring the wonders of wildlife to everyone. Our mission is to create a space where curiosity meets education — whether you're a student researching animal behaviour, a teacher looking for classroom resources, or simply someone who finds peace in watching nature unfold.</p>
+          <p>We believe that connecting people with the animal kingdom can inspire conservation awareness, support mental well-being, and spark a lifelong love for the natural world. Every video on our platform is curated to be both informative and visually captivating.</p>
+        </section>
+
+        <section class="about-section">
+          <h2>What Makes AnimalVerse Special</h2>
+          <div class="features-grid">
+            <div class="feature-item">
+              <span class="feature-item__icon">🌍</span>
+              <h3>Global Wildlife Map</h3>
+              <p>Explore animal origins with an interactive world map powered by Leaflet and iNaturalist data. See where your favourite species live in the wild.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-item__icon">🔬</span>
+              <h3>Deep Animal Profiles</h3>
+              <p>Each video links to rich animal information from Wikipedia, Wikidata, and iNaturalist — including taxonomy, conservation status, and fun facts.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-item__icon">🎯</span>
+              <h3>Personalised Library</h3>
+              <p>Save favourites, like videos, and build a watch-later list. Your discoveries stay with you across visits through persistent local storage.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-item__icon">📺</span>
+              <h3>YouTube + Library Mode</h3>
+              <p>Switch seamlessly between our curated local video collection and live YouTube wildlife content — all within a unified viewing experience.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-item__icon">🎲</span>
+              <h3>Serendipity Engine</h3>
+              <p>Feeling adventurous? Our Lucky Pick feature serves a random animal video, turning every visit into a new discovery.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-item__icon">🌙</span>
+              <h3>Dark &amp; YouTube Themes</h3>
+              <p>Choose from light, dark, or YouTube-inspired cherry-red themes. Every mode is carefully designed for comfort and visual consistency.</p>
+            </div>
+          </div>
         </section>
 
         <section class="about-section">
           <h2>Project Overview</h2>
           <p>This project is developed as a Final Year Project (FYP) for the Bachelor of Information Systems (Honours) Information Systems Engineering at Universiti Tunku Abdul Rahman (UTAR). The platform is designed to be hosted entirely on AWS cloud infrastructure, leveraging serverless technologies for scalability and cost-effectiveness.</p>
-          <p>The current phase (FYP 1) focuses on building a static frontend with HTML, CSS, and JavaScript, deployed via AWS S3 and CloudFront for global content delivery.</p>
+          <p>The current phase (FYP 1) focuses on building a feature-rich static frontend with HTML, CSS, and JavaScript, deployed via AWS S3 and CloudFront for global content delivery. The video library contains curated wildlife footage across eight biological classes — from mammals and birds to amphibians and aquatic life.</p>
+          <p>Phase 2 (FYP 2) will introduce user authentication, AI-powered chatbot assistance via Amazon Lex, personalised recommendations through Amazon Bedrock, and dynamic video uploads backed by AWS Lambda and DynamoDB.</p>
         </section>
 
         <section class="about-section">
@@ -39,12 +77,18 @@
           <div class="tech-grid">
             <div class="tech-card"><span class="tech-card__icon">🌐</span><h3>Frontend</h3><p>HTML, CSS, JavaScript</p></div>
             <div class="tech-card"><span class="tech-card__icon">☁️</span><h3>Hosting</h3><p>AWS S3 &amp; CloudFront</p></div>
-            <div class="tech-card"><span class="tech-card__icon">⚡</span><h3>Backend*</h3><p>AWS Lambda &amp; API Gateway</p></div>
+            <div class="tech-card"><span class="tech-card__icon">⚙️</span><h3>Backend*</h3><p>AWS Lambda &amp; API Gateway</p></div>
             <div class="tech-card"><span class="tech-card__icon">🗄️</span><h3>Database*</h3><p>Amazon DynamoDB</p></div>
             <div class="tech-card"><span class="tech-card__icon">🤖</span><h3>AI Chatbot*</h3><p>Amazon Lex</p></div>
             <div class="tech-card"><span class="tech-card__icon">🧠</span><h3>Gen AI*</h3><p>Amazon Bedrock</p></div>
           </div>
           <p class="text-muted text-small">* Planned for FYP 2</p>
+        </section>
+
+        <section class="about-section">
+          <h2>Content Library</h2>
+          <p>Our video library spans <strong>140+ animal species</strong> across <strong>8 biological classes</strong>, with media sourced from curated collections and the YouTube Wildlife API. Each species entry includes professional footage, location data, and links to external knowledge sources for deeper exploration.</p>
+          <p>The library is organised by taxonomy — Mammals, Birds, Reptiles, Amphibians, Aquatic Life, Fish, Invertebrates, and Themed Series — making it easy to browse and discover.</p>
         </section>
 
         <section class="about-section">
@@ -79,12 +123,16 @@
   <script defer src="js/include.js"></script>
   <script defer src="js/config.js"></script>
   <script defer src="js/config.key.js"></script>
+  <script defer src="js/loader.js"></script>
 
   <script defer src="js/species-map.js"></script>
   <script defer src="js/utils.js"></script>
+  <script defer src="js/youtube-api.js"></script>
   <script defer src="js/data.js"></script>
   <script defer src="js/router.js"></script>
+  <script defer src="js/session.js"></script>
   <script defer src="js/theme.js"></script>
+  <script defer src="js/data-source.js"></script>
   <script defer src="js/favorites.js"></script>
   <script defer src="js/ui.js"></script>
   <script defer src="js/navigation.js"></script>

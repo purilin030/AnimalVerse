@@ -1,89 +1,67 @@
 /* ============================================================
-   Theme Toggle (Dark/Light/Youtube Mode)
+   Theme Toggle — Visual theme only (Dark/Light & YouTube variants)
+   Data-source switching is handled by App.dataSource.
    ============================================================ */
 App.theme = (function() {
   'use strict';
 
   var KEY = App.config.localStorageKeys.theme;
-  var YT_KEY = App.config.localStorageKeys.youtubeMode;
-  var _savedTheme = null;
 
   // Transition timing constants (ms)
-  var THEME_SWITCH_DELAY = 280;    // delay before switching theme mid-wipe
-  var MASK_FADE_START = 580;       // when mask begins fading out
-  var MASK_FADE_DURATION = 400;    // fade-out animation length
+  var THEME_SWITCH_DELAY = 280;
+  var MASK_FADE_START = 580;
+  var MASK_FADE_DURATION = 400;
 
   /**
-   * Get the current/preferred theme
-   */
-  function getTheme() {
-    return localStorage.getItem(KEY) || 'light';
-  }
-
-  /**
-   * Check if a theme value is a YouTube mode variant
+   * Check if a theme value is a YouTube variant.
    */
   function _isYoutubeTheme(theme) {
     return theme === 'youtube' || theme === 'youtube-dark';
   }
 
   /**
-   * Apply a theme and save preference
-   * @param {string} theme - 'light', 'dark', 'youtube', or 'youtube-dark'
+   * Get the current theme from the DOM attribute.
+   */
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') || localStorage.getItem(KEY) || 'light';
+  }
+
+  /**
+   * Apply a visual theme and save preference.
+   * @param {string} theme — 'light', 'dark', 'youtube', or 'youtube-dark'
    */
   function setTheme(theme) {
-    if (_isYoutubeTheme(theme)) {
-      // Save current light/dark theme before switching to YouTube
-      _savedTheme = getTheme();
-      // Only save as YouTube mode if not already in it
-      if (!_isYoutubeTheme(_savedTheme)) {
-        localStorage.setItem(YT_KEY, 'true');
-      }
-    } else {
-      // Exiting YouTube mode — clear flag
-      localStorage.removeItem(YT_KEY);
-      _savedTheme = null;
-    }
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem(KEY, theme);
   }
 
   /**
-   * Check if currently in YouTube theme mode
+   * Toggle between light ↔ dark, or youtube ↔ youtube-dark.
+   * Purely visual — no data-source logic.
    */
-  function isYoutubeMode() {
-    var theme = document.documentElement.getAttribute('data-theme');
-    return _isYoutubeTheme(theme);
+  function toggleTheme() {
+    var current = getTheme();
+    var next;
+    if (current === 'youtube') {
+      next = 'youtube-dark';
+    } else if (current === 'youtube-dark') {
+      next = 'youtube';
+    } else if (current === 'light') {
+      next = 'dark';
+    } else {
+      next = 'light';
+    }
+    setTheme(next);
   }
 
   /**
-   * Enable YouTube mode: saves current theme and switches to red/white theme
+   * Change theme with a spotlight circular wipe transition.
+   * Used by dataSource.toggle() for the YouTube/library switch animation.
+   * @param {string} nextTheme — The visual theme to transition to
+   * @param {function} callback — Called after the theme switch midpoint
+   * @param {Event} event — Optional click event for transition origin
    */
-  function enableYoutubeMode() {
-    if (isYoutubeMode()) return;
-    _savedTheme = getTheme();
-    setTheme('youtube');
-
-    // Also toggle body class for any CSS that targets it
-    document.body.classList.add('theme-youtube');
-  }
-
-  /**
-   * Disable YouTube mode: restores the previously saved theme
-   */
-  function disableYoutubeMode() {
-    if (!isYoutubeMode()) return;
-    var restoreTheme = _savedTheme || 'light';
-    _savedTheme = null;
-    setTheme(restoreTheme);
-    document.body.classList.remove('theme-youtube');
-  }
-
-  /**
-   * Helper to change theme with a visual spotlight circular wipe transition
-   */
-  function changeThemeWithTransition(nextTheme, callback, event) {
-    // Check clip-path support
+  function transitionTo(nextTheme, callback, event) {
     var supportsClipPath = document.documentElement.style.clipPath !== undefined ||
                            document.documentElement.style.webkitClipPath !== undefined;
 
@@ -96,7 +74,7 @@ App.theme = (function() {
     var mask = document.createElement('div');
     mask.className = 'theme-transition-mask';
 
-    // Calculate click coordinates or fallback to triggering button coordinates
+    // Calculate origin coordinates
     var x = '50%';
     var y = '50%';
     if (event && event.clientX !== undefined && event.clientY !== undefined) {
@@ -120,10 +98,10 @@ App.theme = (function() {
     // Force reflow
     mask.offsetHeight;
 
-    // Expand the mask (wipe screen)
+    // Expand the mask
     mask.classList.add('active');
 
-    // Change theme midway
+    // Switch theme midway through the wipe
     setTimeout(function() {
       setTheme(nextTheme);
       if (callback) callback();
@@ -139,87 +117,15 @@ App.theme = (function() {
   }
 
   /**
-   * Toggle YouTube mode on/off with visual transition
-   * @param {function} [callback] - Function called when transition changes theme
-   * @param {Event} [event] - Optional click event for coordinates
-   * @returns {boolean} Whether YouTube mode is now active (predicted)
-   */
-  function toggleYoutubeMode(callback, event) {
-    var nowActive = !isYoutubeMode();
-    var currentTheme = getTheme();
-    var nextTheme = nowActive ? 'youtube' : (_savedTheme || 'light');
-
-    changeThemeWithTransition(nextTheme, function() {
-      if (nowActive) {
-        // Preserve the underlying light/dark preference, not a youtube variant
-        _savedTheme = _isYoutubeTheme(currentTheme) ? (_savedTheme || 'light') : currentTheme;
-        localStorage.setItem(YT_KEY, 'true');
-        document.body.classList.add('theme-youtube');
-      } else {
-        _savedTheme = null;
-        localStorage.removeItem(YT_KEY);
-        document.body.classList.remove('theme-youtube');
-      }
-      if (callback) callback(nowActive);
-    }, event);
-
-    return nowActive;
-  }
-
-  /**
-   * Toggle between light and dark instantly (also works inside YouTube mode)
-   */
-  function toggleTheme() {
-    var current = getTheme();
-    var next;
-
-    if (current === 'youtube') {
-      // YouTube light → YouTube dark
-      next = 'youtube-dark';
-    } else if (current === 'youtube-dark') {
-      // YouTube dark → YouTube light
-      next = 'youtube';
-    } else if (current === 'light') {
-      next = 'dark';
-    } else {
-      next = 'light';
-    }
-
-    setTheme(next);
-  }
-
-  /**
-   * Initialize theme module
+   * Initialize theme — apply saved visual theme and bind toggle button.
    */
   function init() {
-    var path = window.location.pathname.toLowerCase();
-    var isGallery = path.indexOf('gallery.html') !== -1;
-    var isPlayback = path.indexOf('playback.html') !== -1;
+    // Apply saved visual theme.  dataSource.init() runs next in
+    // app.js and will override if YouTube mode is active.
+    var current = localStorage.getItem(KEY) || 'light';
+    setTheme(current);
 
-    // Check if YouTube mode was active from localStorage
-    var wasYoutubeMode = localStorage.getItem(YT_KEY) === 'true';
-    if (wasYoutubeMode && (isGallery || isPlayback)) {
-      // Load saved theme as the underlying preference
-      var storedTheme = localStorage.getItem(KEY) || 'light';
-      _savedTheme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'light';
-      // Restore the exact YouTube variant (youtube or youtube-dark)
-      var ytTheme = storedTheme === 'youtube-dark' ? 'youtube-dark' : 'youtube';
-      document.documentElement.setAttribute('data-theme', ytTheme);
-      document.body.classList.add('theme-youtube');
-      localStorage.setItem(KEY, ytTheme);
-    } else {
-      // Exit YouTube mode and clean up
-      localStorage.removeItem(YT_KEY);
-      document.body.classList.remove('theme-youtube');
-
-      var current = localStorage.getItem(KEY) || 'light';
-      if (_isYoutubeTheme(current)) {
-        current = 'light'; // Fallback to light if it got stuck on youtube
-      }
-      setTheme(current);
-    }
-
-    // Listen for toggle button clicks
+    // Bind light/dark toggle button
     var btn = document.getElementById('theme-toggle');
     if (btn) {
       btn.addEventListener('click', toggleTheme);
@@ -231,9 +137,6 @@ App.theme = (function() {
     toggle: toggleTheme,
     get: getTheme,
     set: setTheme,
-    isYoutubeMode: isYoutubeMode,
-    enableYoutubeMode: enableYoutubeMode,
-    disableYoutubeMode: disableYoutubeMode,
-    toggleYoutubeMode: toggleYoutubeMode
+    transitionTo: transitionTo
   };
 })();

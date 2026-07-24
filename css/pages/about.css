@@ -180,3 +180,198 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   Retro Pixel Scoped Theme Overrides (.theme-pixel)
+   ============================================================ */
+
+/* 1. Hero Banner */
+.theme-pixel .about-hero {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  text-align: center !important;
+  padding: var(--space-2xl) var(--space-lg) !important;
+}
+
+.theme-pixel .about-hero h1 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+.theme-pixel .about-hero__subtitle {
+  font-family: var(--ff-pixel) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* 2. Section Headers & Text */
+.theme-pixel .about-section h2 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  border-bottom: 3px solid var(--clr-accent) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.theme-pixel .about-section p {
+  font-family: var(--ff-body) !important;
+  color: var(--clr-text) !important;
+  line-height: var(--lh-relaxed) !important;
+}
+
+.theme-pixel .text-muted.text-small {
+  font-family: var(--ff-mono) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* 3. Features Grid Cards */
+.theme-pixel .features-grid {
+  gap: var(--space-lg) !important;
+}
+
+.theme-pixel .feature-item {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: var(--space-lg) !important;
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease !important;
+}
+
+.theme-pixel .feature-item:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+}
+
+.theme-pixel .feature-item:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .feature-item__icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  font-size: 1.5rem !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-accent-hover) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  margin-bottom: var(--space-sm) !important;
+}
+
+.theme-pixel .feature-item h3 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  font-size: 1.15rem !important;
+  margin-bottom: var(--space-xs) !important;
+}
+
+.theme-pixel .feature-item p {
+  font-family: var(--ff-body) !important;
+  font-size: var(--fs-sm) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* 4. Tech Stack Grid Cards */
+.theme-pixel .tech-grid {
+  gap: var(--space-md) !important;
+}
+
+.theme-pixel .tech-card {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: var(--space-md) !important;
+  transition: transform 150ms ease, box-shadow 150ms ease !important;
+}
+
+.theme-pixel .tech-card:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+}
+
+.theme-pixel .tech-card__icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 1.25rem !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-accent-hover) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  margin: 0 auto var(--space-xs) auto !important;
+}
+
+.theme-pixel .tech-card h3 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  font-size: 1rem !important;
+}
+
+.theme-pixel .tech-card p {
+  font-family: var(--ff-mono) !important;
+  font-size: var(--fs-xs) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* 5. Developer Card */
+.theme-pixel .dev-card {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: var(--space-xl) !important;
+}
+
+.theme-pixel .dev-card__avatar {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  background: var(--clr-accent-hover) !important;
+  padding: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.theme-pixel .dev-card h3 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  font-size: 1.25rem !important;
+}
+
+.theme-pixel .dev-card .text-muted {
+  font-family: var(--ff-mono) !important;
+  font-size: var(--fs-xs) !important;
+  color: var(--clr-text-muted) !important;
+}
+
+/* 6. YouTube Theme Mode Overrides */
+[data-theme^="youtube"].theme-pixel .about-hero,
+[data-theme^="youtube"].theme-pixel .feature-item,
+[data-theme^="youtube"].theme-pixel .tech-card,
+[data-theme^="youtube"].theme-pixel .dev-card {
+  box-shadow: 4px 4px 0px var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"].theme-pixel .feature-item:hover,
+[data-theme^="youtube"].theme-pixel .tech-card:hover {
+  box-shadow: 6px 6px 0px var(--clr-primary), 8px 8px 20px rgba(255, 0, 60, 0.14) !important;
+}
+

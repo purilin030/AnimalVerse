@@ -66,3 +66,152 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   Retro Pixel Scoped Theme Overrides (.theme-pixel)
+   ============================================================ */
+
+/* 1. Page Header & Info Block */
+.theme-pixel .contact-info h1 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-black) !important;
+  color: var(--clr-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-bottom: var(--space-sm) !important;
+}
+
+.theme-pixel .contact-info > p {
+  font-family: var(--ff-body) !important;
+  color: var(--clr-text-muted) !important;
+  line-height: var(--lh-relaxed) !important;
+}
+
+/* 2. Contact Details List */
+.theme-pixel .contact-details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--space-md) !important;
+  margin-top: var(--space-xl) !important;
+}
+
+.theme-pixel .contact-detail {
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: var(--space-md) !important;
+  margin-bottom: 0 !important;
+  align-items: center !important;
+  transition: transform 150ms ease, box-shadow 150ms ease !important;
+}
+
+.theme-pixel .contact-detail:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .contact-detail__icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  font-size: 1.25rem !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  background: var(--clr-accent-hover) !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  margin-top: 0 !important;
+}
+
+.theme-pixel .contact-detail strong {
+  font-family: var(--ff-pixel) !important;
+  font-size: var(--fs-base) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .contact-detail p {
+  font-family: var(--ff-body) !important;
+  font-size: var(--fs-xs) !important;
+  color: var(--clr-text-muted) !important;
+  margin: 0 !important;
+}
+
+/* 3. Contact Form Card */
+.theme-pixel .contact-form-wrapper {
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+  padding: var(--space-xl) !important;
+}
+
+.theme-pixel .contact-form-wrapper h2 {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  font-size: var(--fs-2xl) !important;
+  margin-bottom: var(--space-xs) !important;
+}
+
+.theme-pixel .form-label {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  color: var(--clr-primary) !important;
+  font-size: var(--fs-sm) !important;
+}
+
+.theme-pixel .form-input,
+.theme-pixel .form-textarea {
+  font-family: var(--ff-body) !important;
+  border: 2px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px var(--clr-primary) !important;
+  background: var(--clr-bg) !important;
+  color: var(--clr-text) !important;
+  transition: all 150ms ease !important;
+}
+
+.theme-pixel .form-input:focus,
+.theme-pixel .form-textarea:focus {
+  outline: none !important;
+  border-color: var(--clr-primary) !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-surface) !important;
+}
+
+.theme-pixel .contact-form .btn {
+  font-family: var(--ff-pixel) !important;
+  border: 3px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+  font-weight: var(--fw-bold) !important;
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease !important;
+}
+
+.theme-pixel .contact-form .btn:hover {
+  background: var(--clr-accent-hover) !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0px var(--clr-primary) !important;
+}
+
+.theme-pixel .contact-form .btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+}
+
+/* 4. YouTube Theme Mode Overrides */
+[data-theme^="youtube"].theme-pixel .contact-form-wrapper,
+[data-theme^="youtube"].theme-pixel .contact-detail {
+  box-shadow: 4px 4px 0px var(--clr-accent) !important;
+}
+
+[data-theme^="youtube"].theme-pixel .contact-form-wrapper:hover,
+[data-theme^="youtube"].theme-pixel .contact-detail:hover {
+  box-shadow: 5px 5px 0px var(--clr-primary), 6px 6px 16px rgba(255, 0, 60, 0.12) !important;
+}
+

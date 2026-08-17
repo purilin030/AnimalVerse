@@ -10,6 +10,7 @@
   <nav class="sidebar__nav" aria-label="Sidebar navigation">
     <!-- Explorer Profile & Status Card -->
     <div class="sidebar__profile-card">
+      <!-- Full View: User info & Status (shown when expanded) -->
       <div class="sidebar__profile-top">
         <div class="sidebar__avatar">
           <!-- Retro Pixel Frog Avatar SVG -->
@@ -42,6 +43,14 @@
             <span class="sidebar__status-dot"></span>ONLINE
           </span>
         </div>
+      </div>
+
+      <!-- Collapsed View: Mini HUD (shown when sidebar is collapsed) -->
+      <div class="sidebar__profile-mini-hud" aria-hidden="true">
+        <span class="sidebar__mini-badge">LV.1</span>
+        <span class="sidebar__mini-status">
+          <span class="sidebar__status-dot"></span>ON
+        </span>
       </div>
     </div>
 

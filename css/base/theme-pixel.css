@@ -162,6 +162,18 @@ body.theme-pixel::before {
   box-shadow: 3px 3px 0px var(--clr-primary) !important;
 }
 
+.theme-pixel .sidebar__mini-badge {
+  border: 1px solid var(--clr-primary) !important;
+  border-radius: 0px !important;
+  box-shadow: 1px 1px 0px var(--clr-primary) !important;
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+}
+
+.theme-pixel .sidebar__mini-status {
+  color: var(--clr-primary) !important;
+}
+
 /* ── Chatbot Button & Tooltip ── */
 .theme-pixel .chatbot-btn,
 .theme-pixel.chatbot-btn {

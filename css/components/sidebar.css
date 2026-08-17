@@ -51,20 +51,20 @@
 .sidebar__nav {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding-top: 20px;
+  min-height: 100%;
+  padding-top: 12px;
 }
 
 /* ===== Menu list ===== */
 .sidebar__menu {
-  flex: 1;
+  flex: 1 0 auto;
   padding: 0 12px;
   list-style: none;
 }
 
 /* ===== Group Labels ===== */
 .sidebar__group-label {
-  padding: 24px 12px 8px;
+  padding: 18px 12px 6px;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -72,12 +72,14 @@
   color: var(--clr-sidebar-text-muted);
   user-select: none;
   list-style: none;
+  flex-shrink: 0;
 }
 
 /* ===== Nav Items ===== */
 .sidebar__item {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   list-style: none;
+  flex-shrink: 0;
 }
 
 .sidebar__link {
@@ -223,6 +225,8 @@
 .sidebar__footer {
   padding: 16px;
   border-top: 1px solid var(--clr-border);
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 /* +More Video button */
@@ -393,13 +397,19 @@
 
 /* ===== Sidebar Explorer Profile Card ===== */
 .sidebar__profile-card {
-  margin: 0 12px 16px;
-  padding: 12px;
+  margin: 0 10px 10px;
+  padding: 8px 10px;
   background: var(--clr-surface, #ffffff);
   border: 2px solid var(--clr-border-dark, #0e0f0c);
   border-radius: 4px;
   box-shadow: 2px 2px 0px var(--clr-border-dark, #0e0f0c);
-  transition: all 150ms ease;
+  box-sizing: border-box;
+  height: 114px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transition: width 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 150ms ease;
   display: block;
 }
 
@@ -411,12 +421,12 @@
 .sidebar__profile-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .sidebar__avatar {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   background: var(--clr-bg-dark, #e8ebe6);
   border: 2px solid var(--clr-border-dark, #0e0f0c);
   border-radius: 4px;
@@ -428,8 +438,8 @@
 }
 
 .sidebar__avatar-svg {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   image-rendering: pixelated;
 }
 
@@ -437,12 +447,12 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  transition: opacity 150ms ease, visibility 150ms ease;
+  transition: opacity 150ms ease;
 }
 
 .sidebar__username {
   font-family: var(--ff-pixel);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--clr-text-dark, #0e0f0c);
   line-height: 1.2;
@@ -450,36 +460,37 @@
 
 .sidebar__badge {
   font-family: var(--ff-pixel);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--clr-text-dark, #0e0f0c);
   background: var(--clr-accent, #9fe870);
   border: 1px solid var(--clr-border-dark, #0e0f0c);
   padding: 1px 4px;
-  margin-top: 4px;
+  margin-top: 3px;
   border-radius: 2px;
   width: fit-content;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .sidebar__status-divider {
   height: 2px;
   background: var(--clr-border-dark, #0e0f0c);
-  margin: 10px 0;
-  transition: opacity 150ms ease, visibility 150ms ease;
+  margin: 8px 0;
+  transition: opacity 150ms ease;
 }
 
 .sidebar__status-grid {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  transition: opacity 150ms ease, visibility 150ms ease;
+  gap: 4px;
+  transition: opacity 150ms ease;
 }
 
 .sidebar__status-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .sidebar__status-label {
@@ -508,6 +519,40 @@
   animation: pulse-dot 1.5s infinite;
 }
 
+/* Mini HUD in collapsed sidebar */
+.sidebar__profile-mini-hud {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.sidebar__mini-badge {
+  font-family: var(--ff-pixel);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--clr-text-dark, #0e0f0c);
+  background: var(--clr-accent, #9fe870);
+  border: 1px solid var(--clr-border-dark, #0e0f0c);
+  padding: 1px 3px;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+.sidebar__mini-status {
+  font-family: var(--ff-pixel);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--clr-text-dark, #0e0f0c);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  line-height: 1;
+}
+
 @keyframes pulse-dot {
   0% {
     transform: scale(0.9);
@@ -532,6 +577,7 @@
     transform: translateX(0); /* Always visible */
     width: var(--sidebar-width-collapsed); /* 72px */
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+    overflow-x: hidden;
   }
 
   [data-theme="dark"] .sidebar {
@@ -585,27 +631,47 @@
     transition: opacity 250ms ease 100ms, visibility 250ms ease 100ms;
   }
 
-  /* Group labels collapse height when collapsed */
+  /* --- Fixed Height Group Labels (Zero Layout Shift) --- */
   .sidebar__group-label {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    overflow: hidden;
-    transition: all 200ms ease;
+    height: 24px;
+    margin: 6px 0 2px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    font-size: 0;
+    overflow: visible;
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+  }
+
+  .sidebar__group-label::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--clr-border-dark, #0e0f0c);
+    opacity: 0.4;
+    transition: opacity 150ms ease;
   }
 
   .sidebar:hover .sidebar__group-label,
   .sidebar--visible .sidebar__group-label,
   .sidebar--peek .sidebar__group-label {
-    opacity: 1;
-    visibility: visible;
-    height: auto;
-    padding: 24px 12px 8px;
-    margin: 0;
+    height: 24px;
+    margin: 6px 0 2px;
+    padding: 0 12px;
+    justify-content: flex-start;
+    color: var(--clr-sidebar-text-muted);
+    font-size: 11px;
+  }
+
+  .sidebar:hover .sidebar__group-label::after,
+  .sidebar--visible .sidebar__group-label::after,
+  .sidebar--peek .sidebar__group-label::after {
+    display: none;
   }
 
   /* Active item left indicator is hidden when collapsed */
@@ -642,7 +708,7 @@
 
   /* Footer and Random Video button layout adjustments */
   .sidebar__footer {
-    padding: 16px 12px;
+    padding: 14px 10px;
     transition: padding 200ms ease;
   }
 
@@ -650,7 +716,7 @@
     width: 40px;
     height: 40px;
     padding: 0;
-    border-radius: 50%;
+    border-radius: 4px;
     margin: 0 auto;
     justify-content: center;
     gap: 0;
@@ -661,25 +727,33 @@
   .sidebar--visible .sidebar__more-btn,
   .sidebar--peek .sidebar__more-btn {
     width: 100%;
-    height: 44px;
-    padding: 12px 16px;
-    border-radius: 8px;
+    height: 42px;
+    padding: 10px 14px;
+    border-radius: 4px;
     justify-content: flex-start;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
-  /* --- Profile Card Collapsed/Expanded overrides --- */
+  /* --- Fixed Height Profile Card (Zero Layout Shift) --- */
   .sidebar__profile-card {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    margin: 0 auto 16px;
+    width: 52px;
+    height: 114px;
+    margin: 0 auto 10px;
+    padding: 6px 4px 6px;
     display: flex;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: var(--clr-surface, #ffffff);
+    border: 2px solid var(--clr-border-dark, #0e0f0c);
+    box-shadow: 2px 2px 0px var(--clr-border-dark, #0e0f0c);
+    border-radius: 4px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    transition: width 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                padding 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                margin 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   .sidebar__profile-top {
@@ -691,6 +765,7 @@
   .sidebar__user-info,
   .sidebar__status-divider,
   .sidebar__status-grid {
+    display: none;
     opacity: 0;
     visibility: hidden;
     height: 0;
@@ -699,30 +774,46 @@
     overflow: hidden;
   }
 
+  .sidebar__profile-mini-hud {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+  }
+
   /* When hovered/expanded on desktop, restore full styles */
   .sidebar:hover .sidebar__profile-card,
   .sidebar--visible .sidebar__profile-card,
   .sidebar--peek .sidebar__profile-card {
+    width: calc(100% - 20px);
+    height: 114px;
+    margin: 0 10px 10px;
+    padding: 8px 10px;
+    display: block;
     background: var(--clr-surface, #ffffff);
     border: 2px solid var(--clr-border-dark, #0e0f0c);
     box-shadow: 2px 2px 0px var(--clr-border-dark, #0e0f0c);
-    padding: 12px;
-    margin: 0 12px 16px;
-    width: auto;
-    height: auto;
-    display: block;
+    flex-shrink: 0;
   }
 
   .sidebar:hover .sidebar__profile-top,
   .sidebar--visible .sidebar__profile-top,
   .sidebar--peek .sidebar__profile-top {
     justify-content: flex-start;
-    gap: 12px;
+    gap: 10px;
+  }
+
+  .sidebar:hover .sidebar__profile-mini-hud,
+  .sidebar--visible .sidebar__profile-mini-hud,
+  .sidebar--peek .sidebar__profile-mini-hud {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
   }
 
   .sidebar:hover .sidebar__user-info,
   .sidebar--visible .sidebar__user-info,
   .sidebar--peek .sidebar__user-info {
+    display: flex;
     opacity: 1;
     visibility: visible;
     height: auto;
@@ -731,15 +822,17 @@
   .sidebar:hover .sidebar__status-divider,
   .sidebar--visible .sidebar__status-divider,
   .sidebar--peek .sidebar__status-divider {
+    display: block;
     opacity: 1;
     visibility: visible;
     height: 2px;
-    margin: 10px 0;
+    margin: 6px 0;
   }
 
   .sidebar:hover .sidebar__status-grid,
   .sidebar--visible .sidebar__status-grid,
   .sidebar--peek .sidebar__status-grid {
+    display: flex;
     opacity: 1;
     visibility: visible;
     height: auto;

@@ -32,3 +32,9 @@ assets/images/Marquee - backup high quality images/
 
 # API Key (local override — contains real key)
 js/config.key.js
+
+
+# Deployment Scripts
+deploy.bat
+deploy.ps1
+*.bat

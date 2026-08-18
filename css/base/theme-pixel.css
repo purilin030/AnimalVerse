@@ -134,6 +134,18 @@ body.theme-pixel::before {
   box-shadow: 2px 2px 0px var(--clr-primary) !important;
 }
 
+.theme-pixel .sidebar__sub-link {
+  font-family: var(--ff-pixel) !important;
+  font-weight: var(--fw-bold) !important;
+  border-radius: 0px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.theme-pixel .sidebar__sub-link:hover {
+  background: var(--clr-accent) !important;
+  color: var(--clr-primary) !important;
+}
+
 .theme-pixel .sidebar__group-label {
   font-family: var(--ff-pixel) !important;
   font-weight: var(--fw-black) !important;

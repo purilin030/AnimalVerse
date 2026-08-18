@@ -2,8 +2,8 @@
    Playback Page Styles
    ============================================================ */
 
-/* ?�?� VT323 Terminal Font (Google Fonts) ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?� */
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+/* ── Fonts: JetBrains Mono (Terminal & Code data font) ─────── */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 
 .playback-page {
@@ -109,7 +109,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: var(--space-lg, 24px);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 /* -- Active Subject Box ------------------------------- */
@@ -122,7 +122,7 @@
   border-radius: var(--radius-md, 12px);
   background: var(--clr-surface);
   margin-bottom: 16px;
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 .animal-info__status-image-wrapper {
@@ -181,11 +181,11 @@
 
 .animal-info__tab {
   padding: 6px 16px 8px;
-  font-size: 1rem;
-  font-family: 'VT323', 'Courier New', monospace;
-  font-weight: 400;
+  font-size: 0.95rem;
+  font-family: var(--ff-pixel);
+  font-weight: 600;
   line-height: 1.2;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   cursor: pointer;
   border: 2px solid var(--clr-border);
   border-bottom: 2px solid var(--clr-border);
@@ -261,7 +261,7 @@
   padding: 12px 16px;
   background: rgba(14, 15, 12, 0.04);
   border-bottom: 1px solid var(--clr-border);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 [data-theme="dark"] .taxonomy-breadcrumbs {
   background: rgba(0, 0, 0, 0.2);
@@ -275,7 +275,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .breadcrumb-item {
@@ -321,20 +321,13 @@
   color: #2ead4b;
 }
 
-/* Loading state */
-.animal-info__loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 80px;
-}
-
-/* ?�?� Wikipedia source content ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?� */
+/* ── Wikipedia source content ──────────────────────────────── */
 .animal-info__wiki-extract {
-  font-size: 1rem;
-  line-height: 1.85;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
   color: var(--clr-text);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 .animal-info__wiki-bullets {
@@ -345,18 +338,18 @@
 
 .animal-info__wiki-intro {
   margin-bottom: 12px;
-  font-size: 1.05rem;
-  line-height: 1.45;
+  font-size: 0.88rem;
+  line-height: 1.65;
   color: var(--clr-text);
 }
 
 .animal-info__wiki-bullet-item {
   position: relative;
-  padding-left: 20px;
+  padding-left: 18px;
   margin-bottom: 12px;
-  font-size: 1.05rem;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
 }
 
 .animal-info__wiki-bullet-item:last-child {
@@ -367,9 +360,9 @@
   content: '▪';
   position: absolute;
   left: 0;
-  top: 0.22em; /* Vertically aligns bullet nicely with custom retro font size */
+  top: 0.08em;
   color: #9fe870;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   line-height: 1;
 }
 
@@ -378,18 +371,18 @@
 }
 
 
-/* ?�?� Wikidata source content ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?� */
+/* ── Wikidata source content ───────────────────────────────── */
 .animal-info__wikidata {
-  font-size: 1rem;
-  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 0.88rem;
+  font-family: var(--ff-mono);
 }
 
 .animal-info__wikidata-desc {
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 0.88rem;
+  line-height: 1.65;
   color: var(--clr-text);
   margin-bottom: var(--space-md, 16px);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 .animal-info__facts-grid {
@@ -404,7 +397,7 @@
   padding: 7px 0;
   border-bottom: 1px dashed rgba(159,232,112,0.15);
   gap: var(--space-sm, 8px);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 [data-theme="light"] .animal-info__fact-row {
@@ -420,9 +413,9 @@
   color: #9fe870;
   flex-shrink: 0;
   min-width: 90px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
 }
 
 [data-theme="light"] .animal-info__fact-label {
@@ -432,17 +425,17 @@
 .animal-info__fact-value {
   color: var(--clr-text);
   text-align: right;
-  font-size: 0.95rem;
+  font-size: 0.86rem;
 }
 
-/* ?�?� Local Facts / iNaturalist source content ?�?�?�?�?�?�?�?�?�?�?� */
+/* ── Local Facts / iNaturalist source content ──────────────── */
 .animal-info__local-desc,
 .animal-info__inat-desc {
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 0.88rem;
+  line-height: 1.65;
   color: var(--clr-text);
   margin-bottom: var(--space-md, 16px);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 .animal-info__fun-facts {
@@ -459,10 +452,10 @@
   background: rgba(159,232,112,0.04);
   border: 1px solid rgba(159,232,112,0.15);
   border-radius: 6px;
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-size: 0.86rem;
+  line-height: 1.6;
   color: var(--clr-text);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
   overflow: hidden;
   cursor: default;
   transition: border-color 0.2s ease, background 0.2s ease;
@@ -489,7 +482,7 @@
 
 /* Slide-up reveal panel on hover */
 .animal-info__fun-fact::before {
-  content: '??READ FACT';
+  content: '⚡ READ FACT';
   position: absolute;
   left: 0;
   bottom: -40px;
@@ -500,10 +493,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.82rem;
-  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-family: var(--ff-pixel);
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   transition: bottom 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -516,12 +509,12 @@
   bottom: 0;
 }
 
-/* ?�?� Attribution footer ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?� */
+/* ── Attribution footer ────────────────────────────────────── */
 .animal-info__attribution {
   padding: 8px var(--space-md, 16px);
   border-top: 1px solid rgba(159,232,112,0.12);
-  font-size: 0.85rem;
-  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 0.78rem;
+  font-family: var(--ff-mono);
   position: relative;
   z-index: 2;
   background: rgba(0,0,0,0.1);
@@ -554,7 +547,7 @@
   text-align: center;
   padding: var(--space-lg, 24px);
   color: var(--clr-text-muted);
-  font-family: 'VT323', 'Courier New', monospace;
+  font-family: var(--ff-mono);
 }
 
 .animal-info__empty-icon {
@@ -563,17 +556,17 @@
 }
 
 .animal-info__empty-text {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   margin-bottom: 4px;
   color: var(--clr-text);
 }
 
 .animal-info__empty-sub {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--clr-text-muted);
 }
 
-/* ?�?� Typewriter cursor animation ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?� */
+/* ── Typewriter cursor animation ───────────────────────────── */
 @keyframes pixel-blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -593,14 +586,14 @@
   background: #2ead4b;
 }
 
-/* Loading state pixel style */
+/* Loading state */
 .animal-info__loading {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
-  font-family: 'VT323', 'Courier New', monospace;
-  font-size: 0.95rem;
+  font-family: var(--ff-mono);
+  font-size: 0.88rem;
   color: var(--clr-text-muted);
 }
 
@@ -1014,7 +1007,7 @@
 
 .theme-pixel .animal-info__attribution {
   border-top: 2px solid var(--clr-primary) !important;
-  font-family: var(--ff-pixel) !important;
+  font-family: var(--ff-mono) !important;
 }
 
 /* 8. Related Videos Title & Cards */

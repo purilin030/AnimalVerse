@@ -10,3 +10,9 @@
    Used for video card retro-pixel social media style.
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=DotGothic16&display=swap');
+
+/* ============================================================
+   Monospace Font — JetBrains Mono (Terminal & Code data font)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+

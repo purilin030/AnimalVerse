@@ -167,6 +167,9 @@ App.playerAnimal = (function() {
       // Render breadcrumbs if we have taxonomy data
       renderBreadcrumbs(result);
 
+      // Render the IUCN conservation status pill at the top of the drawer
+      renderConservationPill(result);
+
       // Render the active tab
       switchTab(_currentSource || 'wikipedia');
     });
@@ -250,6 +253,49 @@ App.playerAnimal = (function() {
     html += '</ul>';
     container.innerHTML = html;
     container.style.display = 'block';
+  }
+
+  // ── IUCN Conservation Status Pill ─────────────────────────
+  // Shows a prominent colored pill at the top of the encyclopedia drawer.
+  // Priority: Wikidata → iNaturalist → local curated data
+  // (data/animal-facts.json, which covers 26 species reliably).
+  function renderConservationPill(result) {
+    var container = document.getElementById('animal-conservation-pill');
+    if (!container) return;
+
+    var rawStatus = (result && result.wikidata && result.wikidata.conservationStatus) ||
+                    (result && result.inaturalist && result.inaturalist.conservationStatus) ||
+                    '';
+
+    var info = App.animalInfo.getConservationInfo ? App.animalInfo.getConservationInfo(rawStatus) : null;
+
+    if (info) {
+      setConservationPill(container, rawStatus);
+    } else if (result && result.animalName) {
+      // Local fallback — live APIs often return no or unrecognized status for a given species.
+      App.animalInfo.fetchLocalFacts(result.animalName).then(function(local) {
+        if (local && local.conservationStatus) {
+          setConservationPill(container, local.conservationStatus);
+        } else {
+          setConservationPill(container, '');
+        }
+      }).catch(function() {
+        setConservationPill(container, '');
+      });
+    } else {
+      setConservationPill(container, '');
+    }
+  }
+
+  function setConservationPill(container, status) {
+    var pill = status ? App.animalInfo.buildConservationPill(status) : '';
+    if (pill) {
+      container.innerHTML = pill;
+      container.style.display = 'flex';
+    } else {
+      container.innerHTML = '';
+      container.style.display = 'none';
+    }
   }
 
   // ── HTML Builders (one per data source) ──────────────────

@@ -169,6 +169,58 @@
   color: #2ead4b;
 }
 
+/* -- IUCN Conservation Status Pill -------------------- */
+.animal-info__conservation-pill {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 12px;
+  width: 100%;
+}
+
+.conservation-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  font-family: var(--ff-pixel);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  border: 2px solid #0e0f0c;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0px rgba(14, 15, 12, 0.55);
+  text-transform: uppercase;
+}
+
+.conservation-pill__dot {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.conservation-pill__code {
+  background: rgba(0, 0, 0, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
+/* Per-status colors (IUCN Red List categories) */
+.conservation-pill--lc { background: #2ead4b; }   /* Least Concern */
+.conservation-pill--nt { background: #eab308; }   /* Near Threatened */
+.conservation-pill--vu { background: #f97316; }   /* Vulnerable */
+.conservation-pill--en { background: #ef4444; }   /* Endangered */
+.conservation-pill--cr { background: #b91c1c; }   /* Critically Endangered */
+.conservation-pill--ew { background: #64748b; }   /* Extinct in the Wild */
+.conservation-pill--ex { background: #0e0f0c; }   /* Extinct */
+.conservation-pill--dd { background: #8a8f98; }   /* Data Deficient */
+.conservation-pill--ne { background: #aab0b8; }   /* Not Evaluated */
+
+[data-theme="dark"] .conservation-pill {
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
 /* -- Folder Tab Row ---------------------------------- */
 .animal-info__tab-row {
   display: flex;
@@ -1166,13 +1218,14 @@
 .related-videos .video-card {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
   align-items: flex-start;
   width: 100%;
 }
 
 .related-videos .video-card__thumb-link {
-  width: 140px;
+  width: 120px;
   flex-shrink: 0;
   text-decoration: none;
   color: inherit;
@@ -1180,7 +1233,7 @@
 
 .related-videos .video-card__body-link {
   flex: 1;
-  min-width: 0;
+  min-width: 140px;
   text-decoration: none;
   color: inherit;
 }
@@ -1219,6 +1272,7 @@
 .related-videos .video-card__category-tag,
 .related-videos .video-card__source-tag,
 .related-videos .video-card__animal-tag,
+.related-videos .video-card__location,
 .related-videos .video-card__actions {
   display: none !important;
 }
@@ -1577,12 +1631,25 @@
   padding: 8px !important;
   transition: all 150ms ease !important;
   gap: 12px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
 }
 
 .theme-pixel .related-videos .video-card:hover {
   transform: translate(-1px, -1px) !important;
   box-shadow: 4px 4px 0px var(--clr-primary) !important;
   background: var(--clr-accent-hover) !important;
+}
+
+.theme-pixel .related-videos .video-card__thumb-link {
+  width: 120px !important;
+  flex-shrink: 0 !important;
+}
+
+.theme-pixel .related-videos .video-card__body-link {
+  flex: 1 !important;
+  min-width: 130px !important;
 }
 
 .theme-pixel .related-videos .video-card__thumbnail-wrapper {
@@ -1615,6 +1682,11 @@
   background: var(--clr-primary) !important;
   color: var(--clr-surface) !important;
   font-weight: var(--fw-bold) !important;
+}
+
+.theme-pixel .related-videos .video-card__location,
+.theme-pixel .related-videos .video-card__actions {
+  display: none !important;
 }
 
 /* Dark mode and Youtube overrides for buttons and colors */

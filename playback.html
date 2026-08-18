@@ -55,6 +55,8 @@
                 <span class="status-value" id="animal-current-name">LOADING...</span>
               </div>
             </div>
+            <!-- IUCN conservation status pill (sits between the status box and the encyclopedia card) -->
+            <div class="animal-info__conservation-pill" id="animal-conservation-pill" style="display:none;" aria-live="polite"></div>
             <!-- Folder Tabs sit above the card -->
             <div class="animal-info__tab-row" id="animal-info-tabs">
               <button class="animal-info__tab is-active" data-source="wikipedia" title="Wikipedia summary">📖 Wiki</button>
@@ -119,6 +121,7 @@
   <script defer src="js/player-animal.js"></script>
   <script defer src="js/player.js"></script>
   <script defer src="js/chatbot.js"></script>
+  <script defer src="js/onboarding.js"></script>
   <script defer src="js/app.js"></script>
 </body>
 </html>

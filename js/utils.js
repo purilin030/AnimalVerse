@@ -29,6 +29,36 @@ App.utils = (function() {
   }
 
   /**
+   * Format a distance in km into a readable short string
+   * (< 1 km → meters, otherwise rounded km)
+   */
+  function formatDistance(km) {
+    if (km == null || isNaN(km)) return '';
+    if (km < 1) {
+      return Math.round(km * 1000).toLocaleString() + ' m';
+    }
+    return Math.round(km).toLocaleString() + ' km';
+  }
+
+  // ── Shared user position cache ─────────────────────────────
+  // The home page ("Animals Near You") is the only place that prompts for
+  // geolocation. When the user grants it, home.js calls setUserPosition()
+  // so video cards on every page can show "📍 X km away" WITHOUT re-prompting.
+  var _userPosition = null; // { lat, lng } | null
+
+  function setUserPosition(lat, lng) {
+    _userPosition = { lat: lat, lng: lng };
+  }
+
+  /**
+   * Returns the cached user position, or null if the user has not
+   * granted location access yet. Never triggers a permission prompt.
+   */
+  function getUserPosition() {
+    return _userPosition;
+  }
+
+  /**
    * Fisher-Yates shuffle (returns new shuffled copy, original unchanged)
    */
   function shuffleArray(arr) {
@@ -168,6 +198,9 @@ App.utils = (function() {
   return {
     getDistance: getDistance,
     isNearby: isNearby,
+    formatDistance: formatDistance,
+    setUserPosition: setUserPosition,
+    getUserPosition: getUserPosition,
     shuffleArray: shuffleArray,
     pluralize: pluralize,
     getVideoAspect: getVideoAspect,

@@ -130,6 +130,9 @@ App.home = (function() {
         function(position) {
           var lat = position.coords.latitude;
           var lng = position.coords.longitude;
+          // Share the granted position globally so video cards can show
+          // "📍 X km away" without re-prompting for permission.
+          App.utils.setUserPosition(lat, lng);
           showNearbyVideos(lat, lng);
         },
         function(error) {

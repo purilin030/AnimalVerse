@@ -1669,3 +1669,185 @@
 }
 
 
+
+/* ============================================================
+   Quick Feature Navigation (below hero)
+   High-contrast signifiers for Map / Random / Nearby features
+   ============================================================ */
+.quick-nav {
+  background: #0e0f0c;
+  border-bottom: 3px solid #0e0f0c;
+  padding: 26px 0;
+}
+
+.quick-nav__inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.quick-nav__card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #1e1f1b;
+  color: #e8ebe6;
+  font-family: var(--ff-pixel);
+  text-decoration: none;
+  border: 2px solid #9fe870;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0px rgba(159, 232, 112, 0.35);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+}
+
+.quick-nav__card:hover,
+.quick-nav__card:focus-visible {
+  background: #9fe870;
+  color: #0e0f0c;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #0e0f0c;
+  outline: none;
+}
+
+.quick-nav__icon {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.quick-nav__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.quick-nav__title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.quick-nav__desc {
+  font-size: 10px;
+  opacity: 0.72;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-nav__card:hover .quick-nav__desc {
+  opacity: 1;
+}
+
+.quick-nav__arrow {
+  margin-left: auto;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.quick-nav__card:hover .quick-nav__arrow {
+  transform: translateX(3px);
+}
+
+/* Dark mode: the band is already dark — keep the card palette identical */
+[data-theme="dark"] .quick-nav {
+  background: #0e0f0c;
+  border-bottom-color: #9fe870;
+}
+
+@media (max-width: 768px) {
+  .quick-nav__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   Random Discovery Floating Button (home only)
+   Persistent 🎲 entry so the blind-box feature is never missed
+   ============================================================ */
+.random-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 176px; /* clears the chatbot launcher (bottom:24px) & its window base */
+  z-index: calc(var(--z-sidebar, 1000) + 2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #ff3366;
+  color: #ffffff;
+  font-family: var(--ff-pixel);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid #0e0f0c;
+  border-radius: 999px;
+  box-shadow: 4px 4px 0px #0e0f0c;
+  animation: random-fab-float 3.2s ease-in-out infinite;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.random-fab:hover,
+.random-fab:focus-visible {
+  background: #0e0f0c;
+  color: #9fe870;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px #9fe870;
+  outline: none;
+}
+
+.random-fab__dice {
+  font-size: 18px;
+  line-height: 1;
+  display: inline-block;
+  animation: random-fab-shake 1.6s ease-in-out infinite;
+}
+
+@keyframes random-fab-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes random-fab-shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-12deg); }
+  50% { transform: rotate(8deg); }
+  75% { transform: rotate(-6deg); }
+}
+
+[data-theme="dark"] .random-fab {
+  background: #ff3366;
+  border-color: #e8ebe6;
+  box-shadow: 4px 4px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .random-fab:hover,
+[data-theme="dark"] .random-fab:focus-visible {
+  background: #9fe870;
+  color: #0e0f0c;
+  box-shadow: 6px 6px 0px #0e0f0c;
+}
+
+@media (max-width: 768px) {
+  .random-fab {
+    right: 16px;
+    bottom: 110px;
+    padding: 10px 12px;
+  }
+  .random-fab__label {
+    display: none; /* icon-only pill on small screens */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .random-fab,
+  .random-fab__dice {
+    animation: none;
+  }
+}

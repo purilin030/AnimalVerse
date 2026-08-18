@@ -1,0 +1,217 @@
+/* ============================================================
+   Onboarding — first-visit 3-step feature guide modal
+   Retro-pixel card consistent with the AnimalVerse theme.
+   ============================================================ */
+
+.onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(14, 15, 12, 0.72);
+  backdrop-filter: blur(3px);
+  animation: onboarding-fade-in 0.25s ease-out;
+}
+
+.onboarding__card {
+  position: relative;
+  width: min(420px, 100%);
+  background: #ffffff;
+  color: #0e0f0c;
+  border: 3px solid #0e0f0c;
+  border-radius: 8px;
+  box-shadow: 8px 8px 0px #9fe870;
+  padding: 34px 26px 22px;
+  text-align: center;
+  font-family: var(--ff-body);
+}
+
+.onboarding__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.onboarding__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d6d9d2;
+  border: 2px solid #0e0f0c;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.onboarding__dot.is-active {
+  background: #2ead4b;
+  transform: scale(1.25);
+}
+
+.onboarding__skip {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-family: var(--ff-pixel);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.onboarding__skip:hover {
+  color: #ff3366;
+  text-decoration: underline;
+}
+
+.onboarding__icon {
+  font-size: 52px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.onboarding__icon span {
+  display: inline-block;
+  animation: onboarding-bounce 2.4s ease-in-out infinite;
+}
+
+.onboarding__title {
+  font-family: var(--ff-pixel);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.onboarding__desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--clr-text-muted);
+  margin: 0 0 22px;
+}
+
+.onboarding__controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.onboarding__btn {
+  font-family: var(--ff-pixel);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border: 2px solid #0e0f0c;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0px #0e0f0c;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+}
+
+.onboarding__btn:hover,
+.onboarding__btn:focus-visible {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #0e0f0c;
+  outline: none;
+}
+
+.onboarding__btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #0e0f0c;
+}
+
+.onboarding__btn--primary {
+  background: #9fe870;
+  color: #0e0f0c;
+}
+
+.onboarding__btn--primary:hover,
+.onboarding__btn--primary:focus-visible {
+  background: #c5edab;
+}
+
+.onboarding__btn--ghost {
+  background: #ffffff;
+  color: #0e0f0c;
+}
+
+@keyframes onboarding-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes onboarding-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"] .onboarding {
+  background: rgba(0, 0, 0, 0.78);
+}
+
+[data-theme="dark"] .onboarding__card {
+  background: #1e1f1b;
+  color: #e8ebe6;
+  border-color: #e8ebe6;
+  box-shadow: 8px 8px 0px #9fe870;
+}
+
+[data-theme="dark"] .onboarding__dot {
+  background: #2a2b26;
+  border-color: #e8ebe6;
+}
+
+[data-theme="dark"] .onboarding__dot.is-active {
+  background: #2ead4b;
+}
+
+[data-theme="dark"] .onboarding__skip {
+  color: #868685;
+}
+
+[data-theme="dark"] .onboarding__skip:hover {
+  color: #ff3366;
+}
+
+[data-theme="dark"] .onboarding__desc {
+  color: #868685;
+}
+
+[data-theme="dark"] .onboarding__btn {
+  border-color: #e8ebe6;
+  box-shadow: 3px 3px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .onboarding__btn--primary {
+  background: #9fe870;
+  color: #0e0f0c;
+  border-color: #9fe870;
+  box-shadow: 3px 3px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .onboarding__btn--ghost {
+  background: #2a2b26;
+  color: #e8ebe6;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .onboarding,
+  .onboarding__icon span {
+    animation: none;
+  }
+  .onboarding__dot {
+    transition: none;
+  }
+}

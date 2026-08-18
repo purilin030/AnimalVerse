@@ -25,6 +25,7 @@
     App.navigation.init();
     App.chatbot.init();
     App.ui.initDropdowns();
+    App.onboarding.init();
 
     // ── Page dispatch table (data-driven — no switch statement) ──
     // Each page registers its init function.  Adding a new page

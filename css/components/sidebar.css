@@ -229,13 +229,13 @@
   margin-top: auto;
 }
 
-/* +More Video button */
+/* Random Video button */
 .sidebar__more-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   margin-bottom: 12px;
   background: var(--clr-text);
   border-radius: 8px;
@@ -245,6 +245,25 @@
   font-family: 'Inter', sans-serif;
   text-decoration: none;
   transition: all 0.2s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.sidebar__more-btn-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar__more-btn-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
 }
 
 [data-theme="dark"] .sidebar__more-btn {
@@ -255,7 +274,11 @@
 .sidebar__more-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+  opacity: 0.95;
+}
+
+.sidebar__more-btn:hover .sidebar__more-btn-icon {
+  transform: rotate(15deg) scale(1.12);
 }
 
 .sidebar__footer-text {
@@ -606,11 +629,16 @@
   /* Hide labels, chevrons, footer text, and button text when collapsed */
   .sidebar__item-label,
   .sidebar__chevron,
-  .sidebar__footer-text,
-  .sidebar__more-btn-text {
+  .sidebar__footer-text {
     opacity: 0;
     visibility: hidden;
     transition: opacity 150ms ease, visibility 150ms ease;
+  }
+
+  .sidebar__more-btn-text {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
   }
 
   /* Fade them in when expanded */
@@ -622,10 +650,16 @@
   .sidebar--peek .sidebar__chevron,
   .sidebar:hover .sidebar__footer-text,
   .sidebar--visible .sidebar__footer-text,
-  .sidebar--peek .sidebar__footer-text,
+  .sidebar--peek .sidebar__footer-text {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 250ms ease 100ms, visibility 250ms ease 100ms;
+  }
+
   .sidebar:hover .sidebar__more-btn-text,
   .sidebar--visible .sidebar__more-btn-text,
   .sidebar--peek .sidebar__more-btn-text {
+    display: inline-block;
     opacity: 1;
     visibility: visible;
     transition: opacity 250ms ease 100ms, visibility 250ms ease 100ms;
@@ -719,6 +753,7 @@
     border-radius: 4px;
     margin: 0 auto;
     justify-content: center;
+    align-items: center;
     gap: 0;
     transition: all 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
@@ -731,6 +766,7 @@
     padding: 10px 14px;
     border-radius: 4px;
     justify-content: flex-start;
+    align-items: center;
     gap: 8px;
     margin-bottom: 8px;
   }

@@ -251,6 +251,88 @@
   color: #0e0f0c;
 }
 
+/* ── Location Bar (clickable filming spot + radar badge) ── */
+.video-card__location {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 var(--space-sm) var(--space-sm);
+  padding: 6px 8px;
+  background: #f4f5f0;
+  color: #0e0f0c;
+  font-family: var(--ff-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid #0e0f0c;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #0e0f0c;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.video-card__location:hover,
+.video-card__location:focus-visible {
+  background: #9fe870;
+  color: #0e0f0c;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #0e0f0c;
+  outline: none;
+}
+
+.video-card__location-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.video-card__location-dist {
+  color: var(--clr-text-muted);
+  font-size: 9px;
+  flex-shrink: 0;
+}
+
+.video-card__location:hover .video-card__location-dist {
+  color: #163300;
+}
+
+/* Radar dot — pulsing green "live location" signifier */
+.video-card__location-radar {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0e0f0c;
+  flex-shrink: 0;
+}
+
+.video-card__location-radar::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: #2ead4b;
+  animation: radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes radar-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  70%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
 /* ── Aspect ratio helpers ── */
 .video-card__thumbnail-wrapper.aspect-square {
   aspect-ratio: 1 / 1;
@@ -406,6 +488,27 @@
   border-color: #454745;
 }
 
+[data-theme="dark"] .video-card__location {
+  background: #2a2b26;
+  color: #e8ebe6;
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__location:hover,
+[data-theme="dark"] .video-card__location:focus-visible {
+  background: #9fe870;
+  color: #0e0f0c;
+}
+
+[data-theme="dark"] .video-card__location-dist {
+  color: #868685;
+}
+
+[data-theme="dark"] .video-card__location:hover .video-card__location-dist {
+  color: #163300;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .video-card {
@@ -419,6 +522,15 @@
   }
   .video-card__action-btn {
     transition: none;
+  }
+  .video-card__location {
+    transition: none;
+  }
+  .video-card__location:hover {
+    transform: none;
+  }
+  .video-card__location-radar::after {
+    animation: none;
   }
   .video-card__title {
     transition: none;

@@ -216,6 +216,54 @@ App.ui = (function() {
   }
 
   /**
+   * Build the clickable location bar for a video card.
+   * Shows a pulsing radar dot + filming-place name, and fills in
+   * "📍 X km away" once the user's position is known (granted on the
+   * home page — never prompts here). Clicking opens the world map
+   * focused on that exact filming spot.
+   */
+  function _buildLocationBar(video) {
+    var loc = video.location;
+    if (!loc || !loc.lat || !loc.lng) return null;
+
+    var link = document.createElement('a');
+    link.className = 'video-card__location';
+    link.href = 'map.html?focus=' + loc.lat + ',' + loc.lng +
+      '&name=' + encodeURIComponent(loc.name || '');
+    link.setAttribute('title', 'Click to locate this animal on the world map');
+    link.setAttribute('aria-label', 'View ' + (video.title || 'this animal') + ' filming location on the world map');
+
+    // Pulsing radar dot (signifier: this is a live geographic marker)
+    var dot = document.createElement('span');
+    dot.className = 'video-card__location-radar';
+    dot.setAttribute('aria-hidden', 'true');
+    link.appendChild(dot);
+
+    // Place name — strip the trailing "(Region)" suffix for a compact label
+    var rawName = loc.name || '';
+    var shortName = rawName.replace(/\s*\([^)]*\)\s*$/, '').trim() || rawName;
+    var label = document.createElement('span');
+    label.className = 'video-card__location-name';
+    label.textContent = shortName;
+    link.appendChild(label);
+
+    // Distance from user — filled in lazily from the shared position cache
+    var dist = document.createElement('span');
+    dist.className = 'video-card__location-dist';
+    dist.setAttribute('data-lat', loc.lat);
+    dist.setAttribute('data-lng', loc.lng);
+    link.appendChild(dist);
+
+    var pos = App.utils.getUserPosition();
+    if (pos) {
+      var d = App.utils.getDistance(pos.lat, pos.lng, loc.lat, loc.lng);
+      dist.textContent = ' · 📍 ' + App.utils.formatDistance(d) + ' away';
+    }
+
+    return link;
+  }
+
+  /**
    * Create a video card DOM element (safe DOM methods, no innerHTML)
    * Retro pixel style — separate thumb/body links, actions bar as sibling
    */
@@ -245,6 +293,12 @@ App.ui = (function() {
 
     // Actions bar (sibling of links — no nested interactive elements)
     card.appendChild(_buildActionsBar(video));
+
+    // Clickable filming-location bar (radar dot + place + distance)
+    var locationBar = _buildLocationBar(video);
+    if (locationBar) {
+      card.appendChild(locationBar);
+    }
 
     return card;
   }

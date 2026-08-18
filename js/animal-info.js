@@ -346,7 +346,8 @@ App.animalInfo = (function() {
         var scientificName = _getClaimValue(claims, 'P225');
         var taxonRank = _getClaimValue(claims, 'P105');
         var description = ent.descriptions && ent.descriptions.en && ent.descriptions.en.value;
-        var conservation = _getClaimValue(claims, 'P141');
+        var conservationRaw = _getClaimValue(claims, 'P141');
+        var conservation = (conservationRaw && WIKIDATA_IUCN_MAP[conservationRaw]) ? WIKIDATA_IUCN_MAP[conservationRaw] : conservationRaw;
 
         var resultData = {
           name: (ent.labels && ent.labels.en && ent.labels.en.value) || animalName,
@@ -657,21 +658,71 @@ App.animalInfo = (function() {
   }
 
   // ── Format helper for rendering ────────────────────────────
-  function formatConservationStatus(status) {
+  // Wikidata IUCN Red List entity Q-ID mapping
+  var WIKIDATA_IUCN_MAP = {
+    'Q211005': 'Least Concern',
+    'Q719675': 'Near Threatened',
+    'Q278113': 'Vulnerable',
+    'Q11394': 'Endangered',
+    'Q237350': 'Critically Endangered',
+    'Q239588': 'Extinct in the Wild',
+    'Q237282': 'Extinct',
+    'Q3245245': 'Data Deficient',
+    'Q80978': 'Not Evaluated',
+    'Q28028751': 'Not Evaluated',
+    'Q21706691': 'Near Threatened',
+    'Q21706692': 'Near Threatened',
+    'Q21706693': 'Least Concern'
+  };
+
+  // Shared IUCN status mapping → { icon, label, key } where `key` is the
+  // CSS modifier suffix used by .conservation-pill--<key>.
+  // The list is ordered MOST-SEVERE first: when a status string carries
+  // modifiers (e.g. "Vulnerable to Critically Endangered (species
+  // dependent)"), the FIRST matching entry wins → the worst-case category
+  // is displayed, which is the conservative choice for conservation info.
+  var CONSERVATION_STATUSES = [
+    { key: 'ex', label: 'Extinct',                icon: '⚫', match: /\bextinct\b(?!\s+in the wild)|\bq237282\b/i },
+    { key: 'ew', label: 'Extinct in the Wild',    icon: '💀', match: /extinct in the wild|\bq239588\b/i },
+    { key: 'cr', label: 'Critically Endangered',  icon: '⛔', match: /critically endangered|\bcr\b|\bq237350\b/i },
+    { key: 'en', label: 'Endangered',             icon: '🔴', match: /\bendangered\b|\bq11394\b/i },
+    { key: 'vu', label: 'Vulnerable',             icon: '🟠', match: /\bvulnerable\b|\bq278113\b/i },
+    { key: 'nt', label: 'Near Threatened',        icon: '🟡', match: /\bnear threatened\b|\bnt\b|\bq719675\b|\bq2170669[12]\b/i },
+    { key: 'lc', label: 'Least Concern',          icon: '🟢', match: /\bleast concern\b|\blc\b|\bq211005\b|\bq21706693\b/i },
+    { key: 'dd', label: 'Data Deficient',         icon: '⬜', match: /\bdata deficient\b|\bdd\b|\bq3245245\b/i },
+    { key: 'ne', label: 'Not Evaluated',          icon: '⬜', match: /\bnot evaluated\b|\bne\b|\bq80978\b|\bq28028751\b/i }
+  ];
+
+  function getConservationInfo(status) {
     if (!status) return null;
-    var map = {
-      'least concern': { label: 'Least Concern', icon: '🟢' },
-      'near threatened': { label: 'Near Threatened', icon: '🟡' },
-      'vulnerable': { label: 'Vulnerable', icon: '🟠' },
-      'endangered': { label: 'Endangered', icon: '🔴' },
-      'critically endangered': { label: 'Critically Endangered', icon: '⛔' },
-      'extinct in the wild': { label: 'Extinct in the Wild', icon: '💀' },
-      'extinct': { label: 'Extinct', icon: '⚫' }
-    };
     var lower = String(status).toLowerCase();
-    var mapped = map[lower] || map[lower.replace(/^lc$/i, 'least concern')];
-    if (mapped) return mapped.icon + ' ' + mapped.label;
+    for (var i = 0; i < CONSERVATION_STATUSES.length; i++) {
+      if (CONSERVATION_STATUSES[i].match.test(lower)) {
+        return CONSERVATION_STATUSES[i];
+      }
+    }
+    return null;
+  }
+
+  function formatConservationStatus(status) {
+    var info = getConservationInfo(status);
+    if (info) return info.icon + ' ' + info.label;
     return status;
+  }
+
+  /**
+   * Build a prominent colored IUCN status pill for the top of the
+   * playback encyclopedia drawer (e.g. "⛔ Critically Endangered").
+   * Returns an HTML string, or '' if the status is unknown/empty.
+   */
+  function buildConservationPill(status) {
+    var info = getConservationInfo(status);
+    if (!info) return '';
+    return '<span class="conservation-pill conservation-pill--' + info.key + '" role="img" aria-label="IUCN conservation status: ' + info.label + '">' +
+      '<span class="conservation-pill__dot" aria-hidden="true">' + info.icon + '</span>' +
+      '<span class="conservation-pill__code">' + info.key.toUpperCase() + '</span>' +
+      '<span class="conservation-pill__label">' + info.label + '</span>' +
+      '</span>';
   }
 
   // ── Public API ──────────────────────────────────────────────
@@ -700,6 +751,9 @@ App.animalInfo = (function() {
     fetchSingleSource: fetchSingleSource,
     fetchAll: fetchAll,
     analyzeWikipediaText: analyzeWikipediaText,
-    formatConservationStatus: formatConservationStatus
+    formatConservationStatus: formatConservationStatus,
+    buildConservationPill: buildConservationPill,
+    getConservationInfo: getConservationInfo,
+    WIKIDATA_IUCN_MAP: WIKIDATA_IUCN_MAP
   };
 })();

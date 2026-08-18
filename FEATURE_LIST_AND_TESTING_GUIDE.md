@@ -11,6 +11,14 @@
    - 3.2 [功能引导与 UI 暗示不足的原因剖析](#32-功能引导与-ui-暗示不足的原因剖析)
    - 3.3 [UI 视觉暗示与引导增强方案 (Signifiers & Affordance)](#33-ui-视觉暗示与引导增强方案)
 4. [第一轮用户可用性测试任务清单 (Usability Test Tasks)](#4-第一轮用户可用性测试任务清单-usability-test-tasks)
+5. [引导增强实现日志与代码索引 (Implementation Log)](#5-引导增强实现日志与代码索引-implementation-log)
+   - 5.1 [视频卡片：可点击坐标 + 距离雷达徽章](#51-视频卡片可点击坐标--距离雷达徽章)
+   - 5.2 [主页：3 个快捷功能导航卡](#52-主页3-个快捷功能导航卡)
+   - 5.3 [首页：Random Video 盲盒浮动入口](#53-首页random-video-盲盒浮动入口)
+   - 5.4 [全站：首次访问 3 步引导气泡](#54-全站首次访问-3-步引导气泡)
+   - 5.5 [播放页：IUCN 彩色药丸徽章](#55-播放页iucn-彩色药丸徽章)
+   - 5.6 [附带修复：playback.html 残留错误文本](#56-附带修复playbackhtml-残留错误文本)
+6. [前端二次优化的快速定位指引 (Code Map)](#6-前端二次优化的快速定位指引-code-map)
 
 ---
 
@@ -132,3 +140,79 @@ flowchart TD
 ---
 
 > 💡 **附注**：本清单已同步作为工程测试标准。如测试过程中发现任何未被自然引导的操作步骤，可直接记录在测试反馈表中供下一轮迭代优化。
+
+---
+
+## 5. 引导增强实现日志与代码索引 (Implementation Log)
+
+> 本节把第 3.3 节的"增强方案"逐条落到代码，标注**改了哪些文件、核心实现在哪、如何验证**。后续前端优化请先对照本节的代码索引，避免改动时踩到已实现的逻辑。
+
+### 5.1 视频卡片：可点击坐标 + 距离雷达徽章
+* **对应方案**：3.3-①（地理坐标卡片增强视觉暗示）
+* **涉及文件**：
+  - `js/ui.js` → `_buildLocationBar(video)` + `createVideoCard()`：在每张卡片底部渲染位置条（雷达点 + 地点名 + 距离），整条是可点击链接，指向 `map.html?focus=lat,lng&name=...`。
+  - `js/map.js` → `getFocusFromUrl()` / `applyFocusFromUrl()`：解析 `?focus=` 深链，自动平移到该拍摄点并打开最近的视频点位弹窗（找不到本地点位则放一个临时红色焦点标记）。
+  - `js/utils.js` → 新增 `formatDistance(km)`、`setUserPosition(lat,lng)`、`getUserPosition()`。
+  - `js/home.js` → 定位成功回调里调用 `App.utils.setUserPosition(lat, lng)`。
+  - `css/components/video-card.css` → `.video-card__location*` 与雷达脉冲 `@keyframes radar-ping`（含暗色/减弱动效适配）。
+* **关键设计**：**绝不主动弹定位授权**。用户坐标只在首页 "Animals Near You" 授权后通过 `setUserPosition` 共享给全站；未授权时卡片只显示"雷达点 + 地点名"（仍可点击进地图），距离文本留空。
+* **数据前提**：`data/videos.json` 中每条视频均有 `location: { name, lat, lng, region }`（423/423）。
+
+### 5.2 主页：3 个快捷功能导航卡
+* **对应方案**：3.3-③（主页增设快捷功能导航卡）
+* **涉及文件**：
+  - `home.html` → 在 Hero 结束后、`#article-main` 之前新增 `<section class="quick-nav" id="quick-nav">`，含 3 张高对比卡片：🗺️ Explore the Map → `map.html`；🎲 Random Discovery → `random_vid.html`；📍 Animals Near You → 锚点 `#nearby-section`。
+  - `css/pages/home.css` → `.quick-nav*` 样式（深色横带、像素描边、hover 位移、移动端单列）。
+* **注意**：原 "Why Animal-Verse?" Bento Grid（Discover/Learn/Contribute）是**营销卡，未被替换**；快捷导航是独立新增区段。
+
+### 5.3 首页：Random Video 盲盒浮动入口
+* **对应方案**：3.2-4（Random Video 入口易被漏测）
+* **涉及文件**：
+  - `home.html` → 在 `data-include="chatbot"` 之后新增 `<a class="random-fab" href="random_vid.html">`（🎲 Random Discovery 悬浮胶囊）。
+  - `css/pages/home.css` → `.random-fab*`（右下角 fixed，`bottom:176px` 避开 chatbot 启动按钮；移动端 `bottom:110px` 且只显示图标；上下浮动 + 骰子摆动动画）。
+* **注意**：FAB 与右下角 chatbot 的定位已错开；若调整 chatbot 高度请同步改 `.random-fab` 的 `bottom` 值。
+
+### 5.4 全站：首次访问 3 步引导气泡
+* **对应方案**：3.3-②（首次访问引导气泡）
+* **涉及文件**：
+  - `js/onboarding.js`（**新增**）→ `App.onboarding` 模块：读取 `localStorage['animalverse-onboarded']`，首次访问时延迟 1.2s 弹出 3 步引导（地图 / 百科 / 盲盒），支持 下一步/上一步/跳过/背景点击/Esc/方向键；最后一步按钮变为 "Start Exploring"，点击后写入 localStorage 不再出现。
+  - `css/components/onboarding.css`（**新增**）→ 复古像素对话框样式 + 暗色/减弱动效适配。
+  - `css/main.css` → `@import url('components/onboarding.css');`。
+  - `js/app.js` → 共享初始化区新增 `App.onboarding.init();`。
+  - **全部 17 个 HTML 页面** → 在 `js/app.js` 之前插入 `<script defer src="js/onboarding.js"></script>`（defer 按文档顺序执行，必须在 app.js 前）。
+* **调试提示**：想反复看引导，先在 DevTools 里删掉 `animalverse-onboarded` 再刷新。
+
+### 5.5 播放页：IUCN 彩色药丸徽章
+* **对应方案**：3.3-① 第 3 点（百科知识卡片 IUCN 状态彩色药丸）
+* **涉及文件**：
+  - `js/animal-info.js` → 抽出共享映射 `CONSERVATION_STATUSES`（按"严重程度从高到低"排序，首个命中的等级获胜）与 `getConservationInfo(status)`；新增 `buildConservationPill(status)` 返回 `<span class="conservation-pill conservation-pill--cr">…</span>`；`formatConservationStatus` 改为复用该映射（向后兼容，输出不变）。
+  - `js/player-animal.js` → 新增 `renderConservationPill(result)` + `setConservationPill(container, status)`，在 `fetchAll` 成功后调用；**状态来源优先级：Wikidata → iNaturalist → 本地 `data/animal-facts.json`**。
+  - `playback.html` → 在 Tab 行与卡片之间新增 `<div class="animal-info__conservation-pill" id="animal-conservation-pill">`。
+  - `css/pages/playback.css` → `.conservation-pill*` 与 **9 个色阶类**（`--lc/--nt/--vu/--en/--cr/--ew/--ex/--dd/--ne`）+ 暗色适配。
+* **关键设计（本地兜底）**：Wikidata/iNaturalist 是实时 API，很多物种拿不到状态，导致 pill 不显示、难以演示。因此加了**本地兜底**——`data/animal-facts.json` 的 `species` 表里 26 个物种全部带 `conservationStatus` 字段，直接复用。
+* **状态值解析**：`getConservationInfo` 用"关键词扫描 + 取最严重"策略，能解析带修饰语的字符串：
+  - `Endangered (African), Endangered (Asian)` → `Endangered`
+  - `Vulnerable to Critically Endangered (species dependent)` → `Critically Endangered`（取更严重者）
+  - `Not Evaluated (most species)` / `Data Deficient` → 灰色 `--ne` / `--dd`
+  - `LC` / `CR` 等缩写也支持；无法识别的值不显示 pill（优雅隐藏）。
+
+### 5.6 附带修复：playback.html 残留错误文本
+* **问题**：`playback.html` 内 "Filming Location" 上方残留了两行裸文本 `Diagnostic Note: / Error parsing Wikipedia response: Cannot read properties of undefined (reading 'length')`，会真实渲染到页面。
+* **处置**：已删除。经排查，该报错源于早期版本 `analyzeWikipediaText` 的 `.length` 边界问题，当前代码（`js/animal-info.js` + `js/player-animal.js` 的渲染侧）均已加防护，实测不再触发。
+
+---
+
+## 6. 前端二次优化的快速定位指引 (Code Map)
+
+| 想改的东西 | 去哪里改 |
+| :--- | :--- |
+| 视频卡片的距离/坐标显示样式 | `css/components/video-card.css`（`.video-card__location*`、`radar-ping`） |
+| 卡片距离计算的逻辑 | `js/ui.js` `_buildLocationBar()` + `js/utils.js`（`getDistance`/`formatDistance`/`getUserPosition`） |
+| 地图深链定位行为 | `js/map.js` `applyFocusFromUrl()`（匹配阈值、zoom、焦点标记） |
+| 首页快捷导航卡的文案/链接 | `home.html` `#quick-nav` 区段 + `css/pages/home.css` |
+| 首页 Random 悬浮按钮位置/动画 | `home.html` `.random-fab` + `css/pages/home.css` |
+| 首次引导的步骤内容 | `js/onboarding.js` 顶部 `STEPS` 数组（改文案/加步骤） |
+| 首次引导的样式 | `css/components/onboarding.css` |
+| IUCN 状态 → 颜色的映射 | `js/animal-info.js` `CONSERVATION_STATUSES` |
+| IUCN 药丸徽章的颜色/样式 | `css/pages/playback.css`（`.conservation-pill--*`） |
+| IUCN 徽章展示位置 | `playback.html` `#animal-conservation-pill` + `js/player-animal.js` `renderConservationPill()` |

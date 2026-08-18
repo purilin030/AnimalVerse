@@ -112,6 +112,37 @@
         </a>
       </section>
 
+      <!-- Quick Feature Navigation (below hero — high-contrast signifiers for the
+           map / random blind-box / nearby features that users often miss) -->
+      <section class="quick-nav reveal-section" id="quick-nav" aria-label="Quick explore">
+        <div class="twenty-container quick-nav__inner">
+          <a class="quick-nav__card" href="map.html">
+            <span class="quick-nav__icon" aria-hidden="true">🗺️</span>
+            <span class="quick-nav__text">
+              <strong class="quick-nav__title">Explore the Map</strong>
+              <span class="quick-nav__desc">Discover wildlife by global location</span>
+            </span>
+            <span class="quick-nav__arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="quick-nav__card" href="random_vid.html">
+            <span class="quick-nav__icon" aria-hidden="true">🎲</span>
+            <span class="quick-nav__text">
+              <strong class="quick-nav__title">Random Discovery</strong>
+              <span class="quick-nav__desc">Surprise me with a mystery animal</span>
+            </span>
+            <span class="quick-nav__arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="quick-nav__card" href="#nearby-section">
+            <span class="quick-nav__icon" aria-hidden="true">📍</span>
+            <span class="quick-nav__text">
+              <strong class="quick-nav__title">Animals Near You</strong>
+              <span class="quick-nav__desc">See species closest to your location</span>
+            </span>
+            <span class="quick-nav__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+
       <!-- ?????????????????????????????????????????????????????????????????????????????           ARTICLE MAIN ??Twenty's #main wrapper
            All content sections live inside this article
            ?????????????????????????????????????????????????????????????????????????????-->
@@ -458,6 +489,12 @@
   <!-- Chatbot + Toast injected via data-include -->
   <div data-include="chatbot"></div>
 
+  <!-- Floating Random-Discovery entry (always visible while scrolling) -->
+  <a href="random_vid.html" class="random-fab" aria-label="Random Discovery - surprise me with a mystery animal">
+    <span class="random-fab__dice" aria-hidden="true">🎲</span>
+    <span class="random-fab__label">Random Discovery</span>
+  </a>
+
   <!-- ===== SCRIPTS (load order matters) ===== -->
   <script defer src="js/include.js"></script>
   <script defer src="js/config.js"></script>
@@ -477,6 +514,7 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/home.js"></script>
   <script defer src="js/chatbot.js"></script>
+  <script defer src="js/onboarding.js"></script>
   <script defer src="js/app.js"></script>
 
   <!-- Interactive 3D Globe (extracted module) -->

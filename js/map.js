@@ -240,11 +240,14 @@ App.map = (function() {
     });
 
     // Invalidate map size after rendering is fully loaded
-    setTimeout(function() { 
+    setTimeout(function() {
       if (mapInstance) {
-        mapInstance.invalidateSize(); 
+        mapInstance.invalidateSize();
       }
     }, 100);
+
+    // Deep-link support: map.html?focus=lat,lng&name=... (from video card location bars)
+    applyFocusFromUrl();
   }
 
   /**
@@ -436,6 +439,78 @@ App.map = (function() {
       '    </a>' +
       '  </div>' +
       '</div>';
+  }
+
+  /**
+   * Read the ?focus=lat,lng&name=... deep-link params from the URL.
+   * Used by video-card location bars: "click coordinates → locate on map".
+   */
+  function getFocusFromUrl() {
+    if (typeof URLSearchParams === 'undefined') return null;
+    var params = new URLSearchParams(window.location.search);
+    var focus = params.get('focus');
+    if (!focus) return null;
+    var parts = focus.split(',');
+    if (parts.length < 2) return null;
+    var lat = parseFloat(parts[0]);
+    var lng = parseFloat(parts[1]);
+    if (isNaN(lat) || isNaN(lng)) return null;
+    return {
+      lat: lat,
+      lng: lng,
+      name: params.get('name') || ''
+    };
+  }
+
+  /**
+   * Pan/zoom to the deep-linked filming spot and open the closest
+   * local video marker's popup. Falls back to a temporary focus marker
+   * if no library video sits near that exact point.
+   */
+  function applyFocusFromUrl() {
+    if (!mapInstance) return;
+    var focus = getFocusFromUrl();
+    if (!focus) return;
+
+    var closest = null;
+    var closestDist = Infinity;
+    for (var i = 0; i < markerObjects.length; i++) {
+      var v = markerObjects[i].video;
+      if (!v.location) continue;
+      var d = Math.pow(v.location.lat - focus.lat, 2) + Math.pow(v.location.lng - focus.lng, 2);
+      if (d < closestDist) {
+        closestDist = d;
+        closest = markerObjects[i];
+      }
+    }
+
+    // Found a matching library video marker near the focus point → open its popup
+    if (closest && closestDist < 2) {
+      mapInstance.setView([closest.marker.getLatLng().lat, closest.marker.getLatLng().lng], 6);
+      setTimeout(function() {
+        closest.marker.openPopup();
+      }, 250);
+      return;
+    }
+
+    // No nearby video marker — drop a temporary focus marker and zoom in
+    mapInstance.setView([focus.lat, focus.lng], 6);
+    var focusIcon = L.divIcon({
+      className: 'animal-marker animal-marker--focus',
+      html: '<span class="animal-marker__wrapper">' +
+            '  <span class="animal-marker__pulse" style="background:#ff3366"></span>' +
+            '  <span class="animal-marker__inner" style="background:#ff3366"></span>' +
+            '</span>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    });
+    L.marker([focus.lat, focus.lng], { icon: focusIcon })
+      .addTo(mapInstance)
+      .bindPopup('<div class="map-popup"><strong>' + App.ui.escapeHtml(focus.name || 'Filming location') + '</strong></div>', {
+        maxWidth: 280,
+        className: 'map-popup-wrapper'
+      })
+      .openPopup();
   }
 
   return {

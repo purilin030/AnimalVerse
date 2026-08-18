@@ -89,7 +89,6 @@ App.speciesMap = {
   'albatross':        'Diomedeidae',
   'arctic tern':      'Sterna paradisaea',
   'snow petrel':      'Pagodroma nivea',
-  'butterfly':        'Lepidoptera',
 
   /* ── Reptiles ────────────────────────────────────────────── */
   'sea turtle':       'Chelonia mydas',

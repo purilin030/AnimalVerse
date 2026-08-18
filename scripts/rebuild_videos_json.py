@@ -14,6 +14,8 @@ import urllib.parse
 import time
 import random
 import re
+import hashlib
+import datetime
 from pathlib import Path
 
 # Paths
@@ -142,6 +144,87 @@ region_fallback = {
     'Antarctica': ['penguin', 'seal', 'blue-whale', 'orca', 'albatross', 'leopard-seal', 'krill', 'snow-petrel', 'squid', 'arctic-tern'],
     'Ocean': ['dolphin', 'shark', 'octopus', 'sea-turtle', 'manta-ray', 'clownfish', 'jellyfish', 'seahorse', 'coral', 'whale', 'turtle']
 }
+
+# ── Popularity tiers for realistic view counts ──────────────────────
+# The gallery's "Most Popular" view relies on a real gradient: megafauna
+# and universally loved species rack up millions, rare/new species stay low.
+SUPER_HOT_SLUGS = {
+    'lion', 'tiger', 'dolphin', 'wolf', 'giant-panda', 'panda', 'bald-eagle',
+    'great-white-shark', 'elephant', 'asian-elephant', 'giraffe', 'cheetah',
+    'penguin', 'orca', 'blue-whale', 'octopus', 'macaw', 'shark',
+    'hippopotamus', 'zebra', 'gorilla', 'jaguar', 'monkey'
+}
+
+HOT_SLUGS = {
+    'capybara', 'kangaroo', 'koala', 'sloth', 'chameleon', 'fox', 'red-fox',
+    'bear', 'brown-bear', 'grizzly-bear', 'sun-bear', 'parrot', 'flamingo',
+    'peacock', 'toucan', 'seahorse', 'jellyfish', 'clownfish', 'sea-turtle',
+    'turtle', 'owl', 'red-panda', 'snow-leopard', 'orangutan', 'chimpanzee',
+    'otter', 'raccoon', 'beaver', 'bison', 'european-bison', 'moose', 'elk',
+    'reindeer', 'lynx', 'coyote', 'dingo', 'emu', 'kookaburra', 'komodo-dragon',
+    'crocodile', 'alligator', 'frog', 'tree-frog', 'bullfrog', 'red-eyed-tree-frog',
+    'poison-dart-frog', 'butterfly', 'whale', 'seal', 'leopard-seal', 'manta-ray',
+    'piranha', 'squid', 'axolotl', 'lioness', 'horse', 'kitten', 'cat', 'rabbit',
+    'hedgehog', 'eagle', 'mountain-lion', 'wild-boar', 'badger', 'rhinoceros',
+    'albatross'
+}
+
+COLD_SLUGS = {
+    'caecilian', 'glass-frog', 'hellbender', 'gila-monster', 'coral-snake',
+    'tuatara', 'sambar-deer', 'snow-petrel', 'arctic-tern', 'krill',
+    'vampire-bat', 'wallaby', 'wombat', 'tasmanian-devil', 'platypus',
+    'leatherback-turtle', 'galapagos-tortoise', 'monitor-lizard', 'king-cobra',
+    'rattlesnake', 'python', 'newt', 'toad', 'salamander', 'iguana', 'gecko',
+    'anaconda', 'coral', 'howler-monkey'
+}
+
+# (min, max) view counts per popularity tier
+VIEW_TIERS = {
+    'super':   (800_000, 3_500_000),
+    'hot':     (150_000, 750_000),
+    'regular': (25_000, 120_000),
+    'cold':    (2_000, 18_000)
+}
+
+def _slug_rng(seed_str):
+    """Deterministic RNG seeded from a string (md5 — not the salted built-in hash)."""
+    seed = int(hashlib.md5(seed_str.encode('utf-8')).hexdigest(), 16)
+    return random.Random(seed)
+
+def get_views_tier(slug):
+    if slug in SUPER_HOT_SLUGS:
+        return 'super'
+    if slug in HOT_SLUGS:
+        return 'hot'
+    if slug in COLD_SLUGS:
+        return 'cold'
+    return 'regular'
+
+def generate_views(video_id, slug):
+    """Deterministic realistic view count with a real gradient per species tier."""
+    rng = _slug_rng(video_id)
+    lo, hi = VIEW_TIERS[get_views_tier(slug)]
+    # Per-video organic spread within the tier (same species, slightly varied)
+    views = rng.uniform(lo, hi) * rng.uniform(0.85, 1.15)
+    views = int(round(views / 100.0) * 100)
+    return max(lo, min(hi, views))
+
+def generate_date_added(video_id):
+    """Deterministic date between late 2024 and today, weighted toward recent."""
+    rng = _slug_rng(video_id + ':date')
+    roll = rng.random()
+    if roll < 0.30:
+        offset_days = rng.randint(0, 60)      # very recent → "X days ago" + NEW badge
+    elif roll < 0.65:
+        offset_days = rng.randint(61, 250)    # recent months → "X months ago"
+    else:
+        offset_days = rng.randint(251, 560)   # older → late 2024 / 2025
+    d = datetime.date.today() - datetime.timedelta(days=offset_days)
+    # Keep the "late 2024" anchor: never generate older than 2024-09-01
+    floor = datetime.date(2024, 9, 1)
+    if d < floor:
+        d = floor + datetime.timedelta(days=rng.randint(0, 60))
+    return d.strftime('%Y-%m-%d')
 
 def get_region_from_slug(slug):
     slug_lower = slug.lower()
@@ -354,10 +437,16 @@ def rebuild():
 
     # Scan category subdirectories (Mammals, Birds, Reptiles, Amphibians, Fish, Invertebrates)
     folders = []
+    seen_slugs = set()
     for cat_dir in sorted(LIBRARY_DIR.iterdir()):
         if cat_dir.is_dir():
             for animal_dir in sorted(cat_dir.iterdir()):
                 if animal_dir.is_dir() and (animal_dir / 'videos').exists():
+                    slug = animal_dir.name
+                    if slug in seen_slugs:
+                        print(f"  [SKIP DUP] Skipping duplicate folder for {slug} in {cat_dir.name}")
+                        continue
+                    seen_slugs.add(slug)
                     folders.append(animal_dir)
     
     video_counter = 1
@@ -404,62 +493,77 @@ def rebuild():
 
         # Load sources.json for source/credit attribution
         sources_json_path = photos_dir / 'sources.json'
-        sources_lookup = {}
+        sources_data = []
         if sources_json_path.exists():
             try:
                 with open(sources_json_path, 'r', encoding='utf-8') as sf:
                     sources_data = json.load(sf)
-                for entry in sources_data:
-                    src_name = (entry.get('source', '') or '').lower()
-                    entry_title = (entry.get('title', '') or '').lower()
-                    if src_name:
-                        key = (src_name, entry_title)
-                        if key not in sources_lookup:
-                            sources_lookup[key] = entry
                 print(f"  [OK] Loaded {len(sources_data)} source entries from sources.json")
             except Exception as e:
                 print(f"  [WARN] Failed to load sources.json: {e}")
 
         def get_photo_source_info(filename):
-            """Extract source and credit from photo filename using sources.json lookup."""
+            """Extract source and credit from photo filename using sources_data."""
             stem = filename.stem.lower()
-            base = re.sub(r'-\d+$', '', stem)
-            slug_lower = slug.lower()
-            if base.startswith(slug_lower + '-'):
-                src_key = base[len(slug_lower) + 1:]
-            else:
-                src_key = base
-            source_cap = src_key.capitalize()
-            entry = sources_lookup.get((src_key, slug_lower))
-            if not entry:
-                entry = sources_lookup.get((source_cap.lower(), slug_lower))
-            if not entry:
-                for (s, t), e in sources_lookup.items():
-                    if s == src_key or s == source_cap.lower():
-                        entry = e
-                        break
-            if entry:
-                return entry.get('source', source_cap), entry.get('credit', ''), entry.get('page_url', '')
-            return source_cap, '', ''
+            
+            # Check pexels index: e.g. wolf-pexels-1.webp
+            m_pexels = re.search(r'-pexels-(\d+)$', stem)
+            if m_pexels and sources_data:
+                idx = int(m_pexels.group(1)) - 1
+                pexels_entries = [e for e in sources_data if (e.get('source') or '').lower() == 'pexels']
+                if 0 <= idx < len(pexels_entries):
+                    entry = pexels_entries[idx]
+                    return entry.get('source', 'Pexels'), entry.get('credit', ''), entry.get('page_url', '')
+            
+            # Check pixabay index/id: e.g. wolf-pixabay-9.webp
+            m_pixabay = re.search(r'-pixabay-(\d+)$', stem)
+            if m_pixabay and sources_data:
+                pix_id_or_idx = m_pixabay.group(1)
+                pixabay_entries = [e for e in sources_data if (e.get('source') or '').lower() == 'pixabay']
+                for entry in pixabay_entries:
+                    if pix_id_or_idx in entry.get('url', '') or pix_id_or_idx in entry.get('title', '') or pix_id_or_idx in entry.get('page_url', ''):
+                        return entry.get('source', 'Pixabay'), entry.get('credit', ''), entry.get('page_url', '')
+                try:
+                    idx = int(pix_id_or_idx) - 1
+                    if 0 <= idx < len(pixabay_entries):
+                        entry = pixabay_entries[idx]
+                        return entry.get('source', 'Pixabay'), entry.get('credit', ''), entry.get('page_url', '')
+                except ValueError:
+                    pass
+                if pixabay_entries:
+                    return pixabay_entries[0].get('source', 'Pixabay'), pixabay_entries[0].get('credit', ''), pixabay_entries[0].get('page_url', '')
 
-        # Generate video entries
+            # Fallback
+            if 'pexels' in stem:
+                return 'Pexels', '', ''
+            elif 'pixabay' in stem:
+                return 'Pixabay', '', ''
+            return 'Pexels', '', ''
+
+        # Generate video entries with unique cover photos and varied titles
+        title_templates = [
+            "{name} in its Natural Habitat",
+            "Fascinating Behavior of {name}",
+            "Wild Encounters: {name}"
+        ]
+
         for idx, mp4_file in enumerate(mp4_files):
             video_id = f"video-{slug}-{idx+1:03d}"
             common_name = slug.replace('-', ' ').title()
             
             # Formulate title and description
-            title = f"{common_name} in its Natural Habitat" if idx == 0 else f"Fascinating Behavior of {common_name}"
+            title = title_templates[idx % len(title_templates)].format(name=common_name)
             desc = (f"Observe the majestic {common_name} documented in this high-definition footage. "
                     f"This clip showcases the unique behaviors and traits of this species in the wild.")
             
             relative_video_url = str(mp4_file.relative_to(BASE_DIR)).replace('\\', '/')
             
-            # Select a random photo as the cover/poster for each video
+            # Select unique photo for each video
             poster_file = "assets/images/library/Mammals/lion/photos/lion-pexels-1.webp"
-            video_source = "self"
+            video_source = "Pexels"
             video_credit = ""
             if photos:
-                selected_photo = random.choice(photos)
+                selected_photo = photos[idx % len(photos)]
                 poster_file = str(selected_photo.relative_to(BASE_DIR)).replace('\\', '/')
                 # Look up actual source and credit from sources.json
                 src_name, credit_text, _ = get_photo_source_info(selected_photo)
@@ -468,16 +572,27 @@ def rebuild():
                 if credit_text:
                     video_credit = credit_text
 
-            # Set a random view count and a date added to make it realistic
-            views = 100 + (hash(video_id) % 4900)
-            date_added = f"2025-0{(hash(video_id) % 9) + 1}-{(hash(video_id) % 20) + 1:02d}"
+            # Realistic view counts (tiered by species popularity) and a
+            # believable upload date spread (late 2024 → today).
+            views = generate_views(video_id, slug)
+            date_added = generate_date_added(video_id)
+
+            tags = ["wild", "documentary"]
+            aquatic_species = {
+                'blue-whale', 'clownfish', 'coral', 'dolphin', 'great-white-shark',
+                'jellyfish', 'krill', 'leopard-seal', 'manta-ray', 'octopus', 'orca',
+                'piranha', 'platypus', 'sea-turtle', 'seahorse', 'seal', 'shark',
+                'squid', 'whale', 'axolotl', 'penguin'
+            }
+            if slug in aquatic_species or meta['category'] == 'fish' or meta.get('location', {}).get('region') == 'Ocean':
+                tags.append('aquatic')
 
             video_entry = {
                 "id": video_id,
                 "title": title,
                 "description": desc,
                 "category": meta['category'],
-                "tags": ["wild", "documentary"],
+                "tags": tags,
                 "source": video_source,
                 "credit": video_credit,
                 "videoUrl": relative_video_url,
@@ -485,7 +600,7 @@ def rebuild():
                 "thumbnail": poster_file,
                 "duration": get_mp4_duration_str(mp4_file),
                 "dateAdded": date_added,
-                "featured": (hash(video_id) % 7 == 0),
+                "featured": (_slug_rng(video_id + ':featured').random() < 0.14),
                 "views": views,
                 "location": meta['location']
             }

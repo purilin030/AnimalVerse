@@ -104,18 +104,50 @@ App.ui = (function() {
     return animalSlug ? animalSlug.replace(/-/g, ' ').toUpperCase() : '';
   }
 
+    /**
+     * Check whether a date string is within the last N days (default 30).
+     */
+    function _isWithinDays(dateStr, days) {
+      if (!dateStr) return false;
+      var date = new Date(dateStr.length === 10 ? dateStr + 'T00:00:00' : dateStr);
+      if (isNaN(date.getTime())) return false;
+      var diff = Date.now() - date.getTime();
+      return diff >= 0 && diff < days * 86400000;
+    }
+
+
   /**
    * Build the thumbnail wrapper element for a video card
    */
-  function _buildThumbnailWrapper(video) {
+  function _buildThumbnailWrapper(video, options) {
+    options = options || {};
     var defaultImg = 'assets/images/library/Mammals/lion/photos/lion-pexels-1.webp';
     var thumbnailSrc = video.gbifThumbnail || video.thumbnail || defaultImg;
     var localFallback = video.thumbnail || defaultImg;
     var categoryName = video.category || 'unknown';
-    var aspect = App.utils.getVideoAspect(video.id);
+    // Uniform (sorted/ranked) grids force a standard 16:9 frame so the
+    // left-to-right reading order is visually strict — no masonry jumps.
+    var aspect = options.uniform
+      ? { className: 'aspect-video', heightWeight: 0.56 }
+      : App.utils.getVideoAspect(video.id);
 
     var thumbWrap = document.createElement('div');
     thumbWrap.className = 'video-card__thumbnail-wrapper ' + aspect.className;
+
+    // Rank badge — shown for sorted/ranked views
+    if (options.rank) {
+      var rankBadge = document.createElement('span');
+      rankBadge.className = 'video-card__rank-badge';
+      if (options.rank <= 3) {
+        rankBadge.className += ' video-card__rank-badge--top video-card__rank-badge--rank-' + options.rank;
+      }
+      var rankText = '#' + options.rank;
+      if (options.rank === 1) rankText += ' 👑';
+      else if (options.rank === 2) rankText += ' 🥈';
+      else if (options.rank === 3) rankText += ' 🥉';
+      rankBadge.textContent = rankText;
+      thumbWrap.appendChild(rankBadge);
+    }
 
     // Source tag
     if (video.source) {
@@ -130,6 +162,14 @@ App.ui = (function() {
     catTag.className = 'video-card__category-tag video-card__category-tag--' + categoryName;
     catTag.textContent = categoryName;
     thumbWrap.appendChild(catTag);
+
+    // HOT badge — for top/popular cards
+    if (options.hot) {
+      var hotBadge = document.createElement('span');
+      hotBadge.className = 'video-card__hot-badge';
+      hotBadge.textContent = '🔥 HOT';
+      thumbWrap.appendChild(hotBadge);
+    }
 
     // Thumbnail image
     var img = document.createElement('img');
@@ -178,7 +218,8 @@ App.ui = (function() {
   /**
    * Build the card body element (title, views, credit)
    */
-  function _buildCardBody(video) {
+  function _buildCardBody(video, options) {
+    options = options || {};
     var body = document.createElement('div');
     body.className = 'video-card__body';
 
@@ -187,10 +228,31 @@ App.ui = (function() {
     title.textContent = video.title || '';
     body.appendChild(title);
 
-    var views = document.createElement('p');
+    // Meta row — compact views · relative upload date (+ NEW badge for recent)
+    // Single line keeps the card body tight and makes time anchors scannable.
+    var meta = document.createElement('p');
+    meta.className = 'video-card__meta';
+
+    var views = document.createElement('span');
     views.className = 'video-card__views';
-    views.textContent = (video.views || 0).toLocaleString() + ' views';
-    body.appendChild(views);
+    views.textContent = App.utils.formatCompactNumber(video.views || 0) + ' views';
+    meta.appendChild(views);
+
+    if (video.dateAdded) {
+      meta.appendChild(document.createTextNode(' · '));
+      var date = document.createElement('span');
+      date.className = 'video-card__date';
+      date.textContent = '📅 ' + App.utils.formatRelativeTime(video.dateAdded);
+      meta.appendChild(date);
+      if (_isWithinDays(video.dateAdded, 30)) {
+        meta.appendChild(document.createTextNode(' '));
+        var newBadge = document.createElement('span');
+        newBadge.className = 'video-card__new-badge';
+        newBadge.textContent = '✨ NEW';
+        meta.appendChild(newBadge);
+      }
+    }
+    body.appendChild(meta);
 
     if (video.credit) {
       var credit = document.createElement('p');
@@ -267,28 +329,32 @@ App.ui = (function() {
    * Create a video card DOM element (safe DOM methods, no innerHTML)
    * Retro pixel style — separate thumb/body links, actions bar as sibling
    */
-  function createVideoCard(video) {
+  function createVideoCard(video, options) {
     if (!video) return null;
+    options = options || {};
 
     var playbackUrl = 'playback.html?id=' + encodeURIComponent(video.id);
 
     // Card container
     var card = document.createElement('div');
     card.className = 'video-card';
+    if (options.uniform) {
+      card.className += ' video-card--uniform';
+    }
     card.setAttribute('data-id', video.id);
 
     // Thumb link (wraps only the image area)
     var thumbLink = document.createElement('a');
     thumbLink.href = playbackUrl;
     thumbLink.className = 'video-card__thumb-link';
-    thumbLink.appendChild(_buildThumbnailWrapper(video));
+    thumbLink.appendChild(_buildThumbnailWrapper(video, options));
     card.appendChild(thumbLink);
 
     // Body link (wraps title + views)
     var bodyLink = document.createElement('a');
     bodyLink.href = playbackUrl;
     bodyLink.className = 'video-card__body-link';
-    bodyLink.appendChild(_buildCardBody(video));
+    bodyLink.appendChild(_buildCardBody(video, options));
     card.appendChild(bodyLink);
 
     // Actions bar (sibling of links — no nested interactive elements)
@@ -411,12 +477,38 @@ App.ui = (function() {
   /**
    * Render videos into a grid container
    */
-  function renderVideoGrid(containerId, videos) {
+  function _getCardOptions(options, index) {
+    options = options || {};
+    var cardOptions = {
+      uniform: !!options.uniform,
+      sortMode: options.sortMode || null
+    };
+    if (options.ranked) {
+      cardOptions.rank = index + 1;
+      if (cardOptions.rank <= 3) {
+        cardOptions.hot = true;
+      }
+    }
+    if (options.hotIndexes && options.hotIndexes.indexOf(index) !== -1) {
+      cardOptions.hot = true;
+    }
+    return cardOptions;
+  }
+
+  /**
+   * Render videos into a grid container.
+   * @param {string} containerId - Target grid element ID
+   * @param {Array}  videos - Videos to render
+   * @param {object} [options] - { uniform, ranked, sortMode }
+   */
+  function renderVideoGrid(containerId, videos, options) {
     var container = document.getElementById(containerId);
     if (!container) return;
+    options = options || {};
 
-    // Cache videos on the container DOM element for resize re-rendering
+    // Cache videos and options on the container for resize re-rendering
     container.renderedVideos = videos;
+    container.renderedOptions = options;
 
     if (!videos || videos.length === 0) {
       renderEmptyState(container, { text: 'No videos found.' });
@@ -424,6 +516,23 @@ App.ui = (function() {
     }
 
     container.textContent = '';
+    container.classList.remove('gallery-grid--az');
+
+    // Uniform grid mode — used for sorted views so reading order is strict.
+    if (options.uniform) {
+      container.classList.add('video-grid--uniform');
+      container._masonryColumns = null;
+      container._masonryHeights = null;
+      for (var u = 0; u < videos.length; u++) {
+        var uniformCard = createVideoCard(videos[u], _getCardOptions(options, u));
+        if (uniformCard) container.appendChild(uniformCard);
+      }
+      options.rankOffset = videos.length;
+      attachFavoriteListeners(container);
+      return;
+    }
+
+    container.classList.remove('video-grid--uniform');
 
     // Determine number of columns based on window width
     var width = window.innerWidth;
@@ -454,7 +563,7 @@ App.ui = (function() {
     // Distribute cards to columns
     for (var i = 0; i < videos.length; i++) {
       var video = videos[i];
-      var card = createVideoCard(video);
+      var card = createVideoCard(video, _getCardOptions(options, i));
       if (!card) continue;
 
       // Estimate card height from aspect ratio
@@ -483,23 +592,38 @@ App.ui = (function() {
   }
 
   /**
-   * Append additional videos to an existing masonry grid.
+   * Append additional videos to an existing grid.
    * Reuses the column layout from the last renderVideoGrid call.
    * Call this for infinite-scroll "load more" instead of full re-render.
    *
    * @param {string} containerId  ID of the grid container
    * @param {Array}  newVideos    Only the NEW videos to append (not all videos)
+   * @param {object} [options]    Render options; defaults to stored options
    */
-  function appendToVideoGrid(containerId, newVideos) {
+  function appendToVideoGrid(containerId, newVideos, options) {
     var container = document.getElementById(containerId);
     if (!container) return;
     if (!newVideos || newVideos.length === 0) return;
+    options = options || container.renderedOptions || {};
+
+    // Uniform grid — simple append preserves left-to-right rank order.
+    if (options.uniform || container.classList.contains('video-grid--uniform')) {
+      options.uniform = true;
+      var startRank = options.rankOffset || 0;
+      for (var ui = 0; ui < newVideos.length; ui++) {
+        var uniformCard = createVideoCard(newVideos[ui], _getCardOptions(options, startRank + ui));
+        if (uniformCard) container.appendChild(uniformCard);
+      }
+      options.rankOffset = startRank + newVideos.length;
+      attachFavoriteListeners(container);
+      return;
+    }
 
     // If no existing masonry state (e.g. first load), fall back to full render
     var colElements = container._masonryColumns;
     var colHeights  = container._masonryHeights;
     if (!colElements || colElements.length === 0) {
-      renderVideoGrid(containerId, newVideos);
+      renderVideoGrid(containerId, newVideos, options);
       return;
     }
 
@@ -507,7 +631,7 @@ App.ui = (function() {
 
     for (var i = 0; i < newVideos.length; i++) {
       var video = newVideos[i];
-      var card = createVideoCard(video);
+      var card = createVideoCard(video, _getCardOptions(options, i));
       if (!card) continue;
 
       var aspect = App.utils.getVideoAspect(video.id);
@@ -681,7 +805,8 @@ App.ui = (function() {
       for (var i = 0; i < grids.length; i++) {
         var grid = grids[i];
         if (grid && grid.renderedVideos) {
-          renderVideoGrid(grid.id, grid.renderedVideos);
+          // Preserve render options so sorted/uniform grids stay uniform on resize
+          renderVideoGrid(grid.id, grid.renderedVideos, grid.renderedOptions || {});
         }
       }
     }, 200);

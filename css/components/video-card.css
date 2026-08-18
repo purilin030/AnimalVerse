@@ -540,4 +540,210 @@
   .video-card--skeleton .video-card__views-line {
     animation: none;
   }
+  .video-card__rank-badge--rank-1,
+  .video-card__rank-badge--rank-2,
+  .video-card__rank-badge--rank-3,
+  .video-card__hot-badge,
+  .video-card__new-badge {
+    animation: none;
+  }
 }
+
+/* ============================================================
+   Rank Badge, HOT Badge, Time Anchors & Uniform Cards
+   (gallery sorting — #1..#N flow, 🔥 HOT podium, NEW freshness)
+   ============================================================ */
+
+/* ── Rank Badge — top-left, blocky pixel sequence number ── */
+.video-card__rank-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  min-width: 46px;
+  padding: 5px 10px;
+  background: #0e0f0c;
+  color: #ffffff;
+  font-family: var(--ff-pixel);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 0.5px;
+  border: 2px solid #ffffff;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0px #0e0f0c;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Push the source tag down when a rank badge occupies the corner */
+.video-card__rank-badge + .video-card__source-tag {
+  top: 40px;
+}
+
+/* Podium gold / silver / bronze */
+.video-card__rank-badge--rank-1 {
+  background: #f6c445;
+  color: #0e0f0c;
+  border-color: #0e0f0c;
+  box-shadow: 2px 2px 0px #0e0f0c, 0 0 16px rgba(246, 196, 69, 0.85);
+  animation: rank-glow 2.2s ease-in-out infinite;
+}
+
+.video-card__rank-badge--rank-2 {
+  background: #d6dde2;
+  color: #0e0f0c;
+  border-color: #0e0f0c;
+  box-shadow: 2px 2px 0px #0e0f0c, 0 0 16px rgba(214, 221, 226, 0.8);
+  animation: rank-glow 2.2s ease-in-out infinite;
+}
+
+.video-card__rank-badge--rank-3 {
+  background: #e0915f;
+  color: #0e0f0c;
+  border-color: #0e0f0c;
+  box-shadow: 2px 2px 0px #0e0f0c, 0 0 16px rgba(224, 145, 95, 0.8);
+  animation: rank-glow 2.2s ease-in-out infinite;
+}
+
+/* Whole-card glow for the podium winners */
+.video-card:has(.video-card__rank-badge--rank-1) {
+  box-shadow: 4px 4px 0px #f6c445, 0 0 24px rgba(246, 196, 69, 0.4);
+}
+.video-card:has(.video-card__rank-badge--rank-2) {
+  box-shadow: 4px 4px 0px #c3ccd3, 0 0 24px rgba(195, 204, 211, 0.45);
+}
+.video-card:has(.video-card__rank-badge--rank-3) {
+  box-shadow: 4px 4px 0px #d98a5f, 0 0 24px rgba(217, 138, 95, 0.45);
+}
+
+@keyframes rank-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.18); }
+}
+
+/* ── HOT Badge — top-right below the category tag ── */
+.video-card__hot-badge {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  padding: 3px 8px;
+  background: #ff5a2b;
+  color: #ffffff;
+  font-family: var(--ff-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: 2px solid #0e0f0c;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0px #0e0f0c;
+  z-index: 20;
+  pointer-events: none;
+  animation: hot-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes hot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* ── Meta row — views · 📅 relative date (+ ✨ NEW) ── */
+.video-card__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 4px;
+  font-family: var(--ff-pixel);
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+  margin-top: 2px;
+}
+
+.video-card__date {
+  font-weight: 700;
+  color: var(--clr-text-muted);
+}
+
+.video-card__new-badge {
+  display: inline-block;
+  padding: 1px 5px;
+  margin-left: 2px;
+  background: #9fe870;
+  color: #0e0f0c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border: 1.5px solid #0e0f0c;
+  border-radius: 2px;
+  box-shadow: 1px 1px 0px #0e0f0c;
+  animation: new-flash 2s ease-in-out infinite;
+}
+
+@keyframes new-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* ── Uniform (sorted) card — consistent height in ranked grids ── */
+.video-card--uniform {
+  contain-intrinsic-size: auto 340px;
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"] .video-card__rank-badge {
+  background: #e8ebe6;
+  color: #0e0f0c;
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__rank-badge--rank-1 {
+  background: #f6c445;
+  color: #0e0f0c;
+  border-color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__rank-badge--rank-2 {
+  background: #d6dde2;
+  color: #0e0f0c;
+  border-color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__rank-badge--rank-3 {
+  background: #e0915f;
+  color: #0e0f0c;
+  border-color: #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__hot-badge {
+  background: #ff5a2b;
+  color: #ffffff;
+  border-color: #e8ebe6;
+  box-shadow: 2px 2px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card__meta {
+  color: #868685;
+}
+
+[data-theme="dark"] .video-card__date {
+  color: #868685;
+}
+
+[data-theme="dark"] .video-card__new-badge {
+  background: #9fe870;
+  color: #0e0f0c;
+  border-color: #e8ebe6;
+  box-shadow: 1px 1px 0px #e8ebe6;
+}
+
+[data-theme="dark"] .video-card:has(.video-card__rank-badge--rank-1) {
+  box-shadow: 4px 4px 0px #f6c445, 0 0 24px rgba(246, 196, 69, 0.35);
+}
+[data-theme="dark"] .video-card:has(.video-card__rank-badge--rank-2) {
+  box-shadow: 4px 4px 0px #c3ccd3, 0 0 24px rgba(195, 204, 211, 0.35);
+}
+[data-theme="dark"] .video-card:has(.video-card__rank-badge--rank-3) {
+  box-shadow: 4px 4px 0px #d98a5f, 0 0 24px rgba(217, 138, 95, 0.35);
+}
+

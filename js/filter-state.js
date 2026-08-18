@@ -6,7 +6,9 @@
 App.filterState = (function() {
   'use strict';
 
-  var DEFAULTS = { category: 'all', tag: null, sort: 'newest', query: '' };
+  // sort: null = default curated order (masonry gallery);
+  //        'popular' | 'newest' | 'oldest' = uniform ranked grid; 'az' = alphabet groups
+  var DEFAULTS = { category: 'all', tag: null, sort: null, query: '' };
   var _state = {};
   var _listeners = [];
 

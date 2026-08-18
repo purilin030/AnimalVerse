@@ -349,6 +349,16 @@ App.data = (function() {
         return response.json();
       })
       .then(function(data) {
+        // Defensive deduplication by video ID
+        if (data && data.videos && Array.isArray(data.videos)) {
+          var seen = {};
+          data.videos = data.videos.filter(function(v) {
+            if (!v || !v.id) return false;
+            if (seen[v.id]) return false;
+            seen[v.id] = true;
+            return true;
+          });
+        }
         cache = data;
         buildLocalImageMap();
         return data;
@@ -401,7 +411,17 @@ App.data = (function() {
     var results = videos.slice();
 
     if (options.category && options.category !== 'all') {
-      results = results.filter(function(v) { return v.category === options.category; });
+      var cat = options.category.toLowerCase();
+      if (cat === 'aquatic') {
+        results = results.filter(function(v) {
+          return v.category === 'aquatic' ||
+                 v.category === 'fish' ||
+                 (v.tags && v.tags.indexOf('aquatic') !== -1) ||
+                 (v.location && v.location.region && v.location.region.toLowerCase() === 'ocean');
+        });
+      } else {
+        results = results.filter(function(v) { return v.category === cat; });
+      }
     }
     if (options.tag) {
       results = results.filter(function(v) {

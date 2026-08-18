@@ -195,6 +195,66 @@ App.utils = (function() {
     return words.length > 0 ? words[0] : null;
   }
 
+  /**
+   * Format a date string as a compact relative time label.
+   * Examples: "2 days ago", "3 weeks ago", "2 months ago", "Jan 2025".
+   * Falls back to the original string if it cannot be parsed.
+   */
+  function formatRelativeTime(dateStr) {
+    if (!dateStr) return '';
+    var normalized = dateStr.length === 10 ? dateStr + 'T00:00:00' : dateStr;
+    var then = new Date(normalized);
+    if (isNaN(then.getTime())) return dateStr;
+
+    var now = new Date();
+    var diffMs = now.getTime() - then.getTime();
+    var absMs = Math.abs(diffMs);
+    var suffix = diffMs >= 0 ? ' ago' : ' from now';
+
+    var minutes = Math.floor(absMs / 60000);
+    if (minutes < 1) return 'just now';
+    if (minutes < 60) {
+      return minutes + ' min' + (minutes === 1 ? '' : 's') + suffix;
+    }
+
+    var hours = Math.floor(absMs / 3600000);
+    if (hours < 24) {
+      return hours + ' hour' + (hours === 1 ? '' : 's') + suffix;
+    }
+
+    var days = Math.floor(absMs / 86400000);
+    if (days < 7) {
+      return days + ' day' + (days === 1 ? '' : 's') + suffix;
+    }
+    if (days < 30) {
+      var weeks = Math.floor(days / 7);
+      return weeks + ' week' + (weeks === 1 ? '' : 's') + suffix;
+    }
+    if (days < 365) {
+      var months = Math.floor(days / 30.44);
+      return months + ' month' + (months === 1 ? '' : 's') + suffix;
+    }
+
+    return then.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+  }
+
+  /**
+   * Format a number as a compact label: 1520000 -> "1.5M", 48500 -> "48.5K".
+   */
+  function formatCompactNumber(num) {
+    num = Number(num);
+    if (isNaN(num)) return '0';
+    if (Math.abs(num) >= 1000000) {
+      var millions = num / 1000000;
+      return (millions % 1 === 0 ? millions.toString() : millions.toFixed(1).replace(/\.0$/, '')) + 'M';
+    }
+    if (Math.abs(num) >= 1000) {
+      var thousands = num / 1000;
+      return (thousands % 1 === 0 ? thousands.toString() : thousands.toFixed(1).replace(/\.0$/, '')) + 'K';
+    }
+    return num.toLocaleString('en-US');
+  }
+
   return {
     getDistance: getDistance,
     isNearby: isNearby,
@@ -205,6 +265,8 @@ App.utils = (function() {
     pluralize: pluralize,
     getVideoAspect: getVideoAspect,
     guessRegion: guessRegion,
-    extractAnimalName: extractAnimalName
+    extractAnimalName: extractAnimalName,
+    formatRelativeTime: formatRelativeTime,
+    formatCompactNumber: formatCompactNumber
   };
 })();

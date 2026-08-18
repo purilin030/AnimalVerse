@@ -21,7 +21,7 @@ $categoryFixes = @{
     'caecilian' = @{ from = 'mammals';  to = 'amphibians' }
     'hellbender' = @{ from = 'mammals'; to = 'amphibians' }
     # Invertebrates / others currently mislabeled as mammals
-    'butterfly' = @{ from = 'mammals';  to = 'birds' }
+    'butterfly' = @{ from = 'mammals';  to = 'invertebrates' }
     'owl'       = @{ from = 'mammals';  to = 'birds' }
     # Reptiles currently mislabeled as mammals
     'alligator'    = @{ from = 'mammals'; to = 'reptiles' }

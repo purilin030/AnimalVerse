@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
@@ -12,8 +12,8 @@
   <meta http-equiv="Expires" content="0">
 
   <link rel="icon" href="assets/images/icons/logo-header.ico" type="image/x-icon">
-  <link rel="stylesheet" href="css/main.css?v=3.0">
-  <link rel="stylesheet" href="css/pages/gallery.css?v=3.0">
+  <link rel="stylesheet" href="css/main.css?v=4.1">
+  <link rel="stylesheet" href="css/pages/gallery.css?v=4.1">
 </head>
 <body class="theme-pixel">
   <!-- Background Particles -->
@@ -75,25 +75,31 @@
           </div>
 
           <div class="gallery-filters__extras">
-            <div class="gallery-filters__tags" id="tag-filters">
-              <button class="tag-chip" data-tag="wild" aria-pressed="false">Wild</button>
-              <button class="tag-chip" data-tag="pet" aria-pressed="false">Pet</button>
-              <button class="tag-chip" data-tag="documentary" aria-pressed="false">Documentary</button>
+            <!-- Keyword search (replaces the old Wild / Pet / Documentary tag chips) -->
+            <div class="gallery-search" id="gallery-search">
+              <span class="gallery-search__icon" aria-hidden="true">🔍</span>
+              <input class="gallery-search__input" id="gallery-search-input" type="search"
+                     placeholder="Search animals, keywords..." aria-label="Search videos by keyword"
+                     autocomplete="off" spellcheck="false">
+              <button class="gallery-search__clear" id="gallery-search-clear" type="button"
+                      aria-label="Clear search" hidden>✕</button>
             </div>
 
             <!-- Custom Dropdown with Hidden Native Select for compatibility -->
             <div class="custom-dropdown" id="sort-dropdown" role="listbox" aria-label="Sort videos">
               <button class="custom-dropdown__trigger" id="sort-trigger" type="button" role="option" aria-selected="true">
-                <span class="custom-dropdown__selected">Newest</span>
+                <span class="custom-dropdown__selected">Default</span>
                 <svg class="custom-dropdown__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
               </button>
               <div class="custom-dropdown__menu">
-                <div class="custom-dropdown__item custom-dropdown__item--active" data-value="newest" role="option" aria-selected="true">Newest</div>
+                <div class="custom-dropdown__item custom-dropdown__item--active" data-value="" role="option" aria-selected="true">Default</div>
+                <div class="custom-dropdown__item" data-value="newest" role="option">Newest</div>
                 <div class="custom-dropdown__item" data-value="oldest" role="option">Oldest</div>
                 <div class="custom-dropdown__item" data-value="az" role="option">A-Z</div>
                 <div class="custom-dropdown__item" data-value="popular" role="option">Most Popular</div>
               </div>
               <select id="sort-select" style="display: none;">
+                <option value="">Default</option>
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
                 <option value="az">A-Z</option>
@@ -102,6 +108,9 @@
             </div>
           </div>
         </div>
+
+        <!-- Sort Status Bar + A-Z Quick Jump Nav (populated by gallery.js) -->
+        <div class="gallery-toolbar" id="gallery-toolbar" aria-live="polite"></div>
 
         <!-- Video Grid -->
         <div class="video-grid" id="gallery-grid">
@@ -137,11 +146,11 @@
   <script defer src="js/theme.js?v=3.0"></script>
   <script defer src="js/data-source.js"></script>
   <script defer src="js/favorites.js?v=3.1"></script>
-  <script defer src="js/ui.js?v=3.0"></script>
+  <script defer src="js/ui.js?v=4.1"></script>
   <script defer src="js/navigation.js?v=3.0"></script>
   <script defer src="js/filter-state.js"></script>
   <script defer src="js/pagination.js"></script>
-  <script defer src="js/gallery.js?v=3.0"></script>
+  <script defer src="js/gallery.js?v=4.1"></script>
   <script defer src="js/chatbot.js?v=3.0"></script>
   <script defer src="js/onboarding.js"></script>
   <script defer src="js/app.js?v=3.0"></script>
